@@ -7,8 +7,10 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
-window.Vue.use(require('vue-material'));
+var Vue = require('vue');
+var VueMaterial = require('vue-material');
+
+Vue.use(VueMaterial);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -17,7 +19,13 @@ window.Vue.use(require('vue-material'));
  */
 
 Vue.component('navbar', require('./components/header/Navbar.vue'));
+import Dashboard from './views/Dashboard.vue';
+import Navbar from './components/header/Navbar.vue';
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    components: {
+        Dashboard,
+        Navbar
+    }
 });

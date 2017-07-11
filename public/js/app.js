@@ -10477,8 +10477,14 @@ module.exports = __webpack_require__(41);
 
 /***/ }),
 /* 10 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__views_Dashboard_vue__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__views_Dashboard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__views_Dashboard_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_header_Navbar_vue__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_header_Navbar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_header_Navbar_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -10488,8 +10494,10 @@ module.exports = __webpack_require__(41);
 
 __webpack_require__(11);
 
-window.Vue = __webpack_require__(8);
-window.Vue.use(__webpack_require__(36));
+var Vue = __webpack_require__(8);
+var VueMaterial = __webpack_require__(36);
+
+Vue.use(VueMaterial);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -10499,8 +10507,14 @@ window.Vue.use(__webpack_require__(36));
 
 Vue.component('navbar', __webpack_require__(37));
 
+
+
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  components: {
+    Dashboard: __WEBPACK_IMPORTED_MODULE_0__views_Dashboard_vue___default.a,
+    Navbar: __WEBPACK_IMPORTED_MODULE_1__components_header_Navbar_vue___default.a
+  }
 });
 
 /***/ }),
@@ -41422,7 +41436,7 @@ var Component = __webpack_require__(38)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
+Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Navbar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -41554,6 +41568,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['user'],
@@ -41573,6 +41607,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.u = JSON.parse(this.user);
 
         console.log(this.u);
+    },
+
+
+    methods: {
+        toggleLeftSidenav: function toggleLeftSidenav() {
+            this.$refs.leftSidenav.toggle();
+        },
+        open: function open(ref) {
+            console.log('Opened: ' + ref);
+        },
+        close: function close(ref) {
+            console.log('Closed: ' + ref);
+        }
     }
 });
 
@@ -41581,7 +41628,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_vm._v("\n    Hello from navbar\n")])
+  return _c('div', [_c('md-toolbar', {
+    staticClass: "md-white"
+  }, [_c('md-button', {
+    staticClass: "md-icon-button",
+    on: {
+      "click": _vm.toggleLeftSidenav
+    }
+  }, [_c('md-icon', [_vm._v("menu")])], 1), _vm._v(" "), _c('h2', {
+    staticClass: "md-title",
+    staticStyle: {
+      "flex": "1"
+    }
+  }, [_vm._v("Vue Material")]), _vm._v(" "), _c('md-button', {
+    staticClass: "md-raised"
+  }, [_vm._v("Add")]), _vm._v(" "), _c('md-button', {
+    staticClass: "md-raised md-warn"
+  }, [_vm._v("Remove")])], 1), _vm._v(" "), _c('md-sidenav', {
+    ref: "leftSidenav",
+    staticClass: "md-left",
+    on: {
+      "open": function($event) {
+        _vm.open('Left')
+      },
+      "close": function($event) {
+        _vm.close('Left')
+      }
+    }
+  }, [_c('md-toolbar', {
+    staticClass: "md-large"
+  }, [_c('div', {
+    staticClass: "md-toolbar-container"
+  }, [_c('h3', {
+    staticClass: "md-title"
+  }, [_vm._v("Sidenav content")])])]), _vm._v(" "), _c('p', [_vm._v("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt ut est fugit, tempora deleniti, eligendi commodi doloribus. Nemo, assumenda possimus, impedit inventore perferendis iusto!")])], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -41596,6 +41676,106 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(38)(
+  /* script */
+  __webpack_require__(52),
+  /* template */
+  __webpack_require__(53),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Dashboard.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-a48f1224", Component.options)
+  } else {
+    hotAPI.reload("data-v-a48f1224", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('md-layout', {
+    attrs: {
+      "md-align": "center",
+      "md-gutter": "16"
+    }
+  }, [_c('md-layout', {
+    attrs: {
+      "md-flex": "35"
+    }
+  }, [_c('span', [_vm._v("center")])]), _vm._v(" "), _c('md-layout', {
+    attrs: {
+      "md-flex": "35"
+    }
+  }, [_c('span', [_vm._v("center")])])], 1)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-a48f1224", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

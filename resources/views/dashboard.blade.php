@@ -4,6 +4,6 @@
 
 @section('content')
 
-    Dashboard
+    <dashboard></dashboard>
 
 @endsection
