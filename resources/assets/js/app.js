@@ -12,20 +12,27 @@ var VueMaterial = require('vue-material');
 
 Vue.use(VueMaterial);
 
+Vue.material.registerTheme('default', {
+    primary: 'blue',
+    accent: 'red',
+    warn: 'red'
+});
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('navbar', require('./components/header/Navbar.vue'));
 import Dashboard from './views/Dashboard.vue';
 import Navbar from './components/header/Navbar.vue';
+import Login from './views/auth/Login.vue';
 
 const app = new Vue({
     el: '#app',
     components: {
         Dashboard,
-        Navbar
+        Navbar,
+        Login,
     }
 });

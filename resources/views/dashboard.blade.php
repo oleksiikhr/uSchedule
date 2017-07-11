@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
-@section('title')Головна сторінка@endsection
+@section('title')Розклад@endsection
 
 @section('content')
 
     <div class="container">
         <dashboard></dashboard>
     </div>
+
 @endsection

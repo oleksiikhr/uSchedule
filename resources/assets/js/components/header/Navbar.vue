@@ -5,7 +5,7 @@
                 <md-icon>menu</md-icon>
             </md-button>
 
-            <h2 class="md-title" style="flex: 1">Vue Material</h2>
+            <h2 class="md-title" style="flex: 1">Розклад</h2>
 
             <md-button class="md-raised">Add</md-button>
             <md-button class="md-raised md-warn">Remove</md-button>

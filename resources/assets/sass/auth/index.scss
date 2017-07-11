@@ -1,0 +1,19 @@
+#login_form {
+  background: #fff;
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 30px;
+
+  > h2 {
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .md-button {
+    width: 100%;
+  }
+
+  .in_email, .in_pass {
+    margin-bottom:10px;
+  }
+}

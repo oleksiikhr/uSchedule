@@ -1,5 +1,5 @@
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons");
 
 // Variables
 @import "variables";
@@ -8,6 +8,7 @@
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
 // Vue Material
-@import "~vue-material/dist/vue-material.css";
+@import "~vue-material/dist/vue-material";
 
 @import "main";
+@import "auth/index";

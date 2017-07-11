@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name')->nullable();
             $table->string('email')->unique();
             $table->string('password');
-            $table->boolean('role')->default(1); // 1 - basic, 2 - deputy, 3 - head
+            $table->string('role')->default('basic'); // basic, deputy, head
             $table->integer('group_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             'first_name' => 'Admin',
             'email'      => 'admin@example.com',
             'password'   => bcrypt('admin'),
-            'role'       => 3,
+            'role'       => 'head',
         ]);
     }
 
