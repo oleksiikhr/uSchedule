@@ -1,25 +1,31 @@
 <template>
     <div>
-        Hello {{ m.first_name }}
+        Hello from navbar
     </div>
 </template>
 
 <script>
     export default {
         props: [
-            'me',
+            'user',
         ],
 
         data () {
             return {
-                m: null,
+                u: null,
+                empty: false,
             }
         },
 
         created () {
-            this.m = JSON.parse(this.me);
+            if (this.user === 'empty') {
+                this.empty = true;
+                return;
+            }
 
-            console.log(this.m);
+            this.u = JSON.parse(this.user);
+
+            console.log(this.u);
         },
     }
 </script>
