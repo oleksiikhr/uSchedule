@@ -15,6 +15,7 @@
         <navbar user="{{ Auth::check() ? json_encode(Auth::user()) : 'empty' }}"></navbar>
 
         @yield('content')
+
     </div>
 
     <script src="{{ asset('js/app.js') }}"></script>

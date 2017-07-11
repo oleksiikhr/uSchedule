@@ -41742,10 +41742,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
@@ -41760,14 +41756,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "md-gutter": "16"
     }
   }, [_c('md-layout', {
+    staticClass: "home-block",
     attrs: {
-      "md-flex": "35"
+      "md-flex": "50"
     }
-  }, [_c('span', [_vm._v("center")])]), _vm._v(" "), _c('md-layout', {
-    attrs: {
-      "md-flex": "35"
-    }
-  }, [_c('span', [_vm._v("center")])])], 1)], 1)
+  }, [_c('span', [_vm._v("Тут будет ввод факультета(селект), курса(селект), группы(селект) и кнопка(посмотреть)")])])], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
