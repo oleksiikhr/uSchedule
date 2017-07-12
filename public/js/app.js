@@ -10600,11 +10600,10 @@ Vue.use(VueMaterial);
 
 Vue.material.registerTheme({
     default: {
-        primary: 'blue',
-        accent: 'red'
-    },
-    white: {
-        primary: 'white',
+        primary: {
+            color: 'blue',
+            hue: '700'
+        },
         accent: 'red'
     }
 });
@@ -39162,7 +39161,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Dashboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39247,6 +39246,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -39272,9 +39288,60 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-flex": "50"
     }
-  }, [_c('div', {
-    staticClass: "main-select"
+  }, [_c('md-whiteframe', {
+    staticClass: "main-select",
+    attrs: {
+      "md-elevation": "2"
+    }
   }, [_c('md-input-container', [_c('label', {
+    attrs: {
+      "for": "faculty"
+    }
+  }, [_vm._v("Освітній ступінь")]), _vm._v(" "), _c('md-select', {
+    attrs: {
+      "name": "faculty",
+      "id": "faculty"
+    },
+    model: {
+      value: (_vm.faculty),
+      callback: function($$v) {
+        _vm.faculty = $$v
+      },
+      expression: "faculty"
+    }
+  }, [_c('md-option', {
+    attrs: {
+      "value": "fight_club"
+    }
+  }, [_vm._v("Бакалавр")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "fight_club"
+    }
+  }, [_vm._v("Магістр")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
+    attrs: {
+      "for": "faculty"
+    }
+  }, [_vm._v("Форма навчання")]), _vm._v(" "), _c('md-select', {
+    attrs: {
+      "name": "faculty",
+      "id": "faculty"
+    },
+    model: {
+      value: (_vm.faculty),
+      callback: function($$v) {
+        _vm.faculty = $$v
+      },
+      expression: "faculty"
+    }
+  }, [_c('md-option', {
+    attrs: {
+      "value": "fight_club"
+    }
+  }, [_vm._v("Денна")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "fight_club"
+    }
+  }, [_vm._v("Вечірня")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
     attrs: {
       "for": "faculty"
     }
@@ -39338,19 +39405,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "australia"
     }
-  }, [_vm._v("Australia")]), _vm._v(" "), _c('md-option', {
+  }, [_vm._v("I")]), _vm._v(" "), _c('md-option', {
     attrs: {
       "value": "brazil"
     }
-  }, [_vm._v("Brazil")]), _vm._v(" "), _c('md-option', {
+  }, [_vm._v("II")]), _vm._v(" "), _c('md-option', {
     attrs: {
       "value": "japan"
     }
-  }, [_vm._v("Japan")]), _vm._v(" "), _c('md-option', {
+  }, [_vm._v("III")]), _vm._v(" "), _c('md-option', {
     attrs: {
       "value": "united_states"
     }
-  }, [_vm._v("United States")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
+  }, [_vm._v("IV")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
     attrs: {
       "for": "group"
     }
@@ -39430,7 +39497,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "button-container"
   }, [_c('md-button', {
     staticClass: "md-raised md-primary main-btn"
-  }, [_vm._v("Шукати")])], 1)], 1)])], 1)
+  }, [_vm._v("Відкрити")])], 1)], 1)], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -39457,7 +39524,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Navbar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39486,7 +39553,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
 //
 //
 //
@@ -39554,11 +39620,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('md-theme', {
-    attrs: {
-      "md-name": "white"
-    }
-  }, [_c('md-toolbar', [_c('md-button', {
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('md-theme', [_c('md-toolbar', [_c('md-button', {
     staticClass: "md-icon-button",
     on: {
       "click": _vm.toggleLeftSidenav
@@ -39572,11 +39636,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "md-raised"
   }, [_vm._v("Add")]), _vm._v(" "), _c('md-button', {
     staticClass: "md-raised md-warn"
-  }, [_vm._v("Remove")])], 1), _vm._v(" "), _c('md-theme', {
-    attrs: {
-      "md-name": "default"
-    }
-  }, [_c('md-sidenav', {
+  }, [_vm._v("Remove")])], 1), _vm._v(" "), _c('md-theme', [_c('md-sidenav', {
     ref: "leftSidenav",
     staticClass: "md-left",
     on: {
@@ -39594,7 +39654,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h3', {
     staticClass: "md-title"
   }, [_vm._v("Sidenav content")])])]), _vm._v(" "), _c('p', [_vm._v("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt ut est fugit, tempora deleniti, eligendi commodi doloribus. Nemo, assumenda possimus, impedit inventore perferendis iusto!")])], 1)], 1)], 1)
-},staticRenderFns: []}
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -39620,7 +39680,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Login.vue: functional components are not supported with templates, they should use render functions.")}
 

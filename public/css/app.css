@@ -8341,14 +8341,20 @@ img.md-icon {
 
 
 
-body {
-  background-color: #1669ad;
-  background: linear-gradient(135deg, #42c5ff 0, #7f1fff 100%);
-}
+/* |---------------------------------------------------------
+ * | Media screens.
+ * |---------------------------------------------------------
+ * |
+ * | xs - Extra small devices  (portrait phones)
+ * | sm - Small devices        (landscape phones)
+ * | md - Medium devices       (tablets)
+ * | lg - Large devices        (desktops)
+ * | xl - Extra large devices  (large desktops)
+ * |
+ */
 
 .home-block {
   background: #fff;
-  margin-top: 15%;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -8362,7 +8368,8 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  padding: 20px 40px;
+  padding: 10px;
+  margin-top: 20px;
 }
 
 .main-select .md-input-container {

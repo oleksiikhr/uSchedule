@@ -1,7 +1,24 @@
 <template>
     <md-layout md-align="center">
         <md-layout md-flex="50" class="home-block">
-            <div class="main-select">
+            <md-whiteframe class="main-select" md-elevation="2">
+
+                <md-input-container>
+                    <label for="faculty">Освітній ступінь</label>
+                    <md-select name="faculty" id="faculty" v-model="faculty">
+                        <md-option value="fight_club">Бакалавр</md-option>
+                        <md-option value="fight_club">Магістр</md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container>
+                    <label for="faculty">Форма навчання</label>
+                    <md-select name="faculty" id="faculty" v-model="faculty">
+                        <md-option value="fight_club">Денна</md-option>
+                        <md-option value="fight_club">Вечірня</md-option>
+                    </md-select>
+                </md-input-container>
+
                 <md-input-container>
                     <label for="faculty">Факультет</label>
                     <md-select name="faculty" id="faculty" v-model="faculty">
@@ -18,10 +35,10 @@
                 <md-input-container>
                     <label for="course">Курс</label>
                     <md-select name="course" id="course" v-model="course">
-                        <md-option value="australia">Australia</md-option>
-                        <md-option value="brazil">Brazil</md-option>
-                        <md-option value="japan">Japan</md-option>
-                        <md-option value="united_states">United States</md-option>
+                        <md-option value="australia">I</md-option>
+                        <md-option value="brazil">II</md-option>
+                        <md-option value="japan">III</md-option>
+                        <md-option value="united_states">IV</md-option>
                     </md-select>
                 </md-input-container>
 
@@ -46,10 +63,10 @@
                     </md-select>
                 </md-input-container>
                 <div class="button-container">
-                    <md-button class="md-raised md-primary main-btn">Шукати</md-button>
+                    <md-button class="md-raised md-primary main-btn">Відкрити</md-button>
                 </div>
-            </div>
 
+            </md-whiteframe>
         </md-layout>
     </md-layout>
 </template>

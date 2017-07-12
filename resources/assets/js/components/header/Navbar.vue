@@ -1,5 +1,5 @@
 <template>
-    <md-theme md-name="white">
+    <md-theme v-once>
         <md-toolbar>
             <md-button class="md-icon-button" @click="toggleLeftSidenav">
                 <md-icon>menu</md-icon>
@@ -11,7 +11,7 @@
             <md-button class="md-raised md-warn">Remove</md-button>
         </md-toolbar>
 
-        <md-theme md-name="default">
+        <md-theme>
             <md-sidenav class="md-left" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
                 <md-toolbar class="md-large">
                     <div class="md-toolbar-container">
@@ -22,7 +22,6 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt ut est fugit, tempora deleniti, eligendi commodi doloribus. Nemo, assumenda possimus, impedit inventore perferendis iusto!</p>
             </md-sidenav>
         </md-theme>
-
     </md-theme>
 </template>
 

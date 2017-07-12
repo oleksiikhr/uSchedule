@@ -14,13 +14,12 @@ Vue.use(VueMaterial);
 
 Vue.material.registerTheme({
     default: {
-        primary: 'blue',
+        primary: {
+            color: 'blue',
+            hue: '700'
+        },
         accent: 'red',
     },
-    white: {
-        primary: 'white',
-        accent: 'red',
-    }
 });
 
 /**
