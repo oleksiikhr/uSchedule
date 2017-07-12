@@ -1,5 +1,5 @@
 <template>
-    <md-whiteframe id="login_form" md-elevation="2">
+    <md-whiteframe id="auth_form" md-elevation="2">
         <h2>Авторизація</h2>
 
         <form action="/login" method="POST">
@@ -21,13 +21,18 @@
 
             <md-button class="md-raised md-primary" type="submit">Увійти</md-button>
         </form>
+
+        <md-snackbar :md-position="'top right'" ref="snackbar" :md-duration="5000">
+            <span>Email або пароль невірний.</span>
+            <md-button class="md-warn" @click="$refs.snackbar.close()">Сховати</md-button>
+        </md-snackbar>
     </md-whiteframe>
 </template>
 
 <script>
     export default {
         props: [
-            'errors', 'csrf', 'oldEmail', 'oldRemember',
+            'csrf', 'hasError', 'oldEmail', 'oldRemember',
         ],
 
         data () {
@@ -36,12 +41,12 @@
             }
         },
 
-        created () {
-            // TODO: show errors below the field or..
-            // http://vuematerial.io/#/components/snackbar
-            console.log(JSON.parse(this.errors));
+        mounted () {
+            if (this.hasError) {
+                this.$nextTick(() => {
+                    this.$refs.snackbar.open();
+                });
+            }
         },
-
-        // TODO: autofocus on the password if the user has errors
     }
 </script>

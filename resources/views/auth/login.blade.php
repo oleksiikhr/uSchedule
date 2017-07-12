@@ -5,7 +5,7 @@
 @section('content')
 
     <login csrf="{{ csrf_token() }}"
-           errors="{{ json_encode($errors) }}"
+           has-error="{{ count($errors) > 0 }}"
            old-email="{{ old('email') }}"
            old-remember="{{ old('remember') }}"
     ></login>

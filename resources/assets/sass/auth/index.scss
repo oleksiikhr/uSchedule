@@ -1,4 +1,4 @@
-#login_form {
+#auth_form {
   background: #fff;
   max-width: 450px;
   margin: 40px auto;
@@ -15,5 +15,9 @@
 
   .in_email, .in_pass {
     margin-bottom:10px;
+  }
+
+  label {
+    font-weight: normal;
   }
 }

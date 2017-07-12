@@ -16693,34 +16693,33 @@ img.md-icon {
 
 
 
-.md-white {
-  background-color: #fff !important;
-  color: #000 !important;
-}
-
 .home-block {
   background: #fff;
   margin-top: 15%;
 }
 
-#login_form {
+#auth_form {
   background: #fff;
   max-width: 450px;
   margin: 40px auto;
   padding: 30px;
 }
 
-#login_form > h2 {
+#auth_form > h2 {
   text-align: center;
   margin: 10px 0;
 }
 
-#login_form .md-button {
+#auth_form .md-button {
   width: 100%;
 }
 
-#login_form .in_email,
-#login_form .in_pass {
+#auth_form .in_email,
+#auth_form .in_pass {
   margin-bottom: 10px;
+}
+
+#auth_form label {
+  font-weight: normal;
 }
 
