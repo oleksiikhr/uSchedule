@@ -8341,9 +8341,40 @@ img.md-icon {
 
 
 
+body {
+  background-color: #1669ad;
+  background: linear-gradient(135deg, #42c5ff 0, #7f1fff 100%);
+}
+
 .home-block {
   background: #fff;
   margin-top: 15%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.main-select {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  padding: 20px 40px;
+}
+
+.main-select .md-input-container {
+  margin: 4px 10px 24px !important;
+}
+
+.main-select .button-container {
+  padding: 20px 0 0 15px;
+}
+
+.main-btn {
+  margin: 0 auto 10px auto;
 }
 
 #auth_form {

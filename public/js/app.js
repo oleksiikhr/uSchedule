@@ -39162,7 +39162,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
+Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Dashboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39199,6 +39199,54 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
@@ -39216,7 +39264,170 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-flex": "50"
     }
-  }, [_c('span', [_vm._v("Тут будет ввод факультета(селект), курса(селект), группы(селект) и кнопка(посмотреть)")])])], 1)
+  }, [_c('div', {
+    staticClass: "main-select"
+  }, [_c('md-input-container', [_c('label', {
+    attrs: {
+      "for": "faculty"
+    }
+  }, [_vm._v("Факультет")]), _vm._v(" "), _c('md-select', {
+    attrs: {
+      "name": "faculty",
+      "id": "faculty"
+    },
+    model: {
+      value: (_vm.faculty),
+      callback: function($$v) {
+        _vm.faculty = $$v
+      },
+      expression: "faculty"
+    }
+  }, [_c('md-option', {
+    attrs: {
+      "value": "fight_club"
+    }
+  }, [_vm._v("Fight Club")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "godfather"
+    }
+  }, [_vm._v("Godfather")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "godfather_ii"
+    }
+  }, [_vm._v("Godfather II")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "godfather_iii"
+    }
+  }, [_vm._v("Godfather III")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "godfellas"
+    }
+  }, [_vm._v("Godfellas")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "pulp_fiction"
+    }
+  }, [_vm._v("Pulp Fiction")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "scarface"
+    }
+  }, [_vm._v("Scarface")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
+    attrs: {
+      "for": "cours"
+    }
+  }, [_vm._v("Курс")]), _vm._v(" "), _c('md-select', {
+    attrs: {
+      "name": "cours",
+      "id": "cours"
+    },
+    model: {
+      value: (_vm.cours),
+      callback: function($$v) {
+        _vm.cours = $$v
+      },
+      expression: "cours"
+    }
+  }, [_c('md-option', {
+    attrs: {
+      "value": "australia"
+    }
+  }, [_vm._v("Australia")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "brazil"
+    }
+  }, [_vm._v("Brazil")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "japan"
+    }
+  }, [_vm._v("Japan")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "united_states"
+    }
+  }, [_vm._v("United States")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
+    attrs: {
+      "for": "group"
+    }
+  }, [_vm._v("Група")]), _vm._v(" "), _c('md-select', {
+    attrs: {
+      "name": "group",
+      "id": "group"
+    },
+    model: {
+      value: (_vm.gruop),
+      callback: function($$v) {
+        _vm.gruop = $$v
+      },
+      expression: "gruop"
+    }
+  }, [_c('md-option', {
+    attrs: {
+      "value": "arial"
+    }
+  }, [_vm._v("Arial")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "calibri"
+    }
+  }, [_vm._v("Calibri")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "cambria"
+    }
+  }, [_vm._v("Cambria")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "comic_sans",
+      "disabled": true
+    }
+  }, [_vm._v("Comic Sans")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "consolas"
+    }
+  }, [_vm._v("Consolas")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "courier"
+    }
+  }, [_vm._v("Courier")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "droid_sans"
+    }
+  }, [_vm._v("Droid Sans")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "georgia"
+    }
+  }, [_vm._v("Georgia")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "helvetica"
+    }
+  }, [_vm._v("Helvetica")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "impact"
+    }
+  }, [_vm._v("Impact")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "roboto"
+    }
+  }, [_vm._v("Roboto")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "segoe_ui"
+    }
+  }, [_vm._v("Segoe UI")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "times_new_roman"
+    }
+  }, [_vm._v("Times New Roman")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "ubuntu"
+    }
+  }, [_vm._v("Ubuntu")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "verdana",
+      "disabled": _vm.isDisabled
+    }
+  }, [_vm._v("Verdana")])], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "button-container"
+  }, [_c('md-button', {
+    staticClass: "md-raised md-primary main-btn",
+    on: {
+      "click": _vm.someAction
+    }
+  }, [_vm._v("Шукати")])], 1)], 1)])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -39243,7 +39454,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
+Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Navbar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39406,7 +39617,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
+Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Login.vue: functional components are not supported with templates, they should use render functions.")}
 
