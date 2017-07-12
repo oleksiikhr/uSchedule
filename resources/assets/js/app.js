@@ -30,13 +30,15 @@ Vue.material.registerTheme({
 
 import Dashboard from './views/Dashboard.vue';
 import Navbar from './components/header/Navbar.vue';
-import Login from './views/auth/Login.vue';
+import LoginForm from './views/auth/Login.vue';
+import RegisterForm from './views/auth/Register.vue';
 
 const app = new Vue({
     el: '#app',
     components: {
         Dashboard,
         Navbar,
-        Login,
+        LoginForm,
+        RegisterForm,
     }
 });

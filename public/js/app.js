@@ -10584,6 +10584,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_header_Navbar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_header_Navbar_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__views_auth_Login_vue__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__views_auth_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__views_auth_Login_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_auth_Register_vue__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_auth_Register_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__views_auth_Register_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -10618,12 +10620,14 @@ Vue.material.registerTheme({
 
 
 
+
 var app = new Vue({
     el: '#app',
     components: {
         Dashboard: __WEBPACK_IMPORTED_MODULE_0__views_Dashboard_vue___default.a,
         Navbar: __WEBPACK_IMPORTED_MODULE_1__components_header_Navbar_vue___default.a,
-        Login: __WEBPACK_IMPORTED_MODULE_2__views_auth_Login_vue___default.a
+        LoginForm: __WEBPACK_IMPORTED_MODULE_2__views_auth_Login_vue___default.a,
+        RegisterForm: __WEBPACK_IMPORTED_MODULE_3__views_auth_Register_vue___default.a
     }
 });
 
@@ -39844,6 +39848,193 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(52),
+  /* template */
+  __webpack_require__(53),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Register.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Register.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e7db7878", Component.options)
+  } else {
+    hotAPI.reload("data-v-e7db7878", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['csrf', 'hasError', 'errors'],
+
+    data: function data() {
+        return {
+            'errorPass': null
+        };
+    },
+    created: function created() {
+        if (this.hasError) {
+            var errors = JSON.parse(this.errors);
+            console.log(this.errors);
+        }
+
+        // TODO ..
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        if (this.hasError) {
+            this.$nextTick(function () {
+                _this.$refs.snackbar.open();
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('md-whiteframe', {
+    attrs: {
+      "id": "auth_form",
+      "md-elevation": "2"
+    }
+  }, [_c('h1', [_vm._v("Реєстрація")]), _vm._v(" "), _c('form', {
+    attrs: {
+      "action": "/register",
+      "method": "POST"
+    }
+  }, [_c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "_token"
+    },
+    domProps: {
+      "value": _vm.csrf
+    }
+  }), _vm._v(" "), _c('md-input-container', {
+    staticClass: "in_email"
+  }, [_c('md-icon', [_vm._v("perm_identity")]), _vm._v(" "), _c('label', [_vm._v("Email")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "name": "email",
+      "autofocus": "",
+      "required": ""
+    }
+  })], 1), _vm._v(" "), _c('md-input-container', {
+    staticClass: "in_pass"
+  }, [_c('md-icon', [_vm._v("lock_outline")]), _vm._v(" "), _c('label', [_vm._v("Пароль")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "type": "password",
+      "name": "password",
+      "required": ""
+    }
+  })], 1), _vm._v(" "), _c('md-input-container', {
+    staticClass: "in_repeat_pass"
+  }, [_c('md-icon', [_vm._v("repeat")]), _vm._v(" "), _c('label', [_vm._v("Повторити пароль")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "type": "password",
+      "name": "password_confirmation",
+      "required": ""
+    }
+  })], 1), _vm._v(" "), _c('md-button', {
+    staticClass: "md-raised md-primary",
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("Зареєструватися")])], 1), _vm._v(" "), _c('md-snackbar', {
+    ref: "snackbar",
+    attrs: {
+      "md-position": 'top right',
+      "md-duration": 5000
+    }
+  }, [_c('span', [_vm._v("Користувач вже існує.")]), _vm._v(" "), _c('md-button', {
+    on: {
+      "click": function($event) {
+        _vm.$refs.snackbar.close()
+      }
+    }
+  }, [_vm._v("Сховати")])], 1)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-e7db7878", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

@@ -8391,6 +8391,13 @@ img.md-icon {
   padding: 30px;
 }
 
+@media (max-width: 575px) {
+  #auth_form {
+    margin: 0;
+    max-width: none;
+  }
+}
+
 #auth_form > h1 {
   text-align: center;
   margin: 10px 0;
@@ -8405,5 +8412,9 @@ img.md-icon {
 #auth_form .in_email,
 #auth_form .in_pass {
   margin-bottom: 10px;
+}
+
+#auth_form .in_repeat_pass {
+  margin-bottom: 20px;
 }
 
