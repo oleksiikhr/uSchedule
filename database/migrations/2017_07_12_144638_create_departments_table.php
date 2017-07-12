@@ -17,6 +17,7 @@ class CreateDepartmentsTable extends Migration
             $table->increments('id');
             $table->string('name', 255);
             $table->integer('faculty_id');
+            $table->string('slug', 255); //переводил name в английские символы
             $table->timestamps();
         });
     }

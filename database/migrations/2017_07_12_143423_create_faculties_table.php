@@ -17,6 +17,7 @@ class CreateFacultiesTable extends Migration
             $table->increments('id');
             $table->string('full_name', 255);
             $table->string('short_name', 30);
+            $table->string('slug', 255); //переводил full_name в английские символы
             $table->timestamps();
         });
     }

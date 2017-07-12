@@ -39248,7 +39248,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            faculty: '',
+            course: '',
+            group: ''
+        };
+    }
+});
 
 /***/ }),
 /* 39 */
@@ -39312,19 +39320,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Scarface")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
     attrs: {
-      "for": "cours"
+      "for": "course"
     }
   }, [_vm._v("Курс")]), _vm._v(" "), _c('md-select', {
     attrs: {
-      "name": "cours",
-      "id": "cours"
+      "name": "course",
+      "id": "course"
     },
     model: {
-      value: (_vm.cours),
+      value: (_vm.course),
       callback: function($$v) {
-        _vm.cours = $$v
+        _vm.course = $$v
       },
-      expression: "cours"
+      expression: "course"
     }
   }, [_c('md-option', {
     attrs: {
@@ -39352,11 +39360,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "group"
     },
     model: {
-      value: (_vm.gruop),
+      value: (_vm.group),
       callback: function($$v) {
-        _vm.gruop = $$v
+        _vm.group = $$v
       },
-      expression: "gruop"
+      expression: "group"
     }
   }, [_c('md-option', {
     attrs: {
@@ -39372,8 +39380,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Cambria")]), _vm._v(" "), _c('md-option', {
     attrs: {
-      "value": "comic_sans",
-      "disabled": true
+      "value": "comic_sans"
     }
   }, [_vm._v("Comic Sans")]), _vm._v(" "), _c('md-option', {
     attrs: {
@@ -39417,16 +39424,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Ubuntu")]), _vm._v(" "), _c('md-option', {
     attrs: {
-      "value": "verdana",
-      "disabled": _vm.isDisabled
+      "value": "verdana"
     }
   }, [_vm._v("Verdana")])], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "button-container"
   }, [_c('md-button', {
-    staticClass: "md-raised md-primary main-btn",
-    on: {
-      "click": _vm.someAction
-    }
+    staticClass: "md-raised md-primary main-btn"
   }, [_vm._v("Шукати")])], 1)], 1)])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
