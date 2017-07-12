@@ -1,6 +1,6 @@
 <template>
     <md-whiteframe id="auth_form" md-elevation="2">
-        <h2>Авторизація</h2>
+        <h1>Авторизація</h1>
 
         <form action="/login" method="POST">
             <input type="hidden" name="_token" :value="csrf">
@@ -24,7 +24,7 @@
 
         <md-snackbar :md-position="'top right'" ref="snackbar" :md-duration="5000">
             <span>Email або пароль невірний.</span>
-            <md-button class="md-warn" @click="$refs.snackbar.close()">Сховати</md-button>
+            <md-button @click="$refs.snackbar.close()">Сховати</md-button>
         </md-snackbar>
     </md-whiteframe>
 </template>
