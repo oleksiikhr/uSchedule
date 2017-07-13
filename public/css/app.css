@@ -8364,12 +8364,18 @@ img.md-icon {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
+  -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
+      -ms-flex-direction: column;
+          flex-direction: column;
   padding: 10px;
   margin-top: 20px;
+}
+
+.main-select .main-select-block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .main-select .md-input-container {
@@ -8382,6 +8388,10 @@ img.md-icon {
 
 .main-btn {
   margin: 0 auto 10px auto;
+}
+
+.text-center {
+  text-align: center;
 }
 
 #auth_form {
