@@ -39737,6 +39737,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "in_email"
   }, [_c('md-icon', [_vm._v("perm_identity")]), _vm._v(" "), _c('label', [_vm._v("Email")]), _vm._v(" "), _c('md-input', {
     attrs: {
+      "type": "email",
       "name": "email",
       "value": _vm.oldEmail,
       "autofocus": "",
@@ -39872,25 +39873,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['csrf', 'hasError', 'errors'],
+    props: ['csrf', 'error'],
 
-    data: function data() {
-        return {
-            'errorPass': null
-        };
-    },
-    created: function created() {
-        if (this.hasError) {
-            var errors = JSON.parse(this.errors);
-            console.log(this.errors);
-        }
-
-        // TODO ..
-    },
     mounted: function mounted() {
         var _this = this;
 
-        if (this.hasError) {
+        if (this.error) {
             this.$nextTick(function () {
                 _this.$refs.snackbar.open();
             });
@@ -39925,6 +39913,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "in_email"
   }, [_c('md-icon', [_vm._v("perm_identity")]), _vm._v(" "), _c('label', [_vm._v("Email")]), _vm._v(" "), _c('md-input', {
     attrs: {
+      "type": "email",
       "name": "email",
       "autofocus": "",
       "required": ""
@@ -39956,7 +39945,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "md-position": 'top right',
       "md-duration": 5000
     }
-  }, [_c('span', [_vm._v("Користувач вже існує.")]), _vm._v(" "), _c('md-button', {
+  }, [_c('span', [_vm._v(_vm._s(_vm.error))]), _vm._v(" "), _c('md-button', {
     on: {
       "click": function($event) {
         _vm.$refs.snackbar.close()

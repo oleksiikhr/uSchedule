@@ -8,7 +8,7 @@
             <md-input-container class="in_email">
                 <md-icon>perm_identity</md-icon>
                 <label>Email</label>
-                <md-input name="email" :value="oldEmail" autofocus required></md-input>
+                <md-input type="email" name="email" :value="oldEmail" autofocus required></md-input>
             </md-input-container>
 
             <md-input-container class="in_pass">
