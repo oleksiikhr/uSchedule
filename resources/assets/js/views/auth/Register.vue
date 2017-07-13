@@ -8,7 +8,7 @@
             <md-input-container class="in_email">
                 <md-icon>perm_identity</md-icon>
                 <label>Email</label>
-                <md-input name="email" autofocus required></md-input>
+                <md-input type="email" name="email" autofocus required></md-input>
             </md-input-container>
 
             <md-input-container class="in_pass">
@@ -27,7 +27,7 @@
         </form>
 
         <md-snackbar :md-position="'top right'" ref="snackbar" :md-duration="5000">
-            <span>Користувач вже існує.</span> <!-- TODO: change text -->
+            <span>{{ error }}</span>
             <md-button @click="$refs.snackbar.close()">Сховати</md-button>
         </md-snackbar>
     </md-whiteframe>
@@ -36,26 +36,11 @@
 <script>
     export default {
         props: [
-            'csrf', 'hasError', 'errors',
+            'csrf', 'error',
         ],
 
-        data () {
-            return {
-                'errorPass': null,
-            }
-        },
-
-        created () {
-            if (this.hasError) {
-                var errors = JSON.parse(this.errors);
-                console.log(this.errors);
-            }
-
-            // TODO ..
-        },
-
         mounted () {
-            if (this.hasError) {
+            if (this.error) {
                 this.$nextTick(() => {
                     this.$refs.snackbar.open();
                 });
