@@ -39165,7 +39165,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
+Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Dashboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39194,6 +39194,11 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
 //
 //
 //
@@ -39297,6 +39302,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-elevation": "2"
     }
+  }, [_c('h2', {
+    staticClass: "text-center"
+  }, [_vm._v("Пошук розкладу")]), _vm._v(" "), _c('div', {
+    staticClass: "main-select-block"
   }, [_c('md-input-container', [_c('label', {
     attrs: {
       "for": "faculty"
@@ -39345,7 +39354,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "fight_club"
     }
-  }, [_vm._v("Вечірня")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
+  }, [_vm._v("Вечірня")])], 1)], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "main-select-block"
+  }, [_c('md-input-container', [_c('label', {
     attrs: {
       "for": "faculty"
     }
@@ -39497,11 +39508,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "verdana"
     }
-  }, [_vm._v("Verdana")])], 1)], 1), _vm._v(" "), _c('div', {
-    staticClass: "button-container"
+  }, [_vm._v("Verdana")])], 1)], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "button-container text-center"
   }, [_c('md-button', {
     staticClass: "md-raised md-primary main-btn"
-  }, [_vm._v("Відкрити")])], 1)], 1)], 1)], 1)
+  }, [_vm._v("Відкрити")])], 1)])], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -39528,7 +39539,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
+Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Navbar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39684,7 +39695,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
+Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Login.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39861,7 +39872,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Register.vue"
+Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\views\\auth\\Register.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Register.vue: functional components are not supported with templates, they should use render functions.")}
 
