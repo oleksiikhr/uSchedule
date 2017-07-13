@@ -39254,33 +39254,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            degree: '',
+            trainingForm: '',
             faculty: '',
             course: '',
-            group: ''
+            groups: '',
+            countGroups: 10,
+            countCourses: 4
         };
+    },
+
+
+    methods: {
+        changeGroups: function changeGroups() {
+            if (this.degree == 'master') {
+                this.countCourses = 2;
+            } else {
+                this.countCourses = 4;
+            }
+        }
     }
+
 });
 
 /***/ }),
@@ -39313,22 +39311,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Освітній ступінь")]), _vm._v(" "), _c('md-select', {
     attrs: {
       "name": "faculty",
-      "id": "faculty"
+      "id": "degree"
+    },
+    on: {
+      "change": _vm.changeGroups
     },
     model: {
-      value: (_vm.faculty),
+      value: (_vm.degree),
       callback: function($$v) {
-        _vm.faculty = $$v
+        _vm.degree = $$v
       },
-      expression: "faculty"
+      expression: "degree"
     }
   }, [_c('md-option', {
     attrs: {
-      "value": "fight_club"
+      "value": "bachelor"
     }
   }, [_vm._v("Бакалавр")]), _vm._v(" "), _c('md-option', {
     attrs: {
-      "value": "fight_club"
+      "value": "master"
     }
   }, [_vm._v("Магістр")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
     attrs: {
@@ -39337,22 +39338,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Форма навчання")]), _vm._v(" "), _c('md-select', {
     attrs: {
       "name": "faculty",
-      "id": "faculty"
+      "id": "training-form"
     },
     model: {
-      value: (_vm.faculty),
+      value: (_vm.trainingForm),
       callback: function($$v) {
-        _vm.faculty = $$v
+        _vm.trainingForm = $$v
       },
-      expression: "faculty"
+      expression: "trainingForm"
     }
   }, [_c('md-option', {
     attrs: {
-      "value": "fight_club"
+      "value": "daytime"
     }
   }, [_vm._v("Денна")]), _vm._v(" "), _c('md-option', {
     attrs: {
-      "value": "fight_club"
+      "value": "nighttime"
     }
   }, [_vm._v("Вечірня")])], 1)], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "main-select-block"
@@ -39376,31 +39377,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "fight_club"
     }
-  }, [_vm._v("Fight Club")]), _vm._v(" "), _c('md-option', {
+  }, [_vm._v("ФОАІС")]), _vm._v(" "), _c('md-option', {
     attrs: {
       "value": "godfather"
     }
-  }, [_vm._v("Godfather")]), _vm._v(" "), _c('md-option', {
+  }, [_vm._v("ФЕМП")]), _vm._v(" "), _c('md-option', {
     attrs: {
       "value": "godfather_ii"
     }
-  }, [_vm._v("Godfather II")]), _vm._v(" "), _c('md-option', {
+  }, [_vm._v("ФТМ")]), _vm._v(" "), _c('md-option', {
     attrs: {
       "value": "godfather_iii"
     }
-  }, [_vm._v("Godfather III")]), _vm._v(" "), _c('md-option', {
+  }, [_vm._v("ФРГТБ")]), _vm._v(" "), _c('md-option', {
     attrs: {
       "value": "godfellas"
     }
-  }, [_vm._v("Godfellas")]), _vm._v(" "), _c('md-option', {
+  }, [_vm._v("ФФБС")]), _vm._v(" "), _c('md-option', {
     attrs: {
       "value": "pulp_fiction"
     }
-  }, [_vm._v("Pulp Fiction")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "scarface"
-    }
-  }, [_vm._v("Scarface")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
+  }, [_vm._v("ФМТП")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
     attrs: {
       "for": "course"
     }
@@ -39416,99 +39413,37 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "course"
     }
-  }, [_c('md-option', {
+  }, _vm._l((_vm.countCourses), function(course) {
+    return _c('md-option', {
+      key: course,
+      attrs: {
+        "value": course
+      }
+    }, [_vm._v(_vm._s(course))])
+  }))], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
     attrs: {
-      "value": "australia"
-    }
-  }, [_vm._v("I")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "brazil"
-    }
-  }, [_vm._v("II")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "japan"
-    }
-  }, [_vm._v("III")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "united_states"
-    }
-  }, [_vm._v("IV")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
-    attrs: {
-      "for": "group"
+      "for": "groups"
     }
   }, [_vm._v("Група")]), _vm._v(" "), _c('md-select', {
     attrs: {
       "name": "group",
-      "id": "group"
+      "id": "groups"
     },
     model: {
-      value: (_vm.group),
+      value: (_vm.groups),
       callback: function($$v) {
-        _vm.group = $$v
+        _vm.groups = $$v
       },
-      expression: "group"
+      expression: "groups"
     }
-  }, [_c('md-option', {
-    attrs: {
-      "value": "arial"
-    }
-  }, [_vm._v("Arial")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "calibri"
-    }
-  }, [_vm._v("Calibri")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "cambria"
-    }
-  }, [_vm._v("Cambria")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "comic_sans"
-    }
-  }, [_vm._v("Comic Sans")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "consolas"
-    }
-  }, [_vm._v("Consolas")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "courier"
-    }
-  }, [_vm._v("Courier")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "droid_sans"
-    }
-  }, [_vm._v("Droid Sans")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "georgia"
-    }
-  }, [_vm._v("Georgia")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "helvetica"
-    }
-  }, [_vm._v("Helvetica")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "impact"
-    }
-  }, [_vm._v("Impact")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "roboto"
-    }
-  }, [_vm._v("Roboto")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "segoe_ui"
-    }
-  }, [_vm._v("Segoe UI")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "times_new_roman"
-    }
-  }, [_vm._v("Times New Roman")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "ubuntu"
-    }
-  }, [_vm._v("Ubuntu")]), _vm._v(" "), _c('md-option', {
-    attrs: {
-      "value": "verdana"
-    }
-  }, [_vm._v("Verdana")])], 1)], 1)], 1), _vm._v(" "), _c('div', {
+  }, _vm._l((_vm.countGroups), function(group) {
+    return _c('md-option', {
+      key: group,
+      attrs: {
+        "value": group
+      }
+    }, [_vm._v(_vm._s(group))])
+  }))], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "button-container text-center"
   }, [_c('md-button', {
     staticClass: "md-raised md-primary main-btn"
