@@ -6,16 +6,16 @@
                 <h2 class="text-center">Пошук розкладу</h2>
                 <div class="main-select-block">
                     <md-input-container>
-                        <label for="faculty">Освітній ступінь</label>
-                        <md-select name="faculty" id="degree" v-model="degree" @change="changeGroups">
+                        <label for="degree">Освітній ступінь</label>
+                        <md-select name="degree" id="degree" v-model="degree" @change="changeGroups">
                             <md-option value="bachelor">Бакалавр</md-option>
                             <md-option value="master">Магістр</md-option>
                         </md-select>
                     </md-input-container>
 
                     <md-input-container>
-                        <label for="faculty">Форма навчання</label>
-                        <md-select name="faculty" id="training-form" v-model="trainingForm">
+                        <label for="training-form">Форма навчання</label>
+                        <md-select name="training-form" id="training-form" v-model="trainingForm">
                             <md-option value="daytime">Денна</md-option>
                             <md-option value="nighttime">Вечірня</md-option>
                         </md-select>
@@ -26,12 +26,12 @@
                     <md-input-container>
                         <label for="faculty">Факультет</label>
                         <md-select name="faculty" id="faculty" v-model="faculty">
-                            <md-option value="fight_club">ФОАІС</md-option>
-                            <md-option value="godfather">ФЕМП</md-option>
-                            <md-option value="godfather_ii">ФТМ</md-option>
-                            <md-option value="godfather_iii">ФРГТБ</md-option>
-                            <md-option value="godfellas">ФФБС</md-option>
-                            <md-option value="pulp_fiction">ФМТП</md-option>
+                            <md-option value="foais">ФОАІС</md-option>
+                            <md-option value="femp">ФЕМП</md-option>
+                            <md-option value="ftm">ФТМ</md-option>
+                            <md-option value="frgbt">ФРГТБ</md-option>
+                            <md-option value="ffbc">ФФБС</md-option>
+                            <md-option value="fmtp">ФМТП</md-option>
                         </md-select>
                     </md-input-container>
 
@@ -59,28 +59,30 @@
 </template>
 
 <script>
-    export default{
-        data(){
+    export default {
+        data() {
            return {
-               degree: '',
-               trainingForm: '',
-               faculty: '',
-               course: '',
-               groups: '',
+               degree: 'bachelor',
+               trainingForm: 'daytime',
+               faculty: 'foais',
+               course: 1,
+               groups: 1,
                countGroups: 10,
                countCourses: 4,
+
            }
         },
 
-        methods:{
-            changeGroups(){
-                if (this.degree == 'master'){
+        methods: {
+            changeGroups() {
+                if (this.degree == 'master') {
                     this.countCourses = 2;
-                }else{
+                    this.course = (this.course > 2) ? 1 : this.course;
+                } else {
                     this.countCourses = 4;
                 }
             }
-        }
+        },
 
     }
 </script>
