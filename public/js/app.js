@@ -39165,7 +39165,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Dashboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39258,13 +39258,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            degree: '',
-            trainingForm: '',
-            faculty: '',
-            course: '',
-            groups: '',
+            degree: 'bachelor',
+            trainingForm: 'daytime',
+            faculty: 'foais',
+            course: 1,
+            groups: 1,
             countGroups: 10,
             countCourses: 4
+
         };
     },
 
@@ -39273,6 +39274,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         changeGroups: function changeGroups() {
             if (this.degree == 'master') {
                 this.countCourses = 2;
+                this.course = this.course > 2 ? 1 : this.course;
             } else {
                 this.countCourses = 4;
             }
@@ -39306,11 +39308,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "main-select-block"
   }, [_c('md-input-container', [_c('label', {
     attrs: {
-      "for": "faculty"
+      "for": "degree"
     }
   }, [_vm._v("Освітній ступінь")]), _vm._v(" "), _c('md-select', {
     attrs: {
-      "name": "faculty",
+      "name": "degree",
       "id": "degree"
     },
     on: {
@@ -39333,11 +39335,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Магістр")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
     attrs: {
-      "for": "faculty"
+      "for": "training-form"
     }
   }, [_vm._v("Форма навчання")]), _vm._v(" "), _c('md-select', {
     attrs: {
-      "name": "faculty",
+      "name": "training-form",
       "id": "training-form"
     },
     model: {
@@ -39375,27 +39377,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('md-option', {
     attrs: {
-      "value": "fight_club"
+      "value": "foais"
     }
   }, [_vm._v("ФОАІС")]), _vm._v(" "), _c('md-option', {
     attrs: {
-      "value": "godfather"
+      "value": "femp"
     }
   }, [_vm._v("ФЕМП")]), _vm._v(" "), _c('md-option', {
     attrs: {
-      "value": "godfather_ii"
+      "value": "ftm"
     }
   }, [_vm._v("ФТМ")]), _vm._v(" "), _c('md-option', {
     attrs: {
-      "value": "godfather_iii"
+      "value": "frgbt"
     }
   }, [_vm._v("ФРГТБ")]), _vm._v(" "), _c('md-option', {
     attrs: {
-      "value": "godfellas"
+      "value": "ffbc"
     }
   }, [_vm._v("ФФБС")]), _vm._v(" "), _c('md-option', {
     attrs: {
-      "value": "pulp_fiction"
+      "value": "fmtp"
     }
   }, [_vm._v("ФМТП")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
     attrs: {
@@ -39474,7 +39476,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Navbar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39630,7 +39632,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Login.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39807,7 +39809,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\web\\xampp\\htdocs\\uSchedule\\resources\\assets\\js\\views\\auth\\Register.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Register.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Register.vue: functional components are not supported with templates, they should use render functions.")}
 
