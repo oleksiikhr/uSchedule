@@ -32,6 +32,7 @@ import Dashboard from './views/Dashboard.vue';
 import Navbar from './components/header/Navbar.vue';
 import LoginForm from './views/auth/Login.vue';
 import RegisterForm from './views/auth/Register.vue';
+import Edit from './views/schedule/Edit.vue';
 
 const app = new Vue({
     el: '#app',
@@ -40,5 +41,6 @@ const app = new Vue({
         Navbar,
         LoginForm,
         RegisterForm,
+        Edit,
     }
 });
