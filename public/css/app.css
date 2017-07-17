@@ -8354,7 +8354,6 @@ img.md-icon {
  */
 
 .home-block {
-  background: #fff;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -8378,6 +8377,7 @@ img.md-icon {
           flex-direction: column;
   padding: 10px;
   margin-top: 20px;
+  background: #fff;
 }
 
 @media (max-width: 575px) {
@@ -8445,6 +8445,7 @@ img.md-icon {
   margin: 10px 0;
   text-transform: uppercase;
   font-size: 25px;
+  line-height: 1.25;
 }
 
 #auth_form .md-button {

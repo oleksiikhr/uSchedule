@@ -2,7 +2,7 @@
     <md-whiteframe id="auth_form" md-elevation="2">
         <h1>Реєстрація</h1>
 
-        <form action="/register" method="POST">
+        <form :action="link" method="POST">
             <input type="hidden" name="_token" :value="csrf">
 
             <md-input-container class="in_email">
@@ -36,7 +36,7 @@
 <script>
     export default {
         props: [
-            'csrf', 'error',
+            'csrf', 'error', 'link',
         ],
 
         mounted () {

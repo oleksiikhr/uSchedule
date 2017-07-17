@@ -1,5 +1,4 @@
 .home-block {
-  background: #fff;
   justify-content: center;
   @include media-only(xs) {
     flex: 0 1 100%;
@@ -11,6 +10,7 @@
   flex-direction: column;
   padding: 10px;
   margin-top: 20px;
+  background: #fff;
   @include media-only(xs) {
     flex-direction: column;
     width: 100%;
