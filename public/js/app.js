@@ -10610,7 +10610,7 @@ Vue.material.registerTheme({
     default: {
         primary: {
             color: 'blue',
-            hue: '700'
+            hue: '600'
         },
         accent: 'red'
     }
@@ -39741,9 +39741,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['csrf', 'oldEmail', 'errorEmail', 'link', 'status'],
+    props: ['csrf', 'oldEmail', 'error', 'link', 'status', 'token'],
 
     data: function data() {
         return {
@@ -39753,8 +39766,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        if (this.errorEmail || this.status) {
-            this.text = this.errorEmail ? this.errorEmail : this.status;
+        if (this.error || this.status) {
+            this.text = this.error ? this.error : this.status;
 
             this.$nextTick(function () {
                 _this.$refs.snackbar.open();
@@ -39786,6 +39799,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "value": _vm.csrf
     }
+  }), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "token"
+    },
+    domProps: {
+      "value": _vm.token
+    }
   }), _vm._v(" "), _c('md-input-container', {
     staticClass: "in_email"
   }, [_c('md-icon', [_vm._v("perm_identity")]), _vm._v(" "), _c('label', [_vm._v("Email")]), _vm._v(" "), _c('md-input', {
@@ -39796,12 +39817,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "autofocus": "",
       "required": ""
     }
+  })], 1), _vm._v(" "), _c('md-input-container', {
+    staticClass: "in_pass"
+  }, [_c('md-icon', [_vm._v("lock_outline")]), _vm._v(" "), _c('label', [_vm._v("Пароль")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "type": "password",
+      "name": "password",
+      "required": ""
+    }
+  })], 1), _vm._v(" "), _c('md-input-container', {
+    staticClass: "in_repeat_pass"
+  }, [_c('md-icon', [_vm._v("repeat")]), _vm._v(" "), _c('label', [_vm._v("Повторити пароль")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "type": "password",
+      "name": "password_confirmation",
+      "required": ""
+    }
   })], 1), _vm._v(" "), _c('md-button', {
     staticClass: "md-raised md-primary",
     attrs: {
       "type": "submit"
     }
-  }, [_vm._v("Cкинути пароль")])], 1), _vm._v(" "), _c('md-snackbar', {
+  }, [_vm._v("Змінити пароль")])], 1), _vm._v(" "), _c('md-snackbar', {
     ref: "snackbar",
     attrs: {
       "md-position": 'top right',
@@ -40208,6 +40245,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['user'],
@@ -40235,10 +40279,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$refs.leftSidenav.toggle();
         },
         open: function open(ref) {
-            console.log('Opened: ' + ref);
+            //                console.log('Opened: ' + ref);
         },
         close: function close(ref) {
-            console.log('Closed: ' + ref);
+            //                console.log('Closed: ' + ref);
         }
     }
 });
@@ -40256,6 +40300,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": _vm.toggleLeftSidenav
     }
   }, [_c('md-icon', [_vm._v("menu")])], 1), _vm._v(" "), _c('md-button', {
+    staticClass: "main-title",
     attrs: {
       "href": "/"
     }
@@ -40263,11 +40308,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "flex": "1"
     }
-  }), _vm._v(" "), _c('md-button', {
+  }), _vm._v(" "), (_vm.empty) ? [_c('md-button', {
+    attrs: {
+      "href": "/login"
+    }
+  }, [_vm._v("Увійти")]), _vm._v(" "), _c('md-button', {
+    staticClass: "md-raised",
+    attrs: {
+      "href": "/register"
+    }
+  }, [_vm._v("Реєстрація")])] : [_c('md-button', {
     staticClass: "md-raised"
   }, [_vm._v("Add")]), _vm._v(" "), _c('md-button', {
     staticClass: "md-raised md-warn"
-  }, [_vm._v("Remove")])], 1), _vm._v(" "), _c('md-theme', [_c('md-sidenav', {
+  }, [_vm._v("Remove")])]], 2), _vm._v(" "), _c('md-theme', [_c('md-sidenav', {
     ref: "leftSidenav",
     staticClass: "md-left",
     on: {

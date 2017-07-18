@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title')Відновлення паролю@endsection
+@section('title', 'Відновлення паролю')
 
 @section('content')
 

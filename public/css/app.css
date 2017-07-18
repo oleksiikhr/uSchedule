@@ -8367,6 +8367,11 @@ img.md-icon {
   }
 }
 
+.main-title {
+  font-size: 18px;
+  padding-top: 2px;
+}
+
 .main-select {
   display: -webkit-box;
   display: -ms-flexbox;

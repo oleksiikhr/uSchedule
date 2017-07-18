@@ -5,11 +5,18 @@
                 <md-icon>menu</md-icon>
             </md-button>
 
-            <md-button href="/">Розклад КНТЕУ</md-button>
+            <md-button class="main-title" href="/">Розклад КНТЕУ</md-button>
             <span style="flex: 1"></span>
 
-            <md-button class="md-raised">Add</md-button>
-            <md-button class="md-raised md-warn">Remove</md-button>
+            <template v-if="empty">
+                <md-button href="/login">Увійти</md-button>
+                <md-button href="/register" class="md-raised">Реєстрація</md-button>
+            </template>
+            <template v-else>
+                <!--TODO: ..-->
+                <md-button class="md-raised">Add</md-button>
+                <md-button class="md-raised md-warn">Remove</md-button>
+            </template>
         </md-toolbar>
 
         <md-theme>
@@ -55,10 +62,10 @@
                 this.$refs.leftSidenav.toggle();
             },
             open(ref) {
-                console.log('Opened: ' + ref);
+//                console.log('Opened: ' + ref);
             },
             close(ref) {
-                console.log('Closed: ' + ref);
+//                console.log('Closed: ' + ref);
             }
         },
     }
