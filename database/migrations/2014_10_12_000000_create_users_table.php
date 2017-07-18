@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name')->nullable();
             $table->string('email')->unique();
             $table->string('password');
-            $table->boolean('is_edit')->defailt(0);
+            $table->boolean('is_edit')->default(0);
             $table->integer('group_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
@@ -29,7 +29,6 @@ class CreateUsersTable extends Migration
         DB::table('users')->insert([
             'email'      => 'admin@example.com',
             'password'   => bcrypt('admin'),
-            'role'       => 'head',
         ]);
     }
 
