@@ -28,10 +28,11 @@ Vue.material.registerTheme({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// Form
+// Auth
 import LoginForm from './views/auth/Login.vue';
 import RegisterForm from './views/auth/Register.vue';
 import EmailForm from './views/auth/passwords/Email.vue';
+import ResetForm from './views/auth/passwords/Reset.vue';
 
 import Dashboard from './views/Dashboard.vue';
 import Navbar from './components/header/Navbar.vue';
@@ -46,5 +47,6 @@ const app = new Vue({
         RegisterForm,
         Edit,
         EmailForm,
+        ResetForm,
     }
 });

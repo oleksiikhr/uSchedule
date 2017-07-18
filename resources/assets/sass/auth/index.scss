@@ -12,11 +12,15 @@
     text-align: center;
     margin: 10px 0;
     text-transform: uppercase;
-    font-size: 25px;
+    font-size: 22px;
     line-height: 1.25;
   }
 
   .md-button {
+    margin: 6px 0;
+  }
+
+  form .md-button {
     width: 100%;
   }
 
@@ -26,5 +30,9 @@
 
   .in_repeat_pass {
     margin-bottom: 20px;
+  }
+
+  .forgot {
+    text-align: right;
   }
 }

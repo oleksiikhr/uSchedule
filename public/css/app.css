@@ -8444,11 +8444,15 @@ img.md-icon {
   text-align: center;
   margin: 10px 0;
   text-transform: uppercase;
-  font-size: 25px;
+  font-size: 22px;
   line-height: 1.25;
 }
 
 #auth_form .md-button {
+  margin: 6px 0;
+}
+
+#auth_form form .md-button {
   width: 100%;
 }
 
@@ -8459,6 +8463,10 @@ img.md-icon {
 
 #auth_form .in_repeat_pass {
   margin-bottom: 20px;
+}
+
+#auth_form .forgot {
+  text-align: right;
 }
 
 .subjects .subject-block {

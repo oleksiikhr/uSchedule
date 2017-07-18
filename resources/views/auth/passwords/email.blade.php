@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('content')
+@section('title')Відновлення паролю@endsection
 
-    {{--TODO: Email Expected response code 250 but got code "530", with message "530 5.7.1 Authentication required--}}
+@section('content')
 
     <email-form csrf="{{ csrf_token() }}"
                 old-email="{{ old('email') }}"

@@ -9,6 +9,7 @@
                 old-email="{{ old('email') }}"
                 old-remember="{{ old('remember') }}"
                 link="{{ route('login') }}"
+                forgot-link="{{ route('password.request') }}"
     ></login-form>
 
 @endsection
