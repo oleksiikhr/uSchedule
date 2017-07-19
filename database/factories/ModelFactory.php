@@ -22,3 +22,39 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Faculty::class, function (Faker\Generator $faker){
+   return [
+       'title' => $faker->unique()->company,
+       'slug' => lcfirst($faker->unique()->firstName)
+   ];
+});
+
+$factory->define(App\Group::class, function (Faker\Generator $faker){
+    $faculty = \App\Faculty::inRandomOrder()->first();
+
+    return [
+        'course' => $faker->numberBetween(1, 5),
+        'faculty_id' => $faculty->id
+    ];
+});
+
+$factory->define(App\Teacher::class, function (Faker\Generator $faker){
+    return [
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
+        'middle_name' => $faker->title
+    ];
+});
+
+$factory->define(App\Subject::class, function (Faker\Generator $faker){
+    $faculty = \App\Faculty::inRandomOrder()->first();
+    $teacher = \App\Teacher::inRandomOrder()->first();
+
+    return [
+        'title' => $faker->jobTitle,
+        'course' => $faker->numberBetween(1, 5),
+        'faculty_id' => $faculty->id,
+        'teacher_id' => $teacher->id
+    ];
+});
