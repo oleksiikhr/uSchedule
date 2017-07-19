@@ -8481,6 +8481,7 @@ img.md-icon {
   margin: 10px;
   padding: 10px 0;
   text-align: center;
+  background: #fff;
 }
 
 .schedule-column {
@@ -8505,6 +8506,7 @@ img.md-icon {
   display: -ms-flexbox;
   display: flex;
   text-align: center;
+  background: #fff;
 }
 
 .schedule-column .dragArea .lesson-number {
