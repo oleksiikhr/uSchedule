@@ -32,6 +32,11 @@
       margin-right: 10px;
     }
 
+    .text-danger{
+      color: indianred;
+      cursor: pointer;
+    }
+
   }
 }
 .schedule{
@@ -40,4 +45,11 @@
   h2{
     margin-bottom: 0;
   }
+}
+.list-subject-item {
+  transition: all 1s;
+}
+
+.list-subject-enter, .list-subject-leave-active {
+  opacity: 0;
 }

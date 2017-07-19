@@ -8512,11 +8512,26 @@ img.md-icon {
   margin-right: 10px;
 }
 
+.schedule-column .dragArea .text-danger {
+  color: indianred;
+  cursor: pointer;
+}
+
 .schedule {
   padding: 0 30px;
 }
 
 .schedule h2 {
   margin-bottom: 0;
+}
+
+.list-subject-item {
+  -webkit-transition: all 1s;
+  transition: all 1s;
+}
+
+.list-subject-enter,
+.list-subject-leave-active {
+  opacity: 0;
 }
 

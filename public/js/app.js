@@ -40491,6 +40491,56 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -40565,6 +40615,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.list = [{
                 name: 'Edgard'
             }];
+        },
+        removeSubject: function removeSubject(list, index) {
+            list.splice(index, 1);
         }
     }
 });
@@ -42506,21 +42559,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         group: 'days'
       }
     }
+  }, [_c('transition-group', {
+    attrs: {
+      "name": "list-subject"
+    }
   }, _vm._l((_vm.day1), function(element, index) {
     return _c('div', {
       key: index,
-      staticClass: "subject-block",
-      on: {
-        "click": function($event) {
-          _vm.click(element)
-        }
-      }
+      staticClass: "subject-block list-subject-item"
     }, [_c('div', {
       staticClass: "lesson-number  md-align-center md-vertical-align-center"
-    }, [_vm._v(_vm._s(index + 1))]), _c('div', {
+    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c('div', {
       staticClass: "subject-name  md-align-center md-vertical-align-center"
-    }, [_vm._v(_vm._s(element.name))])])
-  }))], 1), _vm._v(" "), _c('md-layout', {
+    }, [_c('div', {
+      staticClass: "md-flex-90"
+    }, [_vm._v("\n                            " + _vm._s(element.name) + "\n                            ")]), _vm._v(" "), _c('div', {
+      staticClass: "md-flex-10",
+      on: {
+        "click": function($event) {
+          _vm.removeSubject(_vm.day1, index)
+        }
+      }
+    }, [_c('md-icon', {
+      staticClass: "text-danger"
+    }, [_vm._v("delete")])], 1)])])
+  }))], 1)], 1), _vm._v(" "), _c('md-layout', {
     staticClass: "schedule-column",
     attrs: {
       "md-flex": "20",
@@ -42537,21 +42600,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         group: 'days'
       }
     }
+  }, [_c('transition-group', {
+    attrs: {
+      "name": "list-subject"
+    }
   }, _vm._l((_vm.day2), function(element, index) {
     return _c('div', {
       key: index,
-      staticClass: "subject-block",
-      on: {
-        "click": function($event) {
-          _vm.click(element)
-        }
-      }
+      staticClass: "subject-block list-subject-item"
     }, [_c('div', {
       staticClass: "lesson-number  md-align-center md-vertical-align-center"
-    }, [_vm._v(_vm._s(index + 1))]), _c('div', {
+    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c('div', {
       staticClass: "subject-name  md-align-center md-vertical-align-center"
-    }, [_vm._v(_vm._s(element.name))])])
-  }))], 1), _vm._v(" "), _c('md-layout', {
+    }, [_c('div', {
+      staticClass: "md-flex-90"
+    }, [_vm._v("\n                                " + _vm._s(element.name) + "\n                            ")]), _vm._v(" "), _c('div', {
+      staticClass: "md-flex-10",
+      on: {
+        "click": function($event) {
+          _vm.removeSubject(_vm.day2, index)
+        }
+      }
+    }, [_c('md-icon', {
+      staticClass: "text-danger"
+    }, [_vm._v("delete")])], 1)])])
+  }))], 1)], 1), _vm._v(" "), _c('md-layout', {
     staticClass: "schedule-column",
     attrs: {
       "md-flex": "20",
@@ -42568,21 +42641,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         group: 'days'
       }
     }
+  }, [_c('transition-group', {
+    attrs: {
+      "name": "list-subject"
+    }
   }, _vm._l((_vm.day3), function(element, index) {
     return _c('div', {
       key: index,
-      staticClass: "subject-block",
-      on: {
-        "click": function($event) {
-          _vm.click(element)
-        }
-      }
+      staticClass: "subject-block list-subject-item"
     }, [_c('div', {
       staticClass: "lesson-number  md-align-center md-vertical-align-center"
-    }, [_vm._v(_vm._s(index + 1))]), _c('div', {
+    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c('div', {
       staticClass: "subject-name  md-align-center md-vertical-align-center"
-    }, [_vm._v(_vm._s(element.name))])])
-  }))], 1), _vm._v(" "), _c('md-layout', {
+    }, [_c('div', {
+      staticClass: "md-flex-90"
+    }, [_vm._v("\n                                " + _vm._s(element.name) + "\n                            ")]), _vm._v(" "), _c('div', {
+      staticClass: "md-flex-10",
+      on: {
+        "click": function($event) {
+          _vm.removeSubject(_vm.day3, index)
+        }
+      }
+    }, [_c('md-icon', {
+      staticClass: "text-danger"
+    }, [_vm._v("delete")])], 1)])])
+  }))], 1)], 1), _vm._v(" "), _c('md-layout', {
     staticClass: "schedule-column",
     attrs: {
       "md-flex": "20",
@@ -42599,21 +42682,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         group: 'days'
       }
     }
+  }, [_c('transition-group', {
+    attrs: {
+      "name": "list-subject"
+    }
   }, _vm._l((_vm.day4), function(element, index) {
     return _c('div', {
       key: index,
-      staticClass: "subject-block",
-      on: {
-        "click": function($event) {
-          _vm.click(element)
-        }
-      }
+      staticClass: "subject-block list-subject-item"
     }, [_c('div', {
       staticClass: "lesson-number  md-align-center md-vertical-align-center"
-    }, [_vm._v(_vm._s(index + 1))]), _c('div', {
+    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c('div', {
       staticClass: "subject-name  md-align-center md-vertical-align-center"
-    }, [_vm._v(_vm._s(element.name))])])
-  }))], 1), _vm._v(" "), _c('md-layout', {
+    }, [_c('div', {
+      staticClass: "md-flex-90"
+    }, [_vm._v("\n                                " + _vm._s(element.name) + "\n                            ")]), _vm._v(" "), _c('div', {
+      staticClass: "md-flex-10",
+      on: {
+        "click": function($event) {
+          _vm.removeSubject(_vm.day4, index)
+        }
+      }
+    }, [_c('md-icon', {
+      staticClass: "text-danger"
+    }, [_vm._v("delete")])], 1)])])
+  }))], 1)], 1), _vm._v(" "), _c('md-layout', {
     staticClass: "schedule-column",
     attrs: {
       "md-flex": "20",
@@ -42630,21 +42723,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         group: 'days'
       }
     }
+  }, [_c('transition-group', {
+    attrs: {
+      "name": "list-subject"
+    }
   }, _vm._l((_vm.day5), function(element, index) {
     return _c('div', {
       key: index,
-      staticClass: "subject-block",
-      on: {
-        "click": function($event) {
-          _vm.click(element)
-        }
-      }
+      staticClass: "subject-block list-subject-item"
     }, [_c('div', {
       staticClass: "lesson-number  md-align-center md-vertical-align-center"
-    }, [_vm._v(_vm._s(index + 1))]), _c('div', {
+    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c('div', {
       staticClass: "subject-name  md-align-center md-vertical-align-center"
-    }, [_vm._v(_vm._s(element.name))])])
-  }))], 1), _vm._v(" "), _c('div', {
+    }, [_c('div', {
+      staticClass: "md-flex-90"
+    }, [_vm._v("\n                                " + _vm._s(element.name) + "\n                            ")]), _vm._v(" "), _c('div', {
+      staticClass: "md-flex-10",
+      on: {
+        "click": function($event) {
+          _vm.removeSubject(_vm.day5, index)
+        }
+      }
+    }, [_c('md-icon', {
+      staticClass: "text-danger"
+    }, [_vm._v("delete")])], 1)])])
+  }))], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "normal"
   }, [_c('h2', [_vm._v("Пример вывода для студентов")]), _vm._v(" "), _c('div', _vm._l((_vm.day1), function(element) {
     return _c('div', [_vm._v(_vm._s(element.name))])

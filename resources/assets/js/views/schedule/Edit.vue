@@ -25,9 +25,19 @@
                        class="schedule-column">
                 <h2>Понеділок</h2>
                 <draggable :list="day1" class="dragArea md-flex-100" :options="{group:'days'}">
-                    <div v-for="(element, index) in day1" :key="index" @click="click(element)" class="subject-block">
-                        <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div><div class="subject-name  md-align-center md-vertical-align-center">{{ element.name }}</div>
-                    </div>
+                    <transition-group name="list-subject">
+                        <div v-for="(element, index) in day1" :key="index" class="subject-block list-subject-item">
+                            <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div>
+                            <div class="subject-name  md-align-center md-vertical-align-center">
+                                <div class="md-flex-90">
+                                {{ element.name }}
+                                </div>
+                                <div class="md-flex-10" @click="removeSubject(day1, index)">
+                                    <md-icon class="text-danger">delete</md-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </transition-group>
                 </draggable>
             </md-layout>
             <md-layout md-flex="20"
@@ -38,9 +48,19 @@
                        class="schedule-column">
                 <h2>Вівторок</h2>
                 <draggable :list="day2" class="dragArea md-flex-100" :options="{group:'days'}">
-                    <div v-for="(element, index) in day2" :key="index" @click="click(element)" class="subject-block">
-                        <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div><div class="subject-name  md-align-center md-vertical-align-center">{{ element.name }}</div>
-                    </div>
+                    <transition-group name="list-subject">
+                        <div v-for="(element, index) in day2" :key="index" class="subject-block list-subject-item">
+                            <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div>
+                            <div class="subject-name  md-align-center md-vertical-align-center">
+                                <div class="md-flex-90">
+                                    {{ element.name }}
+                                </div>
+                                <div class="md-flex-10" @click="removeSubject(day2, index)">
+                                    <md-icon class="text-danger">delete</md-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </transition-group>
                 </draggable>
             </md-layout>
             <md-layout md-flex="20"
@@ -51,9 +71,19 @@
                        class="schedule-column">
                 <h2>Середа</h2>
                 <draggable :list="day3" class="dragArea md-flex-100" :options="{group:'days'}">
-                    <div v-for="(element, index) in day3" :key="index" @click="click(element)" class="subject-block">
-                        <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div><div class="subject-name  md-align-center md-vertical-align-center">{{ element.name }}</div>
-                    </div>
+                    <transition-group name="list-subject">
+                        <div v-for="(element, index) in day3" :key="index" class="subject-block list-subject-item">
+                            <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div>
+                            <div class="subject-name  md-align-center md-vertical-align-center">
+                                <div class="md-flex-90">
+                                    {{ element.name }}
+                                </div>
+                                <div class="md-flex-10" @click="removeSubject(day3, index)">
+                                    <md-icon class="text-danger">delete</md-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </transition-group>
                 </draggable>
             </md-layout>
             <md-layout md-flex="20"
@@ -64,9 +94,19 @@
                        class="schedule-column">
                 <h2>Четверг</h2>
                 <draggable :list="day4" class="dragArea md-flex-100" :options="{group:'days'}">
-                    <div v-for="(element, index) in day4" :key="index" @click="click(element)" class="subject-block">
-                        <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div><div class="subject-name  md-align-center md-vertical-align-center">{{ element.name }}</div>
-                    </div>
+                    <transition-group name="list-subject">
+                        <div v-for="(element, index) in day4" :key="index" class="subject-block list-subject-item">
+                            <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div>
+                            <div class="subject-name  md-align-center md-vertical-align-center">
+                                <div class="md-flex-90">
+                                    {{ element.name }}
+                                </div>
+                                <div class="md-flex-10" @click="removeSubject(day4, index)">
+                                    <md-icon class="text-danger">delete</md-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </transition-group>
                 </draggable>
             </md-layout>
             <md-layout md-flex="20"
@@ -77,9 +117,19 @@
                        class="schedule-column">
                 <h2>Пятниця</h2>
                 <draggable :list="day5" class="dragArea md-flex-100" :options="{group:'days'}">
-                    <div v-for="(element, index) in day5" :key="index" @click="click(element)" class="subject-block">
-                        <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div><div class="subject-name  md-align-center md-vertical-align-center">{{ element.name }}</div>
-                    </div>
+                    <transition-group name="list-subject">
+                        <div v-for="(element, index) in day5" :key="index" class="subject-block list-subject-item">
+                            <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div>
+                            <div class="subject-name  md-align-center md-vertical-align-center">
+                                <div class="md-flex-90">
+                                    {{ element.name }}
+                                </div>
+                                <div class="md-flex-10" @click="removeSubject(day5, index)">
+                                    <md-icon class="text-danger">delete</md-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </transition-group>
                 </draggable>
             </md-layout>
 
@@ -166,6 +216,9 @@
                 this.list = [{
                     name: 'Edgard'
                 }]
+            },
+            removeSubject: function(list, index) {
+                list.splice(index,1);
             }
         }
     }
