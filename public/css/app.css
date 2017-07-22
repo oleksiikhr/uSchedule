@@ -8354,6 +8354,10 @@ img.md-icon {
  */
 
 body {
+  background: #333;
+}
+
+body {
   background: url(https://www.toptal.com/designers/subtlepatterns/patterns/memphis-colorful.png);
 }
 

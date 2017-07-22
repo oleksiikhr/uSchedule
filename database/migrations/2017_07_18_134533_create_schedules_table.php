@@ -22,6 +22,15 @@ class CreateSchedulesTable extends Migration
             $table->integer('faculty_id');
             $table->timestamps();
         });
+
+        // Simple/Test record
+        DB::table('schedules')->insert([
+            'degree'     => 'bachelor',
+            'daytime'    => 'daytime',
+            'course'     => 1,
+            'group_id'   => 1,
+            'faculty_id' => 1,
+        ]);
     }
 
     /**
