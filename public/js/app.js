@@ -40423,7 +40423,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Освітній ступінь")]), _vm._v(" "), _c('md-select', {
     attrs: {
       "name": "degree",
-      "id": "degree"
+      "id": "degree",
+      "md-menu-class": "home-select"
     },
     on: {
       "change": _vm.changeGroups
@@ -40450,7 +40451,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Форма навчання")]), _vm._v(" "), _c('md-select', {
     attrs: {
       "name": "training-form",
-      "id": "training-form"
+      "id": "training-form",
+      "md-menu-class": "home-select"
     },
     model: {
       value: (_vm.trainingForm),
@@ -40476,7 +40478,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Факультет")]), _vm._v(" "), _c('md-select', {
     attrs: {
       "name": "faculty",
-      "id": "faculty"
+      "id": "faculty",
+      "md-menu-class": "home-select"
     },
     model: {
       value: (_vm.faculty),
@@ -40516,7 +40519,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Курс")]), _vm._v(" "), _c('md-select', {
     attrs: {
       "name": "course",
-      "id": "course"
+      "id": "course",
+      "md-menu-class": "home-select"
     },
     model: {
       value: (_vm.course),
@@ -40539,7 +40543,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Група")]), _vm._v(" "), _c('md-select', {
     attrs: {
       "name": "group",
-      "id": "groups"
+      "id": "groups",
+      "md-menu-class": "home-select"
     },
     model: {
       value: (_vm.groups),

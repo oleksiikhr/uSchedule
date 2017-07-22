@@ -8364,6 +8364,10 @@ body {
   padding: 10px;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .home-block {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -8426,8 +8430,15 @@ body {
   width: 100%;
 }
 
-.text-center {
-  text-align: center;
+.md-select-content.home-select {
+  width: 314px;
+  margin: 0;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .md-select-content.home-select {
+    width: 180px;
+  }
 }
 
 #auth_form {

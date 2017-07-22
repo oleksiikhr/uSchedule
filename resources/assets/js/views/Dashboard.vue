@@ -6,7 +6,7 @@
                 <div class="home-select-block">
                     <md-input-container>
                         <label for="degree">Освітній ступінь</label>
-                        <md-select name="degree" id="degree" v-model="degree" @change="changeGroups">
+                        <md-select name="degree" id="degree" v-model="degree" @change="changeGroups" md-menu-class="home-select">
                             <md-option value="bachelor">Бакалавр</md-option>
                             <md-option value="master">Магістр</md-option>
                         </md-select>
@@ -14,7 +14,7 @@
 
                     <md-input-container>
                         <label for="training-form">Форма навчання</label>
-                        <md-select name="training-form" id="training-form" v-model="trainingForm">
+                        <md-select name="training-form" id="training-form" v-model="trainingForm" md-menu-class="home-select">
                             <md-option value="daytime">Денна</md-option>
                             <md-option value="nighttime">Вечірня</md-option>
                         </md-select>
@@ -24,7 +24,7 @@
                 <div class="home-select-block">
                     <md-input-container>
                         <label for="faculty">Факультет</label>
-                        <md-select name="faculty" id="faculty" v-model="faculty">
+                        <md-select name="faculty" id="faculty" v-model="faculty" md-menu-class="home-select">
                             <md-option value="foais">ФОАІС</md-option>
                             <md-option value="femp">ФЕМП</md-option>
                             <md-option value="ftm">ФТМ</md-option>
@@ -36,14 +36,14 @@
 
                     <md-input-container>
                         <label for="course">Курс</label>
-                        <md-select name="course" id="course" v-model="course">
+                        <md-select name="course" id="course" v-model="course" md-menu-class="home-select">
                             <md-option v-for="course in countCourses" :value="course" :key="course">{{ course }}</md-option>
                         </md-select>
                     </md-input-container>
 
                     <md-input-container>
                         <label for="groups">Група</label>
-                        <md-select name="group" id="groups" v-model="groups">
+                        <md-select name="group" id="groups" v-model="groups" md-menu-class="home-select">
                             <md-option v-for="group in countGroups" :value="group" :key="group">{{ group }}</md-option>
                         </md-select>
                     </md-input-container>
