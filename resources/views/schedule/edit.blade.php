@@ -5,7 +5,7 @@
 @section('content')
 
     <div class="container">
-        <edit></edit>
+        <edit faculty="{{ $schedule->faculty_id  }}" course="{{ $schedule->course  }}"></edit>
     </div>
 
 @endsection

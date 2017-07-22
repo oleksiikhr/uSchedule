@@ -12,7 +12,7 @@
                            md-vertical-align="center"
                            class="subject-block"
                            v-for="(element, index) in subjects" :key="index">
-                    <span>{{element.name}}</span>
+                    <span>{{element.title}}</span>
                 </md-layout>
             </draggable>
         </md-layout>
@@ -30,7 +30,7 @@
                             <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div>
                             <div class="subject-name  md-align-center md-vertical-align-center">
                                 <div class="md-flex-90">
-                                {{ element.name }}
+                                {{ element.title }}
                                 </div>
                                 <div class="md-flex-10" @click="removeSubject(day1, index)">
                                     <md-icon class="text-danger">delete</md-icon>
@@ -53,7 +53,7 @@
                             <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div>
                             <div class="subject-name  md-align-center md-vertical-align-center">
                                 <div class="md-flex-90">
-                                    {{ element.name }}
+                                    {{ element.title }}
                                 </div>
                                 <div class="md-flex-10" @click="removeSubject(day2, index)">
                                     <md-icon class="text-danger">delete</md-icon>
@@ -76,7 +76,7 @@
                             <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div>
                             <div class="subject-name  md-align-center md-vertical-align-center">
                                 <div class="md-flex-90">
-                                    {{ element.name }}
+                                    {{ element.title }}
                                 </div>
                                 <div class="md-flex-10" @click="removeSubject(day3, index)">
                                     <md-icon class="text-danger">delete</md-icon>
@@ -99,7 +99,7 @@
                             <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div>
                             <div class="subject-name  md-align-center md-vertical-align-center">
                                 <div class="md-flex-90">
-                                    {{ element.name }}
+                                    {{ element.title }}
                                 </div>
                                 <div class="md-flex-10" @click="removeSubject(day4, index)">
                                     <md-icon class="text-danger">delete</md-icon>
@@ -122,7 +122,7 @@
                             <div class="lesson-number  md-align-center md-vertical-align-center">{{index + 1}}</div>
                             <div class="subject-name  md-align-center md-vertical-align-center">
                                 <div class="md-flex-90">
-                                    {{ element.name }}
+                                    {{ element.title }}
                                 </div>
                                 <div class="md-flex-10" @click="removeSubject(day5, index)">
                                     <md-icon class="text-danger">delete</md-icon>
@@ -137,7 +137,7 @@
         <div class="normal">
             <h2>Пример вывода для студентов</h2>
             <div>
-                <div v-for="element in day1">{{element.name}}</div>
+                <div v-for="element in day1">{{element.title}}</div>
             </div>
         </div>
     </md-layout>
@@ -150,53 +150,50 @@
         components: {
             draggable,
         },
+        props: ['faculty', 'course'],
         data() {
             return {
-                subjects: [{
-                    name: "Об'єктно орієнтоване програмування"
-                }, {
-                    name: "Операційні системи"
-                }, {
-                    name: "Веб дизайн"
-                },{
-                    name: "-"
-                }],
+                subjects: [],
                 day1: [{
-                    name: "Об'єктно орієнтоване програмування"
+                    title: "Об'єктно орієнтоване програмування"
                 }, {
-                    name: "Операційні системи"
+                    title: "Операційні системи"
                 }, {
-                    name: "Веб дизайн"
+                    title: "Веб дизайн"
                 }],
                 day2: [{
-                    name: "Об'єктно орієнтоване програмування"
+                    title: "Об'єктно орієнтоване програмування"
                 }, {
-                    name: "Операційні системи"
+                    title: "Операційні системи"
                 }, {
-                    name: "Веб дизайн"
+                    title: "Веб дизайн"
                 }],
                 day3: [{
-                    name: "Об'єктно орієнтоване програмування"
+                    title: "Об'єктно орієнтоване програмування"
                 }, {
-                    name: "Операційні системи"
+                    title: "Операційні системи"
                 }, {
-                    name: "Веб дизайн"
+                    title: "Веб дизайн"
                 }],
                 day4: [{
-                    name: "Об'єктно орієнтоване програмування"
+                    title: "Об'єктно орієнтоване програмування"
                 }, {
-                    name: "Операційні системи"
+                    title: "Операційні системи"
                 }, {
-                    name: "Веб дизайн"
+                    title: "Веб дизайн"
                 }],
                 day5: [{
-                    name: "Об'єктно орієнтоване програмування"
+                    title: "Об'єктно орієнтоване програмування"
                 }, {
-                    name: "Операційні системи"
+                    title: "Операційні системи"
                 }, {
-                    name: "Веб дизайн"
+                    title: "Веб дизайн"
                 }],
             }
+        },
+        mounted(){
+            axios.get('/api/subjects/faculty/' + this.faculty + '/course/' + this.course)
+                .then(response => this.subjects = response.data);
         },
         methods: {
             click: function(item) {
@@ -209,7 +206,7 @@
             },
             clone: function(el){
                 return {
-                    name: el.name
+                    title: el.title
                 };
             },
             replace: function() {

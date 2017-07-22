@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
-    public function user()
+    public function users()
     {
         $this->hasMany(User::class);
     }
