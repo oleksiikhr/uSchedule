@@ -27,7 +27,6 @@
   display: flex;
   margin-right: 20px;
   flex-direction: column;
-  color: #333;
   @include media-down(sm) {
     flex-direction: column;
     width: 100%;

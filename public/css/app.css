@@ -8355,7 +8355,6 @@ img.md-icon {
 
 body {
   background: url(https://www.toptal.com/designers/subtlepatterns/patterns/memphis-colorful.png);
-  color: #d6d6d6;
 }
 
 .container {
@@ -8411,7 +8410,6 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  color: #333;
 }
 
 @media (max-width: 767px) {
@@ -8443,7 +8441,6 @@ body {
 
 #auth_form {
   background: #fff;
-  color: #333;
   max-width: 450px;
   margin: 40px auto;
   padding: 30px;
