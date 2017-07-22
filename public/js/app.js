@@ -40548,53 +40548,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: {
         draggable: __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default.a
     },
+    props: ['faculty', 'course'],
     data: function data() {
         return {
-            subjects: [{
-                name: "Об'єктно орієнтоване програмування"
-            }, {
-                name: "Операційні системи"
-            }, {
-                name: "Веб дизайн"
-            }, {
-                name: "-"
-            }],
+            subjects: [],
             day1: [{
-                name: "Об'єктно орієнтоване програмування"
+                title: "Об'єктно орієнтоване програмування"
             }, {
-                name: "Операційні системи"
+                title: "Операційні системи"
             }, {
-                name: "Веб дизайн"
+                title: "Веб дизайн"
             }],
             day2: [{
-                name: "Об'єктно орієнтоване програмування"
+                title: "Об'єктно орієнтоване програмування"
             }, {
-                name: "Операційні системи"
+                title: "Операційні системи"
             }, {
-                name: "Веб дизайн"
+                title: "Веб дизайн"
             }],
             day3: [{
-                name: "Об'єктно орієнтоване програмування"
+                title: "Об'єктно орієнтоване програмування"
             }, {
-                name: "Операційні системи"
+                title: "Операційні системи"
             }, {
-                name: "Веб дизайн"
+                title: "Веб дизайн"
             }],
             day4: [{
-                name: "Об'єктно орієнтоване програмування"
+                title: "Об'єктно орієнтоване програмування"
             }, {
-                name: "Операційні системи"
+                title: "Операційні системи"
             }, {
-                name: "Веб дизайн"
+                title: "Веб дизайн"
             }],
             day5: [{
-                name: "Об'єктно орієнтоване програмування"
+                title: "Об'єктно орієнтоване програмування"
             }, {
-                name: "Операційні системи"
+                title: "Операційні системи"
             }, {
-                name: "Веб дизайн"
+                title: "Веб дизайн"
             }]
         };
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('/api/subjects/faculty/' + this.faculty + '/course/' + this.course).then(function (response) {
+            return _this.subjects = response.data;
+        });
     },
 
     methods: {
@@ -40608,7 +40608,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         clone: function clone(el) {
             return {
-                name: el.name
+                title: el.title
             };
         },
         replace: function replace() {
@@ -42541,7 +42541,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "md-align": "center",
         "md-vertical-align": "center"
       }
-    }, [_c('span', [_vm._v(_vm._s(element.name))])])
+    }, [_c('span', [_vm._v(_vm._s(element.title))])])
   }))], 1), _vm._v(" "), _c('md-layout', {
     staticClass: "schedule-column",
     attrs: {
@@ -42573,7 +42573,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "subject-name  md-align-center md-vertical-align-center"
     }, [_c('div', {
       staticClass: "md-flex-90"
-    }, [_vm._v("\n                            " + _vm._s(element.name) + "\n                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                            " + _vm._s(element.title) + "\n                            ")]), _vm._v(" "), _c('div', {
       staticClass: "md-flex-10",
       on: {
         "click": function($event) {
@@ -42614,7 +42614,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "subject-name  md-align-center md-vertical-align-center"
     }, [_c('div', {
       staticClass: "md-flex-90"
-    }, [_vm._v("\n                                " + _vm._s(element.name) + "\n                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                " + _vm._s(element.title) + "\n                            ")]), _vm._v(" "), _c('div', {
       staticClass: "md-flex-10",
       on: {
         "click": function($event) {
@@ -42655,7 +42655,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "subject-name  md-align-center md-vertical-align-center"
     }, [_c('div', {
       staticClass: "md-flex-90"
-    }, [_vm._v("\n                                " + _vm._s(element.name) + "\n                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                " + _vm._s(element.title) + "\n                            ")]), _vm._v(" "), _c('div', {
       staticClass: "md-flex-10",
       on: {
         "click": function($event) {
@@ -42696,7 +42696,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "subject-name  md-align-center md-vertical-align-center"
     }, [_c('div', {
       staticClass: "md-flex-90"
-    }, [_vm._v("\n                                " + _vm._s(element.name) + "\n                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                " + _vm._s(element.title) + "\n                            ")]), _vm._v(" "), _c('div', {
       staticClass: "md-flex-10",
       on: {
         "click": function($event) {
@@ -42737,7 +42737,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "subject-name  md-align-center md-vertical-align-center"
     }, [_c('div', {
       staticClass: "md-flex-90"
-    }, [_vm._v("\n                                " + _vm._s(element.name) + "\n                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                " + _vm._s(element.title) + "\n                            ")]), _vm._v(" "), _c('div', {
       staticClass: "md-flex-10",
       on: {
         "click": function($event) {
@@ -42750,7 +42750,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }))], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "normal"
   }, [_c('h2', [_vm._v("Пример вывода для студентов")]), _vm._v(" "), _c('div', _vm._l((_vm.day1), function(element) {
-    return _c('div', [_vm._v(_vm._s(element.name))])
+    return _c('div', [_vm._v(_vm._s(element.title))])
   }))])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true

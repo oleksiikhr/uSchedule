@@ -1,20 +1,27 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Schedule;
+use App\Faculty;
+use App\Http\Controllers\Controller;
+use App\Subject;
 use Illuminate\Http\Request;
 
-class ScheduleController extends Controller
+class SubjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($faculty, $course)
     {
-        //
+        /* Проверяем или существует такой факультет */
+        Faculty::findOrFail($faculty);
+
+        $subjects = Subject::where('faculty_id', $faculty)->where('course', $course)->get();
+
+        return $subjects;
     }
 
     /**
@@ -57,11 +64,7 @@ class ScheduleController extends Controller
      */
     public function edit($id)
     {
-        $schedule = Schedule::findOrFail($id);
-
-        return view('schedule.edit', [
-            'schedule' => $schedule
-        ]);
+        //
     }
 
     /**
