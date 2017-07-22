@@ -15,8 +15,8 @@ Vue.use(VueMaterial);
 Vue.material.registerTheme({
     default: {
         primary: {
-            color: 'blue',
-            hue: '600'
+            color: 'teal',
+            hue: '700'
         },
         accent: 'red',
     },

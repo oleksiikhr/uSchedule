@@ -4,7 +4,7 @@
             <md-layout md-flex="100">
                 <h1>Предмети</h1>
             </md-layout>
-            <draggable :list="subjects" class="md-layout" :clone="clone" :options="{group:{ name:'days',  pull:'clone', put:false }}">
+            <draggable :list="subjects" class="md-layout" :clone="clone" :options="{group:{ name:'days', pull:'clone', put:false }}">
                 <md-layout md-flex="10"
                            md-flex-xsmall="100"
                            md-flex-medium="20"

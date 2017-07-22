@@ -8353,13 +8353,24 @@ img.md-icon {
  * |
  */
 
+body {
+  background: url(https://www.toptal.com/designers/subtlepatterns/patterns/memphis-colorful.png);
+  color: #d6d6d6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
 .home-block {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
 }
 
-@media (max-width: 575px) {
+@media (max-width: 767px) {
   .home-block {
     -webkit-box-flex: 0;
         -ms-flex: 0 1 100%;
@@ -8367,64 +8378,52 @@ img.md-icon {
   }
 }
 
-.main-title {
-  font-size: 18px;
+.home-title {
+  font-size: 15px;
   padding-top: 2px;
 }
 
-.main-select {
+.home-select,
+.home-news {
+  width: 100%;
+  background: #fff;
+  padding: 10px;
+}
+
+.home-select > h2,
+.home-news > h2 {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 20px;
+  color: #00796b;
+}
+
+.home-select {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  margin-right: 20px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  padding: 10px;
-  margin-top: 20px;
-  background: #fff;
+  color: #333;
 }
 
-@media (max-width: 575px) {
-  .main-select {
+@media (max-width: 767px) {
+  .home-select {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
     width: 100%;
-    margin-top: 0;
+    margin: 0 0 20px;
   }
 }
 
-.main-select .main-select-block {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-@media (max-width: 575px) {
-  .main-select .main-select-block {
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-  }
-}
-
-.main-select .md-input-container {
-  margin: 4px 10px 24px !important;
-}
-
-.main-select .button-container {
-  padding: 10px 0 0;
-}
-
-.main-btn {
+.home-btn {
   margin: 0 auto 10px auto;
-}
-
-@media (max-width: 575px) {
-  .main-btn {
-    width: 100%;
-  }
+  width: 100%;
 }
 
 .text-center {
@@ -8433,6 +8432,7 @@ img.md-icon {
 
 #auth_form {
   background: #fff;
+  color: #333;
   max-width: 450px;
   margin: 40px auto;
   padding: 30px;
@@ -8446,6 +8446,7 @@ img.md-icon {
 }
 
 #auth_form > h1 {
+  color: #00796b;
   text-align: center;
   margin: 10px 0;
   text-transform: uppercase;

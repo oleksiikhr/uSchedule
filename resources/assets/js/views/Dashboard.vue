@@ -1,10 +1,9 @@
 <template>
     <md-layout md-align="center">
-        <md-layout md-flex="50" class="home-block">
-
-            <md-whiteframe class="main-select" md-elevation="2">
-                <h2 class="text-center">Пошук розкладу</h2>
-                <div class="main-select-block">
+        <md-layout md-flex="30" class="home-block">
+            <md-whiteframe class="home-select" md-elevation="2">
+                <h2>Пошук розкладу</h2>
+                <div class="home-select-block">
                     <md-input-container>
                         <label for="degree">Освітній ступінь</label>
                         <md-select name="degree" id="degree" v-model="degree" @change="changeGroups">
@@ -22,7 +21,7 @@
                     </md-input-container>
                 </div>
 
-                <div class="main-select-block">
+                <div class="home-select-block">
                     <md-input-container>
                         <label for="faculty">Факультет</label>
                         <md-select name="faculty" id="faculty" v-model="faculty">
@@ -50,9 +49,14 @@
                     </md-input-container>
                 </div>
                 <div class="button-container text-center">
-                    <md-button class="md-raised md-primary main-btn">Відкрити</md-button>
+                    <md-button class="md-raised md-primary home-btn">Відкрити</md-button>
                 </div>
+            </md-whiteframe>
+        </md-layout>
 
+        <md-layout md-flex="70" class="home-block">
+            <md-whiteframe class="home-news" md-elevation="2">
+                <h2>Новини</h2>
             </md-whiteframe>
         </md-layout>
     </md-layout>

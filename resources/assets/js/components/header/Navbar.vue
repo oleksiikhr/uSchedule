@@ -1,6 +1,6 @@
 <template>
     <md-theme v-once>
-        <md-toolbar>
+        <md-toolbar class="md-dense">
             <md-button class="md-icon-button" @click="toggleLeftSidenav">
                 <md-icon>menu</md-icon>
             </md-button>

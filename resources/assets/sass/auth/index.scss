@@ -1,5 +1,6 @@
 #auth_form {
   background: #fff;
+  color: #333;
   max-width: 450px;
   margin: 40px auto;
   padding: 30px;
@@ -9,6 +10,7 @@
   }
 
   > h1 {
+    color: $main-color;
     text-align: center;
     margin: 10px 0;
     text-transform: uppercase;
