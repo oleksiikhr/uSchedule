@@ -1,5 +1,15 @@
+* {
+  &:focus {
+    outline: none;
+  }
+}
+
 body {
   background: url(https://www.toptal.com/designers/subtlepatterns/patterns/memphis-colorful.png);
+}
+
+#app {
+  position: relative;
 }
 
 .container {
@@ -10,4 +20,8 @@ body {
 
 .text-center {
   text-align: center;
+}
+
+.back-main {
+  background: $main-color;
 }

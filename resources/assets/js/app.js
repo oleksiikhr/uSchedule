@@ -20,6 +20,17 @@ Vue.material.registerTheme({
         },
         accent: 'red',
     },
+    block: {
+        primary: {
+            color: 'teal',
+            hue: '700'
+        },
+        accent: 'white',
+        background: {
+            color: 'teal',
+            hue: '700'
+        },
+    }
 });
 
 /**

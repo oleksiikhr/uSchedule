@@ -5,7 +5,7 @@
                 <md-icon>menu</md-icon>
             </md-button>
 
-            <md-button class="main-title" href="/">Розклад КНТЕУ</md-button>
+            <md-button href="/">Розклад КНТЕУ</md-button>
             <span style="flex: 1"></span>
 
             <template v-if="empty">

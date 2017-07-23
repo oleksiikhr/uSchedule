@@ -16,7 +16,7 @@ class SubjectController extends Controller
      */
     public function index($faculty, $course)
     {
-        /* Проверяем или существует такой факультет */
+        /* Проверяем, существует ли такой факультет */
         Faculty::findOrFail($faculty);
 
         $subjects = Subject::where('faculty_id', $faculty)->where('course', $course)->get();
