@@ -1,11 +1,15 @@
 .edit-template {
-  margin: 0 auto;
+  min-height: calc(100% - 48px);
+}
+
+.left-column {
+  background: $main-color;
 }
 
 .right-column {
   background: #fff;
-  padding-left: 20px;
-  border: 2px solid $main-color;
+  padding: 10px 20px;
+  border-left: 0;
 }
 
 .subjects {
@@ -50,10 +54,10 @@
 
 .md-list-item.subject-block {
   cursor: move;
-  border-bottom: 1px solid #e2e2e2;
-  &:last-child {
-    border-bottom: 0;
-  }
+}
+
+.subject-block.sortable-chosen {
+  // TODO: block is moving
 }
 
 .list-subject-item {
