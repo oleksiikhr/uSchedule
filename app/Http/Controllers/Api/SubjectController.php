@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Faculty;
-use App\Http\Controllers\Controller;
 use App\Subject;
 use Illuminate\Http\Request;
+use App\Http\Requests\ShowSubject;
+use App\Http\Controllers\Controller;
 
 class SubjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param ShowSubject $request
+     *
+     * @return array
      */
-    public function index($faculty, $course)
+    public function index(ShowSubject $request)
     {
-        /* Проверяем, существует ли такой факультет */
-        Faculty::findOrFail($faculty);
-
-        $subjects = Subject::where('faculty_id', $faculty)->where('course', $course)->get();
+        $subjects = Subject::where('faculty_id', $request->faculty)
+            ->where('course', $request->course)
+            ->get();
 
         return $subjects;
     }
@@ -49,6 +50,7 @@ class SubjectController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -60,6 +62,7 @@ class SubjectController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -72,6 +75,7 @@ class SubjectController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -83,6 +87,7 @@ class SubjectController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

@@ -56,11 +56,9 @@
 
 <script>
     import draggable from 'vuedraggable'
-    import MdList from "../../../../../node_modules/vue-material/src/components/mdList/mdList.vue";
 
     export default{
         components: {
-            MdList,
             draggable,
         },
 
@@ -82,8 +80,14 @@
         },
 
         mounted() {
-            axios.get('/api/subjects/faculty/' + this.faculty + '/course/' + this.course)
-                .then(response => this.subjects = response.data);
+            axios.get('/api/subjects.get', {
+                params: {
+                    faculty: this.faculty,
+                    course: this.course
+                }
+            })
+                .then(response => this.subjects = response.data)
+                .catch(error => console.log('Error:' + this.error));
         },
 
         methods: {
