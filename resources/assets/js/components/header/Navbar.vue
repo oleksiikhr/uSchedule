@@ -29,7 +29,7 @@
                     <md-list-item href="/">
                         <md-icon>home</md-icon> <span>Головна сторінка</span>
                     </md-list-item>
-                    <md-list-item v-if="u.group_id" :href="'/group' + u.group_id">
+                    <md-list-item v-if="u.group_id" :href="'/group/' + u.group_id">
                         <md-icon>schedule</md-icon> <span>Розклад групи</span>
                     </md-list-item>
                     <md-list-item href="/news">

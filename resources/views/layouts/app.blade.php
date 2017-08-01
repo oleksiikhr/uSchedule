@@ -10,7 +10,7 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="@yield('body-classes')">
 
     <div id="app">
         <navbar user="{{ Auth::check() ? json_encode(Auth::user()) : 'empty' }}"
