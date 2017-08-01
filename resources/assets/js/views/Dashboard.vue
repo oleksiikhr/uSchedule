@@ -71,9 +71,8 @@
                faculty: 'foais',
                course: 1,
                groups: 1,
-               countGroups: 10,
-               countCourses: 4,
-
+               countGroups: 15,
+               countCourses: 5,
            }
         },
 
@@ -83,7 +82,7 @@
                     this.countCourses = 2;
                     this.course = (this.course > 2) ? 1 : this.course;
                 } else {
-                    this.countCourses = 4;
+                    this.countCourses = 5;
                 }
             }
         },

@@ -1,5 +1,5 @@
 <template>
-    <md-theme v-once>
+    <md-theme>
         <md-toolbar class="md-dense">
             <md-button class="md-icon-button" @click="toggleLeftSidenav">
                 <md-icon>menu</md-icon>
@@ -13,35 +13,84 @@
                 <md-button href="/register" class="md-raised">Реєстрація</md-button>
             </template>
             <template v-else>
-                <!--TODO: ..-->
-                <md-button class="md-raised">Add</md-button>
-                <md-button class="md-raised md-warn">Remove</md-button>
+                <md-button v-if="u.group_id" class="md-raised" :href="'/group/' + u.group_id">Розклад</md-button>
             </template>
         </md-toolbar>
 
         <md-theme>
-            <md-sidenav class="md-left" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
-                <md-toolbar class="md-large">
+            <md-sidenav class="md-left" ref="leftSidenav">
+                <md-toolbar>
                     <div class="md-toolbar-container">
-                        <h3 class="md-title">Sidenav content</h3>
+                        <h3 class="md-title">Профіль</h3>
                     </div>
                 </md-toolbar>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt ut est fugit, tempora deleniti, eligendi commodi doloribus. Nemo, assumenda possimus, impedit inventore perferendis iusto!</p>
+                <md-list>
+                    <md-list-item href="/">
+                        <md-icon>home</md-icon> <span>Головна сторінка</span>
+                    </md-list-item>
+                    <md-list-item v-if="u.group_id" :href="'/group' + u.group_id">
+                        <md-icon>schedule</md-icon> <span>Розклад групи</span>
+                    </md-list-item>
+                    <md-list-item href="/news">
+                        <md-icon>description</md-icon> <span>Новини</span>
+                    </md-list-item>
+                    <md-list-item v-if="!empty" href="/settings">
+                        <md-icon>settings</md-icon> <span>Налаштування</span>
+                    </md-list-item>
+
+                    <br>
+
+                    <!--TODO: isCan-->
+                    <md-list-item href="/news/create">
+                        <md-icon>add</md-icon> <span>Написати новину</span>
+                    </md-list-item>
+
+                    <!--TODO: isCan-->
+                    <md-list-item :href="'/schedule/' + u.group_id + '/edit'">
+                        <md-icon>edit</md-icon> <span>Відредагувати розклад</span>
+                    </md-list-item>
+                </md-list>
+
+                <md-toolbar>
+                    <div class="md-toolbar-container">
+                        <h3 class="md-title">Дзвінки</h3>
+                    </div>
+                </md-toolbar>
+
+                <md-table>
+                    <md-table-header>
+                        <md-table-row>
+                            <md-table-head>Пара</md-table-head>
+                            <md-table-head>Початок</md-table-head>
+                            <md-table-head>Кінець</md-table-head>
+                        </md-table-row>
+                    </md-table-header>
+                    <md-table-body>
+                        <md-table-row v-for="(item, i) in t.length" :key="i">
+                            <md-table-cell>{{ i + 1 }}</md-table-cell>
+                            <md-table-cell>{{ t[i][0] }}</md-table-cell>
+                            <md-table-cell>{{ t[i][1] }}</md-table-cell>
+                        </md-table-row>
+                    </md-table-body>
+                </md-table>
             </md-sidenav>
         </md-theme>
     </md-theme>
 </template>
 
 <script>
+//    TODO: add Moment.js
+
     export default {
         props: [
-            'user',
+            'user', 'time',
         ],
 
         data () {
             return {
                 u: null,
+                t: null,
                 empty: false,
             }
         },
@@ -53,20 +102,13 @@
             }
 
             this.u = JSON.parse(this.user);
-
-            console.log(this.u);
+            this.t = JSON.parse(this.time);
         },
 
         methods: {
             toggleLeftSidenav() {
                 this.$refs.leftSidenav.toggle();
             },
-            open(ref) {
-//                console.log('Opened: ' + ref);
-            },
-            close(ref) {
-//                console.log('Closed: ' + ref);
-            }
         },
     }
 </script>

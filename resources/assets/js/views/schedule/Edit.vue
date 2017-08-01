@@ -57,6 +57,8 @@
 <script>
     import draggable from 'vuedraggable'
 
+//    TODO: http://leafo.net/sticky-kit/
+
     export default{
         components: {
             draggable,
@@ -99,7 +101,7 @@
                     name: 'Juan'
                 });
             },
-            clone: function(el){
+            clone: function(el) {
                 return {
                     title: el.title
                 };
@@ -110,7 +112,7 @@
                 }]
             },
             removeSubject: function(list, index) {
-                list.splice(index,1);
+                list.splice(index, 1);
             }
         }
     }
