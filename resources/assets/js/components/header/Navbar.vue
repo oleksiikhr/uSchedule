@@ -13,7 +13,7 @@
                 <md-button href="/register" class="md-raised">Реєстрація</md-button>
             </template>
             <template v-else>
-                <md-button v-if="u.group_id" class="md-raised" :href="'/group/' + u.group_id">Розклад</md-button>
+                <md-button v-if="!empty && u.group_id" class="md-raised" :href="'/group/' + u.group_id">Розклад</md-button>
             </template>
         </md-toolbar>
 
@@ -29,7 +29,7 @@
                     <md-list-item href="/">
                         <md-icon>home</md-icon> <span>Головна сторінка</span>
                     </md-list-item>
-                    <md-list-item v-if="u.group_id" :href="'/group/' + u.group_id">
+                    <md-list-item v-if="!empty && u.group_id" :href="'/group/' + u.group_id">
                         <md-icon>schedule</md-icon> <span>Розклад групи</span>
                     </md-list-item>
                     <md-list-item href="/news">
@@ -47,7 +47,7 @@
                     </md-list-item>
 
                     <!--TODO: isCan-->
-                    <md-list-item :href="'/schedule/' + u.group_id + '/edit'">
+                    <md-list-item v-if="!empty && u.group_id" :href="'/schedule/' + u.group_id + '/edit'">
                         <md-icon>edit</md-icon> <span>Відредагувати розклад</span>
                     </md-list-item>
                 </md-list>
@@ -58,7 +58,7 @@
                     </div>
                 </md-toolbar>
 
-                <md-table>
+                <md-table v-if="t">
                     <md-table-header>
                         <md-table-row>
                             <md-table-head>Пара</md-table-head>
