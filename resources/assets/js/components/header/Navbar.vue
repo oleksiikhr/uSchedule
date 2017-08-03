@@ -39,17 +39,19 @@
                         <md-icon>settings</md-icon> <span>Налаштування</span>
                     </md-list-item>
 
-                    <br>
+                    <template v-if="!empty">
+                        <br>
 
-                    <!--TODO: isCan-->
-                    <md-list-item href="/news/create">
-                        <md-icon>add</md-icon> <span>Написати новину</span>
-                    </md-list-item>
+                        <!--TODO: isCan-->
+                        <md-list-item href="/news/create">
+                            <md-icon>add</md-icon> <span>Написати новину</span>
+                        </md-list-item>
 
-                    <!--TODO: isCan-->
-                    <md-list-item v-if="!empty && u.group_id" :href="'/schedule/' + u.group_id + '/edit'">
-                        <md-icon>edit</md-icon> <span>Відредагувати розклад</span>
-                    </md-list-item>
+                        <!--TODO: isCan-->
+                        <md-list-item v-if="u.group_id" :href="'/schedule/' + u.group_id + '/edit'">
+                            <md-icon>edit</md-icon> <span>Відредагувати розклад</span>
+                        </md-list-item>
+                    </template>
                 </md-list>
 
                 <md-toolbar>
@@ -96,13 +98,14 @@
         },
 
         created () {
+            this.t = JSON.parse(this.time);
+
             if (this.user === 'empty') {
                 this.empty = true;
                 return;
             }
 
             this.u = JSON.parse(this.user);
-            this.t = JSON.parse(this.time);
         },
 
         methods: {

@@ -1,41 +1,34 @@
 <template>
     <md-layout class="edit-template">
-        <md-theme md-name="block">
-            <md-layout class="left-column">
+        <!--<md-theme md-name="block">-->
+            <md-layout md-flex="25" class="left-column">
                 <div class="subjects phone-viewport">
                     <md-tabs md-fixed>
                         <md-tab md-icon="book">
-                            <md-list class="md-dense">
+                            <md-list class="md-dense no-padding">
                                 <!--TODO: Skip block-->
                                 <draggable :list="subjects" :clone="clone" :options="{group:{ name:'days', pull:'clone', put:false }}">
                                     <md-list-item class="subject-block" v-for="(element, index) in subjects" :key="index">
-                                        <span>{{element.title}}</span>
+                                        <span :title="element.title">{{ element.title }}</span>
                                     </md-list-item>
                                 </draggable>
                             </md-list>
                         </md-tab>
 
                         <md-tab md-icon="people">
-                            <p style="color: rgba(255, 255, 255, .87);">Преподователь1</p>
-                            <p style="color: rgba(255, 255, 255, .87);">Преподователь2</p>
+                            <p style="color: #333;">Преподователь1</p>
+                            <p style="color: #333">Преподователь2</p>
                         </md-tab>
                     </md-tabs>
                 </div>
             </md-layout>
-        </md-theme>
+        <!--</md-theme>-->
 
         <md-layout md-flex="75" class="right-column">
             <div class="schedule">
 
                 <div class="schedule-column">
                     <h3>Понеділок</h3>
-
-                    <span>Пара</span>
-                    <span>Предмет</span>
-                    <span>Викладач</span>
-                    <span>Видалення</span>
-
-                    <!--TODO: if empty => not working-->
                     <draggable :list="day1" class="dragArea" :options="{group:'days'}">
                         <div v-for="(element, index) in day1" :key="index" class="subject-block list-subject-item">
                             {{index + 1}}
