@@ -37,7 +37,7 @@
                 <div class="schedule-column">
                     <h3>Понеділок</h3>
                     <draggable :list="day1" class="dragArea" :options="{group:'days'}">
-                        <div v-for="(element, index) in day1" :key="index" class="subject-block list-subject-item">
+                        <div v-for="(element, index) in day1" :key="element.id" class="subject-block list-subject-item">
                             {{ index + 1 }}
                             {{ element.title }}
                             <a @click="removeSubject(day1, index)">

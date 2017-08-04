@@ -13,12 +13,12 @@ class CreateTeachersTable extends Migration
      */
     public function up()
     {
-//        TODO: титул
         Schema::create('teachers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');
+            $table->string('academic_title')->nullable();
             $table->timestamps();
         });
     }
