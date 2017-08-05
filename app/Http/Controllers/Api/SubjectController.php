@@ -18,7 +18,8 @@ class SubjectController extends Controller
      */
     public function index(ShowSubject $request)
     {
-        $subjects = Subject::where('faculty_id', $request->faculty)
+        $subjects = Subject::with('teacher')
+            ->where('faculty_id', $request->faculty)
             ->where('course', $request->course)
             ->get();
 

@@ -17,6 +17,11 @@
                                 <md-list-item :title="element.title" class="subject-block"
                                               v-for="(element, index) in filterSubjects(subjects, searchSubject)" :key="element.id">
                                     <span>{{ element.title }}</span>
+                                    <span>
+                                        {{ element.teacher.middle_name +
+                                        element.teacher.first_name + ' ' +
+                                        element.teacher.last_name }}
+                                    </span>
                                 </md-list-item>
                             </draggable>
                         </md-list>
@@ -38,11 +43,22 @@
                     <h3>Понеділок</h3>
                     <draggable :list="day1" class="dragArea" :options="{group:'days'}">
                         <div v-for="(element, index) in day1" :key="element.id" class="subject-block list-subject-item">
-                            {{ index + 1 }}
-                            {{ element.title }}
-                            <a @click="removeSubject(day1, index)">
-                                <md-icon class="text-danger">delete</md-icon>
-                            </a>
+                            <div>
+                                <span>
+                                    {{ index + 1 }}
+                                    {{ element.title }}<br>
+                                    {{ element.teacher.middle_name +
+                                    element.teacher.first_name + ' ' +
+                                    element.teacher.last_name }}
+                                    <a @click="removeSubject(day1, index)">
+                                        <md-icon class="text-danger">delete</md-icon>
+                                    </a>
+                                </span>
+                            </div>
+                            <div class="switcher-block">
+                                <md-radio v-model="element.type" md-value="1" class="md-primary">Лекція</md-radio>
+                                <md-radio v-model="element.type" md-value="2" class="md-primary">Практика</md-radio>
+                            </div>
                         </div>
                     </draggable>
                 </div>
@@ -70,12 +86,37 @@
                 subjects: [],
                 teachers: [],
                 searchSubject: null,
+                /*
+                *
+                * Types:
+                * 1 - лекция
+                * 2 - практика
+                *
+                * */
                 day1: [{
-                    title: "Об'єктно-орієнтоване програмування"
+                    title: "Об'єктно-орієнтоване програмування",
+                    type: 1,
+                    teacher: {
+                        middle_name: 'Ms.',
+                        first_name: 'Daenerys',
+                        last_name: 'Targaryen'
+                    }
                 }, {
-                    title: "Операційні системи"
+                    title: "Операційні системи",
+                    type: 2,
+                    teacher: {
+                        middle_name: 'Mr.',
+                        first_name: 'John',
+                        last_name: 'Snow'
+                    }
                 }, {
-                    title: "Веб-дизайн"
+                    title: "Веб-дизайн",
+                    type: 1,
+                    teacher: {
+                        middle_name: 'Ms.',
+                        first_name: 'Sansa',
+                        last_name: 'Stark'
+                    }
                 }],
             }
         },
@@ -104,7 +145,9 @@
             },
             clone(el) {
                 return {
-                    title: el.title
+                    title: el.title,
+                    type: 1,
+                    teacher: el.teacher
                 };
             },
             replace() {
