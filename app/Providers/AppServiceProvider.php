@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        $config = Config::select('value')->where('key', '=', 'time')->first();
+        $config = Config::select('value')->where('name', '=', 'time')->first();
         view()->share('time', json_encode(unserialize($config->value)));
     }
 

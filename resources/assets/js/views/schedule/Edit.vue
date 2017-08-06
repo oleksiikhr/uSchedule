@@ -1,36 +1,38 @@
 <template>
+    <!--TODO: оформление не трогать, я обновлю-->
     <md-layout class="edit-template">
         <md-layout md-flex="25" class="left-column">
             <div class="subjects phone-viewport">
                 <md-tabs md-fixed>
                     <md-tab md-icon="book">
-                        <md-list class="md-dense no-padding">
-                            <form novalidate @submit.stop.prevent="submit">
-                                <md-input-container>
-                                    <label>Пошук предмету</label>
-                                    <md-input v-model="searchSubject"></md-input>
-                                </md-input-container>
-                            </form>
-                            <!--TODO: Add empty block-->
-                            <draggable :list="filterSubjects(subjects, searchSubject)" :clone="clone"
-                                       :options="{group:{ name:'days', pull:'clone', put:false }}">
-                                <md-list-item :title="element.title" class="subject-block"
-                                              v-for="(element, index) in filterSubjects(subjects, searchSubject)" :key="element.id">
-                                    <span>{{ element.title }}</span>
-                                    <span>
-                                        {{ element.teacher.middle_name +
-                                        element.teacher.first_name + ' ' +
-                                        element.teacher.last_name }}
-                                    </span>
-                                </md-list-item>
-                            </draggable>
-                        </md-list>
+                        <form novalidate @submit.stop.prevent="submit">
+                            <md-input-container>
+                                <label>Пошук предмету</label>
+                                <md-input v-model="searchSubject"></md-input>
+                            </md-input-container>
+                        </form>
+                        <draggable :list="subjects" :clone="clone" class="draggable"
+                                   :options="{group:{ name:'days', pull:'clone', put:false }}">
+                            <div :title="subject.title" class="subject-block"
+                                 v-for="subject in filterSubjects" :key="subject.id">
+                                <span>{{ subject.title }}</span>
+                            </div>
+                        </draggable>
                     </md-tab>
 
                     <md-tab md-icon="people">
-                        <!--TODO: add draggable-->
-                        <p style="color: #333;">Преподователь1</p>
-                        <p style="color: #333">Преподователь2</p>
+                        <form novalidate @submit.stop.prevent="submit">
+                            <md-input-container>
+                                <label>Пошук викладача</label>
+                                <md-input v-model="searchTeacher"></md-input>
+                            </md-input-container>
+                        </form>
+                        <draggable :list="teachers" class="draggable" :options="{group: 'teachers'}">
+                            <div :title="teacher.first_name + ' ' + teacher.middle_name + ' ' + teacher.last_name"
+                                 class="teacher-block" v-for="teacher in filterTeachers" :key="teacher.id">
+                                <span>{{ teacher.first_name + ' ' + teacher.middle_name + ' ' + teacher.last_name }}</span>
+                            </div>
+                        </draggable>
                     </md-tab>
                 </md-tabs>
             </div>
@@ -41,7 +43,7 @@
 
                 <div class="schedule-column">
                     <h3>Понеділок</h3>
-                    <draggable :list="day1" class="dragArea" :options="{group:'days'}">
+                    <draggable :list="day1" class="dragArea" :options="{ group:'days' }">
                         <div v-for="(element, index) in day1" :key="element.id" class="subject-block list-subject-item">
                             <div>
                                 <span>
@@ -62,11 +64,16 @@
                                 <md-radio v-model="element.type" md-value="1" class="md-primary">Лекція</md-radio>
                                 <md-radio v-model="element.type" md-value="2" class="md-primary">Практика</md-radio>
                             </div>
+                            <draggable :options="{ group: 'teachers' }">
+                                <!--TODO: For teachers-->
+                            </draggable>
+
+                            <!--TODO: Add footer btn - empty block-->
                         </div>
                     </draggable>
                 </div>
 
-                <!--TODO list -> day2, day3, day4, day5, day6-->
+            <!--TODO list -> day2, day3, day4, day5, day6-->
             </div>
         </md-layout>
     </md-layout>
@@ -88,7 +95,8 @@
             return {
                 subjects: [],
                 teachers: [],
-                searchSubject: null,
+                searchSubject: '',
+                searchTeacher: '',
                 /*
                 *
                 * Types:
@@ -128,7 +136,14 @@
         },
 
         mounted() {
-//            TODO: /api/teachers.get
+            // Temporary! For tests get all data.
+            axios.get('/api/teachers.get', {
+                params: {
+
+                }
+            })
+                .then(response => this.teachers = response.data)
+                .catch(error => console.log('Error: ' + this.error));
 
             axios.get('/api/subjects.get', {
                 params: {
@@ -138,6 +153,45 @@
             })
                 .then(response => this.subjects = response.data)
                 .catch(error => console.log('Error: ' + this.error));
+        },
+
+        computed: {
+            filterSubjects() {
+                let subjects = this.subjects,
+                    search = this.searchSubject;
+
+                if (! search) {
+                    return subjects;
+                }
+
+                search = search.toLowerCase();
+
+                subjects = subjects.filter(function(item) {
+                    if (item.title.toLowerCase().indexOf(search) !== -1) {
+                        return item;
+                    }
+                });
+
+                return subjects;
+            },
+            filterTeachers() {
+                let teachers = this.teachers,
+                    search = this.searchTeacher;
+
+                if (! search) {
+                    return teachers;
+                }
+
+                search = search.toLowerCase();
+
+                teachers = teachers.filter(function(item) {
+                    if ((item.first_name + ' ' + item.middle_name + ' ' + item.last_name).toLowerCase().indexOf(search) !== -1) {
+                        return item;
+                    }
+                });
+
+                return teachers;
+            },
         },
 
         methods: {
@@ -168,24 +222,6 @@
             },
             removeSubject(list, index) {
                 list.splice(index, 1);
-            },
-            filterSubjects(items, find) {
-                let arr = items,
-                    search = find;
-
-                if (! search) {
-                    return arr;
-                }
-
-                search = search.toLowerCase();
-
-                arr = arr.filter(function(item) {
-                    if (item.title.toLowerCase().indexOf(search) !== -1) {
-                        return item;
-                    }
-                });
-
-                return arr;
             },
         },
     }
