@@ -73,7 +73,11 @@
   }
 
   .dragArea {
-      border: 1px solid #eaeaea;
+    border: 1px solid #eaeaea;
+
+    i {
+      cursor: pointer;
+    }
 
     .subject-block {
       display: flex;

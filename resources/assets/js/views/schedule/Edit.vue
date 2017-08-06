@@ -46,12 +46,15 @@
                             <div>
                                 <span>
                                     {{ index + 1 }}
-                                    {{ element.title }}<br>
+                                    {{ element.title + ' ' + element.cabinet }}<br>
                                     {{ element.teacher.middle_name +
                                     element.teacher.first_name + ' ' +
                                     element.teacher.last_name }}
                                     <a @click="removeSubject(day1, index)">
                                         <md-icon class="text-danger">delete</md-icon>
+                                    </a>
+                                    <a @click="addCabinet(element)">
+                                        <md-icon class="md-primary">domain</md-icon>
                                     </a>
                                 </span>
                             </div>
@@ -96,6 +99,7 @@
                 day1: [{
                     title: "Об'єктно-орієнтоване програмування",
                     type: 1,
+                    cabinet: '',
                     teacher: {
                         middle_name: 'Ms.',
                         first_name: 'Daenerys',
@@ -104,6 +108,7 @@
                 }, {
                     title: "Операційні системи",
                     type: 2,
+                    cabinet: '',
                     teacher: {
                         middle_name: 'Mr.',
                         first_name: 'John',
@@ -112,6 +117,7 @@
                 }, {
                     title: "Веб-дизайн",
                     type: 1,
+                    cabinet: '',
                     teacher: {
                         middle_name: 'Ms.',
                         first_name: 'Sansa',
@@ -147,8 +153,13 @@
                 return {
                     title: el.title,
                     type: 1,
-                    teacher: el.teacher
+                    teacher: el.teacher,
+                    cabinet: ''
                 };
+            },
+            addCabinet(el){
+                let cabinet = prompt('Введіть номер кабінету');
+                el.cabinet = cabinet;
             },
             replace() {
                 this.list = [{
