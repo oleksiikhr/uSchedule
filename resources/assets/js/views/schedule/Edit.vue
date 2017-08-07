@@ -1,5 +1,4 @@
 <template>
-    <!--TODO: оформление не трогать-->
     <md-layout class="edit-template">
         <md-layout md-flex="25" class="left-column">
             <div class="subjects phone-viewport">
@@ -42,30 +41,13 @@
             <div class="schedule">
                 <div class="schedule-column">
                     <h3>Понеділок</h3>
-                    <draggable v-model="day1" class="dragArea" :options="{group: 'subjects'}">
-                        <div v-for="(subject, index) in day1" :key="subject.id" class="subject-block">
-                            <div>
-                                <span>
-                                    {{ subject.title + ' ' + subject.cabinet }}
-                                    <a @click="removeSubject(day1, index)">
-                                        <md-icon class="text-danger">delete</md-icon>
-                                    </a>
-                                    <a @click="addRoom(subject)">
-                                        <md-icon class="md-primary">domain</md-icon>
-                                    </a>
-                                </span>
-                            </div>
-                            <div class="switcher-block">
-                                <md-radio v-model="subject.type" md-value="1" class="md-primary">Лекція</md-radio>
-                                <md-radio v-model="subject.type" md-value="2" class="md-primary">Практика</md-radio>
-                            </div>
 
-                            <!--TODO: Add footer btn - empty block-->
-                        </div>
+                    <!--TODO: doesn't work-->
+                    <draggable v-for="day in 6" :key="day" v-model="scheduleDays[day - 1]" :options="{group: 'subjects'}">
+                        {{ scheduleDays[day - 1] }}
                     </draggable>
-                </div>
 
-            <!--TODO list -> day2, day3, day4, day5, day6, day7-->
+                </div>
             </div>
         </md-layout>
     </md-layout>
@@ -80,78 +62,28 @@
         },
 
         props: [
-            'faculty', 'course', 'inScheduleDays',
+            'inSchedule', 'inScheduleDays', 'inTeachers', 'inSubjects',
         ],
 
         created() {
             this.scheduleDays = JSON.parse(this.inScheduleDays);
+            this.schedule = JSON.parse(this.inSchedule);
+            this.subjects = JSON.parse(this.inSubjects);
+            this.teachers = JSON.parse(this.inTeachers);
 
             console.log(this.scheduleDays);
         },
 
         data() {
             return {
+                schedule: [],
+                scheduleDays: [],
                 subjects: [],
                 teachers: [],
-                scheduleDays: [],
+
                 searchSubject: '',
                 searchTeacher: '',
-                /*
-                *
-                * Types:
-                * 1 - лекция
-                * 2 - практика
-                *
-                * */
-                day1: [{
-                    title: "Об'єктно-орієнтоване програмування",
-                    type: 1,
-                    cabinet: '',
-                    teacher: {
-                        middle_name: 'Ms.',
-                        first_name: 'Daenerys',
-                        last_name: 'Targaryen'
-                    }
-                }, /*{
-                    title: "Операційні системи",
-                    type: 2,
-                    cabinet: '',
-                    teacher: {
-                        middle_name: 'Mr.',
-                        first_name: 'John',
-                        last_name: 'Snow'
-                    }
-                }, {
-                    title: "Веб-дизайн",
-                    type: 1,
-                    cabinet: '',
-                    teacher: {
-                        middle_name: 'Ms.',
-                        first_name: 'Sansa',
-                        last_name: 'Stark'
-                    }
-                }*/],
             }
-        },
-
-        mounted() {
-            // Temporary! For tests get all data.
-            axios.get('/api/teachers.get', {
-                params: {
-
-                }
-            })
-                .then(response => this.teachers = response.data)
-                .catch(error => console.log('Error: ' + this.error));
-
-            axios.get('/api/subjects.get', {
-                params: {
-                    faculty: this.faculty,
-                    course: this.course
-                }
-            })
-                .then(response => this.subjects = response.data)
-                .catch(error => console.log('Error: ' + this.error));
         },
 
         computed: {
@@ -165,9 +97,9 @@
 
                 search = search.toLowerCase();
 
-                subjects = subjects.filter(function(item) {
-                    if (item.title.toLowerCase().indexOf(search) !== -1) {
-                        return item;
+                subjects = subjects.filter(subject => {
+                    if (subject.title.toLowerCase().indexOf(search) !== -1) {
+                        return subject;
                     }
                 });
 
@@ -183,9 +115,9 @@
 
                 search = search.toLowerCase();
 
-                teachers = teachers.filter(item => {
-                    if ((item.first_name + ' ' + item.middle_name + ' ' + item.last_name).toLowerCase().indexOf(search) !== -1) {
-                        return item;
+                teachers = teachers.filter(teacher => {
+                    if (this.fullNameTeacher(teacher).toLowerCase().indexOf(search) !== -1) {
+                        return teacher;
                     }
                 });
 
@@ -195,6 +127,7 @@
 
         methods: {
             clone(el) {
+                console.log(this.scheduleDays); // TODO: Temporary
                 return {
                     title: el.title,
                     type: 1,
