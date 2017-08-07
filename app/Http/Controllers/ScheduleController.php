@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Schedule;
+use App\ScheduleDay;
 use Illuminate\Http\Request;
 
-class ScheduleController extends Controller
+class ScheduleController extends WebController
 {
     /**
      * Display a listing of the resource.
@@ -58,9 +59,11 @@ class ScheduleController extends Controller
     public function edit($id)
     {
         $schedule = Schedule::findOrFail($id);
+        $scheduleDays = ScheduleDay::with('schedule', 'subject')->get();
 
         return view('schedule.edit', [
-            'schedule' => $schedule
+            'schedule'     => $schedule,
+            'scheduleDays' => $scheduleDays,
         ]);
     }
 

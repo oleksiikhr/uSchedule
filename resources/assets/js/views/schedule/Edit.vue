@@ -1,5 +1,5 @@
 <template>
-    <!--TODO: оформление не трогать, я обновлю-->
+    <!--TODO: оформление не трогать-->
     <md-layout class="edit-template">
         <md-layout md-flex="25" class="left-column">
             <div class="subjects phone-viewport">
@@ -11,8 +11,8 @@
                                 <md-input v-model="searchSubject"></md-input>
                             </md-input-container>
                         </form>
-                        <draggable :list="subjects" :clone="clone" class="draggable"
-                                   :options="{group:{ name:'days', pull:'clone', put:false }}">
+                        <draggable v-model="subjects" :clone="clone" class="draggable"
+                                   :options="{group: {name: 'subjects', pull: 'clone'}, sort: false}">
                             <div :title="subject.title" class="subject-block"
                                  v-for="subject in filterSubjects" :key="subject.id">
                                 <span>{{ subject.title }}</span>
@@ -27,10 +27,10 @@
                                 <md-input v-model="searchTeacher"></md-input>
                             </md-input-container>
                         </form>
-                        <draggable :list="teachers" class="draggable" :options="{group: 'teachers'}">
-                            <div :title="teacher.first_name + ' ' + teacher.middle_name + ' ' + teacher.last_name"
-                                 class="teacher-block" v-for="teacher in filterTeachers" :key="teacher.id">
-                                <span>{{ teacher.first_name + ' ' + teacher.middle_name + ' ' + teacher.last_name }}</span>
+                        <draggable v-model="teachers" class="draggable" :options="{group: 'teachers', sort: false}">
+                            <div :title="fullNameTeacher(teacher)" class="teacher-block"
+                                 v-for="teacher in filterTeachers" :key="teacher.id">
+                                <span>{{ fullNameTeacher(teacher) }}</span>
                             </div>
                         </draggable>
                     </md-tab>
@@ -40,40 +40,32 @@
 
         <md-layout md-flex="75" class="right-column">
             <div class="schedule">
-
                 <div class="schedule-column">
                     <h3>Понеділок</h3>
-                    <draggable :list="day1" class="dragArea" :options="{ group:'days' }">
-                        <div v-for="(element, index) in day1" :key="element.id" class="subject-block list-subject-item">
+                    <draggable v-model="day1" class="dragArea" :options="{group: 'subjects'}">
+                        <div v-for="(subject, index) in day1" :key="subject.id" class="subject-block">
                             <div>
                                 <span>
-                                    {{ index + 1 }}
-                                    {{ element.title + ' ' + element.cabinet }}<br>
-                                    {{ element.teacher.middle_name +
-                                    element.teacher.first_name + ' ' +
-                                    element.teacher.last_name }}
+                                    {{ subject.title + ' ' + subject.cabinet }}
                                     <a @click="removeSubject(day1, index)">
                                         <md-icon class="text-danger">delete</md-icon>
                                     </a>
-                                    <a @click="addCabinet(element)">
+                                    <a @click="addRoom(subject)">
                                         <md-icon class="md-primary">domain</md-icon>
                                     </a>
                                 </span>
                             </div>
                             <div class="switcher-block">
-                                <md-radio v-model="element.type" md-value="1" class="md-primary">Лекція</md-radio>
-                                <md-radio v-model="element.type" md-value="2" class="md-primary">Практика</md-radio>
+                                <md-radio v-model="subject.type" md-value="1" class="md-primary">Лекція</md-radio>
+                                <md-radio v-model="subject.type" md-value="2" class="md-primary">Практика</md-radio>
                             </div>
-                            <draggable :options="{ group: 'teachers' }">
-                                <!--TODO: For teachers-->
-                            </draggable>
 
                             <!--TODO: Add footer btn - empty block-->
                         </div>
                     </draggable>
                 </div>
 
-            <!--TODO list -> day2, day3, day4, day5, day6-->
+            <!--TODO list -> day2, day3, day4, day5, day6, day7-->
             </div>
         </md-layout>
     </md-layout>
@@ -88,13 +80,20 @@
         },
 
         props: [
-            'faculty', 'course',
+            'faculty', 'course', 'inScheduleDays',
         ],
+
+        created() {
+            this.scheduleDays = JSON.parse(this.inScheduleDays);
+
+            console.log(this.scheduleDays);
+        },
 
         data() {
             return {
                 subjects: [],
                 teachers: [],
+                scheduleDays: [],
                 searchSubject: '',
                 searchTeacher: '',
                 /*
@@ -113,7 +112,7 @@
                         first_name: 'Daenerys',
                         last_name: 'Targaryen'
                     }
-                }, {
+                }, /*{
                     title: "Операційні системи",
                     type: 2,
                     cabinet: '',
@@ -131,7 +130,7 @@
                         first_name: 'Sansa',
                         last_name: 'Stark'
                     }
-                }],
+                }*/],
             }
         },
 
@@ -184,7 +183,7 @@
 
                 search = search.toLowerCase();
 
-                teachers = teachers.filter(function(item) {
+                teachers = teachers.filter(item => {
                     if ((item.first_name + ' ' + item.middle_name + ' ' + item.last_name).toLowerCase().indexOf(search) !== -1) {
                         return item;
                     }
@@ -195,14 +194,6 @@
         },
 
         methods: {
-            click(item) {
-                item.name="IT GETS CLONED";
-            },
-            add() {
-                this.list.push({
-                    name: 'Juan'
-                });
-            },
             clone(el) {
                 return {
                     title: el.title,
@@ -211,17 +202,14 @@
                     cabinet: ''
                 };
             },
-            addCabinet(el){
-                let cabinet = prompt('Введіть номер кабінету');
-                el.cabinet = cabinet;
-            },
-            replace() {
-                this.list = [{
-                    name: 'Edgard'
-                }]
+            addRoom(el) {
+                el.cabinet = prompt('Введіть номер кабінету');
             },
             removeSubject(list, index) {
                 list.splice(index, 1);
+            },
+            fullNameTeacher(teacher) {
+                return teacher.first_name + ' ' + teacher.middle_name + ' ' + teacher.last_name;
             },
         },
     }

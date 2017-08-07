@@ -16,9 +16,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-
-        $config = Config::select('value')->where('name', '=', 'time')->first();
-        view()->share('time', json_encode(unserialize($config->value)));
     }
 
     /**

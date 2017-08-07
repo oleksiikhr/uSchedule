@@ -85,6 +85,7 @@
       font-size: 16px;
       margin: 10px;
       cursor: move;
+      border-bottom: 1px solid #000;
 
       .switcher-block{
         text-align: center;
@@ -134,10 +135,6 @@
 
 .subject-block.sortable-chosen {
   // TODO: block is moving
-}
-
-.list-subject-item {
-  transition: all 1s;
 }
 
 .list-subject-enter, .list-subject-leave-active {
