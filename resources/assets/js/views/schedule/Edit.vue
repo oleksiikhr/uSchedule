@@ -40,12 +40,18 @@
         <md-layout md-flex="75" class="right-column">
             <div class="schedule">
                 <div class="schedule-column">
-                    <h3>Понеділок</h3>
 
-                    <!--TODO: doesn't work-->
-                    <draggable v-for="day in 6" :key="day" v-model="scheduleDays[day - 1]" :options="{group: 'subjects'}">
-                        {{ scheduleDays[day - 1] }}
-                    </draggable>
+                    <div :class="'week week-'+week" v-for="week in 2">
+                        <div :class="'day day-'+day" v-for="day in 6">
+                            <h3>{{ weeks[day - 1] }}</h3>
+                            <draggable v-model="scheduleDays" :options="{group:'subjects'}">
+                                <div v-if="schedule.week == week && schedule.day == day"
+                                     v-for="schedule in scheduleDays" :key="schedule.id">
+                                    {{ schedule }}
+                                </div>
+                            </draggable>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -70,8 +76,6 @@
             this.schedule = JSON.parse(this.inSchedule);
             this.subjects = JSON.parse(this.inSubjects);
             this.teachers = JSON.parse(this.inTeachers);
-
-            console.log(this.scheduleDays);
         },
 
         data() {
@@ -80,6 +84,8 @@
                 scheduleDays: [],
                 subjects: [],
                 teachers: [],
+
+                weeks: ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'П\'ятниця', 'Субота'],
 
                 searchSubject: '',
                 searchTeacher: '',
@@ -127,13 +133,20 @@
 
         methods: {
             clone(el) {
-                console.log(this.scheduleDays); // TODO: Temporary
-                return {
-                    title: el.title,
-                    type: 1,
-                    teacher: el.teacher,
-                    cabinet: ''
-                };
+                // TODO: Temporary
+                console.log(el);
+                console.log(this.scheduleDays);
+
+                // Worked!
+                // Нужно узнать индекс элемента..
+                this.scheduleDays[0].subject = el;
+
+//                return {
+//                    title: el.title,
+//                    type: 1,
+//                    teacher: el.teacher,
+//                    cabinet: ''
+//                };
             },
             addRoom(el) {
                 el.cabinet = prompt('Введіть номер кабінету');
@@ -142,7 +155,7 @@
                 list.splice(index, 1);
             },
             fullNameTeacher(teacher) {
-                return teacher.first_name + ' ' + teacher.middle_name + ' ' + teacher.last_name;
+                return teacher.last_name + ' ' + teacher.first_name + ' ' + teacher.middle_name;
             },
         },
     }

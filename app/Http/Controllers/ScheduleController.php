@@ -62,13 +62,19 @@ class ScheduleController extends WebController
     {
         $schedule = Schedule::findOrFail($id);
 
+        $scheduleDays = ScheduleDay::with('schedule', 'subject')
+            ->orderBy('week')
+            ->orderBy('day')
+            ->orderBy('order')
+            ->get();
+
         $subjects = Subject::orderBy('title')
             ->where('faculty_id', $schedule->faculty_id)
             ->where('course', $schedule->course)
             ->get();
 
         return view('schedule.edit', [
-            'scheduleDays' => ScheduleDay::with('schedule', 'subject')->get(),
+            'scheduleDays' => $scheduleDays,
             'schedule'     => $schedule,
             'teachers'     => Teacher::get(), // TODO: Temporary get all teachers
             'subjects'     => $subjects,
