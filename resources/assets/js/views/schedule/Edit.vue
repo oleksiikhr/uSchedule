@@ -1,5 +1,4 @@
 <template>
-    <!--TODO: оформление не трогать-->
     <md-layout class="edit-template">
         <md-layout md-flex="25" class="left-column">
             <div class="subjects phone-viewport">
@@ -40,6 +39,7 @@
 
         <md-layout md-flex="75" class="right-column">
             <div class="schedule">
+<<<<<<< HEAD
                 <div class="schedule-column" v-for="(day, dayNum) in days" :key="dayNum">
                     <h3>{{ getDayByIndex(dayNum) }}</h3>
                     <draggable  :list="days[dayNum]" class="dragArea" :options="{group:'days'}">
@@ -60,11 +60,27 @@
                             <!--<md-radio v-model="element.type" md-value="1" class="md-primary">Лекція</md-radio>-->
                             <!--<md-radio v-model="element.type" md-value="2" class="md-primary">Практика</md-radio>-->
                             <!--</div>-->
-                        </div>
-                    </draggable>
-                </div>
+=======
+                <div class="schedule-column">
 
+                    <div :class="'week week-'+week" v-for="week in 2">
+                        <div :class="'day day-'+day" v-for="day in 6">
+                            <h3>{{ weeks[day - 1] }}</h3>
+                            <draggable v-model="scheduleDays" :options="{group:'subjects'}">
+                                <div v-if="schedule.week == week && schedule.day == day"
+                                     v-for="schedule in scheduleDays" :key="schedule.id">
+                                    {{ schedule }}
+                                </div>
+                            </draggable>
+>>>>>>> 79871f8992390eb4dd04ff69cb466bd66c6502ce
+                        </div>
+                    </div>
+
+<<<<<<< HEAD
                 <!--TODO list -> day2, day3, day4, day5, day6-->
+=======
+                </div>
+>>>>>>> 79871f8992390eb4dd04ff69cb466bd66c6502ce
             </div>
         </md-layout>
     </md-layout>
@@ -79,21 +95,32 @@
         },
 
         props: [
-            'faculty', 'course', 'inScheduleDays',
+            'inSchedule', 'inScheduleDays', 'inTeachers', 'inSubjects',
         ],
 
         created() {
             this.scheduleDays = JSON.parse(this.inScheduleDays);
+<<<<<<< HEAD
             console.log(this.scheduleDays);
+=======
+            this.schedule = JSON.parse(this.inSchedule);
+            this.subjects = JSON.parse(this.inSubjects);
+            this.teachers = JSON.parse(this.inTeachers);
+>>>>>>> 79871f8992390eb4dd04ff69cb466bd66c6502ce
         },
 
         data() {
             return {
+                schedule: [],
+                scheduleDays: [],
                 subjects: [],
                 teachers: [],
-                scheduleDays: [],
+
+                weeks: ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'П\'ятниця', 'Субота'],
+
                 searchSubject: '',
                 searchTeacher: '',
+<<<<<<< HEAD
                 configArr: [{
                     days: ['day1', 'day2', 'day3', 'day4', 'day5', 'day6',],
                     dayName: ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'Пятниця', 'Субота']
@@ -172,6 +199,11 @@
                 .catch(error => console.log('Error: ' + this.error));
         },
 
+=======
+            }
+        },
+
+>>>>>>> 79871f8992390eb4dd04ff69cb466bd66c6502ce
         computed: {
             filterSubjects() {
                 let subjects = this.subjects,
@@ -183,9 +215,9 @@
 
                 search = search.toLowerCase();
 
-                subjects = subjects.filter(function(item) {
-                    if (item.title.toLowerCase().indexOf(search) !== -1) {
-                        return item;
+                subjects = subjects.filter(subject => {
+                    if (subject.title.toLowerCase().indexOf(search) !== -1) {
+                        return subject;
                     }
                 });
 
@@ -201,9 +233,9 @@
 
                 search = search.toLowerCase();
 
-                teachers = teachers.filter(item => {
-                    if ((item.first_name + ' ' + item.middle_name + ' ' + item.last_name).toLowerCase().indexOf(search) !== -1) {
-                        return item;
+                teachers = teachers.filter(teacher => {
+                    if (this.fullNameTeacher(teacher).toLowerCase().indexOf(search) !== -1) {
+                        return teacher;
                     }
                 });
 
@@ -213,6 +245,7 @@
 
         methods: {
             clone(el) {
+<<<<<<< HEAD
                 return {
                     id: el.id,
                     room: '',
@@ -224,6 +257,16 @@
                         title: el.title,
                     }
                 };
+=======
+                // TODO: Temporary
+                console.log(el);
+                console.log(this.scheduleDays);
+
+                // Worked!
+                // Нужно узнать индекс элемента..
+                this.scheduleDays[0].subject = el;
+
+>>>>>>> 79871f8992390eb4dd04ff69cb466bd66c6502ce
 //                return {
 //                    title: el.title,
 //                    type: 1,
@@ -238,7 +281,7 @@
                 list.splice(index, 1);
             },
             fullNameTeacher(teacher) {
-                return teacher.first_name + ' ' + teacher.middle_name + ' ' + teacher.last_name;
+                return teacher.last_name + ' ' + teacher.first_name + ' ' + teacher.middle_name;
             },
             getDayByIndex(index){
                 switch (index) {

@@ -6,9 +6,10 @@
 
 @section('content')
 
-    <edit faculty="{{ $schedule->faculty_id }}"
-          course="{{ $schedule->course }}"
-          in-schedule-days="{{ $scheduleDays }}"
+    <edit in-schedule-days="{{ json_encode($scheduleDays) }}"
+          in-schedule="{{ json_encode($schedule) }}"
+          in-teachers="{{ json_encode($teachers) }}"
+          in-subjects="{{ json_encode($subjects) }}"
     ></edit>
 
 @endsection

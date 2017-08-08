@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Subject;
+use App\Teacher;
 use App\Schedule;
 use App\ScheduleDay;
 use Illuminate\Http\Request;
@@ -59,11 +61,23 @@ class ScheduleController extends WebController
     public function edit($id)
     {
         $schedule = Schedule::findOrFail($id);
-        $scheduleDays = ScheduleDay::with('schedule', 'subject')->get();
+
+        $scheduleDays = ScheduleDay::with('schedule', 'subject')
+            ->orderBy('week')
+            ->orderBy('day')
+            ->orderBy('order')
+            ->get();
+
+        $subjects = Subject::orderBy('title')
+            ->where('faculty_id', $schedule->faculty_id)
+            ->where('course', $schedule->course)
+            ->get();
 
         return view('schedule.edit', [
-            'schedule'     => $schedule,
             'scheduleDays' => $scheduleDays,
+            'schedule'     => $schedule,
+            'teachers'     => Teacher::get(), // TODO: Temporary get all teachers
+            'subjects'     => $subjects,
         ]);
     }
 
