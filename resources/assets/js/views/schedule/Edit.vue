@@ -79,11 +79,13 @@
         },
 
         props: [
-            'faculty', 'course', 'inScheduleDays',
+            'faculty', 'course', 'inScheduleDays', 'inSubjects', 'inTeachers'
         ],
 
         created() {
             this.scheduleDays = JSON.parse(this.inScheduleDays);
+            this.subjects = JSON.parse(this.inSubjects);
+            this.teachers = JSON.parse(this.inTeachers);
             console.log(this.scheduleDays);
         },
 
@@ -141,31 +143,11 @@
                     }
                 }
             }
-
             for(let a = 0; a < this.days.length; a++){
                 for(let j = 0; j < this.days[a].length; j++){
                     console.log(this.days[a][j].day);
                 }
             }
-            //console.log(this.days);
-
-            // Temporary! For tests get all data.
-            axios.get('/api/teachers.get', {
-                params: {
-
-                }
-            })
-                .then(response => this.teachers = response.data)
-                .catch(error => console.log('Error: ' + this.error));
-
-            axios.get('/api/subjects.get', {
-                params: {
-                    faculty: this.faculty,
-                    course: this.course
-                }
-            })
-                .then(response => this.subjects = response.data)
-                .catch(error => console.log('Error: ' + this.error));
         },
 
         computed: {
