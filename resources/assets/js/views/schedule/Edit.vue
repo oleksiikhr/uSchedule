@@ -12,7 +12,7 @@
                             </md-input-container>
                         </form>
                         <draggable v-model="subjects" :clone="clone" class="draggable"
-                                   :options="{group: {name: 'subjects', pull: 'clone'}, sort: false}">
+                                   :options="{group: {name: 'days', pull: 'clone', put: false}, sort: false}">
                             <div :title="subject.title" class="subject-block"
                                  v-for="subject in filterSubjects" :key="subject.id">
                                 <span>{{ subject.title }}</span>
@@ -40,32 +40,31 @@
 
         <md-layout md-flex="75" class="right-column">
             <div class="schedule">
-                <div class="schedule-column">
-                    <h3>Понеділок</h3>
-                    <draggable v-model="day1" class="dragArea" :options="{group: 'subjects'}">
-                        <div v-for="(subject, index) in day1" :key="subject.id" class="subject-block">
+                <div class="schedule-column" v-for="(day, dayNum) in days" :key="dayNum">
+                    <h3>{{ getDayByIndex(dayNum) }}</h3>
+                    <draggable  :list="days[dayNum]" class="dragArea" :options="{group:'days'}">
+                        <div v-for="(element, index) in day" :key="index" class="subject-block list-subject-item">
                             <div>
                                 <span>
-                                    {{ subject.title + ' ' + subject.cabinet }}
-                                    <a @click="removeSubject(day1, index)">
+                                    {{ index + 1 }}
+                                    {{ element.subject.title + ' ' + element.room}}<br>
+                                    <a @click="removeSubject(days[dayNum], index)">
                                         <md-icon class="text-danger">delete</md-icon>
                                     </a>
-                                    <a @click="addRoom(subject)">
+                                    <a @click="addRoom(element)">
                                         <md-icon class="md-primary">domain</md-icon>
                                     </a>
                                 </span>
                             </div>
-                            <div class="switcher-block">
-                                <md-radio v-model="subject.type" md-value="1" class="md-primary">Лекція</md-radio>
-                                <md-radio v-model="subject.type" md-value="2" class="md-primary">Практика</md-radio>
-                            </div>
-
-                            <!--TODO: Add footer btn - empty block-->
+                            <!--<div class="switcher-block">-->
+                            <!--<md-radio v-model="element.type" md-value="1" class="md-primary">Лекція</md-radio>-->
+                            <!--<md-radio v-model="element.type" md-value="2" class="md-primary">Практика</md-radio>-->
+                            <!--</div>-->
                         </div>
                     </draggable>
                 </div>
 
-            <!--TODO list -> day2, day3, day4, day5, day6, day7-->
+                <!--TODO list -> day2, day3, day4, day5, day6-->
             </div>
         </md-layout>
     </md-layout>
@@ -85,7 +84,6 @@
 
         created() {
             this.scheduleDays = JSON.parse(this.inScheduleDays);
-
             console.log(this.scheduleDays);
         },
 
@@ -96,6 +94,10 @@
                 scheduleDays: [],
                 searchSubject: '',
                 searchTeacher: '',
+                configArr: [{
+                    days: ['day1', 'day2', 'day3', 'day4', 'day5', 'day6',],
+                    dayName: ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'Пятниця', 'Субота']
+                }],
                 /*
                 *
                 * Types:
@@ -131,10 +133,26 @@
                         last_name: 'Stark'
                     }
                 }*/],
+                days: [[],[],[],[],[],[]]
             }
         },
 
         mounted() {
+            for(let i = 0; i < this.scheduleDays.length; i++){
+                for(let day = 0; day < 6; day++) {
+                    if (this.scheduleDays[i].day === day) {
+                        this.days[day].push(this.scheduleDays[i]);
+                    }
+                }
+            }
+
+            for(let a = 0; a < this.days.length; a++){
+                for(let j = 0; j < this.days[a].length; j++){
+                    console.log(this.days[a][j].day);
+                }
+            }
+            //console.log(this.days);
+
             // Temporary! For tests get all data.
             axios.get('/api/teachers.get', {
                 params: {
@@ -196,14 +214,25 @@
         methods: {
             clone(el) {
                 return {
-                    title: el.title,
-                    type: 1,
-                    teacher: el.teacher,
-                    cabinet: ''
+                    id: el.id,
+                    room: '',
+                    subject:{
+                    course: el.course,
+                        faculty_id: el.faculty_id,
+                        id: el.id,
+                        teacher_id: el.teacher_id,
+                        title: el.title,
+                    }
                 };
+//                return {
+//                    title: el.title,
+//                    type: 1,
+//                    teacher: el.teacher,
+//                    cabinet: ''
+//                };
             },
             addRoom(el) {
-                el.cabinet = prompt('Введіть номер кабінету');
+                el.room = prompt('Введіть номер кабінету');
             },
             removeSubject(list, index) {
                 list.splice(index, 1);
@@ -211,6 +240,28 @@
             fullNameTeacher(teacher) {
                 return teacher.first_name + ' ' + teacher.middle_name + ' ' + teacher.last_name;
             },
+            getDayByIndex(index){
+                switch (index) {
+                    case 0:
+                        return 'Понеділок';
+                        break;
+                    case 1:
+                        return 'Вівторок';
+                        break;
+                    case 2:
+                        return 'Середа';
+                        break;
+                    case 3:
+                        return 'Четверг';
+                        break;
+                    case 4:
+                        return 'П\'ятниця';
+                        break;
+                    case 5:
+                        return 'Субота';
+                        break;
+                }
+            }
         },
     }
 </script>
