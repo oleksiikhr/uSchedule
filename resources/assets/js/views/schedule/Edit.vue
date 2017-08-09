@@ -11,7 +11,7 @@
                             </md-input-container>
                         </form>
                         <draggable v-model="subjects" :clone="clone" class="draggable"
-                                   :options="{group: {name: 'days', pull: 'clone', put: false}, sort: false}">
+                                   :options="{group: {name: 'subjects', pull: 'clone', put: false}, sort: false}">
                             <div :title="subject.title" class="subject-block"
                                  v-for="subject in filterSubjects" :key="subject.id">
                                 <span>{{ subject.title }}</span>
@@ -26,10 +26,12 @@
                                 <md-input v-model="searchTeacher"></md-input>
                             </md-input-container>
                         </form>
-                        <draggable v-model="teachers" class="draggable" :options="{group: 'teachers', sort: false}">
+                        <draggable v-model="teachers" :clone="cloneTeacher" :move="moveTeacher" @end="endTeacher" class="draggable"
+                                   :options="{group: {name: 'teachers', pull: 'clone', put: false}, sort: false}">
                             <div :title="fullNameTeacher(teacher)" class="teacher-block"
                                  v-for="teacher in filterTeachers" :key="teacher.id">
                                 <span>{{ fullNameTeacher(teacher) }}</span>
+                                <span v-if="teacher.academic_title">[{{ teacher.academic_title}}]</span>
                             </div>
                         </draggable>
                     </md-tab>
@@ -41,7 +43,7 @@
             <div class="schedule">
                 <div class="schedule-column" v-for="(day, dayNum) in days" :key="dayNum">
                     <h3>{{ daysWeek[dayNum] }}</h3>
-                    <draggable :list="days[dayNum]" class="dragArea" :options="{group:'days'}">
+                    <draggable :list="days[dayNum]" class="dragArea" :options="{group:{name: ['subjects', 'teachers']}}">
                         <div v-for="(element, index) in day" :key="element.id" class="subject-block list-subject-item">
                             <div>
                                 <span>
@@ -59,6 +61,10 @@
                             <!--<md-radio v-model="element.type" md-value="1" class="md-primary">Лекція</md-radio>-->
                             <!--<md-radio v-model="element.type" md-value="2" class="md-primary">Практика</md-radio>-->
                             <!--</div>-->
+
+                            <template v-if="element.subject.teacher">
+                                {{ shortNameTeacher(element.subject.teacher) }}
+                            </template>
                         </div>
                     </draggable>
                 </div>
@@ -96,6 +102,9 @@
                 searchSubject: '',
                 searchTeacher: '',
 
+                fromTeacherId: null,
+                toTeacherId: null,
+
                 days: [[],[],[],[],[],[]],
                 daysWeek: ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'П\'ятниця', 'Субота'],
             }
@@ -109,12 +118,6 @@
                     if (this.scheduleDays[i].day === day) {
                         this.days[day].push(this.scheduleDays[i]);
                     }
-                }
-            }
-
-            for (let i = 0; i < this.days.length; i++) {
-                for (let j = 0; j < this.days[i].length; j++) {
-                    console.log(this.days[i][j].day);
                 }
             }
         },
@@ -163,13 +166,13 @@
                 return {
                     id: el.id,
                     room: '',
-                    subject:{
+                    subject: {
                         course: el.course,
                         faculty_id: el.faculty_id,
                         id: el.id,
                         teacher_id: el.teacher_id,
                         title: el.title,
-                    }
+                    },
                 };
             },
             addRoom(el) {
@@ -178,8 +181,30 @@
             removeSubject(list, index) {
                 list.splice(index, 1);
             },
+
+            // Teachers
+            cloneTeacher(el) {
+                // Maybe block left column. EndTeacher => unblock
+                this.toTeacherId = null;
+                this.fromTeacherId = el;
+            },
+            moveTeacher(evt, originalEvent) {
+                if (evt.relatedContext.element) {
+                    this.toTeacherId = evt.relatedContext.element;
+                }
+            },
+            endTeacher(el) {
+                if (this.toTeacherId) {
+                    this.toTeacherId.subject.teacher = this.fromTeacherId;
+                }
+            },
             fullNameTeacher(teacher) {
                 return teacher.last_name + ' ' + teacher.first_name + ' ' + teacher.middle_name;
+            },
+            shortNameTeacher(teacher) {
+//                TODO: find teacher_id and return "Last_name F.M."
+//                console.log(teacher.subject.teacher_id);
+                return teacher.last_name; // Temporary
             },
         },
     }
