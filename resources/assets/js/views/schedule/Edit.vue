@@ -170,8 +170,8 @@
                         course: el.course,
                         faculty_id: el.faculty_id,
                         id: el.id,
-                        teacher_id: el.teacher_id,
                         title: el.title,
+						teacher: [],
                     },
                 };
             },
