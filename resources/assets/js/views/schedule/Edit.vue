@@ -1,5 +1,4 @@
 <template>
-    <!--TODO: оформление не трогать-->
     <md-layout class="edit-template">
         <md-layout md-flex="25" class="left-column">
             <div class="subjects phone-viewport">
@@ -41,9 +40,9 @@
         <md-layout md-flex="75" class="right-column">
             <div class="schedule">
                 <div class="schedule-column" v-for="(day, dayNum) in days" :key="dayNum">
-                    <h3>{{ getDayByIndex(dayNum) }}</h3>
-                    <draggable  :list="days[dayNum]" class="dragArea" :options="{group:'days'}">
-                        <div v-for="(element, index) in day" :key="index" class="subject-block list-subject-item">
+                    <h3>{{ daysWeek[dayNum] }}</h3>
+                    <draggable :list="days[dayNum]" class="dragArea" :options="{group:'days'}">
+                        <div v-for="(element, index) in day" :key="element.id" class="subject-block list-subject-item">
                             <div>
                                 <span>
                                     {{ index + 1 }}
@@ -63,8 +62,6 @@
                         </div>
                     </draggable>
                 </div>
-
-                <!--TODO list -> day2, day3, day4, day5, day6-->
             </div>
         </md-layout>
     </md-layout>
@@ -79,73 +76,45 @@
         },
 
         props: [
-            'faculty', 'course', 'inScheduleDays', 'inSubjects', 'inTeachers'
+            'inSchedule', 'inScheduleDays', 'inSubjects', 'inTeachers'
         ],
 
         created() {
             this.scheduleDays = JSON.parse(this.inScheduleDays);
+            this.schedule = JSON.parse(this.inSchedule);
             this.subjects = JSON.parse(this.inSubjects);
             this.teachers = JSON.parse(this.inTeachers);
-            console.log(this.scheduleDays);
         },
 
         data() {
             return {
+                scheduleDays: [],
+                schedule: [],
                 subjects: [],
                 teachers: [],
-                scheduleDays: [],
+
                 searchSubject: '',
                 searchTeacher: '',
-                /*
-                 *
-                 * Types:
-                 * 1 - лекция
-                 * 2 - практика
-                 *
-                 * */
-                day1: [{
-                    title: "Об'єктно-орієнтоване програмування",
-                    type: 1,
-                    cabinet: '',
-                    teacher: {
-                        middle_name: 'Ms.',
-                        first_name: 'Daenerys',
-                        last_name: 'Targaryen'
-                    }
-                }, /*{
-                 title: "Операційні системи",
-                 type: 2,
-                 cabinet: '',
-                 teacher: {
-                 middle_name: 'Mr.',
-                 first_name: 'John',
-                 last_name: 'Snow'
-                 }
-                 }, {
-                 title: "Веб-дизайн",
-                 type: 1,
-                 cabinet: '',
-                 teacher: {
-                 middle_name: 'Ms.',
-                 first_name: 'Sansa',
-                 last_name: 'Stark'
-                 }
-                 }*/],
-                days: [[],[],[],[],[],[]]
+
+                days: [[],[],[],[],[],[]],
+                daysWeek: ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'П\'ятниця', 'Субота'],
             }
         },
 
         mounted() {
-            for(let i = 0; i < this.scheduleDays.length; i++){
-                for(let day = 0; day < 6; day++) {
+            let count = this.scheduleDays.length;
+
+            for (let i = 0; i < count; i++) {
+                for (let day = 0; day < 6; day++) {
                     if (this.scheduleDays[i].day === day) {
                         this.days[day].push(this.scheduleDays[i]);
                     }
                 }
             }
-            for(let a = 0; a < this.days.length; a++){
-                for(let j = 0; j < this.days[a].length; j++){
-                    console.log(this.days[a][j].day);
+
+            for (let i = 0; i < this.days.length; i++) {
+                for (let j = 0; j < this.days[i].length; j++) {
+                    console.log(this.days[i][j].day);
                 }
             }
         },
@@ -161,9 +130,9 @@
 
                 search = search.toLowerCase();
 
-                subjects = subjects.filter(function(item) {
-                    if (item.title.toLowerCase().indexOf(search) !== -1) {
-                        return item;
+                subjects = subjects.filter(subject => {
+                    if (subject.title.toLowerCase().indexOf(search) !== -1) {
+                        return subject;
                     }
                 });
 
@@ -179,9 +148,9 @@
 
                 search = search.toLowerCase();
 
-                teachers = teachers.filter(item => {
-                    if ((item.first_name + ' ' + item.middle_name + ' ' + item.last_name).toLowerCase().indexOf(search) !== -1) {
-                        return item;
+                teachers = teachers.filter(teacher => {
+                    if (this.fullNameTeacher(teacher).toLowerCase().indexOf(search) !== -1) {
+                        return teacher;
                     }
                 });
 
@@ -210,30 +179,8 @@
                 list.splice(index, 1);
             },
             fullNameTeacher(teacher) {
-                return teacher.first_name + ' ' + teacher.middle_name + ' ' + teacher.last_name;
+                return teacher.last_name + ' ' + teacher.first_name + ' ' + teacher.middle_name;
             },
-            getDayByIndex(index){
-                switch (index) {
-                    case 0:
-                        return 'Понеділок';
-                        break;
-                    case 1:
-                        return 'Вівторок';
-                        break;
-                    case 2:
-                        return 'Середа';
-                        break;
-                    case 3:
-                        return 'Четверг';
-                        break;
-                    case 4:
-                        return 'П\'ятниця';
-                        break;
-                    case 5:
-                        return 'Субота';
-                        break;
-                }
-            }
         },
     }
 </script>
