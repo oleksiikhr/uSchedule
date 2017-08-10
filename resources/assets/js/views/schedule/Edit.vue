@@ -49,8 +49,8 @@
             <div class="schedule">
                 <div class="schedule-column" v-for="(day, dayNum) in days" :key="dayNum">
                     <h3>{{ daysWeek[dayNum] }}</h3>
-                    <draggable :list="days[dayNum]" class="dragArea" :options="{group:{name: ['subjects', 'teachers']}}">
-                        <div v-for="(element, index) in day" :key="element.id" class="subject-block list-subject-item">
+                    <draggable :list="days[dayNum]" class="dragArea" :options="{group: 'subjects'}">
+                        <div v-for="(element, index) in day" :key="element.id">
                             <div>
                                 <span>
                                     {{ index + 1 }}
@@ -67,6 +67,9 @@
                             <!--<md-radio v-model="element.type" md-value="1" class="md-primary">Лекція</md-radio>-->
                             <!--<md-radio v-model="element.type" md-value="2" class="md-primary">Практика</md-radio>-->
                             <!--</div>-->
+                            <draggable v-if="isMoving" :options="{group: 'teachers'}">
+                                <span :index="index" :day="dayNum">For Teachers - {{ dayNum + ' ' + index }}</span> <!-- Temporary -->
+                            </draggable>
 
                             <template v-if="element.subject.teacher.id">
                                 <span :title="fullNameTeacher(element.subject.teacher)">
@@ -110,8 +113,8 @@
                 searchSubject: '',
                 searchTeacher: '',
 
-                fromTeacherId: null,
-                toTeacherId: null,
+                fromTeacher: null,
+                toElement: null,
                 isMoving: false,
                 isDelete: false,
 
@@ -130,6 +133,8 @@
                     }
                 }
             }
+
+            console.log(this.days);
         },
 
         computed: {
@@ -203,24 +208,24 @@
             // Teachers
             cloneTeacher(el) {
                 this.isMoving = true;
-                this.toTeacherId = null;
-                this.fromTeacherId = el;
+                this.toElement = null;
+                this.fromTeacher = el;
             },
             moveTeacher(evt, originalEvent) {
-                if (evt.relatedContext.element) {
+                if (! evt.related.className) {
                     this.isDelete = false;
-                    this.toTeacherId = evt.relatedContext.element;
-                } else if (!evt.relatedContext.list) {
+                    this.toElement = evt.related.attributes;
+                } else {
                     this.isDelete = true;
-                    this.toTeacherId = null;
+                    this.toElement = null;
                 }
             },
             endTeacher(el) {
                 this.isMoving = false;
 
-                if (this.toTeacherId) {
-                    this.toTeacherId.subject.teacher = this.fromTeacherId.id;
-                    this.toTeacherId.subject.teacher = this.fromTeacherId;
+                if (this.toElement) {
+                    this.days[this.toElement.day.value][this.toElement.index.value].subject.teacher = this.fromTeacher;
+                    this.days[this.toElement.day.value][this.toElement.index.value].subject.teacher_id = this.fromTeacher.id;
                 }
             },
             fullNameTeacher(teacher) {
