@@ -1,7 +1,13 @@
 <template>
     <md-layout class="edit-template">
         <md-layout md-flex="25" class="left-column">
-            <div class="subjects phone-viewport">
+            <div class="left-list phone-viewport">
+                <draggable :options="{group: {name: ['subjects', 'teachers']}}" class="delete-choose" v-if="isMoving">
+                    <md-icon :class="'md-size-4x delete' + (isDelete ? ' deleted' : '')">
+                        {{ isDelete ? 'delete_forever' : 'delete' }}
+                    </md-icon>
+                </draggable>
+
                 <md-tabs md-fixed>
                     <md-tab md-icon="book">
                         <form novalidate @submit.stop.prevent="submit">
@@ -10,12 +16,12 @@
                                 <md-input v-model="searchSubject"></md-input>
                             </md-input-container>
                         </form>
-                        <draggable v-model="subjects" :clone="clone" class="draggable"
+                        <draggable v-model="subjects" element="md-list" :clone="cloneSubject" :move="moveSubject" @end="endSubject"
                                    :options="{group: {name: 'subjects', pull: 'clone', put: false}, sort: false}">
-                            <div :title="subject.title" class="subject-block"
-                                 v-for="subject in filterSubjects" :key="subject.id">
-                                <span>{{ subject.title }}</span>
-                            </div>
+                            <md-list-item :title="subject.title" class="subject-block"
+                                          v-for="subject in filterSubjects" :key="subject.id">
+                                {{ subject.title }}
+                            </md-list-item>
                         </draggable>
                     </md-tab>
 
@@ -26,13 +32,13 @@
                                 <md-input v-model="searchTeacher"></md-input>
                             </md-input-container>
                         </form>
-                        <draggable v-model="teachers" :clone="cloneTeacher" :move="moveTeacher" @end="endTeacher" class="draggable"
+                        <draggable v-model="teachers" element="md-list" :clone="cloneTeacher" :move="moveTeacher" @end="endTeacher"
                                    :options="{group: {name: 'teachers', pull: 'clone', put: false}, sort: false}">
-                            <div :title="fullNameTeacher(teacher)" class="teacher-block"
-                                 v-for="teacher in filterTeachers" :key="teacher.id">
+                            <md-list-item :title="fullNameTeacher(teacher)" class="teacher-block"
+                                          v-for="teacher in filterTeachers" :key="teacher.id">
                                 <span>{{ fullNameTeacher(teacher) }}</span>
                                 <span v-if="teacher.academic_title">[{{ teacher.academic_title}}]</span>
-                            </div>
+                            </md-list-item>
                         </draggable>
                     </md-tab>
                 </md-tabs>
@@ -62,8 +68,10 @@
                             <!--<md-radio v-model="element.type" md-value="2" class="md-primary">Практика</md-radio>-->
                             <!--</div>-->
 
-                            <template v-if="element.subject.teacher">
-                                {{ shortNameTeacher(element.subject.teacher) }}
+                            <template v-if="element.subject.teacher.id">
+                                <span :title="fullNameTeacher(element.subject.teacher)">
+                                    {{ shortNameTeacher(element.subject.teacher) }}
+                                </span>
                             </template>
                         </div>
                     </draggable>
@@ -104,6 +112,8 @@
 
                 fromTeacherId: null,
                 toTeacherId: null,
+                isMoving: false,
+                isDelete: false,
 
                 days: [[],[],[],[],[],[]],
                 daysWeek: ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'П\'ятниця', 'Субота'],
@@ -162,18 +172,26 @@
         },
 
         methods: {
-            clone(el) {
+            cloneSubject(el) {
+                this.isMoving = true;
+
                 return {
                     id: el.id,
                     room: '',
                     subject: {
-                        course: el.course,
-                        faculty_id: el.faculty_id,
                         id: el.id,
                         title: el.title,
-						teacher: [],
+                        course: el.course,
+                        faculty_id: el.faculty_id,
+                        teacher: [],
                     },
                 };
+            },
+            moveSubject(evt, originalEvent) {
+                this.isDelete = !evt.relatedContext.list;
+            },
+            endSubject(el) {
+                this.isMoving = false;
             },
             addRoom(el) {
                 el.room = prompt('Введіть номер кабінету');
@@ -184,17 +202,24 @@
 
             // Teachers
             cloneTeacher(el) {
-                // Maybe block left column. EndTeacher => unblock
+                this.isMoving = true;
                 this.toTeacherId = null;
                 this.fromTeacherId = el;
             },
             moveTeacher(evt, originalEvent) {
                 if (evt.relatedContext.element) {
+                    this.isDelete = false;
                     this.toTeacherId = evt.relatedContext.element;
+                } else if (!evt.relatedContext.list) {
+                    this.isDelete = true;
+                    this.toTeacherId = null;
                 }
             },
             endTeacher(el) {
+                this.isMoving = false;
+
                 if (this.toTeacherId) {
+                    this.toTeacherId.subject.teacher = this.fromTeacherId.id;
                     this.toTeacherId.subject.teacher = this.fromTeacherId;
                 }
             },
@@ -202,9 +227,8 @@
                 return teacher.last_name + ' ' + teacher.first_name + ' ' + teacher.middle_name;
             },
             shortNameTeacher(teacher) {
-//                TODO: find teacher_id and return "Last_name F.M."
-//                console.log(teacher.subject.teacher_id);
-                return teacher.last_name; // Temporary
+                return teacher.last_name + ' ' + teacher.first_name.charAt(0) + '. '
+                    + teacher.middle_name.charAt(0) + '.';
             },
         },
     }

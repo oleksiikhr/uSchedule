@@ -49,12 +49,11 @@ $factory->define(App\Teacher::class, function (Faker\Generator $faker){
 
 $factory->define(App\Subject::class, function (Faker\Generator $faker){
     $faculty = \App\Faculty::inRandomOrder()->first();
-    $teacher = \App\Teacher::inRandomOrder()->first();
 
     return [
         'title' => $faker->jobTitle,
         'course' => $faker->numberBetween(1, 5),
         'faculty_id' => $faculty->id,
-        'teacher_id' => $teacher->id
+        'type' => mt_rand(1, 2)
     ];
 });

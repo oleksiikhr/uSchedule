@@ -17,8 +17,8 @@ class CreateSubjectsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->tinyInteger('course');
+            $table->tinyInteger('type');
             $table->integer('faculty_id');
-            $table->integer('teacher_id');
             $table->timestamps();
         });
     }
