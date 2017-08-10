@@ -16,7 +16,7 @@
                                 <md-input v-model="searchSubject"></md-input>
                             </md-input-container>
                         </form>
-                        <draggable v-model="subjects" element="md-list" :clone="cloneSubject" :move="moveSubject" @end="endSubject"
+                        <draggable :list="filterSubjects" element="md-list" :clone="cloneSubject" :move="moveSubject" @end="endSubject"
                                    :options="{group: {name: 'subjects', pull: 'clone', put: false}, sort: false}">
                             <md-list-item :title="subject.title" class="subject-block"
                                           v-for="subject in filterSubjects" :key="subject.id">
@@ -32,7 +32,7 @@
                                 <md-input v-model="searchTeacher"></md-input>
                             </md-input-container>
                         </form>
-                        <draggable v-model="teachers" element="md-list" :clone="cloneTeacher" :move="moveTeacher" @end="endTeacher"
+                        <draggable :list="filterTeachers" element="md-list" :clone="cloneTeacher" :move="moveTeacher" @end="endTeacher"
                                    :options="{group: {name: 'teachers', pull: 'clone', put: false}, sort: false}">
                             <md-list-item :title="fullNameTeacher(teacher)" class="teacher-block"
                                           v-for="teacher in filterTeachers" :key="teacher.id">
