@@ -47,40 +47,58 @@
 
         <md-layout md-flex="75" class="right-column">
             <div class="schedule">
-                <div class="schedule-column" v-for="(day, dayNum) in days" :key="dayNum">
-                    <h3>{{ daysWeek[dayNum] }}</h3>
-                    <draggable :list="days[dayNum]" class="dragArea" :options="{group: 'subjects'}">
-                        <div v-for="(element, index) in day" :key="element.id">
-                            <div>
-                                <span>
-                                    {{ index + 1 }}
-                                    {{ element.subject.title + ' ' + element.room}}<br>
-                                    <a @click="removeSubject(days[dayNum], index)">
-                                        <md-icon class="text-danger">delete</md-icon>
-                                    </a>
-                                    <a @click="addRoom(element)">
-                                        <md-icon class="md-primary">domain</md-icon>
-                                    </a>
-                                </span>
-                            </div>
-                            <!--<div class="switcher-block">-->
-                            <!--<md-radio v-model="element.type" md-value="1" class="md-primary">Лекція</md-radio>-->
-                            <!--<md-radio v-model="element.type" md-value="2" class="md-primary">Практика</md-radio>-->
-                            <!--</div>-->
-                            <draggable v-if="isMoving" :options="{group: 'teachers'}">
-                                <span :index="index" :day="dayNum">For Teachers - {{ dayNum + ' ' + index }}</span> <!-- Temporary -->
-                            </draggable>
+                <div class="week week-1">
+                    <div class="schedule-column" v-for="(day, dayNum) in days" :key="dayNum">
+                        <h3>{{ daysWeek[dayNum] }}</h3>
+                        <draggable :list="days[dayNum]" class="dragArea" :options="{group: 'subjects', draggable: '.draggable'}">
+                            <md-card md-with-hover v-for="(element, index) in day" :key="element.id" class="draggable">
+                                <md-card-header>
+                                    <md-card-header-text>
+                                        <div class="md-title">{{ element.subject.title }}</div>
+                                        <div v-if="element.subject.teacher.id" :title="fullNameTeacher(element.subject.teacher)" class="md-subhead">
+                                            {{ shortNameTeacher(element.subject.teacher) }}
+                                        </div>
+                                    </md-card-header-text>
 
-                            <template v-if="element.subject.teacher.id">
-                                <span :title="fullNameTeacher(element.subject.teacher)">
-                                    {{ shortNameTeacher(element.subject.teacher) }}
-                                </span>
-                            </template>
-                        </div>
-                    </draggable>
+                                    <md-button class="md-icon-button" @click="openDialog('dialog6')">
+                                        <span v-if="element.room">{{ element.room }}</span>
+                                        <md-icon v-else>business</md-icon>
+                                    </md-button>
+                                </md-card-header>
+
+                                <!--<md-card-content>-->
+
+                                <!--</md-card-content>-->
+
+                                <md-card-actions>
+                                    <span>15:00</span>
+                                    <span style="flex: 1"></span>
+                                    <md-switch></md-switch>
+                                </md-card-actions>
+
+                                <!--<draggable v-if="isMoving" :options="{group: 'teachers'}">-->
+                                    <!--<span :index="index" :day="dayNum">For Teachers - {{ dayNum + ' ' + index }}</span> &lt;!&ndash; Temporary &ndash;&gt;-->
+                                <!--</draggable>-->
+
+                                <!--<md-card-actions>-->
+                                    <!--<md-button class="md-icon-button md-accent" @click="removeSubject(days[dayNum], index)">-->
+                                        <!--<md-icon>delete</md-icon>-->
+                                    <!--</md-button>-->
+                                <!--</md-card-actions>-->
+                            </md-card>
+                        </draggable>
+                    </div>
                 </div>
             </div>
         </md-layout>
+
+        <md-dialog-prompt
+                :md-title="prompt.title"
+                :md-ok-text="prompt.ok"
+                :md-cancel-text="prompt.cancel"
+                v-model="prompt.value"
+                ref="dialog6">
+        </md-dialog-prompt>
     </md-layout>
 </template>
 
@@ -116,10 +134,21 @@
                 fromTeacher: null,
                 toElement: null,
                 isMoving: false,
-                isDelete: false,
+                isDelete: true,
 
                 days: [[],[],[],[],[],[]],
                 daysWeek: ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'П\'ятниця', 'Субота'],
+
+                prompt: {
+                    title: 'What\'s your name?',
+                    ok: 'Done',
+                    cancel: 'Cancel',
+                    id: 'name',
+                    name: 'name',
+                    placeholder: 'Type your name...',
+                    maxlength: 4,
+                    value: ''
+                }
             }
         },
 
@@ -177,6 +206,14 @@
         },
 
         methods: {
+            openDialog(ref) {
+                this.$refs[ref].open();
+            },
+            addRoom(el) {
+                el.room = prompt('Введіть номер кабінету');
+            },
+
+            // Subject
             cloneSubject(el) {
                 this.isMoving = true;
 
@@ -197,9 +234,6 @@
             },
             endSubject(el) {
                 this.isMoving = false;
-            },
-            addRoom(el) {
-                el.room = prompt('Введіть номер кабінету');
             },
             removeSubject(list, index) {
                 list.splice(index, 1);
