@@ -114,10 +114,20 @@
     &:active {
       cursor: -webkit-grabbing;
     }
+    &.sortable-ghost {
+      // Block is moving
+    }
 
     .md-card-header {
       .md-button {
         border: 1px dashed #333;
+        width: unset;
+        max-width: none;
+        border-radius: 5px;
+        margin-left: 5px;
+        > .md-ink-ripple {
+          border-radius: 0;
+        }
       }
     }
 

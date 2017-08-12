@@ -13,6 +13,6 @@ class WebController extends Controller
             ->where('name', '=', 'time')
             ->first();
 
-        view()->share('time', json_encode(unserialize($config->value)));
+        view()->share('time', unserialize($config->value));
     }
 }

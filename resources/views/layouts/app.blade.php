@@ -14,7 +14,7 @@
 
     <div id="app">
         <navbar user="{{ Auth::check() ? json_encode(Auth::user()) : 'empty' }}"
-                time="{{ $time }}"
+                time="{{ json_encode($time) }}"
         ></navbar>
 
         @yield('content')

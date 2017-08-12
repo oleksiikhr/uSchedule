@@ -10,6 +10,7 @@
           in-schedule="{{ json_encode($schedule) }}"
           in-teachers="{{ json_encode($teachers) }}"
           in-subjects="{{ json_encode($subjects) }}"
+          in-time="{{ json_encode($time) }}"
     ></edit>
 
 @endsection

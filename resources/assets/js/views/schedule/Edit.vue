@@ -71,7 +71,11 @@
                                 <!--</md-card-content>-->
 
                                 <md-card-actions>
-                                    <span>15:00</span>
+                                    <div class="time">
+                                        <md-icon>schedule</md-icon>
+                                        <span v-if="time[index]">{{ time[index][0] + ' - ' + time[index][1] }}</span>
+                                        <span v-else>Час відсутній</span>
+                                    </div>
                                     <span style="flex: 1"></span>
                                     <md-switch></md-switch>
                                 </md-card-actions>
@@ -86,6 +90,10 @@
                                     <!--</md-button>-->
                                 <!--</md-card-actions>-->
                             </md-card>
+
+                            <!--<md-button slot="footer" class="md-accent" @click="addEmptySubject">-->
+                                <!--Додати порожню пару-->
+                            <!--</md-button>-->
                         </draggable>
                     </div>
                 </div>
@@ -111,7 +119,7 @@
         },
 
         props: [
-            'inSchedule', 'inScheduleDays', 'inSubjects', 'inTeachers'
+            'inSchedule', 'inScheduleDays', 'inSubjects', 'inTeachers', 'inTime'
         ],
 
         created() {
@@ -119,6 +127,7 @@
             this.schedule = JSON.parse(this.inSchedule);
             this.subjects = JSON.parse(this.inSubjects);
             this.teachers = JSON.parse(this.inTeachers);
+            this.time = JSON.parse(this.inTime);
         },
 
         data() {
@@ -137,6 +146,7 @@
                 isDelete: true,
 
                 days: [[],[],[],[],[],[]],
+                time: [],
                 daysWeek: ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'П\'ятниця', 'Субота'],
 
                 prompt: {
@@ -237,6 +247,9 @@
             },
             removeSubject(list, index) {
                 list.splice(index, 1);
+            },
+            addEmptySubject() {
+                return 1;
             },
 
             // Teachers
