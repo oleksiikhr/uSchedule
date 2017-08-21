@@ -47,16 +47,16 @@
 
         <md-layout md-flex="75" class="right-column">
             <div class="schedule">
-                <div class="week week-1">
-                    <div class="schedule-column" v-for="(day, dayNum) in days" :key="dayNum">
+                <div class="week week-1" v-for="(week, weekNum) in days" :key="weekNum">
+                    <div class="schedule-column" v-for="(day, dayNum) in week" :key="dayNum">
                         <h3>{{ daysWeek[dayNum] }}</h3>
-                        <draggable :list="days[dayNum]" class="dragArea" :options="{group: 'subjects', draggable: '.draggable'}">
+                        <draggable :list="week[dayNum]" class="dragArea" style="min-height:1px;" :options="{group: 'subjects', draggable: '.draggable'}">
                             <md-card md-with-hover v-for="(element, index) in day" :key="element.id" class="draggable">
                                 <md-card-header>
                                     <md-card-header-text>
                                         <div class="md-title">{{ element.subject.title }}</div>
-                                        <div v-if="element.subject.teacher.id" :title="fullNameTeacher(element.subject.teacher)" class="md-subhead">
-                                            {{ shortNameTeacher(element.subject.teacher) }}
+                                        <div v-if="element.subject.teacher" :title="fullNameTeacher(element.subject.teacher)" class="md-subhead">
+                                            <span v-if="element.subject.teacher.length > 0">{{ shortNameTeacher(element.subject.teacher) }}</span>
                                         </div>
                                     </md-card-header-text>
 
@@ -145,7 +145,7 @@
                 isMoving: false,
                 isDelete: true,
 
-                days: [[],[],[],[],[],[]],
+                days: [ [[],[],[],[],[],[]], [[],[],[],[],[],[]] ],
                 time: [],
                 daysWeek: ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'П\'ятниця', 'Субота'],
 
@@ -164,11 +164,13 @@
 
         mounted() {
             let count = this.scheduleDays.length;
-
-            for (let i = 0; i < count; i++) {
-                for (let day = 0; day < 6; day++) {
-                    if (this.scheduleDays[i].day === day) {
-                        this.days[day].push(this.scheduleDays[i]);
+            console.log(count);
+            for (let week = 0; week < 2; week++) {
+                for (let i = 0; i < count; i++) {
+                    for (let day = 0; day < 6; day++) {
+                        if (this.scheduleDays[i].week === week && this.scheduleDays[i].day === day) {
+                            this.days[week][day].push(this.scheduleDays[i]);
+                        }
                     }
                 }
             }
@@ -226,7 +228,6 @@
             // Subject
             cloneSubject(el) {
                 this.isMoving = true;
-
                 return {
                     id: el.id,
                     room: '',
