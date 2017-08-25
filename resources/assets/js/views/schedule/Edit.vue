@@ -60,7 +60,7 @@
                                         </div>
                                     </md-card-header-text>
 
-                                    <md-button class="md-icon-button" @click="openDialog('dialog6')">
+                                    <md-button class="md-icon-button" @click="editRoom(weekNum, dayNum, index)">
                                         <span v-if="element.room">{{ element.room }}</span>
                                         <md-icon v-else>business</md-icon>
                                     </md-button>
@@ -100,13 +100,22 @@
             </div>
         </md-layout>
 
-        <md-dialog-prompt
-                :md-title="prompt.title"
-                :md-ok-text="prompt.ok"
-                :md-cancel-text="prompt.cancel"
-                v-model="prompt.value"
-                ref="dialog6">
-        </md-dialog-prompt>
+        <md-dialog ref="room">
+            <md-dialog-title>Номер аудиторії</md-dialog-title>
+
+            <md-dialog-content>
+                <form novalidate @submit.stop.prevent="submit">
+                    <md-input-container>
+                        <md-input v-model="dialogRoom"></md-input>
+                    </md-input-container>
+                </form>
+            </md-dialog-content>
+
+            <md-dialog-actions>
+                <md-button class="md-primary" @click="closeRoom()">Відмінити</md-button>
+                <md-button class="md-primary" @click="saveRoom()">Зберегти</md-button>
+            </md-dialog-actions>
+        </md-dialog>
     </md-layout>
 </template>
 
@@ -132,39 +141,38 @@
 
         data() {
             return {
+                // Props
                 scheduleDays: [],
                 schedule: [],
                 subjects: [],
                 teachers: [],
 
+                // Search
                 searchSubject: '',
                 searchTeacher: '',
 
+                // Draggable
                 fromTeacher: null,
                 toElement: null,
                 isMoving: false,
                 isDelete: true,
 
-                days: [ [[],[],[],[],[],[]], [[],[],[],[],[],[]] ],
-                time: [],
-                daysWeek: ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'П\'ятниця', 'Субота'],
+                // Dialog
+                openedWeekIndex: null,
+                openedDayIndex: null,
+                openedIndex: null,
+                dialogRoom: null,
 
-                prompt: {
-                    title: 'What\'s your name?',
-                    ok: 'Done',
-                    cancel: 'Cancel',
-                    id: 'name',
-                    name: 'name',
-                    placeholder: 'Type your name...',
-                    maxlength: 4,
-                    value: ''
-                }
+                // Other
+                time: [],
+                days: [ [[],[],[],[],[],[]], [[],[],[],[],[],[]] ],
+                daysWeek: ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'П\'ятниця', 'Субота'],
             }
         },
 
         mounted() {
             let count = this.scheduleDays.length;
-            console.log(count);
+
             for (let week = 0; week < 2; week++) {
                 for (let i = 0; i < count; i++) {
                     for (let day = 0; day < 6; day++) {
@@ -174,8 +182,6 @@
                     }
                 }
             }
-
-            console.log(this.days);
         },
 
         computed: {
@@ -218,16 +224,32 @@
         },
 
         methods: {
-            openDialog(ref) {
-                this.$refs[ref].open();
-            },
+            // Room
             addRoom(el) {
                 el.room = prompt('Введіть номер кабінету');
+            },
+            editRoom(week, day, index) {
+                this.$refs['room'].open();
+
+                this.openedWeekIndex = week;
+                this.openedDayIndex = day;
+                this.openedIndex = index;
+
+                this.dialogRoom = this.days[week][day][index].room;
+            },
+            saveRoom() {
+                this.days[this.openedWeekIndex][this.openedDayIndex][this.openedIndex].room = this.dialogRoom;
+
+                this.closeRoom();
+            },
+            closeRoom() {
+                this.$refs['room'].close();
             },
 
             // Subject
             cloneSubject(el) {
                 this.isMoving = true;
+
                 return {
                     id: el.id,
                     room: '',
