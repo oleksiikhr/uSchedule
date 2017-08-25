@@ -17,7 +17,7 @@ class ScheduleController extends WebController
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -38,8 +38,48 @@ class ScheduleController extends WebController
      */
     public function store(Request $request)
     {
-        //
+        foreach ($request as $week) {
+            foreach ($week as $weekNum => $days) {
+                /* Тут сохраняет, но возникает ошибка почему то - Invalid argument supplied for foreach() */
+                foreach ($days as $dayNum => $day) {
+                    foreach ($day as $order => $couple) {
+                        $match = ScheduleDay::where('schedule_id', $couple['schedule_id'])
+                            ->where('day', $dayNum)
+                            ->where('week', $weekNum)
+                            ->where('order', $order)
+                            ->first();
+                        if (isset($match)) {
+                            $match->schedule_id = $couple['schedule_id'];
+                            $match->subject_id = $couple['subject']['id'];
+                            $match->day = $dayNum;
+                            $match->week = $weekNum;
+                            $match->order = $order;
+                            $match->timestamps;
+                            if ($match->save()) {
+                                echo 'OKs';
+                            } else {
+                                echo 'Ne ok';
+                            }
+                        } else {
+                            $scheduleDay = new ScheduleDay();
+                            $scheduleDay->schedule_id = $couple['schedule_id'];
+                            $scheduleDay->subject_id = $couple['subject']['id'];
+                            $scheduleDay->day = $dayNum;
+                            $scheduleDay->week = $weekNum;
+                            $scheduleDay->order = $order;
+                            $scheduleDay->timestamps;
+                            if ($scheduleDay->save()) {
+                                echo 'OK';
+                            } else {
+                                echo 'Ne ok';
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+
 
     /**
      * Display the specified resource.
@@ -63,6 +103,7 @@ class ScheduleController extends WebController
         $schedule = Schedule::findOrFail($id);
 
         $scheduleDays = ScheduleDay::with('schedule', 'subject.teacher')
+            ->where('schedule_id', $id)
             ->orderBy('week')
             ->orderBy('day')
             ->orderBy('order')

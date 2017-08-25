@@ -46,6 +46,7 @@
         </md-layout>
 
         <md-layout md-flex="75" class="right-column">
+            <md-button class="md-raised md-primary" @click="saveSchedule">Save</md-button>
             <div class="schedule">
                 <div class="week week-1" v-for="(week, weekNum) in days" :key="weekNum">
                     <div class="schedule-column" v-for="(day, dayNum) in week" :key="dayNum">
@@ -53,6 +54,7 @@
                         <draggable :list="week[dayNum]" class="dragArea" style="min-height:1px;" :options="{group: 'subjects', draggable: '.draggable'}">
                             <md-card md-with-hover v-for="(element, index) in day" :key="element.id" class="draggable">
                                 <md-card-header>
+
                                     <md-card-header-text>
                                         <div class="md-title">{{ element.subject.title }}</div>
                                         <div v-if="element.subject.teacher" :title="fullNameTeacher(element.subject.teacher)" class="md-subhead">
@@ -158,7 +160,8 @@
                     placeholder: 'Type your name...',
                     maxlength: 4,
                     value: ''
-                }
+                },
+                errors: {}
             }
         },
 
@@ -225,12 +228,24 @@
                 el.room = prompt('Введіть номер кабінету');
             },
 
+            saveSchedule(){
+                axios.post('/schedule', this.days)
+                    .then(this.onSuccess)
+                    .catch(error => this.errors = error.response.data);
+            },
+
+
+            onSuccess(response){
+                console.log(response.data.message);
+            },
+
             // Subject
             cloneSubject(el) {
                 this.isMoving = true;
                 return {
                     id: el.id,
                     room: '',
+                    schedule_id: this.schedule.id,
                     subject: {
                         id: el.id,
                         title: el.title,
