@@ -1,6 +1,9 @@
 <template>
+    <!--TODO: color in app.js*-->
+    <!--TODO: Fix draggable on last block-->
+    <!--TODO: right-column - delete with draggable on left-column-->
     <md-layout class="edit-template">
-        <md-layout md-flex="25" class="left-column">
+        <md-layout md-flex="20" class="left-column">
             <div class="left-list phone-viewport">
                 <draggable :options="{group: {name: ['subjects', 'teachers']}}" class="delete-choose" v-if="isMoving">
                     <md-icon :class="'md-size-4x delete' + (isDelete ? ' deleted' : '')">
@@ -10,34 +13,36 @@
 
                 <md-tabs md-fixed>
                     <md-tab md-icon="book">
-                        <form novalidate @submit.stop.prevent="submit">
-                            <md-input-container>
-                                <label>Пошук предмету</label>
+                        <form class="left-search" novalidate @submit.stop.prevent="submit">
+                            <md-input-container md-inline>
+                                <md-icon>search</md-icon>
+                                <label>Предмет</label>
                                 <md-input v-model="searchSubject"></md-input>
                             </md-input-container>
                         </form>
                         <draggable :list="filterSubjects" element="md-list" :clone="cloneSubject" :move="moveSubject" @end="endSubject"
                                    :options="{group: {name: 'subjects', pull: 'clone', put: false}, sort: false}">
-                            <md-list-item :title="subject.title" class="subject-block"
+                            <md-list-item :title="subject.title" class="subject-block left-block card-ripple"
                                           v-for="subject in filterSubjects" :key="subject.id">
-                                {{ subject.title }}
+                                <span class="name">{{ subject.title }}</span>
                             </md-list-item>
                         </draggable>
                     </md-tab>
 
                     <md-tab md-icon="people">
-                        <form novalidate @submit.stop.prevent="submit">
-                            <md-input-container>
-                                <label>Пошук викладача</label>
+                        <form class="left-search" novalidate @submit.stop.prevent="submit">
+                            <md-input-container md-inline>
+                                <md-icon>search</md-icon>
+                                <label>Викладач</label>
                                 <md-input v-model="searchTeacher"></md-input>
                             </md-input-container>
                         </form>
                         <draggable :list="filterTeachers" element="md-list" :clone="cloneTeacher" :move="moveTeacher" @end="endTeacher"
                                    :options="{group: {name: 'teachers', pull: 'clone', put: false}, sort: false}">
-                            <md-list-item :title="fullNameTeacher(teacher)" class="teacher-block"
+                            <md-list-item :title="fullNameTeacher(teacher)" class="teacher-block left-block"
                                           v-for="teacher in filterTeachers" :key="teacher.id">
-                                <span>{{ fullNameTeacher(teacher) }}</span>
-                                <span v-if="teacher.academic_title">[{{ teacher.academic_title}}]</span>
+                                <span class="name">{{ fullNameTeacher(teacher) }}</span>
+                                <span class="extra" v-if="teacher.academic_title">{{ teacher.academic_title}}</span>
                             </md-list-item>
                         </draggable>
                     </md-tab>
@@ -45,7 +50,7 @@
             </div>
         </md-layout>
 
-        <md-layout md-flex="75" class="right-column">
+        <md-layout md-flex="80" class="right-column">
             <!--<md-button class="md-raised md-primary" @click="saveSchedule">Save</md-button>-->
             <div class="schedule">
                 <div :class="'week week-' + (weekNum + 1)" v-for="(week, weekNum) in days" :key="weekNum">
@@ -105,7 +110,8 @@
                                 </template>
                             </md-card>
 
-                            <md-button slot="footer" class="footer-btn" @click="addEmptySubject(weekNum, dayNum)">
+                            <md-button v-if="days[weekNum][dayNum].length < 7" slot="footer" class="footer-btn"
+                                       title="Пара відсутня" @click="addEmptySubject(weekNum, dayNum)">
                                 <md-icon>add</md-icon>
                             </md-button>
                         </draggable>
@@ -302,7 +308,6 @@
                 this.days[week][day].push({
                     id: 0,
                 });
-                console.log(this.days);
             },
 
             // Teachers

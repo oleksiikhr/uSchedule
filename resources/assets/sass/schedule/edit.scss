@@ -8,6 +8,9 @@
   .md-toolbar {
     background: #333 !important;
     color: #fff !important;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2),
+                0 2px 2px rgba(0, 0, 0, 0.14),
+                0 3px 1px -2px rgba(0, 0, 0, 0.12);
   }
 }
 
@@ -16,10 +19,11 @@
   height: calc(100% - 48px);
 }
 
-// Left Column
+// Left column
 .left-column {
-  border-right: 5px solid #333;
   height: 100%;
+  background: #f5f5f5;
+  border-right: 1px solid #dadada;
 }
 
 .left-list {
@@ -57,8 +61,9 @@
     }
   }
 
-  .md-list-item-container{
-    flex-direction: column;
+  .md-list {
+    background: #f5f5f5 !important;
+    padding-top: 0;
   }
 }
 
@@ -77,24 +82,52 @@
   height: 100%;
   .md-tab {
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     height: 100%;
-    padding-top: 0;
-    padding-bottom: 10px;
+    padding: 0;
+    .left-search {
+      margin: 0 16px;
+    }
+  }
+}
+
+.md-tabs-content:hover .md-tab {
+  overflow-y: auto;
+}
+
+.left-block {
+  border-bottom: 1px solid #dadada;
+  cursor: all-scroll;
+  cursor: -webkit-grab;
+  transition: 0.2s;
+  &:hover {
+    background: #dadada;
+  }
+  &:active {
+    cursor: -webkit-grabbing;
+  }
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  .md-list-item-container {
+    align-items: baseline;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .extra {
+    font-size: 12px;
+    color: #6f6f6f;
   }
 }
 
 // Right column
 .right-column {
-  background: #fff;
-  border-left: 0;
   overflow: auto;
-  width: 100%;
 }
 
 .schedule {
-  min-width: 100%;
-
   .week {
     display: table;
     width: 100%;
@@ -109,6 +142,7 @@
 .schedule-column {
   display: table-cell;
   border-right: 1px solid #fff;
+  min-width: 220px;
   &:hover {
     .footer-btn {
       display: block;
@@ -125,10 +159,9 @@
     font-weight: bold;
     text-transform: uppercase;
     margin: 0;
-    padding: 15px;
+    padding: 14px;
     background: #ce5555;
     color: #fff;
-    min-width: 150px;
   }
 }
 
