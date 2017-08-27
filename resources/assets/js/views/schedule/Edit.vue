@@ -46,56 +46,68 @@
         </md-layout>
 
         <md-layout md-flex="75" class="right-column">
-            <md-button class="md-raised md-primary" @click="saveSchedule">Save</md-button>
+            <!--<md-button class="md-raised md-primary" @click="saveSchedule">Save</md-button>-->
             <div class="schedule">
-                <div class="week week-1" v-for="(week, weekNum) in days" :key="weekNum">
+                <div :class="'week week-' + (weekNum + 1)" v-for="(week, weekNum) in days" :key="weekNum">
+                    <!--<h2 class="week-title">{{ weekNum + 1 }} неділя</h2>-->
                     <div class="schedule-column" v-for="(day, dayNum) in week" :key="dayNum">
                         <h3>{{ daysWeek[dayNum] }}</h3>
-                        <draggable :list="week[dayNum]" class="dragArea" style="min-height:1px;" :options="{group: 'subjects', draggable: '.draggable'}">
+                        <draggable :list="week[dayNum]" class="dragArea" :options="{group: 'subjects', draggable: '.draggable'}">
                             <md-card md-with-hover v-for="(element, index) in day" :key="element.id" class="draggable">
-                                <md-card-header>
+                                <template v-if="element.id > 0">
+                                    <md-card-header>
+                                        <md-card-header-text>
+                                            <div class="md-title">{{ element.subject.title }}</div>
+                                            <div v-if="element.subject.teacher" :title="fullNameTeacher(element.subject.teacher)" class="md-subhead">
+                                                <span v-if="element.subject.teacher.length > 0">{{ shortNameTeacher(element.subject.teacher) }}</span>
+                                            </div>
+                                        </md-card-header-text>
 
-                                    <md-card-header-text>
-                                        <div class="md-title">{{ element.subject.title }}</div>
-                                        <div v-if="element.subject.teacher" :title="fullNameTeacher(element.subject.teacher)" class="md-subhead">
-                                            <span v-if="element.subject.teacher.length > 0">{{ shortNameTeacher(element.subject.teacher) }}</span>
+                                        <md-button class="md-icon-button" @click="editRoom(weekNum, dayNum, index)">
+                                            <span v-if="element.room">{{ element.room }}</span>
+                                            <md-icon v-else>business</md-icon>
+                                        </md-button>
+                                    </md-card-header>
+
+                                    <!--<md-card-content>-->
+
+                                    <!--</md-card-content>-->
+
+                                    <md-card-actions>
+                                        <div class="time">
+                                            <md-icon>schedule</md-icon>
+                                            <span v-if="time[index]">{{ time[index][0] + ' - ' + time[index][1] }}</span>
+                                            <span v-else>Час відсутній</span>
                                         </div>
-                                    </md-card-header-text>
+                                        <span style="flex: 1"></span>
+                                        <md-switch></md-switch>
+                                    </md-card-actions>
 
-                                    <md-button class="md-icon-button" @click="editRoom(weekNum, dayNum, index)">
-                                        <span v-if="element.room">{{ element.room }}</span>
-                                        <md-icon v-else>business</md-icon>
-                                    </md-button>
-                                </md-card-header>
+                                    <!--<draggable v-if="isMoving" :options="{group: 'teachers'}">-->
+                                        <!--<span :index="index" :day="dayNum">For Teachers - {{ dayNum + ' ' + index }}</span> &lt;!&ndash; Temporary &ndash;&gt;-->
+                                    <!--</draggable>-->
 
-                                <!--<md-card-content>-->
+                                    <!--<md-card-actions>-->
+                                        <!--<md-button class="md-icon-button md-accent" @click="removeSubject(days[dayNum], index)">-->
+                                            <!--<md-icon>delete</md-icon>-->
+                                        <!--</md-button>-->
+                                    <!--</md-card-actions>-->
+                                </template>
 
-                                <!--</md-card-content>-->
-
-                                <md-card-actions>
-                                    <div class="time">
-                                        <md-icon>schedule</md-icon>
-                                        <span v-if="time[index]">{{ time[index][0] + ' - ' + time[index][1] }}</span>
-                                        <span v-else>Час відсутній</span>
+                                <template v-else>
+                                    <div class="no-pair">
+                                        <div class="time">
+                                            <md-icon>schedule</md-icon>
+                                            <span v-if="time[index]">{{ time[index][0] + ' - ' + time[index][1] }}</span>
+                                            <span v-else>Час відсутній</span>
+                                        </div>
                                     </div>
-                                    <span style="flex: 1"></span>
-                                    <md-switch></md-switch>
-                                </md-card-actions>
-
-                                <!--<draggable v-if="isMoving" :options="{group: 'teachers'}">-->
-                                    <!--<span :index="index" :day="dayNum">For Teachers - {{ dayNum + ' ' + index }}</span> &lt;!&ndash; Temporary &ndash;&gt;-->
-                                <!--</draggable>-->
-
-                                <!--<md-card-actions>-->
-                                    <!--<md-button class="md-icon-button md-accent" @click="removeSubject(days[dayNum], index)">-->
-                                        <!--<md-icon>delete</md-icon>-->
-                                    <!--</md-button>-->
-                                <!--</md-card-actions>-->
+                                </template>
                             </md-card>
 
-                            <!--<md-button slot="footer" class="md-accent" @click="addEmptySubject">-->
-                                <!--Додати порожню пару-->
-                            <!--</md-button>-->
+                            <md-button slot="footer" class="footer-btn" @click="addEmptySubject(weekNum, dayNum)">
+                                <md-icon>add</md-icon>
+                            </md-button>
                         </draggable>
                     </div>
                 </div>
@@ -130,7 +142,7 @@
         },
 
         props: [
-            'inSchedule', 'inScheduleDays', 'inSubjects', 'inTeachers', 'inTime'
+            'inSchedule', 'inScheduleDays', 'inSubjects', 'inTeachers', 'inTime',
         ],
 
         created() {
@@ -170,18 +182,7 @@
                 days: [ [[],[],[],[],[],[]], [[],[],[],[],[],[]] ],
                 daysWeek: ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'П\'ятниця', 'Субота'],
 
-                prompt: {
-                    title: 'What\'s your name?',
-                    ok: 'Done',
-                    cancel: 'Cancel',
-                    id: 'name',
-                    name: 'name',
-                    placeholder: 'Type your name...',
-                    maxlength: 4,
-                    value: ''
-                },
-                errors: {}
-
+                errors: {},
             }
         },
 
@@ -261,13 +262,12 @@
                 this.$refs['room'].close();
             },
 
+            // Save schedule
             saveSchedule(){
                 axios.post('/schedule', this.days)
                     .then(this.onSuccess)
                     .catch(error => this.errors = error.response.data);
             },
-
-
             onSuccess(response){
                 console.log(response.data.message);
             },
@@ -298,8 +298,11 @@
             removeSubject(list, index) {
                 list.splice(index, 1);
             },
-            addEmptySubject() {
-                return 1;
+            addEmptySubject(week, day) {
+                this.days[week][day].push({
+                    id: 0,
+                });
+                console.log(this.days);
             },
 
             // Teachers

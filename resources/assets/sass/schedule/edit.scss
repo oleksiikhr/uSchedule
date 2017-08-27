@@ -1,7 +1,13 @@
 .body-edit {
   height: 100%;
+
   #app {
     height: 100%;
+  }
+
+  .md-toolbar {
+    background: #333 !important;
+    color: #fff !important;
   }
 }
 
@@ -12,7 +18,7 @@
 
 // Left Column
 .left-column {
-  border: 10px solid #eaeaea;
+  border-right: 5px solid #333;
   height: 100%;
 }
 
@@ -58,8 +64,7 @@
 
 .md-tabs-navigation {
   background: #fff !important;
-  border-bottom: 10px solid #eaeaea;
-  height: 60px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
   .md-tab-header {
     color: rgba(0, 0, 0, 0.54) !important;
     &.md-active {
@@ -82,33 +87,54 @@
 // Right column
 .right-column {
   background: #fff;
-  padding: 5px;
   border-left: 0;
   overflow: auto;
+  width: 100%;
 }
 
-.week {
-  overflow: auto;
-  padding: 5px;
+.schedule {
+  min-width: 100%;
+
+  .week {
+    display: table;
+    width: 100%;
+    min-height: 100px;
+  }
+
+  .week-1 {
+     margin-bottom: 50px;
+  }
 }
 
 .schedule-column {
-  width: 275px;
-  float: left;
-  margin: 0 10px 10px 0;
+  display: table-cell;
+  border-right: 1px solid #fff;
+  &:hover {
+    .footer-btn {
+      display: block;
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+  &:last-child {
+    border-right: 0;
+  }
 
   > h3 {
     text-align: center;
     font-weight: bold;
     text-transform: uppercase;
     margin: 0;
-    padding: 15px 0;
-    background: #436a98;
+    padding: 15px;
+    background: #ce5555;
     color: #fff;
+    min-width: 150px;
   }
 }
 
 .dragArea {
+  min-height: 30px;
+
   > .md-card {
     cursor: -webkit-grab;
     overflow: visible;
@@ -137,4 +163,14 @@
       text-align: left;
     }
   }
+
+  > .footer-btn {
+    display: none;
+  }
+}
+
+.no-pair {
+  display: flex;
+  padding: 16px 8px;
+  background: #ffe7e7;
 }
