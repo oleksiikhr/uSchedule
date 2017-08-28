@@ -109,12 +109,12 @@
                                     </div>
                                 </template>
                             </md-card>
-
-                            <md-button v-if="days[weekNum][dayNum].length < 7" slot="footer" class="footer-btn"
-                                       title="Пара відсутня" @click="addEmptySubject(weekNum, dayNum)">
-                                <md-icon>add</md-icon>
-                            </md-button>
                         </draggable>
+
+                        <md-button v-if="days[weekNum][dayNum].length < 7" slot="footer" class="footer-btn"
+                                    title="Пара відсутня" @click="addEmptySubject(weekNum, dayNum)">
+                            <md-icon>add</md-icon>
+                        </md-button>
                     </div>
                 </div>
             </div>

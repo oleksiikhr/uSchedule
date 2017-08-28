@@ -69,12 +69,17 @@
 
 .md-tabs-navigation {
   background: #fff !important;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid #dadada;
+
   .md-tab-header {
     color: rgba(0, 0, 0, 0.54) !important;
     &.md-active {
       color: rgba(0, 0, 0, 0.87) !important;
     }
+  }
+
+  .md-tab-header-navigation-button {
+    background-color: #ce5555 !important;
   }
 }
 
@@ -159,9 +164,13 @@
     font-weight: bold;
     text-transform: uppercase;
     margin: 0;
-    padding: 14px;
+    padding: 14px 15px 13px;
     background: #ce5555;
     color: #fff;
+  }
+
+  > .footer-btn {
+    display: none;
   }
 }
 
@@ -195,10 +204,6 @@
       line-height: 1.2em !important;
       text-align: left;
     }
-  }
-
-  > .footer-btn {
-    display: none;
   }
 }
 
