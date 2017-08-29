@@ -51,7 +51,7 @@
         </md-layout>
 
         <md-layout md-flex="80" class="right-column">
-            <!--<md-button class="md-raised md-primary" @click="saveSchedule">Save</md-button>-->
+            <md-button class="md-raised md-primary" @click="saveSchedule">Сохранить</md-button>
             <div class="schedule">
                 <div :class="'week week-' + (weekNum + 1)" v-for="(week, weekNum) in days" :key="weekNum">
                     <!--<h2 class="week-title">{{ weekNum + 1 }} неділя</h2>-->
@@ -141,10 +141,12 @@
 
 <script>
     import draggable from 'vuedraggable'
+    import pnotify from 'pnotify'
 
     export default {
         components: {
             draggable,
+            pnotify,
         },
 
         props: [
@@ -272,10 +274,20 @@
             saveSchedule(){
                 axios.post('/schedule', this.days)
                     .then(this.onSuccess)
-                    .catch(error => this.errors = error.response.data);
+                    .catch(error => this.errors = error.response);
             },
             onSuccess(response){
-                console.log(response.data.message);
+                console.log('asd');
+                new pnotify({
+                    title: 'Розклад збережено',
+                    text: false,
+                    icon: true,
+                    type: 'success',
+                    styling: 'brighttheme',
+                    buttons: {
+                        closer: true
+                    }
+                });
             },
 
             // Subject

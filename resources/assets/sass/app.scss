@@ -9,6 +9,10 @@ $main-color: #00796b;
 // Media screen
 @import "media";
 
+// Alerts
+@import "~pnotify/dist/pnotify";
+@import "~pnotify/dist/pnotify.brighttheme";
+
 @import "main";
 @import "home";
 @import "auth/index";
