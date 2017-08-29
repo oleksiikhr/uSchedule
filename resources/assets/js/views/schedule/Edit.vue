@@ -277,7 +277,6 @@
                     .catch(error => this.errors = error.response);
             },
             onSuccess(response){
-                console.log('asd');
                 new pnotify({
                     title: 'Розклад збережено',
                     text: false,

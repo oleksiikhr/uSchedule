@@ -49,7 +49,7 @@
                     </md-input-container>
                 </div>
                 <div class="button-container text-center">
-                    <md-button class="md-raised md-primary home-btn">Відкрити</md-button>
+                    <md-button class="md-raised md-primary home-btn" @click="showSchedule">Відкрити</md-button>
                 </div>
             </md-whiteframe>
         </md-layout>
@@ -63,7 +63,12 @@
 </template>
 
 <script>
+    import pnotify from 'pnotify'
+
     export default {
+        components: {
+            pnotify,
+        },
         data() {
            return {
                degree: 'bachelor',
@@ -84,6 +89,34 @@
                 } else {
                     this.countCourses = 5;
                 }
+            },
+            showSchedule(){
+                let data = {
+                    degree: this.degree,
+                    daytime: this.trainingForm,
+                    faculty: this.faculty,
+                    course: this.course,
+                    groups: this.groups,
+                };
+
+                axios.post('/dashboard/find', data)
+                    .then(this.onSuccess)
+                    .catch(this.onError);
+            },
+            onSuccess(response){
+                window.location.href = '/schedule/' + response.data;
+            },
+            onError(response){
+                new pnotify({
+                    title: 'Розклад не знайдено',
+                    text: 'Перевірте параметри пошуку',
+                    icon: true,
+                    type: 'error',
+                    styling: 'brighttheme',
+                    buttons: {
+                        closer: true
+                    }
+                });
             }
         },
 
