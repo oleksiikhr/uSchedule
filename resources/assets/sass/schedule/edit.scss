@@ -6,11 +6,7 @@
   }
 
   .md-toolbar {
-    background: #333 !important;
-    color: #fff !important;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2),
-                0 2px 2px rgba(0, 0, 0, 0.14),
-                0 3px 1px -2px rgba(0, 0, 0, 0.12);
+    background: #444 !important;
   }
 }
 
@@ -22,8 +18,6 @@
 // Left column
 .left-column {
   height: 100%;
-  background: #f5f5f5;
-  border-right: 1px solid #dadada;
 }
 
 .left-list {
@@ -36,8 +30,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    color: #636363;
-    background: #fff;
+    color: rgba(255, 255, 255, 0.87);
+    background: #444;
     cursor: context-menu;
     z-index: 9;
 
@@ -48,38 +42,19 @@
       display: block;
     }
     > .deleted {
-      color: #f95c5c;
+      color: #ffc1c1;
     }
   }
 
   > .md-tabs {
     height: 100%;
+
     .md-tabs-content {
       position: relative;
       width: 100%;
       height: 100% !important;
+      border-right: 1px solid #d4d4d4;
     }
-  }
-
-  .md-list {
-    background: #f5f5f5 !important;
-    padding-top: 0;
-  }
-}
-
-.md-tabs-navigation {
-  background: #fff !important;
-  border-bottom: 1px solid #dadada;
-
-  .md-tab-header {
-    color: rgba(0, 0, 0, 0.54) !important;
-    &.md-active {
-      color: rgba(0, 0, 0, 0.87) !important;
-    }
-  }
-
-  .md-tab-header-navigation-button {
-    background-color: #ce5555 !important;
   }
 }
 
@@ -91,7 +66,10 @@
     height: 100%;
     padding: 0;
     .left-search {
-      margin: 0 16px;
+      background: #f1f1f1;
+      > .md-input-container {
+        margin: 0;
+      }
     }
   }
 }
@@ -129,89 +107,81 @@
 
 // Right column
 .right-column {
+  height: 100%;
   overflow: auto;
 }
 
 .schedule {
-  .week {
-    display: table;
-    width: 100%;
-    min-height: 100px;
-  }
+  min-width: 700px;
+  max-width: 1400px;
+  border-collapse: collapse;
+  border: 1px solid #d4d4d4;
+  border-left: 0;
+  width: 100%;
+  min-height: 100%;
 
-  .week-1 {
-     margin-bottom: 50px;
-  }
-}
-
-.schedule-column {
-  display: table-cell;
-  border-right: 1px solid #fff;
-  min-width: 220px;
-  &:hover {
-    .footer-btn {
-      display: block;
-      width: 100%;
-      margin: 0 auto;
-    }
-  }
-  &:last-child {
-    border-right: 0;
-  }
-
-  > h3 {
+  > thead {
+    background: #404e56;
     text-align: center;
-    font-weight: bold;
-    text-transform: uppercase;
-    margin: 0;
-    padding: 14px 15px 13px;
-    background: #ce5555;
-    color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+
+    td {
+      color: rgba(0, 0, 0, 0.87);
+      padding: 10px;
+      border-right: 1px solid #d4d4d4;
+      font-size: 18px;
+      text-transform: uppercase;
+      font-weight: bold;
+      height: 48px;
+      &:last-child {
+        border-right: 0;
+      }
+    }
   }
 
-  > .footer-btn {
-    display: none;
-  }
-}
+  > tbody {
+    > tr {
+      height: 100px;
+      &:last-child {
+        border-bottom: 0;
+        table {
+          border-bottom: 0;
+        }
+        .weekDay {
+          border-bottom: 0;
+        }
+      }
 
-.dragArea {
-  min-height: 30px;
-
-  > .md-card {
-    cursor: -webkit-grab;
-    overflow: visible;
-    &:active {
-      cursor: -webkit-grabbing;
-    }
-    &.sortable-ghost {
-      // Block is moving
-    }
-
-    .md-card-header {
-      .md-button {
-        border: 1px dashed #333;
-        width: unset;
-        max-width: none;
-        border-radius: 5px;
-        margin-left: 5px;
-        > .md-ink-ripple {
-          border-radius: 0;
+      table {
+        min-width: 100%;
+        min-height: 100%;
+        border: 1px solid #d4d4d4;
+        border-left: 0;
+        border-top: 0;
+        display: table-cell;
+        &:last-child {
+          border-right: 0;
         }
       }
     }
 
-    .md-title {
-      line-height: 1.2em !important;
-      text-align: left;
+    .weekDay {
+      color: rgba(0, 0, 0, 0.87);
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 15px;
+      border-bottom: 1px solid #d4d4d4;
+      border-right: 1px solid #d4d4d4;
+      width: 60px;
+      > span {
+        display: block;
+        transform: rotate(-90deg);
+      }
     }
   }
 }
 
-.no-pair {
-  display: flex;
-  padding: 16px 8px;
-  background: #ffe7e7;
-}
-.sortable-chosen{
-  background-color: red;
+.color {
+  background: #fff59d;
 }

@@ -20,16 +20,15 @@ Vue.material.registerTheme({
         },
         accent: 'red',
     },
-    block: {
+    edit: {
         primary: {
-            color: 'teal',
+            color: 'grey',
             hue: '700'
         },
-        accent: 'white',
-        background: {
-            color: 'teal',
+        accent: {
+            color: 'grey',
             hue: '700'
-        },
+        }
     }
 });
 
