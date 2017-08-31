@@ -76,9 +76,16 @@
                                 <td class="element">
                                     <div class="header">
                                         <span class="title">{{ schedule.subject.title }}</span>
-                                        <span v-if="schedule.subject.teacher_id" :title="fullNameTeacher(schedule.subject.teacher)">
-                                            {{ shortNameTeacher(schedule.subject.teacher) }}
-                                        </span>
+                                        <draggable class="teacher" :options="{group: 'teachers'}">
+                                            <span :week="0" :day="n - 1" :index="index">
+                                                <template v-if="schedule.subject.teacher_id">
+                                                    {{ shortNameTeacher(schedule.subject.teacher) }}
+                                                </template>
+                                                <template v-else>
+                                                    {{ schedule }}
+                                                </template>
+                                            </span>
+                                        </draggable>
                                     </div>
 
                                     <div class="body">
@@ -93,7 +100,7 @@
                         <draggable :list="days[1][n - 1]" element="table" :options="{group: 'subjects'}">
                             <tr v-for="(schedule, index) in days[1][n - 1]" :key="schedule.id">
                                 <td>
-                                    {{ schedule.subject.title }}
+                                    {{ schedule.subject.title }} - Test
                                 </td>
                             </tr>
                         </draggable>
@@ -193,9 +200,11 @@
 
 <script>
     import pnotify from 'pnotify'
+    import draggable from 'vuedraggable'
 
     export default {
         components: {
+            draggable,
             pnotify,
         },
 
@@ -321,12 +330,12 @@
             },
 
             // Save schedule
-            saveSchedule(){
+            saveSchedule() {
                 axios.post('/schedule', this.days)
                     .then(this.onSuccess)
                     .catch(error => this.errors = error.response);
             },
-            onSuccess(response){
+            onSuccess(response) {
                 new pnotify({
                     title: 'Розклад збережено',
                     text: false,
@@ -390,8 +399,10 @@
                 this.isMoving = false;
 
                 if (this.toElement) {
-                    this.days[this.toElement.day.value][this.toElement.index.value].subject.teacher = this.fromTeacher;
-                    this.days[this.toElement.day.value][this.toElement.index.value].subject.teacher_id = this.fromTeacher.id;
+                    this.days[this.toElement.week.value][this.toElement.day.value][this.toElement.index.value]
+                        .subject.teacher = this.fromTeacher;
+                    this.days[this.toElement.week.value][this.toElement.day.value][this.toElement.index.value]
+                        .subject.teacher_id = this.fromTeacher.id;
                 }
             },
             fullNameTeacher(teacher) {
