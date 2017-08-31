@@ -31,7 +31,7 @@
     width: 100%;
     height: 100%;
     color: rgba(255, 255, 255, 0.87);
-    background: #444;
+    background: #616161;
     cursor: context-menu;
     z-index: 9;
 
@@ -133,9 +133,13 @@
       text-transform: uppercase;
       font-weight: bold;
       height: 48px;
-      &:last-child {
+      &:last-child, &:first-child {
         border-right: 0;
       }
+    }
+
+    .min {
+      width: 40px;
     }
   }
 
@@ -147,7 +151,7 @@
         table {
           border-bottom: 0;
         }
-        .weekDay {
+        .week-day {
           border-bottom: 0;
         }
       }
@@ -159,13 +163,14 @@
         border-left: 0;
         border-top: 0;
         display: table-cell;
+        border-collapse: collapse;
         &:last-child {
           border-right: 0;
         }
       }
     }
 
-    .weekDay {
+    .week-day {
       color: rgba(0, 0, 0, 0.87);
       text-align: center;
       text-transform: uppercase;
@@ -173,11 +178,35 @@
       font-size: 15px;
       border-bottom: 1px solid #d4d4d4;
       border-right: 1px solid #d4d4d4;
-      width: 60px;
       > span {
         display: block;
         transform: rotate(-90deg);
       }
+    }
+  }
+}
+
+.week-lesson {
+  > tr {
+    display: block;
+    width: 100%;
+    background: #f1e790;
+    cursor: help;
+    text-align: center;
+    text-align: -webkit-center;
+    border-bottom: 1px solid #d4d4d4;
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+}
+
+.week-schedule {
+  > tr {
+    display: block;
+    border-bottom: 1px solid #d4d4d4;
+    &:last-child {
+      border-bottom: 0;
     }
   }
 }

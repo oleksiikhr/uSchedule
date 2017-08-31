@@ -53,24 +53,43 @@
                 <table class="schedule">
                     <thead>
                     <tr>
-                        <td class="color"></td>
-                        <td class="color">1 неділя</td>
-                        <td class="color">2 неділя</td>
+                        <td class="color min"></td>
+                        <td class="color min"></td>
+                        <td class="color">1 тиждень</td>
+                        <td class="color">2 тиждень</td>
                     </tr>
                     </thead>
 
                     <tbody>
                     <tr v-for="n in 6" :key="n">
-                        <td class="weekDay color"><span>{{ daysWeek[n - 1] }}</span></td>
+                        <td class="week-day color"><span>{{ daysWeek[n - 1] }}</span></td>
 
-                        <draggable :list="days[0][n - 1]" element="table" :options="{group: 'subjects'}">
+                        <table class="week-lesson color">
+                            <tr v-for="lesson in Math.max(days[0][n - 1].length, days[1][n - 1].length)" :key="lesson"
+                                :title="time[lesson - 1][0] + ' - ' + time[lesson - 1][1]" v-if="time[lesson - 1]">
+                                <td>{{ lesson }}</td>
+                            </tr>
+                        </table>
+
+                        <draggable class="week-schedule" :list="days[0][n - 1]" element="table" :options="{group: 'subjects'}">
                             <tr v-for="(schedule, index) in days[0][n - 1]" :key="schedule.id">
-                                <td>
-                                    {{ schedule.subject.title }}
+                                <td class="element">
+                                    <div class="header">
+                                        <span class="title">{{ schedule.subject.title }}</span>
+                                        <span v-if="schedule.subject.teacher_id" :title="fullNameTeacher(schedule.subject.teacher)">
+                                            {{ shortNameTeacher(schedule.subject.teacher) }}
+                                        </span>
+                                    </div>
+
+                                    <div class="body">
+
+                                    </div>
+
                                 </td>
                             </tr>
                         </draggable>
 
+                        <!--Temporary-->
                         <draggable :list="days[1][n - 1]" element="table" :options="{group: 'subjects'}">
                             <tr v-for="(schedule, index) in days[1][n - 1]" :key="schedule.id">
                                 <td>
@@ -173,12 +192,10 @@
 </template>
 
 <script>
-    import draggable from 'vuedraggable'
     import pnotify from 'pnotify'
 
     export default {
         components: {
-            draggable,
             pnotify,
         },
 
