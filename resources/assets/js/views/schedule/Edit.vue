@@ -13,7 +13,7 @@
                     <md-tabs md-fixed>
                         <md-tab md-icon="book">
                             <form class="left-search" novalidate @submit.stop.prevent="submit">
-                                <md-input-container md-inline>
+                                <md-input-container md-inline md-clearable>
                                     <md-icon>search</md-icon>
                                     <label>Предмет</label>
                                     <md-input v-model="searchSubject"></md-input>
@@ -30,7 +30,7 @@
 
                         <md-tab md-icon="people">
                             <form class="left-search" novalidate @submit.stop.prevent="submit">
-                                <md-input-container md-inline>
+                                <md-input-container md-inline md-clearable>
                                     <md-icon>search</md-icon>
                                     <label>Викладач</label>
                                     <md-input v-model="searchTeacher"></md-input>
@@ -71,19 +71,20 @@
                             </tr>
                         </table>
 
-                        <draggable class="week-schedule" :list="days[0][n - 1]" element="table" :options="{group: 'subjects'}">
+                        <draggable class="week-schedule" :list="days[0][n - 1]" element="table" @start="startSubjectRight"
+                                   :move="moveSubject" @end="endSubjectRight" :options="{group: 'subjects'}">
                             <tr v-for="(schedule, index) in days[0][n - 1]" :key="schedule.id">
                                 <td class="element">
                                     <div class="header">
                                         <span class="title">{{ schedule.subject.title }}</span>
+                                        <!--TODO: config draggable-->
                                         <draggable class="teacher" :options="{group: 'teachers'}">
-                                            <span :week="0" :day="n - 1" :index="index">
-                                                <template v-if="schedule.subject.teacher_id">
-                                                    {{ shortNameTeacher(schedule.subject.teacher) }}
-                                                </template>
-                                                <template v-else>
-                                                    {{ schedule }}
-                                                </template>
+                                            <span v-if="schedule.subject.teacher_id" :week="0" :day="n - 1" :index="index"
+                                                  :title="fullNameTeacher(schedule.subject.teacher)">
+                                                {{ shortNameTeacher(schedule.subject.teacher) }}
+                                            </span>
+                                            <span v-else :week="0" :day="n - 1" :index="index" class="no">
+                                                Викладача не вказано
                                             </span>
                                         </draggable>
                                     </div>
@@ -91,7 +92,6 @@
                                     <div class="body">
 
                                     </div>
-
                                 </td>
                             </tr>
                         </draggable>
@@ -351,6 +351,7 @@
             // Subject
             cloneSubject(el) {
                 this.isMoving = true;
+                this.isDelete = true;
 
                 return {
                     id: el.id,
@@ -379,15 +380,26 @@
                     id: 0,
                 });
             },
+            startSubjectRight() {
+                this.isMoving = true;
+                this.isDelete = false;
+            },
+            moveSubject(evt, originalEvent) {
+                this.isDelete = !evt.relatedContext.list;
+            },
+            endSubjectRight() {
+                this.isMoving = false;
+            },
 
             // Teachers
             cloneTeacher(el) {
                 this.isMoving = true;
+                this.isDelete = true;
                 this.toElement = null;
                 this.fromTeacher = el;
             },
             moveTeacher(evt, originalEvent) {
-                if (! evt.related.className) {
+                if (evt.related.attributes.week) {
                     this.isDelete = false;
                     this.toElement = evt.related.attributes;
                 } else {
