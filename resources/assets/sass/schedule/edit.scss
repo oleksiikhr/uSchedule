@@ -145,7 +145,7 @@
 
   > tbody {
     > tr {
-      height: 100px;
+      height: 150px;
       &:last-child {
         border-bottom: 0;
         table {
@@ -190,17 +190,19 @@
 .week-lesson {
   > tr {
     display: block;
-    width: 100%;
     background: #f1e790;
     cursor: help;
-    text-align: center;
-    text-align: -webkit-center;
     border-bottom: 1px solid #d4d4d4;
     height: 45px;
-    vertical-align: middle;
     line-height: 45px;
     &:last-child {
       border-bottom: 0;
+    }
+
+    > td {
+      display: block;
+      width: 100%;
+      text-align: center;
     }
   }
 }
@@ -211,7 +213,6 @@
     border-bottom: 1px solid #d4d4d4;
     height: 45px;
     vertical-align: middle;
-    padding: 2px;
     &:last-child {
       border-bottom: 0;
     }
@@ -219,7 +220,19 @@
 }
 
 .element {
-  .header {
+  display: block;
+  height: 100%;
+  padding: 0;
+  cursor: move;
+  cursor: -webkit-grab;
+  &:active {
+    cursor: -webkit-grabbing;
+  }
+
+  .left {
+    height: 100%;
+    float: left;
+    padding: 2px;
     .title {
       font-weight: bold;
     }
@@ -229,6 +242,12 @@
         color: #ce8080;
       }
     }
+  }
+
+  .right {
+    float: right;
+    height: 100%;
+    background: #ececec;
   }
 }
 

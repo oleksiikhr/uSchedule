@@ -60,44 +60,55 @@
                     </thead>
 
                     <tbody>
-                    <tr v-for="n in time.length - 1" :key="n">
-                        <td class="week-day color"><span>{{ daysWeek[n - 1] }}</span></td>
+                    <tr v-for="day in time.length - 1" :key="day">
+                        <td class="week-day color"><span>{{ daysWeek[day - 1] }}</span></td>
 
                         <table class="week-lesson color">
-                            <tr v-for="lesson in Math.max(days[0][n - 1].length, days[1][n - 1].length)" :key="lesson"
+                            <tr v-for="lesson in Math.max(days[0][day - 1].length, days[1][day - 1].length)" :key="lesson"
                                 :title="time[lesson - 1][0] + ' - ' + time[lesson - 1][1]" v-if="time[lesson - 1]">
                                 <td>{{ lesson }}</td>
                             </tr>
                         </table>
 
-                        <draggable class="week-schedule" :list="days[0][n - 1]" element="table" @start="startSubjectRight"
-                                   :move="moveSubject" @end="endSubject" :options="{group: 'subjects'}" :week="0" :day="n - 1">
-                            <tr v-for="(schedule, index) in days[0][n - 1]" :key="schedule.id">
+                        <draggable class="week-schedule" :list="days[0][day - 1]" element="table" @start="startSubjectRight"
+                                   :move="moveSubject" @end="endSubject" :options="{group: 'subjects'}" :week="0" :day="day - 1">
+                            <tr v-for="(schedule, index) in days[0][day - 1]" :key="schedule.id">
                                 <td class="element">
-                                    <div class="header">
+                                    <div class="left">
                                         <span class="title">{{ schedule.subject.title }}</span>
                                         <!--TODO: config teacher draggable-->
-                                        <draggable class="teacher" :options="{group: 'teachers'}">
-                                            <span v-if="schedule.subject.teacher_id" :week="0" :day="n - 1" :index="index"
-                                                  :title="fullNameTeacher(schedule.subject.teacher)">
+                                        <draggable class="teacher" :options="{group: 'teachers', draggable: '.item'}">
+                                            <span v-if="schedule.subject.teacher_id > 0" :week="0" :day="day - 1" :index="index"
+                                                  :title="fullNameTeacher(schedule.subject.teacher)" :class="isMoving ? 'item' : ''">
                                                 {{ shortNameTeacher(schedule.subject.teacher) }}
                                             </span>
-                                            <span v-else :week="0" :day="n - 1" :index="index" class="no">
+                                            <span v-else :week="0" :day="day - 1" :index="index" :class="isMoving ? 'item no' : 'no'">
                                                 Викладача не вказано
                                             </span>
                                         </draggable>
                                     </div>
 
-                                    <div class="body">
+                                    <div class="right">
+                                        <!--TODO: styles-->
+                                        <div class="cabinet">
+                                            <!--<a @click="editRoom(0, day - 1, index)">-->
+                                                <!--<span v-if="schedule.room">{{ schedule.room }}</span>-->
+                                                <!--<md-icon v-else>business</md-icon>-->
+                                            <!--</a>-->
+                                        </div>
 
+                                        <!--TODO: create type-->
+                                        <div class="type">
+
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
                         </draggable>
 
                         <!--Temporary-->
-                        <draggable :list="days[1][n - 1]" element="table" :options="{group: 'subjects'}">
-                            <tr v-for="(schedule, index) in days[1][n - 1]" :key="schedule.id">
+                        <draggable :list="days[1][day - 1]" element="table" :options="{group: 'subjects'}">
+                            <tr v-for="(schedule, index) in days[1][day - 1]" :key="schedule.id">
                                 <td>
                                     {{ schedule.subject.title }} - Don't touch!
                                 </td>
@@ -363,6 +374,7 @@
                         course: el.course,
                         faculty_id: el.faculty_id,
                         teacher: [],
+                        teacher_id: -1,
                     },
                 };
             },
@@ -391,7 +403,7 @@
             },
             addEmptySubject(week, day) {
                 this.days[week][day].push({
-                    id: 0,
+                    id: -1,
                 });
             },
             startSubjectRight() {
