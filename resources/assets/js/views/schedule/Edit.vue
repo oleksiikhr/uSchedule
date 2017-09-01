@@ -1,5 +1,4 @@
 <template>
-    <!--TODO: right-column - delete with draggable on left-column-->
     <md-theme md-name="edit">
         <md-layout class="edit-template">
             <md-layout md-flex="20" class="left-column">
@@ -61,7 +60,7 @@
                     </thead>
 
                     <tbody>
-                    <tr v-for="n in 6" :key="n">
+                    <tr v-for="n in time.length - 1" :key="n">
                         <td class="week-day color"><span>{{ daysWeek[n - 1] }}</span></td>
 
                         <table class="week-lesson color">
@@ -72,12 +71,12 @@
                         </table>
 
                         <draggable class="week-schedule" :list="days[0][n - 1]" element="table" @start="startSubjectRight"
-                                   :move="moveSubject" @end="endSubjectRight" :options="{group: 'subjects'}">
+                                   :move="moveSubject" @end="endSubject" :options="{group: 'subjects'}" :week="0" :day="n - 1">
                             <tr v-for="(schedule, index) in days[0][n - 1]" :key="schedule.id">
                                 <td class="element">
                                     <div class="header">
                                         <span class="title">{{ schedule.subject.title }}</span>
-                                        <!--TODO: config draggable-->
+                                        <!--TODO: config teacher draggable-->
                                         <draggable class="teacher" :options="{group: 'teachers'}">
                                             <span v-if="schedule.subject.teacher_id" :week="0" :day="n - 1" :index="index"
                                                   :title="fullNameTeacher(schedule.subject.teacher)">
@@ -100,7 +99,7 @@
                         <draggable :list="days[1][n - 1]" element="table" :options="{group: 'subjects'}">
                             <tr v-for="(schedule, index) in days[1][n - 1]" :key="schedule.id">
                                 <td>
-                                    {{ schedule.subject.title }} - Test
+                                    {{ schedule.subject.title }} - Don't touch!
                                 </td>
                             </tr>
                         </draggable>
@@ -237,6 +236,7 @@
                 toElement: null,
                 isMoving: false,
                 isDelete: true,
+                deleteSubject: null,
 
                 // Dialog
                 openedWeekIndex: null,
@@ -368,9 +368,23 @@
             },
             moveSubject(evt, originalEvent) {
                 this.isDelete = !evt.relatedContext.list;
+
+                if (evt.to != evt.from) {
+                    this.deleteSubject = evt.relatedContext.list && evt.relatedContext.list.length > this.time.length - 1
+                        ? evt.to.attributes
+                        : null;
+                } else {
+                    this.deleteSubject = null;
+                }
             },
             endSubject(el) {
                 this.isMoving = false;
+
+                if (this.deleteSubject) {
+                    this.days[this.deleteSubject.week.value][this.deleteSubject.day.value]
+                        .splice(this.days[this.deleteSubject.week.value][this.deleteSubject.day.value].length - 1, 1);
+                    this.deleteSubject = null;
+                }
             },
             removeSubject(list, index) {
                 list.splice(index, 1);
@@ -383,12 +397,6 @@
             startSubjectRight() {
                 this.isMoving = true;
                 this.isDelete = false;
-            },
-            moveSubject(evt, originalEvent) {
-                this.isDelete = !evt.relatedContext.list;
-            },
-            endSubjectRight() {
-                this.isMoving = false;
             },
 
             // Teachers
