@@ -220,8 +220,7 @@
 }
 
 .element {
-  display: block;
-  height: 100%;
+  display: flex;
   padding: 0;
   cursor: move;
   cursor: -webkit-grab;
@@ -229,15 +228,31 @@
     cursor: -webkit-grabbing;
   }
 
-  .left {
-    height: 100%;
-    float: left;
+  .type {
+    display: flex;
+    align-items: center;
+    color: #ad5858;
+    border-right: 1px solid #d4d4d4;
+    font-weight: bold;
+    margin-right: 3px;
+    width: 40px;
+    cursor: pointer;
+    > span {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .info {
     padding: 2px;
     .title {
       font-weight: bold;
+      white-space: nowrap;
     }
     .teacher {
       color: #777;
+      white-space: nowrap;
       .no {
         color: #ce8080;
       }
@@ -245,8 +260,6 @@
   }
 
   .right {
-    float: right;
-    height: 100%;
     background: #ececec;
   }
 }

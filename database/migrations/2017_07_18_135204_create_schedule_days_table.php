@@ -22,7 +22,7 @@ class CreateScheduleDaysTable extends Migration
             $table->tinyInteger('week');
             $table->tinyInteger('order');
             $table->string('room', 10);
-            $table->boolean('type');
+            $table->tinyInteger('type'); // 0 - Лекция, 1 - Практика, 2 - Лб1, 3 - Лб2
             $table->timestamps();
         });
     }

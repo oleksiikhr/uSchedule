@@ -74,7 +74,11 @@
                                    :move="moveSubject" @end="endSubject" :options="{group: 'subjects'}" :week="0" :day="day - 1">
                             <tr v-for="(schedule, index) in days[0][day - 1]" :key="schedule.id">
                                 <td class="element">
-                                    <div class="left">
+                                    <div class="type" :title="types[1][schedule.type]" @click="changeType(0, day - 1, index)">
+                                        <span>{{ types[0][schedule.type] }}</span>
+                                    </div>
+
+                                    <div class="info">
                                         <span class="title">{{ schedule.subject.title }}</span>
                                         <draggable class="teacher" :options="{group: 'teachers', draggable: '.item'}">
                                             <span v-if="schedule.teacher_id > 0" :week="0" :day="day - 1" :index="index"
@@ -97,9 +101,6 @@
                                         </div>
 
                                         <!--TODO: create type-->
-                                        <div class="type">
-
-                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -256,8 +257,9 @@
 
                 // Other
                 time: [],
-                days: [ [[],[],[],[],[],[]], [[],[],[],[],[],[]] ],
+                days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
                 daysWeek: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                types: [['Л', 'П', 'Лб1', 'Лб2'], ['Лекція', 'Практика', 'Лабораторна робота 1', 'Лабораторна робота 2']],
 
                 errors: {},
             }
@@ -317,6 +319,11 @@
         },
 
         methods: {
+            // Type
+            changeType(week, day, index) {
+                this.days[week][day][index].type = (this.days[week][day][index].type + 1) % this.types[0].length;
+            },
+
             // Room
             addRoom(el) {
                 el.room = prompt('Введіть номер кабінету');
@@ -339,6 +346,7 @@
                 this.$refs['room'].close();
             },
 
+//            TODO: replace on vue-material - snackbar
             // Save schedule
             saveSchedule() {
                 axios.post('/schedule', this.days)
