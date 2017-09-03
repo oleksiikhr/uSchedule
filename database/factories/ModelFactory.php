@@ -57,3 +57,20 @@ $factory->define(App\Subject::class, function (Faker\Generator $faker){
         'type' => mt_rand(1, 2)
     ];
 });
+
+// Only for schedule_id = 1
+$factory->define(App\ScheduleDay::class, function (Faker\Generator $faker) {
+    $subject = \App\Subject::inRandomOrder()->first();
+    $teacher = \App\Teacher::inRandomOrder()->first();
+
+    return [
+        'schedule_id' => 1,
+        'subject_id' => $subject->id,
+        'teacher_id' => $teacher->id,
+        'day' => mt_rand(0, 5),
+        'week' => mt_rand(0, 1),
+        'order' => mt_rand(0, 6),
+        'room' => mt_rand(1, 500) . chr(mt_rand(65, 90)),
+        'type' => mt_rand(0, 1)
+    ];
+});

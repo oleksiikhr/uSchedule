@@ -76,11 +76,10 @@
                                 <td class="element">
                                     <div class="left">
                                         <span class="title">{{ schedule.subject.title }}</span>
-                                        <!--TODO: config teacher draggable-->
                                         <draggable class="teacher" :options="{group: 'teachers', draggable: '.item'}">
-                                            <span v-if="schedule.subject.teacher_id > 0" :week="0" :day="day - 1" :index="index"
-                                                  :title="fullNameTeacher(schedule.subject.teacher)" :class="isMoving ? 'item' : ''">
-                                                {{ shortNameTeacher(schedule.subject.teacher) }}
+                                            <span v-if="schedule.teacher_id > 0" :week="0" :day="day - 1" :index="index"
+                                                  :title="fullNameTeacher(schedule.teacher)" :class="isMoving ? 'item' : ''">
+                                                {{ shortNameTeacher(schedule.teacher) }}
                                             </span>
                                             <span v-else :week="0" :day="day - 1" :index="index" :class="isMoving ? 'item no' : 'no'">
                                                 Викладача не вказано
@@ -368,13 +367,13 @@
                     id: el.id,
                     room: '',
                     schedule_id: this.schedule.id,
+                    type: false,
+                    teacher: [],
                     subject: {
                         id: el.id,
                         title: el.title,
                         course: el.course,
                         faculty_id: el.faculty_id,
-                        teacher: [],
-                        teacher_id: -1,
                     },
                 };
             },
@@ -432,9 +431,9 @@
 
                 if (this.toElement) {
                     this.days[this.toElement.week.value][this.toElement.day.value][this.toElement.index.value]
-                        .subject.teacher = this.fromTeacher;
+                        .teacher = this.fromTeacher;
                     this.days[this.toElement.week.value][this.toElement.day.value][this.toElement.index.value]
-                        .subject.teacher_id = this.fromTeacher.id;
+                        .teacher_id = this.fromTeacher.id;
                 }
             },
             fullNameTeacher(teacher) {

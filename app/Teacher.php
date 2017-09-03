@@ -10,4 +10,9 @@ class Teacher extends Model
     {
         return $this->hasMany(Subject::class);
     }
+
+    public function scheduleDay()
+    {
+        return $this->hasMany(ScheduleDay::class);
+    }
 }

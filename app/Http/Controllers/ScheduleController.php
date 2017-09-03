@@ -64,7 +64,7 @@ class ScheduleController extends WebController
     {
         $schedule = Schedule::findOrFail($id);
 
-        $scheduleDays = ScheduleDay::with('schedule', 'subject.teacher')
+        $scheduleDays = ScheduleDay::with('schedule', 'subject', 'teacher')
             ->where('schedule_id', $id)
             ->orderBy('week')
             ->orderBy('day')

@@ -16,6 +16,10 @@ class ScheduleDay extends Model
         return $this->belongsTo(Subject::class);
     }
 
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
 
     public function saveSchedule($schedule){
         foreach ($schedule as $week) {

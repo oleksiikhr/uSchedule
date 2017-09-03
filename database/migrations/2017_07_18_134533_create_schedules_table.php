@@ -23,7 +23,7 @@ class CreateSchedulesTable extends Migration
             $table->timestamps();
         });
 
-        // Simple/Test record
+        // TODO: del in future. Simple/Test record.
         DB::table('schedules')->insert([
             'degree'     => 'bachelor',
             'daytime'    => 'daytime',
