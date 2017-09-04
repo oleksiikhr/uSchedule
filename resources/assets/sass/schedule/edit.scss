@@ -224,8 +224,12 @@
   padding: 0;
   cursor: move;
   cursor: -webkit-grab;
+  height: 100%;
   &:active {
     cursor: -webkit-grabbing;
+  }
+  &.no-pair {
+    background: #f3f3f3;
   }
 
   .type {
@@ -261,6 +265,19 @@
 
   .right {
     background: #ececec;
+  }
+}
+
+.footer-btn {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: none;
+}
+
+.week-schedule:hover {
+  .footer-btn {
+    display: block;
   }
 }
 

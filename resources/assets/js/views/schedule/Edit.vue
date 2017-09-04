@@ -70,10 +70,12 @@
                             </tr>
                         </table>
 
+                        <!--TOOD: template for week-2-->
                         <draggable class="week-schedule" :list="days[0][day - 1]" element="table" @start="startSubjectRight"
-                                   :move="moveSubject" @end="endSubject" :options="{group: 'subjects'}" :week="0" :day="day - 1">
-                            <tr v-for="(schedule, index) in days[0][day - 1]" :key="schedule.id">
-                                <td class="element">
+                                   :move="moveSubject" @end="endSubject" :options="{group: 'subjects', draggable: '.item'}"
+                                   :week="0" :day="day - 1">
+                            <tr v-for="(schedule, index) in days[0][day - 1]" :key="schedule.id" class="item">
+                                <td class="element" v-if="schedule.id > 0">
                                     <div class="type" :title="types[1][schedule.type]" @click="changeType(0, day - 1, index)">
                                         <span>{{ types[0][schedule.type] }}</span>
                                     </div>
@@ -103,7 +105,15 @@
                                         <!--TODO: create type-->
                                     </div>
                                 </td>
+
+                                <td class="element no-pair" v-else></td>
                             </tr>
+
+                            <!--TODO: fix draggable on last subject-->
+                            <md-button v-if="days[0][day - 1].length < 7" slot="footer" class="footer-btn"
+                                       title="Додати порожню пару" @click="addEmptySubject(0, day - 1)">
+                                <md-icon>add</md-icon>
+                            </md-button>
                         </draggable>
 
                         <!--Temporary-->
@@ -117,75 +127,6 @@
                     </tr>
                     </tbody>
                 </table>
-
-
-                <!--<md-button class="md-raised md-primary" @click="saveSchedule">Сохранить</md-button>-->
-                <!--<div class="schedule">-->
-                    <!--<div :class="'week week-' + (weekNum + 1)" v-for="(week, weekNum) in days" :key="weekNum">-->
-                        <!--&lt;!&ndash;<h2 class="week-title">{{ weekNum + 1 }} неділя</h2>&ndash;&gt;-->
-                        <!--<div class="schedule-column" v-for="(day, dayNum) in week" :key="dayNum">-->
-                            <!--<h3>{{ daysWeek[dayNum] }}</h3>-->
-                            <!--<draggable :list="week[dayNum]" class="dragArea" :options="{group: 'subjects', draggable: '.draggable'}">-->
-                                <!--<md-card md-with-hover v-for="(element, index) in day" :key="element.id" class="draggable">-->
-                                    <!--<template v-if="element.id > 0">-->
-                                        <!--<md-card-header>-->
-                                            <!--<md-card-header-text>-->
-                                                <!--<div class="md-title">{{ element.subject.title }}</div>-->
-                                                <!--<div v-if="element.subject.teacher" :title="fullNameTeacher(element.subject.teacher)" class="md-subhead">-->
-                                                    <!--<span v-if="element.subject.teacher.length > 0">{{ shortNameTeacher(element.subject.teacher) }}</span>-->
-                                                <!--</div>-->
-                                            <!--</md-card-header-text>-->
-
-                                            <!--<md-button class="md-icon-button" @click="editRoom(weekNum, dayNum, index)">-->
-                                                <!--<span v-if="element.room">{{ element.room }}</span>-->
-                                                <!--<md-icon v-else>business</md-icon>-->
-                                            <!--</md-button>-->
-                                        <!--</md-card-header>-->
-
-                                        <!--&lt;!&ndash;<md-card-content>&ndash;&gt;-->
-
-                                        <!--&lt;!&ndash;</md-card-content>&ndash;&gt;-->
-
-                                        <!--<md-card-actions>-->
-                                            <!--<div class="time">-->
-                                                <!--<md-icon>schedule</md-icon>-->
-                                                <!--<span v-if="time[index]">{{ time[index][0] + ' - ' + time[index][1] }}</span>-->
-                                                <!--<span v-else>Час відсутній</span>-->
-                                            <!--</div>-->
-                                            <!--<span style="flex: 1"></span>-->
-                                            <!--<md-switch></md-switch>-->
-                                        <!--</md-card-actions>-->
-
-                                        <!--&lt;!&ndash;<draggable v-if="isMoving" :options="{group: 'teachers'}">&ndash;&gt;-->
-                                            <!--&lt;!&ndash;<span :index="index" :day="dayNum">For Teachers - {{ dayNum + ' ' + index }}</span> &lt;!&ndash; Temporary &ndash;&gt;&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</draggable>&ndash;&gt;-->
-
-                                        <!--&lt;!&ndash;<md-card-actions>&ndash;&gt;-->
-                                            <!--&lt;!&ndash;<md-button class="md-icon-button md-accent" @click="removeSubject(days[dayNum], index)">&ndash;&gt;-->
-                                                <!--&lt;!&ndash;<md-icon>delete</md-icon>&ndash;&gt;-->
-                                            <!--&lt;!&ndash;</md-button>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</md-card-actions>&ndash;&gt;-->
-                                    <!--</template>-->
-
-                                    <!--<template v-else>-->
-                                        <!--<div class="no-pair">-->
-                                            <!--<div class="time">-->
-                                                <!--<md-icon>schedule</md-icon>-->
-                                                <!--<span v-if="time[index]">{{ time[index][0] + ' - ' + time[index][1] }}</span>-->
-                                                <!--<span v-else>Час відсутній</span>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</template>-->
-                                <!--</md-card>-->
-                            <!--</draggable>-->
-
-                            <!--<md-button v-if="days[weekNum][dayNum].length < 7" slot="footer" class="footer-btn"-->
-                                        <!--title="Пара відсутня" @click="addEmptySubject(weekNum, dayNum)">-->
-                                <!--<md-icon>add</md-icon>-->
-                            <!--</md-button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
             </md-layout>
 
             <md-dialog ref="room">
@@ -375,7 +316,7 @@
                     id: el.id,
                     room: '',
                     schedule_id: this.schedule.id,
-                    type: false,
+                    type: 0,
                     teacher: [],
                     subject: {
                         id: el.id,
