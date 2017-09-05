@@ -70,65 +70,58 @@
                             </tr>
                         </table>
 
-                        <!--TOOD: template for week-2-->
-                        <draggable class="week-schedule" :list="days[0][day - 1]" element="table" @start="startSubjectRight"
-                                   :move="moveSubject" @end="endSubject" :options="{group: 'subjects', draggable: '.item'}"
-                                   :week="0" :day="day - 1">
-                            <tr v-for="(schedule, index) in days[0][day - 1]" :key="schedule.id" class="item">
-                                <td class="element" v-if="schedule.id > 0">
-                                    <div class="type" :title="types[1][schedule.type]" @click="changeType(0, day - 1, index)">
-                                        <span>{{ types[0][schedule.type] }}</span>
-                                    </div>
-
-                                    <div class="info">
-                                        <span class="title">{{ schedule.subject.title }}</span>
-                                        <draggable class="teacher" :options="{group: 'teachers', draggable: '.item'}">
-                                            <span v-if="schedule.teacher_id > 0" :week="0" :day="day - 1" :index="index"
-                                                  :title="fullNameTeacher(schedule.teacher)" :class="isMoving ? 'item' : ''">
-                                                {{ shortNameTeacher(schedule.teacher) }}
-                                            </span>
-                                            <span v-else :week="0" :day="day - 1" :index="index" :class="isMoving ? 'item no' : 'no'">
-                                                Викладача не вказано
-                                            </span>
-                                        </draggable>
-                                    </div>
-
-                                    <div class="right">
-                                        <!--TODO: styles-->
-                                        <div class="cabinet">
-                                            <!--<a @click="editRoom(0, day - 1, index)">-->
-                                                <!--<span v-if="schedule.room">{{ schedule.room }}</span>-->
-                                                <!--<md-icon v-else>business</md-icon>-->
-                                            <!--</a>-->
+                        <template v-for="week in 2">
+                            <draggable class="week-schedule" :list="days[week - 1][day - 1]" element="table" @start="startSubjectRight"
+                                       :move="moveSubject" @end="endSubject" :options="{group: 'subjects', draggable: '.item'}"
+                                       :week="week - 1" :day="day - 1">
+                                <tr class="item" v-for="(schedule, index) in days[week - 1][day - 1]" :key="index">
+                                    <td class="element" v-if="schedule.id > 0">
+                                        <div class="type" :title="types[1][schedule.type]" @click="changeType(week - 1, day - 1, index)">
+                                            <span>{{ types[0][schedule.type] }}</span>
                                         </div>
 
-                                        <!--TODO: create type-->
-                                    </div>
-                                </td>
+                                        <div class="info">
+                                            <span class="title">{{ schedule.subject.title }}</span>
+                                            <draggable class="teacher" :options="{group: 'teachers', draggable: '.item'}">
+                                                <span v-if="schedule.teacher_id > 0" :week="week - 1" :day="day - 1" :index="index"
+                                                      :title="fullNameTeacher(schedule.teacher)" :class="isMoving ? 'item' : ''">
+                                                    {{ shortNameTeacher(schedule.teacher) }}
+                                                </span>
+                                                <span v-else :week="week - 1" :day="day - 1" :index="index" :class="isMoving ? 'item no' : 'no'">
+                                                    Викладача не вказано
+                                                </span>
+                                            </draggable>
+                                        </div>
 
-                                <td class="element no-pair" v-else></td>
-                            </tr>
+                                        <div class="right">
+                                            <!--TODO: styles-->
+                                            <div class="cabinet">
+                                                <!--<a @click="editRoom(week - 1, day - 1, index)">-->
+                                                <!--<span v-if="schedule.room">{{ schedule.room }}</span>-->
+                                                <!--<md-icon v-else>business</md-icon>-->
+                                                <!--</a>-->
+                                            </div>
 
-                            <!--TODO: fix draggable on last subject-->
-                            <md-button v-if="days[0][day - 1].length < 7" slot="footer" class="footer-btn"
-                                       title="Додати порожню пару" @click="addEmptySubject(0, day - 1)">
-                                <md-icon>add</md-icon>
-                            </md-button>
-                        </draggable>
+                                            <!--TODO: create type-->
+                                        </div>
+                                    </td>
 
-                        <!--Temporary-->
-                        <draggable :list="days[1][day - 1]" element="table" :options="{group: 'subjects'}">
-                            <tr v-for="(schedule, index) in days[1][day - 1]" :key="schedule.id">
-                                <td>
-                                    {{ schedule.subject.title }} - Don't touch!
-                                </td>
-                            </tr>
-                        </draggable>
+                                    <td class="element no-pair" v-else></td>
+                                </tr>
+
+                                <!--TODO: fix draggable on last subject-->
+                                <md-button v-if="days[week - 1][day - 1].length < 7" slot="footer" class="footer-btn"
+                                           title="Додати порожню пару" @click="addEmptySubject(week - 1, day - 1)">
+                                    <md-icon>add</md-icon>
+                                </md-button>
+                            </draggable>
+                        </template>
                     </tr>
                     </tbody>
                 </table>
             </md-layout>
 
+            <!--TODO: replace inline method-->
             <md-dialog ref="room">
                 <md-dialog-title>Номер аудиторії</md-dialog-title>
 
