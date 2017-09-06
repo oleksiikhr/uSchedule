@@ -56,11 +56,11 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => env('HEROKU_DB_HOST', 'ec2-54-247-92-185.eu-west-1.compute.amazonaws.com'),
+            'port' => env('HEROKU_DB_PORT', '5432'),
+            'database' => env('HEROKU_DB_DATABSE', 'de8lclu18n3u4'),
+            'username' => env('HEROKU_DB_USERNAME', 'qpoblclmzspqob'),
+            'password' => env('HEROKU_DB_PASSWORD', 'cd0710b199f6edc32d2a5a07f3df392d897b6f1f9c6c1ab102c3be90b1fc093d'),
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
