@@ -8,7 +8,7 @@
 
     <title>КНТЕУ - @yield('title')</title>
 
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="@yield('body-classes')">
 
@@ -20,6 +20,6 @@
         @yield('content')
     </div>
 
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ secure_asset('js/app.js') }}"></script>
 </body>
 </html>
