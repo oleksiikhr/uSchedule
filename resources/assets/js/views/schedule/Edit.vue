@@ -82,12 +82,12 @@
 
                                         <div class="info">
                                             <span class="title">{{ schedule.subject.title }}</span>
-                                            <draggable class="teacher" :options="{group: 'teachers', draggable: '.item'}">
+                                            <draggable class="teacher" :options="{group: 'teachers', draggable: '.teacher-item'}">
                                                 <span v-if="schedule.teacher_id > 0" :week="week - 1" :day="day - 1" :index="index"
-                                                      :title="fullNameTeacher(schedule.teacher)" :class="isMoving ? 'item' : ''">
+                                                      :title="fullNameTeacher(schedule.teacher)" :class="isMoving ? 'teacher-item' : ''">
                                                     {{ shortNameTeacher(schedule.teacher) }}
                                                 </span>
-                                                <span v-else :week="week - 1" :day="day - 1" :index="index" :class="isMoving ? 'item no' : 'no'">
+                                                <span v-else :week="week - 1" :day="day - 1" :index="index" :class="isMoving ? 'teacher-item no' : 'no'">
                                                     Викладача не вказано
                                                 </span>
                                             </draggable>
