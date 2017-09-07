@@ -40536,10 +40536,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pnotify__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pnotify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_pnotify__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuedraggable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuedraggable__);
 //
 //
 //
@@ -40683,14 +40681,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        draggable: __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default.a,
-        pnotify: __WEBPACK_IMPORTED_MODULE_0_pnotify___default.a
+        draggable: __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default.a
     },
 
     props: ['inSchedule', 'inScheduleDays', 'inSubjects', 'inTeachers', 'inTime'],
@@ -40827,20 +40823,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         saveSchedule: function saveSchedule() {
             var _this2 = this;
 
-            axios.post('/schedule', this.days).then(this.onSuccess).catch(function (error) {
+            axios.post('/schedule', this.days).then(function (res) {
+                return console.log(_this2.res);
+            }).catch(function (error) {
                 return _this2.errors = error.response;
-            });
-        },
-        onSuccess: function onSuccess(response) {
-            new __WEBPACK_IMPORTED_MODULE_0_pnotify___default.a({
-                title: 'Розклад збережено',
-                text: false,
-                icon: true,
-                type: 'success',
-                styling: 'brighttheme',
-                buttons: {
-                    closer: true
-                }
             });
         },
 
@@ -42988,7 +42974,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }, [_c('td', [_vm._v(_vm._s(lesson))])]) : _vm._e()
     })), _vm._v(" "), _vm._l((2), function(week) {
       return [_c('draggable', {
-        class: 'week-schedule' + (_vm.isMoving ? ' draggable' : ''),
+        class: 'week-schedule' + (_vm.isMoving && _vm.days[week - 1][day - 1].length < _vm.time.length ? ' draggable' : ''),
         attrs: {
           "list": _vm.days[week - 1][day - 1],
           "element": "table",

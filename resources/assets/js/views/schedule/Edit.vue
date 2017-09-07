@@ -71,9 +71,9 @@
                         </table>
 
                         <template v-for="week in 2">
-                            <draggable :class="'week-schedule' + (isMoving ? ' draggable' : '')" :list="days[week - 1][day - 1]"
-                                       element="table" @start="startSubjectRight" :move="moveSubject" @end="endSubject"
-                                       :options="{group: 'subjects', draggable: '.item'}" :week="week - 1" :day="day - 1">
+                            <draggable :class="'week-schedule' + (isMoving && days[week - 1][day - 1].length < time.length ? ' draggable' : '')"
+                                       :list="days[week - 1][day - 1]" element="table" @start="startSubjectRight" :move="moveSubject"
+                                       @end="endSubject" :options="{group: 'subjects', draggable: '.item'}" :week="week - 1" :day="day - 1">
                                 <tr class="item" v-for="(schedule, index) in days[week - 1][day - 1]" :key="index">
                                     <td class="element" v-if="schedule.id > 0">
                                         <div class="type" :title="types[1][schedule.type]" @click="changeType(week - 1, day - 1, index)">
@@ -142,13 +142,11 @@
 </template>
 
 <script>
-    import pnotify from 'pnotify'
     import draggable from 'vuedraggable'
 
     export default {
         components: {
             draggable,
-            pnotify,
         },
 
         props: [
@@ -283,20 +281,8 @@
             // Save schedule
             saveSchedule() {
                 axios.post('/schedule', this.days)
-                    .then(this.onSuccess)
+                    .then(res => console.log(this.res))
                     .catch(error => this.errors = error.response);
-            },
-            onSuccess(response) {
-                new pnotify({
-                    title: 'Розклад збережено',
-                    text: false,
-                    icon: true,
-                    type: 'success',
-                    styling: 'brighttheme',
-                    buttons: {
-                        closer: true
-                    }
-                });
             },
 
             // Subject
