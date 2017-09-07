@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Database\Schema\SchemaManager;
 use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
 use TCG\Voyager\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 
 class MyBreadController extends Controller
 {
@@ -38,10 +40,18 @@ class MyBreadController extends Controller
         }
 
         // GET THE DataType based on the slug
-        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+        if(Cache::has($slug)){
+            $dataType = Cache::get($slug);
+        }else{
+            $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+            $expiresAt = Carbon::now()->addMinutes(10);
+            Cache::put($slug, $dataType, $expiresAt);
+        }
+
 
         // Check permission
         $this->authorize('browse', app($dataType->model_name));
+
 
         $getter = $dataType->server_side ? 'paginate' : 'get';
 
