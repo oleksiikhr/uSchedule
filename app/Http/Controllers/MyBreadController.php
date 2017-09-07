@@ -83,7 +83,7 @@ class MyBreadController extends Controller
             if ($orderBy && in_array($orderBy, $dataType->fields())) {
                 $querySortOrder = (!empty($sortOrder)) ? $sortOrder : 'DESC';
                 $dataTypeContent = call_user_func([
-                    $query->with($relationships)->where('first_name', 'Faker')->orderBy($orderBy, $querySortOrder),
+                    $query->with($relationships)->orderBy($orderBy, $querySortOrder),
                     $getter,
                 ]);
             } elseif ($model->timestamps) {
