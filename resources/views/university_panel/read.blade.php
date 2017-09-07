@@ -1,4 +1,4 @@
-@extends('voyager::master')
+@extends('layouts.university_panel')
 
 @section('page_title','View '.$dataType->display_name_singular)
 
