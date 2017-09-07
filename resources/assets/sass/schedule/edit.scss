@@ -208,14 +208,15 @@
 }
 
 .week-schedule {
+  &.draggable {
+    padding-bottom: 45px;
+  }
+
   > tr {
     display: block;
     border-bottom: 1px solid #d4d4d4;
     height: 45px;
     vertical-align: middle;
-    &:last-child {
-      border-bottom: 0;
-    }
   }
 }
 
@@ -272,13 +273,16 @@
   width: 100%;
   padding: 0;
   margin: 0;
-  display: none;
+  opacity: 0;
   height: 45px;
+  &.moving {
+    display: block;
+  }
 }
 
 .week-schedule:hover {
   .footer-btn {
-    display: block;
+    opacity: 1;
   }
 }
 

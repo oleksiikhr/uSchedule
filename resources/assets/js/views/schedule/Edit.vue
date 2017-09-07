@@ -71,9 +71,9 @@
                         </table>
 
                         <template v-for="week in 2">
-                            <draggable class="week-schedule" :list="days[week - 1][day - 1]" element="table" @start="startSubjectRight"
-                                       :move="moveSubject" @end="endSubject" :options="{group: 'subjects', draggable: '.item'}"
-                                       :week="week - 1" :day="day - 1">
+                            <draggable :class="'week-schedule' + (isMoving ? ' draggable' : '')" :list="days[week - 1][day - 1]"
+                                       element="table" @start="startSubjectRight" :move="moveSubject" @end="endSubject"
+                                       :options="{group: 'subjects', draggable: '.item'}" :week="week - 1" :day="day - 1">
                                 <tr class="item" v-for="(schedule, index) in days[week - 1][day - 1]" :key="index">
                                     <td class="element" v-if="schedule.id > 0">
                                         <div class="type" :title="types[1][schedule.type]" @click="changeType(week - 1, day - 1, index)">
@@ -109,8 +109,7 @@
                                     <td class="element no-pair" v-else></td>
                                 </tr>
 
-                                <!--TODO: fix draggable on last subject-->
-                                <md-button v-if="days[week - 1][day - 1].length < 7" slot="footer" class="footer-btn"
+                                <md-button v-if="days[week - 1][day - 1].length < 7 && !isMoving" class="footer-btn"
                                            title="Додати порожню пару" @click="addEmptySubject(week - 1, day - 1)">
                                     <md-icon>add</md-icon>
                                 </md-button>
