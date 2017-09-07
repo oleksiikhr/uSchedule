@@ -12,7 +12,8 @@
         "fzaninotto/faker": "~1.4",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "tcg/voyager": "dev-master"
+        "tcg/voyager": "dev-master",
+        "ext-gd": "*"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
