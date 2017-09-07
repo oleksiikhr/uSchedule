@@ -15,4 +15,8 @@ class Subject extends Model
     {
         return $this->hasMany(ScheduleDay::class);
     }
+
+    public function facultyId(){
+        return $this->belongsTo(Faculty::class, 'faculty_id');
+    }
 }
