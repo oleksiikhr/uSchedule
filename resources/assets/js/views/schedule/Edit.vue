@@ -80,29 +80,26 @@
                                             <span>{{ types[0][schedule.type] }}</span>
                                         </div>
 
-                                        <div class="info">
-                                            <span class="title">{{ schedule.subject.title }}</span>
-                                            <draggable class="teacher" :options="{group: 'teachers', draggable: '.teacher-item'}">
-                                                <span v-if="schedule.teacher_id > 0" :week="week - 1" :day="day - 1" :index="index"
-                                                      :title="fullNameTeacher(schedule.teacher)" :class="isMoving ? 'teacher-item' : ''">
-                                                    {{ shortNameTeacher(schedule.teacher) }}
-                                                </span>
-                                                <span v-else :week="week - 1" :day="day - 1" :index="index" :class="isMoving ? 'teacher-item no' : 'no'">
-                                                    Викладача не вказано
-                                                </span>
-                                            </draggable>
-                                        </div>
-
                                         <div class="right">
-                                            <!--TODO: styles-->
-                                            <div class="cabinet">
-                                                <!--<a @click="editRoom(week - 1, day - 1, index)">-->
-                                                <!--<span v-if="schedule.room">{{ schedule.room }}</span>-->
-                                                <!--<md-icon v-else>business</md-icon>-->
-                                                <!--</a>-->
+                                            <div class="info">
+                                                <span class="title">{{ schedule.subject.title }}</span>
+                                                <draggable class="teacher" :options="{group: 'teachers', draggable: '.teacher-item'}">
+                                                    <span v-if="schedule.teacher_id > 0" :week="week - 1" :day="day - 1" :index="index"
+                                                          :title="fullNameTeacher(schedule.teacher)" :class="isMoving ? 'teacher-item' : ''">
+                                                        {{ shortNameTeacher(schedule.teacher) }}
+                                                    </span>
+                                                    <span v-else :week="week - 1" :day="day - 1" :index="index" :class="isMoving ? 'teacher-item no' : 'no'">
+                                                        Викладача не вказано
+                                                    </span>
+                                                </draggable>
                                             </div>
 
-                                            <!--TODO: create type-->
+                                            <div class="cabinet">
+                                                <a @click="editRoom(week - 1, day - 1, index)">
+                                                    <span v-if="schedule.room">{{ schedule.room }}</span>
+                                                    <md-icon v-else>business</md-icon>
+                                                </a>
+                                            </div>
                                         </div>
                                     </td>
 
@@ -192,7 +189,7 @@
                 daysWeek: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
                 types: [['Л', 'П', 'Лб1', 'Лб2'], ['Лекція', 'Практика', 'Лабораторна робота 1', 'Лабораторна робота 2']],
 
-                errors: {},
+                response: null,
             }
         },
 
@@ -282,7 +279,7 @@
             saveSchedule() {
                 axios.post('/schedule', this.days)
                     .then(res => console.log(this.res))
-                    .catch(error => this.errors = error.response);
+                    .catch(error => this.response = error.response.data);
             },
 
             // Subject

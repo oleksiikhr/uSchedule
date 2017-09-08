@@ -8944,7 +8944,7 @@ body {
   min-width: 700px;
   max-width: 1400px;
   border-collapse: collapse;
-  border: 1px solid #999;
+  border: 1px solid #636363;
   border-left: 0;
   width: 100%;
   min-height: 100%;
@@ -8953,13 +8953,13 @@ body {
 .schedule > thead {
   background: #404e56;
   text-align: center;
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #636363;
 }
 
 .schedule > thead td {
   color: rgba(0, 0, 0, 0.87);
   padding: 10px;
-  border-right: 1px solid #999;
+  border-right: 1px solid #636363;
   font-size: 18px;
   text-transform: uppercase;
   font-weight: bold;
@@ -8989,12 +8989,13 @@ body {
 
 .schedule > tbody > tr:last-child .week-day {
   border-bottom: 0;
+  min-width: 40px !important;
 }
 
 .schedule > tbody > tr table {
   min-width: 100%;
   min-height: 100%;
-  border: 1px solid #999;
+  border: 1px solid #636363;
   border-left: 0;
   border-top: 0;
   display: table-cell;
@@ -9012,14 +9013,18 @@ body {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 15px;
-  border-bottom: 1px solid #999;
-  border-right: 1px solid #999;
+  border-bottom: 1px solid #636363;
+  border-right: 1px solid #636363;
 }
 
 .schedule > tbody .week-day > span {
   display: block;
   -webkit-transform: rotate(-90deg);
           transform: rotate(-90deg);
+}
+
+.week-lesson {
+  min-width: 40px !important;
 }
 
 .week-lesson > tr {
@@ -9070,6 +9075,20 @@ body {
   background: #f3f3f3;
 }
 
+.element .right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
 .element .type {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -9080,8 +9099,7 @@ body {
   color: #ad5858;
   border-right: 1px solid #d4d4d4;
   font-weight: bold;
-  margin-right: 3px;
-  width: 40px;
+  width: 50px;
   cursor: pointer;
 }
 
@@ -9092,7 +9110,7 @@ body {
 }
 
 .element .info {
-  padding: 2px;
+  padding: 2px 6px;
 }
 
 .element .info .title {
@@ -9109,8 +9127,34 @@ body {
   color: #ce8080;
 }
 
-.element .right {
-  background: #ececec;
+.element .cabinet {
+  background: #f8fbff;
+  border-left: 1px solid #d4d4d4;
+}
+
+.element .cabinet > a {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px 10px;
+  cursor: pointer;
+  text-align: center;
+  min-width: 60px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.element .cabinet > a:hover {
+  text-decoration: none !important;
+}
+
+.element .cabinet i {
+  color: #7d7d7d;
 }
 
 .footer-btn {
