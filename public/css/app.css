@@ -9177,3 +9177,20 @@ body {
   background: #fff59d;
 }
 
+.university .phone-viewport {
+  margin-right: 16px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.menu-active {
+  color: #00796b;
+}
+
+.menu-active i {
+  color: #00796b !important;
+}
+

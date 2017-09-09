@@ -7,9 +7,11 @@
 
 require('./bootstrap');
 
-var Vue = require('vue');
-var VueMaterial = require('vue-material');
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import VueMaterial from 'vue-material';
 
+Vue.use(VueRouter);
 Vue.use(VueMaterial);
 
 Vue.material.registerTheme({
@@ -47,9 +49,13 @@ import ResetForm from './views/auth/passwords/Reset.vue';
 import Dashboard from './views/Dashboard.vue';
 import Navbar from './components/header/Navbar.vue';
 import Edit from './views/schedule/Edit.vue';
+import Sidebar from './views/university/Sidebar.vue';
+
+import router from './routes';
 
 const app = new Vue({
     el: '#app',
+    router: router,
     components: {
         Dashboard,
         Navbar,
@@ -58,5 +64,6 @@ const app = new Vue({
         Edit,
         EmailForm,
         ResetForm,
+        Sidebar
     }
 });
