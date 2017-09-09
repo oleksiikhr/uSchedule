@@ -115,7 +115,7 @@
   min-width: 700px;
   max-width: 1400px;
   border-collapse: collapse;
-  border: 1px solid #999;
+  border: 1px solid #636363;
   border-left: 0;
   width: 100%;
   min-height: 100%;
@@ -123,12 +123,12 @@
   > thead {
     background: #404e56;
     text-align: center;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid #636363;
 
     td {
       color: rgba(0, 0, 0, 0.87);
       padding: 10px;
-      border-right: 1px solid #999;
+      border-right: 1px solid #636363;
       font-size: 18px;
       text-transform: uppercase;
       font-weight: bold;
@@ -145,7 +145,7 @@
 
   > tbody {
     > tr {
-      height: 150px;
+      height: 135px;
       &:last-child {
         border-bottom: 0;
         table {
@@ -153,13 +153,14 @@
         }
         .week-day {
           border-bottom: 0;
+          min-width: 40px !important;
         }
       }
 
       table {
         min-width: 100%;
         min-height: 100%;
-        border: 1px solid #999;
+        border: 1px solid #636363;
         border-left: 0;
         border-top: 0;
         display: table-cell;
@@ -177,8 +178,8 @@
       text-transform: uppercase;
       font-weight: bold;
       font-size: 15px;
-      border-bottom: 1px solid #999;
-      border-right: 1px solid #999;
+      border-bottom: 1px solid #636363;
+      border-right: 1px solid #636363;
       > span {
         display: block;
         transform: rotate(-90deg);
@@ -188,6 +189,8 @@
 }
 
 .week-lesson {
+  min-width: 40px !important;
+
   > tr {
     display: block;
     background: #f1e790;
@@ -208,14 +211,15 @@
 }
 
 .week-schedule {
+  &.draggable {
+    padding-bottom: 45px;
+  }
+
   > tr {
     display: block;
     border-bottom: 1px solid #d4d4d4;
     height: 45px;
     vertical-align: middle;
-    &:last-child {
-      border-bottom: 0;
-    }
   }
 }
 
@@ -232,14 +236,20 @@
     background: #f3f3f3;
   }
 
+  .right {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+
   .type {
     display: flex;
     align-items: center;
     color: #ad5858;
     border-right: 1px solid #d4d4d4;
     font-weight: bold;
-    margin-right: 3px;
-    width: 40px;
+    width: 50px;
     cursor: pointer;
     > span {
       display: block;
@@ -249,7 +259,7 @@
   }
 
   .info {
-    padding: 2px;
+    padding: 2px 6px;
     .title {
       font-weight: bold;
       white-space: nowrap;
@@ -263,8 +273,26 @@
     }
   }
 
-  .right {
-    background: #ececec;
+  .cabinet {
+    background: #f8fbff;
+    border-left: 1px solid #d4d4d4;
+    > a {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 5px 10px;
+      cursor: pointer;
+      text-align: center;
+      min-width: 60px;
+      justify-content: center;
+        &:hover {
+          text-decoration: none !important;
+      }
+    }
+
+    i {
+      color: #7d7d7d;
+    }
   }
 }
 
@@ -272,13 +300,16 @@
   width: 100%;
   padding: 0;
   margin: 0;
-  display: none;
+  opacity: 0;
   height: 45px;
+  &.moving {
+    display: block;
+  }
 }
 
 .week-schedule:hover {
   .footer-btn {
-    display: block;
+    opacity: 1;
   }
 }
 

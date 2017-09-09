@@ -71,46 +71,42 @@
                         </table>
 
                         <template v-for="week in 2">
-                            <draggable class="week-schedule" :list="days[week - 1][day - 1]" element="table" @start="startSubjectRight"
-                                       :move="moveSubject" @end="endSubject" :options="{group: 'subjects', draggable: '.item'}"
-                                       :week="week - 1" :day="day - 1">
+                            <draggable :class="'week-schedule' + (isMoving && days[week - 1][day - 1].length < time.length ? ' draggable' : '')"
+                                       :list="days[week - 1][day - 1]" element="table" @start="startSubjectRight" :move="moveSubject"
+                                       @end="endSubject" :options="{group: 'subjects', draggable: '.item'}" :week="week - 1" :day="day - 1">
                                 <tr class="item" v-for="(schedule, index) in days[week - 1][day - 1]" :key="index">
                                     <td class="element" v-if="schedule.id > 0">
                                         <div class="type" :title="types[1][schedule.type]" @click="changeType(week - 1, day - 1, index)">
                                             <span>{{ types[0][schedule.type] }}</span>
                                         </div>
 
-                                        <div class="info">
-                                            <span class="title">{{ schedule.subject.title }}</span>
-                                            <draggable class="teacher" :options="{group: 'teachers', draggable: '.teacher-item'}">
-                                                <span v-if="schedule.teacher_id > 0" :week="week - 1" :day="day - 1" :index="index"
-                                                      :title="fullNameTeacher(schedule.teacher)" :class="isMoving ? 'teacher-item' : ''">
-                                                    {{ shortNameTeacher(schedule.teacher) }}
-                                                </span>
-                                                <span v-else :week="week - 1" :day="day - 1" :index="index" :class="isMoving ? 'teacher-item no' : 'no'">
-                                                    Викладача не вказано
-                                                </span>
-                                            </draggable>
-                                        </div>
-
                                         <div class="right">
-                                            <!--TODO: styles-->
-                                            <div class="cabinet">
-                                                <!--<a @click="editRoom(week - 1, day - 1, index)">-->
-                                                <!--<span v-if="schedule.room">{{ schedule.room }}</span>-->
-                                                <!--<md-icon v-else>business</md-icon>-->
-                                                <!--</a>-->
+                                            <div class="info">
+                                                <span class="title">{{ schedule.subject.title }}</span>
+                                                <draggable class="teacher" :options="{group: 'teachers', draggable: '.teacher-item'}">
+                                                    <span v-if="schedule.teacher_id > 0" :week="week - 1" :day="day - 1" :index="index"
+                                                          :title="fullNameTeacher(schedule.teacher)" :class="isMoving ? 'teacher-item' : ''">
+                                                        {{ shortNameTeacher(schedule.teacher) }}
+                                                    </span>
+                                                    <span v-else :week="week - 1" :day="day - 1" :index="index" :class="isMoving ? 'teacher-item no' : 'no'">
+                                                        Викладача не вказано
+                                                    </span>
+                                                </draggable>
                                             </div>
 
-                                            <!--TODO: create type-->
+                                            <div class="cabinet">
+                                                <a @click="editRoom(week - 1, day - 1, index)">
+                                                    <span v-if="schedule.room">{{ schedule.room }}</span>
+                                                    <md-icon v-else>business</md-icon>
+                                                </a>
+                                            </div>
                                         </div>
                                     </td>
 
                                     <td class="element no-pair" v-else></td>
                                 </tr>
 
-                                <!--TODO: fix draggable on last subject-->
-                                <md-button v-if="days[week - 1][day - 1].length < 7" slot="footer" class="footer-btn"
+                                <md-button v-if="days[week - 1][day - 1].length < 7 && !isMoving" class="footer-btn"
                                            title="Додати порожню пару" @click="addEmptySubject(week - 1, day - 1)">
                                     <md-icon>add</md-icon>
                                 </md-button>
@@ -143,13 +139,11 @@
 </template>
 
 <script>
-    import pnotify from 'pnotify'
     import draggable from 'vuedraggable'
 
     export default {
         components: {
             draggable,
-            pnotify,
         },
 
         props: [
@@ -195,7 +189,7 @@
                 daysWeek: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
                 types: [['Л', 'П', 'Лб1', 'Лб2'], ['Лекція', 'Практика', 'Лабораторна робота 1', 'Лабораторна робота 2']],
 
-                errors: {},
+                response: null,
             }
         },
 
@@ -284,20 +278,8 @@
             // Save schedule
             saveSchedule() {
                 axios.post('/schedule', this.days)
-                    .then(this.onSuccess)
-                    .catch(error => this.errors = error.response);
-            },
-            onSuccess(response) {
-                new pnotify({
-                    title: 'Розклад збережено',
-                    text: false,
-                    icon: true,
-                    type: 'success',
-                    styling: 'brighttheme',
-                    buttons: {
-                        closer: true
-                    }
-                });
+                    .then(res => console.log(this.res))
+                    .catch(error => this.response = error.response.data);
             },
 
             // Subject
