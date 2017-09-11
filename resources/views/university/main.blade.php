@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.university')
 
 @section('title', 'Редагування розкладу')
 
