@@ -55,14 +55,10 @@
             }
         },
 
-        // TODO: нужео как то вытащить еще количество предметов
-        // Они там есть subjects.total но хз как получить их в переменную
-
         created(){
             this.getSubjects();
         },
-
-
+        
         methods: {
             onPagination (paging) {
                 this.currentPage = paging.page;
