@@ -34,7 +34,7 @@
             </md-table>
             <md-table-pagination
                     md-size="10"
-                    md-total="100"
+                    :md-total="total"
                     md-page="1"
                     md-label="Рядків"
                     md-separator="з"
@@ -45,8 +45,6 @@
     </div>
 </template>
 <script>
-    import Subject from '../../../models/Subject';
-
     export default {
         data(){
             return {
@@ -61,7 +59,7 @@
         // Они там есть subjects.total но хз как получить их в переменную
 
         created(){
-            Subject.all(subjects => this.subjects = subjects.data);
+            this.getSubjects();
         },
 
 
@@ -69,13 +67,21 @@
             onPagination (paging) {
                 this.currentPage = paging.page;
                 this.currentSize = paging.size;
-                Subject.all(subjects => this.subjects = subjects.data, this.currentPage);
+                this.getSubjects(this.currentPage);
             },
 
             onSelect(data) {
                 this.selectedData = data;
                 this.$forceUpdate();
             },
+
+            getSubjects(page = 1){
+                axios.get('/api/subjects.all?page=' + page)
+                    .then(response => {
+                        this.subjects = response.data.data;
+                        this.total = response.data.total;
+                    });
+            }
 
         },
     }

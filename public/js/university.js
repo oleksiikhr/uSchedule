@@ -42562,10 +42562,10 @@ var routes = [{
     component: __webpack_require__(69)
 }, {
     path: '/teachers',
-    component: __webpack_require__(72)
+    component: __webpack_require__(73)
 }, {
     path: '/schedules',
-    component: __webpack_require__(75)
+    component: __webpack_require__(76)
 }];
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
@@ -42582,7 +42582,7 @@ var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(70),
   /* template */
-  __webpack_require__(71),
+  __webpack_require__(72),
   /* styles */
   null,
   /* scopeId */
@@ -42619,7 +42619,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_Subject__ = __webpack_require__(81);
 //
 //
 //
@@ -42666,8 +42665,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -42684,33 +42681,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     // Они там есть subjects.total но хз как получить их в переменную
 
     created: function created() {
-        var _this = this;
-
-        __WEBPACK_IMPORTED_MODULE_0__models_Subject__["a" /* default */].all(function (subjects) {
-            return _this.subjects = subjects.data;
-        });
+        this.getSubjects();
     },
 
 
     methods: {
         onPagination: function onPagination(paging) {
-            var _this2 = this;
-
             this.currentPage = paging.page;
             this.currentSize = paging.size;
-            __WEBPACK_IMPORTED_MODULE_0__models_Subject__["a" /* default */].all(function (subjects) {
-                return _this2.subjects = subjects.data;
-            }, this.currentPage);
+            this.getSubjects(this.currentPage);
         },
         onSelect: function onSelect(data) {
             this.selectedData = data;
             this.$forceUpdate();
+        },
+        getSubjects: function getSubjects() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('/api/subjects.all?page=' + page).then(function (response) {
+                _this.subjects = response.data.data;
+                _this.total = response.data.total;
+            });
         }
     }
 });
 
 /***/ }),
-/* 71 */
+/* 71 */,
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -42754,7 +42754,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }))], 1), _vm._v(" "), _c('md-table-pagination', {
     attrs: {
       "md-size": "10",
-      "md-total": "100",
+      "md-total": _vm.total,
       "md-page": "1",
       "md-label": "Рядків",
       "md-separator": "з",
@@ -42774,15 +42774,15 @@ if (false) {
 }
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(73),
-  /* template */
   __webpack_require__(74),
+  /* template */
+  __webpack_require__(75),
   /* styles */
   null,
   /* scopeId */
@@ -42814,7 +42814,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -42827,7 +42827,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -42842,7 +42842,7 @@ if (false) {
 }
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
@@ -42850,7 +42850,7 @@ var Component = __webpack_require__(1)(
   /* script */
   null,
   /* template */
-  __webpack_require__(76),
+  __webpack_require__(77),
   /* styles */
   null,
   /* scopeId */
@@ -42882,7 +42882,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -42895,41 +42895,6 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-431e2f3f", module.exports)
   }
 }
-
-/***/ }),
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Subject = function () {
-    function Subject() {
-        _classCallCheck(this, Subject);
-    }
-
-    _createClass(Subject, null, [{
-        key: 'all',
-        value: function all(then) {
-            var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-
-            return axios.get('/api/subjects.all?page=' + page).then(function (_ref) {
-                var data = _ref.data;
-                return then(data);
-            });
-        }
-    }]);
-
-    return Subject;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = (Subject);
 
 /***/ })
 /******/ ]);
