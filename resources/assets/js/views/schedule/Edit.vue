@@ -304,6 +304,11 @@
             moveSubject(evt, originalEvent) {
                 this.isDelete = !evt.relatedContext.list;
 
+                // Protect draggable after "+", but can't return back
+                if (evt.to == evt.from && evt.relatedContext.list.length == 1) {
+                    return false;
+                }
+
                 if (evt.to != evt.from) {
                     this.deleteSubject = evt.relatedContext.list && evt.relatedContext.list.length > this.time.length - 1
                         ? evt.to.attributes

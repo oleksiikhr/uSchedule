@@ -26,6 +26,12 @@ class SubjectController extends Controller
         return $subjects;
     }
 
+    public function all(){
+        $subjects = Subject::with('facultyId')->paginate(10);
+
+        return $subjects;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

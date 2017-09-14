@@ -274,7 +274,7 @@
   }
 
   .cabinet {
-    background: #f8fbff;
+    background: #f9f9f9;
     border-left: 1px solid #d4d4d4;
     > a {
       height: 100%;
@@ -285,6 +285,7 @@
       text-align: center;
       min-width: 60px;
       justify-content: center;
+      color: rgba(0, 0, 0, .87) !important;
         &:hover {
           text-decoration: none !important;
       }
@@ -315,4 +316,28 @@
 
 .color {
   background: #fff59d;
+}
+
+// Sortable
+.week-schedule > .left-block.sortable-chosen {
+  list-style: none;
+  height: 45px;
+  border-bottom: 1px solid #d4d4d4;
+  &::before {
+    content: "+";
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 20px;
+    width: 45px;
+    border-right: 1px solid #d4d4d4;
+    color: #fff;
+    background: #ad5858;
+  }
+
+  > .md-list-item-container {
+    min-height: 45px;
+  }
 }

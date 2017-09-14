@@ -1,8 +1,10 @@
 require('./bootstrap');
 
 import Vue from 'vue';
+import VueRouter from 'vue-router';
 import VueMaterial from 'vue-material';
 
+Vue.use(VueRouter);
 Vue.use(VueMaterial);
 
 Vue.material.registerTheme({
@@ -25,27 +27,16 @@ Vue.material.registerTheme({
     }
 });
 
-// Auth
-import LoginForm from './views/auth/Login.vue';
-import RegisterForm from './views/auth/Register.vue';
-import EmailForm from './views/auth/passwords/Email.vue';
-import ResetForm from './views/auth/passwords/Reset.vue';
-
-import Dashboard from './views/Dashboard.vue';
 import Navbar from './components/header/Navbar.vue';
-import Edit from './views/schedule/Edit.vue';
 import Sidebar from './views/university/Sidebar.vue';
+
+import router from './routes';
 
 const app = new Vue({
     el: '#app',
+    router: router,
     components: {
-        Dashboard,
         Navbar,
-        LoginForm,
-        RegisterForm,
-        Edit,
-        EmailForm,
-        ResetForm,
         Sidebar
     }
 });
