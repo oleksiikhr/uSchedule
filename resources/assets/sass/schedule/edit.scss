@@ -274,7 +274,7 @@
   }
 
   .cabinet {
-    background: #f8fbff;
+    background: #f9f9f9;
     border-left: 1px solid #d4d4d4;
     > a {
       height: 100%;
@@ -285,6 +285,7 @@
       text-align: center;
       min-width: 60px;
       justify-content: center;
+      color: rgba(0, 0, 0, .87) !important;
         &:hover {
           text-decoration: none !important;
       }

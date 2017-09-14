@@ -9153,7 +9153,7 @@ body {
 }
 
 .element .cabinet {
-  background: #f8fbff;
+  background: #f9f9f9;
   border-left: 1px solid #d4d4d4;
 }
 
@@ -9172,6 +9172,7 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  color: rgba(0, 0, 0, 0.87) !important;
 }
 
 .element .cabinet > a:hover {

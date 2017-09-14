@@ -39599,7 +39599,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Navbar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39843,7 +39843,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\university\\Sidebar.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\university\\Sidebar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Sidebar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -42562,10 +42562,10 @@ var routes = [{
     component: __webpack_require__(69)
 }, {
     path: '/teachers',
-    component: __webpack_require__(73)
+    component: __webpack_require__(72)
 }, {
     path: '/schedules',
-    component: __webpack_require__(76)
+    component: __webpack_require__(75)
 }];
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
@@ -42582,7 +42582,7 @@ var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(70),
   /* template */
-  __webpack_require__(72),
+  __webpack_require__(71),
   /* styles */
   null,
   /* scopeId */
@@ -42590,7 +42590,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\university\\subject\\Subjects.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\university\\subject\\Subjects.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Subjects.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -42675,11 +42675,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             total: 0
         };
     },
-
-
-    // TODO: нужео как то вытащить еще количество предметов
-    // Они там есть subjects.total но хз как получить их в переменную
-
     created: function created() {
         this.getSubjects();
     },
@@ -42709,8 +42704,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 71 */,
-/* 72 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -42774,15 +42768,15 @@ if (false) {
 }
 
 /***/ }),
-/* 73 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(74),
+  __webpack_require__(73),
   /* template */
-  __webpack_require__(75),
+  __webpack_require__(74),
   /* styles */
   null,
   /* scopeId */
@@ -42790,7 +42784,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\university\\teacher\\Teachers.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\university\\teacher\\Teachers.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Teachers.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -42814,7 +42808,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 74 */
+/* 73 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -42827,7 +42821,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
-/* 75 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -42842,7 +42836,7 @@ if (false) {
 }
 
 /***/ }),
-/* 76 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
@@ -42850,7 +42844,7 @@ var Component = __webpack_require__(1)(
   /* script */
   null,
   /* template */
-  __webpack_require__(77),
+  __webpack_require__(76),
   /* styles */
   null,
   /* scopeId */
@@ -42858,7 +42852,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\university\\schedule\\Schedules.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\university\\schedule\\Schedules.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Schedules.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -42882,7 +42876,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 77 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
