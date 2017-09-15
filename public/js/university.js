@@ -42690,7 +42690,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('/api/subjects.all?page=' + page + '&' + this.currentSize).then(function (response) {
+            axios.get('/api/subjects.all?page=' + page + '&perPage=' + this.currentSize).then(function (response) {
                 _this.subjects = _.orderBy(response.data.data, ['course'], ['asc']);
                 _this.total = response.data.total;
             });
@@ -42812,15 +42812,132 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            teachers: [],
+            currentPage: 1,
+            currentSize: 20,
+            total: 0,
+            columns: [{ name: 'Имя', sortField: 'first_name' }, { name: 'Отчество', sortField: 'middle_name' }, { name: 'Фамилия', sortField: 'last_name' }, { name: 'Статус', sortField: 'academic_title' }]
+        };
+    },
+    created: function created() {
+        this.getTeachers();
+    },
+
+
+    methods: {
+        onPagination: function onPagination(paging) {
+            this.currentPage = paging.page;
+            this.currentSize = paging.size;
+            this.getTeachers(this.currentPage);
+        },
+        getTeachers: function getTeachers() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('/api/teachers.all?page=' + page + '&perPage=' + this.currentSize).then(function (response) {
+                _this.teachers = _.orderBy(response.data.data, ['first_name'], ['asc']);
+                _this.total = response.data.total;
+            });
+        },
+        onSort: function onSort(data) {
+            this.teachers = _.orderBy(this.teachers, [data.name], [data.type]);
+        }
+    }
+});
 
 /***/ }),
 /* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_vm._v("Teachers")])
+  return _c('div', {
+    staticClass: "md-flex-80"
+  }, [_c('md-table-card', [_c('md-table', {
+    attrs: {
+      "md-sort": "first_name",
+      "md-sort-type": "asc"
+    },
+    on: {
+      "sort": _vm.onSort
+    }
+  }, [_c('md-table-header', [_c('md-table-row', [_vm._l((_vm.columns), function(column, index) {
+    return _c('md-table-head', {
+      key: index,
+      attrs: {
+        "md-sort-by": column.sortField
+      }
+    }, [_vm._v(_vm._s(column.name))])
+  }), _vm._v(" "), _c('md-table-head', {
+    attrs: {
+      "width": "100px"
+    }
+  })], 2)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.teachers), function(row, index) {
+    return _c('md-table-row', {
+      key: index
+    }, [_c('md-table-cell', [_vm._v(_vm._s(row.first_name))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(row.middle_name))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(row.last_name))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(row.academic_title))]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
+      staticClass: "md-icon-button"
+    }, [_c('md-icon', [_vm._v("visibility")])], 1), _vm._v(" "), _c('md-button', {
+      staticClass: "md-icon-button"
+    }, [_c('md-icon', [_vm._v("edit")])], 1), _vm._v(" "), _c('md-button', {
+      staticClass: "md-icon-button"
+    }, [_c('md-icon', [_vm._v("delete")])], 1)], 1)], 1)
+  }))], 1), _vm._v(" "), _c('md-table-pagination', {
+    attrs: {
+      "md-size": _vm.currentSize,
+      "md-total": _vm.total,
+      "md-page": "1",
+      "md-label": "Рядків",
+      "md-separator": "з",
+      "md-page-options": [20]
+    },
+    on: {
+      "pagination": _vm.onPagination
+    }
+  })], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

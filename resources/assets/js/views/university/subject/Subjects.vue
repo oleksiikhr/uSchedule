@@ -71,7 +71,7 @@
             },
 
             getSubjects(page = 1){
-                axios.get('/api/subjects.all?page=' + page + '&' + this.currentSize)
+                axios.get('/api/subjects.all?page=' + page + '&perPage=' + this.currentSize)
                     .then(response => {
                         this.subjects = _.orderBy(response.data.data, ['course'], ['asc']);
                         this.total = response.data.total;
