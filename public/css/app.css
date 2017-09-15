@@ -9153,7 +9153,7 @@ body {
 }
 
 .element .cabinet {
-  background: #f8fbff;
+  background: #f9f9f9;
   border-left: 1px solid #d4d4d4;
 }
 
@@ -9172,6 +9172,7 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  color: rgba(0, 0, 0, 0.87) !important;
 }
 
 .element .cabinet > a:hover {
@@ -9200,6 +9201,36 @@ body {
 
 .color {
   background: #fff59d;
+}
+
+.week-schedule > .left-block.sortable-chosen {
+  list-style: none;
+  height: 45px;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.week-schedule > .left-block.sortable-chosen::before {
+  content: "+";
+  float: left;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 100%;
+  font-size: 20px;
+  width: 45px;
+  border-right: 1px solid #d4d4d4;
+  color: #fff;
+  background: #ad5858;
+}
+
+.week-schedule > .left-block.sortable-chosen > .md-list-item-container {
+  min-height: 45px;
 }
 
 .university .phone-viewport {
