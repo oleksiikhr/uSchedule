@@ -58,17 +58,12 @@
         created(){
             this.getSubjects();
         },
-        
+
         methods: {
             onPagination (paging) {
                 this.currentPage = paging.page;
                 this.currentSize = paging.size;
                 this.getSubjects(this.currentPage);
-            },
-
-            onSelect(data) {
-                this.selectedData = data;
-                this.$forceUpdate();
             },
 
             getSubjects(page = 1){
