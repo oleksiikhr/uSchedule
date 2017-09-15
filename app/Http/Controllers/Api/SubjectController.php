@@ -26,8 +26,8 @@ class SubjectController extends Controller
         return $subjects;
     }
 
-    public function all(){
-        $subjects = Subject::with('facultyId')->paginate(10);
+    public function all($perPage = 20){
+        $subjects = Subject::with('facultyId')->paginate($perPage);
 
         return $subjects;
     }

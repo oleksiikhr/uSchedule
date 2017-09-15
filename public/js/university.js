@@ -39599,7 +39599,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
+Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Navbar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39843,7 +39843,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\university\\Sidebar.vue"
+Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\university\\Sidebar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Sidebar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -42590,7 +42590,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\university\\subject\\Subjects.vue"
+Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\university\\subject\\Subjects.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Subjects.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -42662,17 +42662,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             subjects: [],
             currentPage: 1,
-            currentSize: 10,
-            total: 0
+            currentSize: 20,
+            total: 0,
+            columns: [{ name: 'Предмет', sortField: 'title' }, { name: 'Курс', sortField: 'course' }, { name: 'Факультет', sortField: 'faculty' }, { name: 'Тип', sortField: 'type' }]
         };
     },
     created: function created() {
@@ -42686,19 +42685,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.currentSize = paging.size;
             this.getSubjects(this.currentPage);
         },
-        onSelect: function onSelect(data) {
-            this.selectedData = data;
-            this.$forceUpdate();
-        },
         getSubjects: function getSubjects() {
             var _this = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('/api/subjects.all?page=' + page).then(function (response) {
-                _this.subjects = response.data.data;
+            axios.get('/api/subjects.all?page=' + page + '&' + this.currentSize).then(function (response) {
+                _this.subjects = _.orderBy(response.data.data, ['course'], ['asc']);
                 _this.total = response.data.total;
             });
+        },
+        onSort: function onSort(data) {
+            if (data.name === 'faculty') {
+                data.name = 'faculty_id.title';
+            }
+            this.subjects = _.orderBy(this.subjects, [data.name], [data.type]);
         }
     }
 });
@@ -42712,30 +42713,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "md-flex-80"
   }, [_c('md-table-card', [_c('md-table', {
     attrs: {
-      "md-sort": "calories"
+      "md-sort": "course",
+      "md-sort-type": "asc"
+    },
+    on: {
+      "sort": _vm.onSort
     }
-  }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', {
-    attrs: {
-      "md-sort-by": "dessert"
-    }
-  }, [_vm._v("Предмет")]), _vm._v(" "), _c('md-table-head', {
-    attrs: {
-      "md-sort-by": "calories",
-      "md-tooltip": "The total amount of food energy and the given serving size"
-    }
-  }, [_vm._v("Курс")]), _vm._v(" "), _c('md-table-head', {
-    attrs: {
-      "md-sort-by": "fat"
-    }
-  }, [_vm._v("Факультет")]), _vm._v(" "), _c('md-table-head', {
-    attrs: {
-      "md-sort-by": "carbs"
-    }
-  }, [_vm._v("Тип")]), _vm._v(" "), _c('md-table-head', {
+  }, [_c('md-table-header', [_c('md-table-row', [_vm._l((_vm.columns), function(column, index) {
+    return _c('md-table-head', {
+      key: index,
+      attrs: {
+        "md-sort-by": column.sortField
+      }
+    }, [_vm._v(_vm._s(column.name))])
+  }), _vm._v(" "), _c('md-table-head', {
     attrs: {
       "width": "100px"
     }
-  })], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.subjects), function(row, index) {
+  })], 2)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.subjects), function(row, index) {
     return _c('md-table-row', {
       key: index
     }, [_c('md-table-cell', [_vm._v(_vm._s(row.title))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(row.course))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(row.faculty_id.title))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(row.type))]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
@@ -42747,12 +42742,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('md-icon', [_vm._v("delete")])], 1)], 1)], 1)
   }))], 1), _vm._v(" "), _c('md-table-pagination', {
     attrs: {
-      "md-size": "10",
+      "md-size": _vm.currentSize,
       "md-total": _vm.total,
       "md-page": "1",
       "md-label": "Рядків",
       "md-separator": "з",
-      "md-page-options": [10]
+      "md-page-options": [20]
     },
     on: {
       "pagination": _vm.onPagination
@@ -42784,7 +42779,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\university\\teacher\\Teachers.vue"
+Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\university\\teacher\\Teachers.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Teachers.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -42852,7 +42847,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\university\\schedule\\Schedules.vue"
+Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\university\\schedule\\Schedules.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Schedules.vue: functional components are not supported with templates, they should use render functions.")}
 

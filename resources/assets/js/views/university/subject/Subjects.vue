@@ -1,13 +1,10 @@
 <template>
     <div class="md-flex-80">
         <md-table-card>
-            <md-table md-sort="calories">
+            <md-table md-sort="course" md-sort-type="asc" @sort="onSort">
                 <md-table-header>
                     <md-table-row>
-                        <md-table-head md-sort-by="dessert">Предмет</md-table-head>
-                        <md-table-head md-sort-by="calories" md-tooltip="The total amount of food energy and the given serving size">Курс</md-table-head>
-                        <md-table-head md-sort-by="fat">Факультет</md-table-head>
-                        <md-table-head md-sort-by="carbs">Тип</md-table-head>
+                        <md-table-head v-for="(column, index) in columns" :key="index" :md-sort-by="column.sortField">{{ column.name }}</md-table-head>
                         <md-table-head width="100px"></md-table-head>
                     </md-table-row>
                 </md-table-header>
@@ -33,25 +30,32 @@
                 </md-table-body>
             </md-table>
             <md-table-pagination
-                    md-size="10"
+                    :md-size="currentSize"
                     :md-total="total"
                     md-page="1"
                     md-label="Рядків"
                     md-separator="з"
-                    :md-page-options="[10]"
+                    :md-page-options="[20]"
                     @pagination="onPagination">
             </md-table-pagination>
         </md-table-card>
     </div>
 </template>
 <script>
+
     export default {
         data(){
             return {
                 subjects: [],
                 currentPage: 1,
-                currentSize: 10,
+                currentSize: 20,
                 total: 0,
+                columns: [
+                    { name: 'Предмет', sortField: 'title' },
+                    { name: 'Курс', sortField: 'course' },
+                    { name: 'Факультет', sortField: 'faculty' },
+                    { name: 'Тип', sortField: 'type' },
+                ]
             }
         },
 
@@ -67,13 +71,19 @@
             },
 
             getSubjects(page = 1){
-                axios.get('/api/subjects.all?page=' + page)
+                axios.get('/api/subjects.all?page=' + page + '&' + this.currentSize)
                     .then(response => {
-                        this.subjects = response.data.data;
+                        this.subjects = _.orderBy(response.data.data, ['course'], ['asc']);
                         this.total = response.data.total;
                     });
-            }
+            },
 
+            onSort(data){
+                if(data.name === 'faculty'){
+                    data.name = 'faculty_id.title';
+                }
+                this.subjects = _.orderBy(this.subjects, [data.name], [data.type]);
+            }
         },
     }
 </script>
