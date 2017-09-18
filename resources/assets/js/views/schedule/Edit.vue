@@ -49,6 +49,7 @@
             </md-layout>
 
             <md-layout md-flex="80" class="right-column">
+                <md-button class="md-raised md-primary" @click="saveSchedule">Зберегты розклад</md-button>
                 <table class="schedule">
                     <thead>
                     <tr>
@@ -75,7 +76,7 @@
                                        :list="days[week - 1][day - 1]" element="table" @start="startSubjectRight" :move="moveSubject"
                                        @end="endSubject" :options="{group: 'subjects', draggable: '.item'}" :week="week - 1" :day="day - 1">
                                 <tr class="item" v-for="(schedule, index) in days[week - 1][day - 1]" :key="index">
-                                    <td class="element" v-if="schedule.id > 0">
+                                    <td class="element" v-if="schedule.is_empty === 0">
                                         <div class="type" :title="types[1][schedule.type]" @click="changeType(week - 1, day - 1, index)">
                                             <span>{{ types[0][schedule.type] }}</span>
                                         </div>
@@ -134,6 +135,10 @@
                     <md-button class="md-primary" @click="saveRoom()">Зберегти</md-button>
                 </md-dialog-actions>
             </md-dialog>
+            <md-snackbar :md-position="'top right'" ref="snackbar" :md-duration="5000">
+                <span v-text="message"></span>
+                <md-button @click="$refs.snackbar.close()">Сховати</md-button>
+            </md-snackbar>
         </md-layout>
     </md-theme>
 </template>
@@ -188,6 +193,7 @@
                 days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
                 daysWeek: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
                 types: [['Л', 'П', 'Лб1', 'Лб2'], ['Лекція', 'Практика', 'Лабораторна робота 1', 'Лабораторна робота 2']],
+                message: '',
 
                 response: null,
             }
@@ -278,8 +284,19 @@
             // Save schedule
             saveSchedule() {
                 axios.post('/schedule', this.days)
-                    .then(res => console.log(this.res))
-                    .catch(error => this.response = error.response.data);
+                    .then(res => {
+                        console.log(res);
+                        this.message = 'Розклад збережено';
+                        this.$nextTick(() => {
+                            this.$refs.snackbar.open();
+                        });
+                    })
+                    .catch(error => {
+                        this.message = error.response.data.message;
+                        this.$nextTick(() => {
+                            this.$refs.snackbar.open();
+                        });
+                    });
             },
 
             // Subject
@@ -292,6 +309,7 @@
                     room: '',
                     schedule_id: this.schedule.id,
                     type: 0,
+                    is_empty: 0,
                     teacher: [],
                     subject: {
                         id: el.id,
@@ -332,6 +350,17 @@
             addEmptySubject(week, day) {
                 this.days[week][day].push({
                     id: -1,
+                    room: 0,
+                    schedule_id: this.schedule.id,
+                    type: 0,
+                    is_empty: 1,
+                    teacher: [],
+                    subject: {
+                        id: 0,
+                        title: '',
+                        course: 0,
+                        faculty_id: 0,
+                    },
                 });
             },
             startSubjectRight() {

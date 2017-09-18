@@ -41296,6 +41296,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -41343,6 +41348,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
             daysWeek: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
             types: [['Л', 'П', 'Лб1', 'Лб2'], ['Лекція', 'Практика', 'Лабораторна робота 1', 'Лабораторна робота 2']],
+            message: '',
 
             response: null
         };
@@ -41439,9 +41445,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             axios.post('/schedule', this.days).then(function (res) {
-                return console.log(_this2.res);
+                console.log(res);
+                _this2.message = 'Розклад збережено';
+                _this2.$nextTick(function () {
+                    _this2.$refs.snackbar.open();
+                });
             }).catch(function (error) {
-                return _this2.response = error.response.data;
+                _this2.message = error.response.data.message;
+                _this2.$nextTick(function () {
+                    _this2.$refs.snackbar.open();
+                });
             });
         },
 
@@ -41456,6 +41469,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 room: '',
                 schedule_id: this.schedule.id,
                 type: 0,
+                is_empty: 0,
                 teacher: [],
                 subject: {
                     id: el.id,
@@ -41492,7 +41506,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         addEmptySubject: function addEmptySubject(week, day) {
             this.days[week][day].push({
-                id: -1
+                id: -1,
+                room: 0,
+                schedule_id: this.schedule.id,
+                type: 0,
+                is_empty: 1,
+                teacher: [],
+                subject: {
+                    id: 0,
+                    title: '',
+                    course: 0,
+                    faculty_id: 0
+                }
             });
         },
         startSubjectRight: function startSubjectRight() {
@@ -43568,7 +43593,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-flex": "80"
     }
-  }, [_c('table', {
+  }, [_c('md-button', {
+    staticClass: "md-raised md-primary",
+    on: {
+      "click": _vm.saveSchedule
+    }
+  }, [_vm._v("Зберегты розклад")]), _vm._v(" "), _c('table', {
     staticClass: "schedule"
   }, [_c('thead', [_c('tr', [_c('td', {
     staticClass: "color min"
@@ -43614,7 +43644,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         return _c('tr', {
           key: index,
           staticClass: "item"
-        }, [(schedule.id > 0) ? _c('td', {
+        }, [(schedule.is_empty === 0) ? _c('td', {
           staticClass: "element"
         }, [_c('div', {
           staticClass: "type",
@@ -43678,7 +43708,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }, [_c('md-icon', [_vm._v("add")])], 1) : _vm._e()], 2)]
     })], 2)
-  }))])]), _vm._v(" "), _c('md-dialog', {
+  }))])], 1), _vm._v(" "), _c('md-dialog', {
     ref: "room"
   }, [_c('md-dialog-title', [_vm._v("Номер аудиторії")]), _vm._v(" "), _c('md-dialog-content', [_c('form', {
     attrs: {
@@ -43713,7 +43743,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.saveRoom()
       }
     }
-  }, [_vm._v("Зберегти")])], 1)], 1)], 1)], 1)
+  }, [_vm._v("Зберегти")])], 1)], 1), _vm._v(" "), _c('md-snackbar', {
+    ref: "snackbar",
+    attrs: {
+      "md-position": 'top right',
+      "md-duration": 5000
+    }
+  }, [_c('span', {
+    domProps: {
+      "textContent": _vm._s(_vm.message)
+    }
+  }), _vm._v(" "), _c('md-button', {
+    on: {
+      "click": function($event) {
+        _vm.$refs.snackbar.close()
+      }
+    }
+  }, [_vm._v("Сховати")])], 1)], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
