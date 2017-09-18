@@ -77,19 +77,20 @@
                                        @end="endSubject" :options="{group: 'subjects', draggable: '.item'}" :week="week - 1" :day="day - 1">
                                 <tr class="item" v-for="(schedule, index) in days[week - 1][day - 1]" :key="index">
                                     <td class="element" v-if="schedule.is_empty === 0">
-                                        <div class="type" :title="types[1][schedule.type]" @click="changeType(week - 1, day - 1, index)">
-                                            <span>{{ types[0][schedule.type] }}</span>
+                                        <div class="type" :title="types[schedule.type][1]" @click="changeType(week - 1, day - 1, index)">
+                                            <span>{{ types[schedule.type][0] }}</span>
                                         </div>
 
                                         <div class="right">
                                             <div class="info">
                                                 <span class="title">{{ schedule.subject.title }}</span>
+                                                <!--TODO: support array teachers-->
                                                 <draggable class="teacher" :options="{group: 'teachers', draggable: '.teacher-item'}">
                                                     <span v-if="schedule.teacher_id > 0" :week="week - 1" :day="day - 1" :index="index"
-                                                          :title="fullNameTeacher(schedule.teacher)" :class="isMoving ? 'teacher-item' : ''">
+                                                          :title="fullNameTeacher(schedule.teacher)" class="teacher-item">
                                                         {{ shortNameTeacher(schedule.teacher) }}
                                                     </span>
-                                                    <span v-else :week="week - 1" :day="day - 1" :index="index" :class="isMoving ? 'teacher-item no' : 'no'">
+                                                    <span v-else :week="week - 1" :day="day - 1" :index="index" class="teacher-item no">
                                                         Викладача не вказано
                                                     </span>
                                                 </draggable>
@@ -151,7 +152,6 @@
             draggable,
         },
 
-        // TODO: looking on required* in future
         props: {
             'schedule': {
                 type: Object,
@@ -171,6 +171,15 @@
             },
             'time': {
                 type: Array,
+                required: true,
+            },
+            'daysWeek': {
+                type: Array,
+                required: true,
+            },
+            'types': {
+                type: Array,
+                required: true,
             }
         },
 
@@ -195,8 +204,6 @@
 
                 // Other
                 days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
-                daysWeek: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-                types: [['Л', 'П', 'Лб1', 'Лб2'], ['Лекція', 'Практика', 'Лабораторна робота 1', 'Лабораторна робота 2']],
 
                 message: '',
                 response: null,
@@ -215,6 +222,8 @@
                     }
                 }
             }
+
+            console.log(this.days);
         },
 
         computed: {
@@ -259,7 +268,7 @@
         methods: {
             // Type
             changeType(week, day, index) {
-                this.days[week][day][index].type = (this.days[week][day][index].type + 1) % this.types[0].length;
+                this.days[week][day][index].type = (this.days[week][day][index].type + 1) % this.types.length;
             },
 
             // Room
@@ -288,14 +297,15 @@
             saveSchedule() {
                 axios.post('/schedule', this.days)
                     .then(res => {
-                        console.log(res);
                         this.message = 'Розклад збережено';
+
                         this.$nextTick(() => {
                             this.$refs.snackbar.open();
                         });
                     })
                     .catch(error => {
                         this.message = error.response.data.message;
+
                         this.$nextTick(() => {
                             this.$refs.snackbar.open();
                         });

@@ -41298,6 +41298,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -41306,7 +41307,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         draggable: __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default.a
     },
 
-    // TODO: looking on required* in future
     props: {
         'schedule': {
             type: Object,
@@ -41325,7 +41325,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             required: true
         },
         'time': {
-            type: Array
+            type: Array,
+            required: true
+        },
+        'daysWeek': {
+            type: Array,
+            required: true
+        },
+        'types': {
+            type: Array,
+            required: true
         }
     },
 
@@ -41350,8 +41359,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             // Other
             days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
-            daysWeek: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-            types: [['Л', 'П', 'Лб1', 'Лб2'], ['Лекція', 'Практика', 'Лабораторна робота 1', 'Лабораторна робота 2']],
 
             message: '',
             response: null
@@ -41369,6 +41376,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }
         }
+
+        console.log(this.days);
     },
 
 
@@ -41416,7 +41425,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         // Type
         changeType: function changeType(week, day, index) {
-            this.days[week][day][index].type = (this.days[week][day][index].type + 1) % this.types[0].length;
+            this.days[week][day][index].type = (this.days[week][day][index].type + 1) % this.types.length;
         },
 
 
@@ -41448,13 +41457,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             axios.post('/schedule', this.days).then(function (res) {
-                console.log(res);
                 _this2.message = 'Розклад збережено';
+
                 _this2.$nextTick(function () {
                     _this2.$refs.snackbar.open();
                 });
             }).catch(function (error) {
                 _this2.message = error.response.data.message;
+
                 _this2.$nextTick(function () {
                     _this2.$refs.snackbar.open();
                 });
@@ -43652,14 +43662,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }, [_c('div', {
           staticClass: "type",
           attrs: {
-            "title": _vm.types[1][schedule.type]
+            "title": _vm.types[schedule.type][1]
           },
           on: {
             "click": function($event) {
               _vm.changeType(week - 1, day - 1, index)
             }
           }
-        }, [_c('span', [_vm._v(_vm._s(_vm.types[0][schedule.type]))])]), _vm._v(" "), _c('div', {
+        }, [_c('span', [_vm._v(_vm._s(_vm.types[schedule.type][0]))])]), _vm._v(" "), _c('div', {
           staticClass: "right"
         }, [_c('div', {
           staticClass: "info"
@@ -43674,7 +43684,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
             }
           }
         }, [(schedule.teacher_id > 0) ? _c('span', {
-          class: _vm.isMoving ? 'teacher-item' : '',
+          staticClass: "teacher-item",
           attrs: {
             "week": week - 1,
             "day": day - 1,
@@ -43682,7 +43692,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
             "title": _vm.fullNameTeacher(schedule.teacher)
           }
         }, [_vm._v("\n                                                    " + _vm._s(_vm.shortNameTeacher(schedule.teacher)) + "\n                                                ")]) : _c('span', {
-          class: _vm.isMoving ? 'teacher-item no' : 'no',
+          staticClass: "teacher-item no",
           attrs: {
             "week": week - 1,
             "day": day - 1,

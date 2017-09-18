@@ -13,6 +13,6 @@ class Teacher extends Model
 
     public function scheduleDay()
     {
-        return $this->hasMany(ScheduleDay::class);
+        return $this->hasMany(ScheduleDayTeacher::class);
     }
 }

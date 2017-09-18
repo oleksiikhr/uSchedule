@@ -11,6 +11,8 @@
           :teachers="{{ json_encode($teachers) }}"
           :subjects="{{ json_encode($subjects) }}"
           :time="{{ json_encode($time) }}"
+          :days-week="{{ json_encode($daysWeek) }}"
+          :types="{{ json_encode($types) }}"
     ></edit>
 
 @endsection

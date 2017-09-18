@@ -18,9 +18,9 @@ class ScheduleDay extends Model
         return $this->belongsTo(Subject::class);
     }
 
-    public function teacher()
+    public function teachers()
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->hasMany(ScheduleDayTeacher::class);
     }
 
     public function saveSchedule($schedule){
