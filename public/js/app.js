@@ -39599,7 +39599,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Navbar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39711,28 +39711,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
-//    TODO: add Moment.js
+//    TODO: add Moment.js for time (color*)
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['user', 'time'],
 
     data: function data() {
         return {
-            u: null,
-            t: null,
-            empty: false
+            u: this.user
         };
-    },
-    created: function created() {
-        this.t = JSON.parse(this.time);
-
-        if (this.user === 'empty') {
-            this.empty = true;
-            return;
-        }
-
-        this.u = JSON.parse(this.user);
     },
 
 
@@ -39763,7 +39753,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "flex": "1"
     }
-  }), _vm._v(" "), (_vm.empty) ? [_c('md-button', {
+  }), _vm._v(" "), (!_vm.u) ? [_c('md-button', {
     attrs: {
       "href": "/login"
     }
@@ -39772,12 +39762,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "/register"
     }
-  }, [_vm._v("Реєстрація")])] : [(!_vm.empty && _vm.u.group_id) ? _c('md-button', {
+  }, [_vm._v("Реєстрація")])] : [(_vm.u.group_id) ? _c('md-button', {
     staticClass: "md-raised",
     attrs: {
       "href": '/group/' + _vm.u.group_id
     }
-  }, [_vm._v("Розклад")]) : _vm._e()]], 2), _vm._v(" "), _c('md-theme', [_c('md-sidenav', {
+  }, [_vm._v("\n                Розклад\n            ")]) : _vm._e()]], 2), _vm._v(" "), _c('md-theme', [_c('md-sidenav', {
     ref: "leftSidenav",
     staticClass: "md-left"
   }, [_c('md-toolbar', [_c('div', {
@@ -39788,7 +39778,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "/"
     }
-  }, [_c('md-icon', [_vm._v("home")]), _vm._v(" "), _c('span', [_vm._v("Головна сторінка")])], 1), _vm._v(" "), (!_vm.empty && _vm.u.group_id) ? _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("home")]), _vm._v(" "), _c('span', [_vm._v("Головна сторінка")])], 1), _vm._v(" "), (_vm.u && _vm.u.group_id) ? _c('md-list-item', {
     attrs: {
       "href": '/group/' + _vm.u.group_id
     }
@@ -39796,11 +39786,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "/news"
     }
-  }, [_c('md-icon', [_vm._v("description")]), _vm._v(" "), _c('span', [_vm._v("Новини")])], 1), _vm._v(" "), (!_vm.empty) ? _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("description")]), _vm._v(" "), _c('span', [_vm._v("Новини")])], 1), _vm._v(" "), (_vm.u) ? _c('md-list-item', {
     attrs: {
       "href": "/settings"
     }
-  }, [_c('md-icon', [_vm._v("settings")]), _vm._v(" "), _c('span', [_vm._v("Налаштування")])], 1) : _vm._e(), _vm._v(" "), (!_vm.empty) ? [_c('br'), _vm._v(" "), _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("settings")]), _vm._v(" "), _c('span', [_vm._v("Налаштування")])], 1) : _vm._e(), _vm._v(" "), (_vm.u) ? [_c('br'), _vm._v(" "), _c('md-list-item', {
     attrs: {
       "href": "/news/create"
     }
@@ -39812,10 +39802,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "md-toolbar-container"
   }, [_c('h3', {
     staticClass: "md-title"
-  }, [_vm._v("Дзвінки")])])]), _vm._v(" "), (_vm.t) ? _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Пара")]), _vm._v(" "), _c('md-table-head', [_vm._v("Початок")]), _vm._v(" "), _c('md-table-head', [_vm._v("Кінець")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.t.length), function(item, i) {
+  }, [_vm._v("Дзвінки")])])]), _vm._v(" "), (_vm.time) ? _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Пара")]), _vm._v(" "), _c('md-table-head', [_vm._v("Початок")]), _vm._v(" "), _c('md-table-head', [_vm._v("Кінець")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.time.length), function(item, i) {
     return _c('md-table-row', {
       key: i
-    }, [_c('md-table-cell', [_vm._v(_vm._s(i + 1))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(_vm.t[i][0]))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(_vm.t[i][1]))])], 1)
+    }, [_c('md-table-cell', [_vm._v(_vm._s(i + 1))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(_vm.time[i][0]))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(_vm.time[i][1]))])], 1)
   }))], 1) : _vm._e()], 1)], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
@@ -39843,7 +39833,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\university\\Sidebar.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\university\\Sidebar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Sidebar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40051,7 +40041,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Login.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40239,7 +40229,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Register.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Register.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Register.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40410,7 +40400,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\auth\\passwords\\Email.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\passwords\\Email.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Email.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40561,7 +40551,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\auth\\passwords\\Reset.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\passwords\\Reset.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Reset.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40749,7 +40739,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Dashboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -41125,7 +41115,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\schedule\\Edit.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\schedule\\Edit.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Edit.vue: functional components are not supported with templates, they should use render functions.")}
 
