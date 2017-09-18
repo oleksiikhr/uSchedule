@@ -39717,7 +39717,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //    TODO: add Moment.js for time (color*)
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['user', 'time'],
+    props: {
+        'user': {
+            type: Object
+        },
+        'time': {
+            type: Array
+        }
+    },
 
     data: function data() {
         return {
@@ -41299,23 +41306,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         draggable: __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default.a
     },
 
-    props: ['inSchedule', 'inScheduleDays', 'inSubjects', 'inTeachers', 'inTime'],
-
-    created: function created() {
-        this.scheduleDays = JSON.parse(this.inScheduleDays);
-        this.schedule = JSON.parse(this.inSchedule);
-        this.subjects = JSON.parse(this.inSubjects);
-        this.teachers = JSON.parse(this.inTeachers);
-        this.time = JSON.parse(this.inTime);
+    // TODO: looking on required* in future
+    props: {
+        'schedule': {
+            type: Object,
+            required: true
+        },
+        'scheduleDays': {
+            type: Array,
+            required: true
+        },
+        'subjects': {
+            type: Array,
+            required: true
+        },
+        'teachers': {
+            type: Array,
+            required: true
+        },
+        'time': {
+            type: Array
+        }
     },
+
     data: function data() {
         return {
-            // Props
-            scheduleDays: [],
-            schedule: [],
-            subjects: [],
-            teachers: [],
-
             // Search
             searchSubject: '',
             searchTeacher: '',
@@ -41334,12 +41349,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             dialogRoom: null,
 
             // Other
-            time: [],
             days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
             daysWeek: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
             types: [['Л', 'П', 'Лб1', 'Лб2'], ['Лекція', 'Практика', 'Лабораторна робота 1', 'Лабораторна робота 2']],
-            message: '',
 
+            message: '',
             response: null
         };
     },
@@ -41429,7 +41443,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
 
-        //            TODO: replace on vue-material - snackbar
         // Save schedule
         saveSchedule: function saveSchedule() {
             var _this2 = this;
@@ -41472,7 +41485,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         moveSubject: function moveSubject(evt, originalEvent) {
             this.isDelete = !evt.relatedContext.list;
 
-            // Protect draggable after "+", but can't return back
+            // TODO: Protect draggable after "+", but can't return back
             if (evt.to == evt.from && evt.relatedContext.list.length == 1) {
                 return false;
             }
@@ -43588,7 +43601,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.saveSchedule
     }
-  }, [_vm._v("Зберегты розклад")]), _vm._v(" "), _c('table', {
+  }, [_vm._v("Зберегти розклад")]), _vm._v(" "), _c('table', {
     staticClass: "schedule"
   }, [_c('thead', [_c('tr', [_c('td', {
     staticClass: "color min"

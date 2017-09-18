@@ -87,9 +87,14 @@
 //    TODO: add Moment.js for time (color*)
 
     export default {
-        props: [
-            'user', 'time',
-        ],
+        props: {
+            'user': {
+                type: Object,
+            },
+            'time': {
+                type: Array,
+            }
+        },
 
         data () {
             return {

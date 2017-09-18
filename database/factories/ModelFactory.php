@@ -71,6 +71,7 @@ $factory->define(App\ScheduleDay::class, function (Faker\Generator $faker) {
         'week' => mt_rand(0, 1),
         'order' => mt_rand(0, 6),
         'room' => mt_rand(1, 500) . chr(mt_rand(65, 90)),
-        'type' => mt_rand(0, 3)
+        'type' => mt_rand(0, 3),
+        'is_empty' => mt_rand(0, 1),
     ];
 });

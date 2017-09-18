@@ -39717,7 +39717,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //    TODO: add Moment.js for time (color*)
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['user', 'time'],
+    props: {
+        'user': {
+            type: Object
+        },
+        'time': {
+            type: Array
+        }
+    },
 
     data: function data() {
         return {

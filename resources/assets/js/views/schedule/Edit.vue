@@ -49,7 +49,7 @@
             </md-layout>
 
             <md-layout md-flex="80" class="right-column">
-                <md-button class="md-raised md-primary" @click="saveSchedule">Зберегты розклад</md-button>
+                <md-button class="md-raised md-primary" @click="saveSchedule">Зберегти розклад</md-button>
                 <table class="schedule">
                     <thead>
                     <tr>
@@ -151,26 +151,31 @@
             draggable,
         },
 
-        props: [
-            'inSchedule', 'inScheduleDays', 'inSubjects', 'inTeachers', 'inTime',
-        ],
-
-        created() {
-            this.scheduleDays = JSON.parse(this.inScheduleDays);
-            this.schedule = JSON.parse(this.inSchedule);
-            this.subjects = JSON.parse(this.inSubjects);
-            this.teachers = JSON.parse(this.inTeachers);
-            this.time = JSON.parse(this.inTime);
+        // TODO: looking on required* in future
+        props: {
+            'schedule': {
+                type: Object,
+                required: true,
+            },
+            'scheduleDays': {
+                type: Array,
+                required: true,
+            },
+            'subjects': {
+                type: Array,
+                required: true,
+            },
+            'teachers': {
+                type: Array,
+                required: true,
+            },
+            'time': {
+                type: Array,
+            }
         },
 
         data() {
             return {
-                // Props
-                scheduleDays: [],
-                schedule: [],
-                subjects: [],
-                teachers: [],
-
                 // Search
                 searchSubject: '',
                 searchTeacher: '',
@@ -189,12 +194,11 @@
                 dialogRoom: null,
 
                 // Other
-                time: [],
                 days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
                 daysWeek: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
                 types: [['Л', 'П', 'Лб1', 'Лб2'], ['Лекція', 'Практика', 'Лабораторна робота 1', 'Лабораторна робота 2']],
-                message: '',
 
+                message: '',
                 response: null,
             }
         },
@@ -280,7 +284,6 @@
                 this.$refs['room'].close();
             },
 
-//            TODO: replace on vue-material - snackbar
             // Save schedule
             saveSchedule() {
                 axios.post('/schedule', this.days)
@@ -322,7 +325,7 @@
             moveSubject(evt, originalEvent) {
                 this.isDelete = !evt.relatedContext.list;
 
-                // Protect draggable after "+", but can't return back
+                // TODO: Protect draggable after "+", but can't return back
                 if (evt.to == evt.from && evt.relatedContext.list.length == 1) {
                     return false;
                 }
