@@ -273,10 +273,19 @@
     }
   }
 
-  .cabinet {
-    background: #f9f9f9;
-    border-left: 1px solid #d4d4d4;
-    > a {
+  .additionally {
+    display: flex;
+
+    > .more-teachers {
+      display: flex;
+      min-width: 40px;
+      justify-content: center;
+      align-items: center;
+      background: #fff4f4;
+      border-left: 1px solid #d4d4d4;
+    }
+
+    > .cabinet {
       height: 100%;
       display: flex;
       align-items: center;
@@ -286,6 +295,8 @@
       min-width: 60px;
       justify-content: center;
       color: rgba(0, 0, 0, .87) !important;
+      background: #f9f9f9;
+      border-left: 1px solid #d4d4d4;
         &:hover {
           text-decoration: none !important;
       }
@@ -339,5 +350,20 @@
 
   > .md-list-item-container {
     min-height: 45px;
+  }
+}
+
+.teacher-item {
+  margin-right: 5px;
+  &:first-child {
+    margin-right: 0;
+  }
+  &:last-child {
+    &::after {
+      content: none;
+    }
+  }
+  &::after {
+    content: ","
   }
 }

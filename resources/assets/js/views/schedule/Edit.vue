@@ -86,18 +86,22 @@
                                                 <span class="title">{{ schedule.subject.title }}</span>
                                                 <!--TODO: support array teachers-->
                                                 <draggable class="teacher" :options="{group: 'teachers', draggable: '.teacher-item'}">
-                                                    <span v-if="schedule.teacher_id > 0" :week="week - 1" :day="day - 1" :index="index"
-                                                          :title="fullNameTeacher(schedule.teacher)" class="teacher-item">
-                                                        {{ shortNameTeacher(schedule.teacher) }}
-                                                    </span>
-                                                    <span v-else :week="week - 1" :day="day - 1" :index="index" class="teacher-item no">
+                                                    <span v-if="schedule.teachers.length < 1" :week="week - 1" :day="day - 1" :index="index" class="teacher-item no">
                                                         Викладача не вказано
+                                                    </span>
+                                                    <span v-else v-for="teacher in schedule.teachers" :week="week - 1" :day="day - 1" :index="index"
+                                                          :title="fullNameTeacher(teacher.teacher)" class="teacher-item">
+                                                        {{ shortNameTeacher(teacher.teacher) }}
                                                     </span>
                                                 </draggable>
                                             </div>
 
-                                            <div class="cabinet">
-                                                <a @click="editRoom(week - 1, day - 1, index)">
+                                            <div class="additionally">
+                                                <div v-if="schedule.teachers.length > 1" class="more-teachers">
+                                                    <span title="Кількість підгруп">{{ schedule.teachers.length }}</span>
+                                                </div>
+
+                                                <a class="cabinet" @click="editRoom(week - 1, day - 1, index)">
                                                     <span v-if="schedule.room">{{ schedule.room }}</span>
                                                     <md-icon v-else>business</md-icon>
                                                 </a>
@@ -323,7 +327,7 @@
                     schedule_id: this.schedule.id,
                     type: 0,
                     is_empty: 0,
-                    teacher: [],
+                    teachers: [],
                     subject: {
                         id: el.id,
                         title: el.title,
@@ -367,7 +371,7 @@
                     schedule_id: this.schedule.id,
                     type: 0,
                     is_empty: 1,
-                    teacher: [],
+                    teachers: [],
                     subject: {
                         id: 0,
                         title: '',

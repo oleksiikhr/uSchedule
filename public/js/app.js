@@ -41299,6 +41299,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -41483,7 +41487,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 schedule_id: this.schedule.id,
                 type: 0,
                 is_empty: 0,
-                teacher: [],
+                teachers: [],
                 subject: {
                     id: el.id,
                     title: el.title,
@@ -41524,7 +41528,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 schedule_id: this.schedule.id,
                 type: 0,
                 is_empty: 1,
-                teacher: [],
+                teachers: [],
                 subject: {
                     id: 0,
                     title: '',
@@ -43683,24 +43687,33 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
               draggable: '.teacher-item'
             }
           }
-        }, [(schedule.teacher_id > 0) ? _c('span', {
-          staticClass: "teacher-item",
-          attrs: {
-            "week": week - 1,
-            "day": day - 1,
-            "index": index,
-            "title": _vm.fullNameTeacher(schedule.teacher)
-          }
-        }, [_vm._v("\n                                                    " + _vm._s(_vm.shortNameTeacher(schedule.teacher)) + "\n                                                ")]) : _c('span', {
+        }, [(schedule.teachers.length < 1) ? _c('span', {
           staticClass: "teacher-item no",
           attrs: {
             "week": week - 1,
             "day": day - 1,
             "index": index
           }
-        }, [_vm._v("\n                                                    Викладача не вказано\n                                                ")])])], 1), _vm._v(" "), _c('div', {
-          staticClass: "cabinet"
-        }, [_c('a', {
+        }, [_vm._v("\n                                                    Викладача не вказано\n                                                ")]) : _vm._l((schedule.teachers), function(teacher) {
+          return _c('span', {
+            staticClass: "teacher-item",
+            attrs: {
+              "week": week - 1,
+              "day": day - 1,
+              "index": index,
+              "title": _vm.fullNameTeacher(teacher.teacher)
+            }
+          }, [_vm._v("\n                                                    " + _vm._s(_vm.shortNameTeacher(teacher.teacher)) + "\n                                                ")])
+        })], 2)], 1), _vm._v(" "), _c('div', {
+          staticClass: "additionally"
+        }, [(schedule.teachers.length > 1) ? _c('div', {
+          staticClass: "more-teachers"
+        }, [_c('span', {
+          attrs: {
+            "title": "Кількість підгруп"
+          }
+        }, [_vm._v(_vm._s(schedule.teachers.length))])]) : _vm._e(), _vm._v(" "), _c('a', {
+          staticClass: "cabinet",
           on: {
             "click": function($event) {
               _vm.editRoom(week - 1, day - 1, index)

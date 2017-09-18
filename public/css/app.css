@@ -9152,12 +9152,28 @@ body {
   color: #ce8080;
 }
 
-.element .cabinet {
-  background: #f9f9f9;
+.element .additionally {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.element .additionally > .more-teachers {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  min-width: 40px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #fff4f4;
   border-left: 1px solid #d4d4d4;
 }
 
-.element .cabinet > a {
+.element .additionally > .cabinet {
   height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -9173,13 +9189,15 @@ body {
       -ms-flex-pack: center;
           justify-content: center;
   color: rgba(0, 0, 0, 0.87) !important;
+  background: #f9f9f9;
+  border-left: 1px solid #d4d4d4;
 }
 
-.element .cabinet > a:hover {
+.element .additionally > .cabinet:hover {
   text-decoration: none !important;
 }
 
-.element .cabinet i {
+.element .additionally i {
   color: #7d7d7d;
 }
 
@@ -9231,6 +9249,22 @@ body {
 
 .week-schedule > .left-block.sortable-chosen > .md-list-item-container {
   min-height: 45px;
+}
+
+.teacher-item {
+  margin-right: 5px;
+}
+
+.teacher-item:first-child {
+  margin-right: 0;
+}
+
+.teacher-item:last-child::after {
+  content: none;
+}
+
+.teacher-item::after {
+  content: ",";
 }
 
 .university .phone-viewport {
