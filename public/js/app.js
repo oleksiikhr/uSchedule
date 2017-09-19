@@ -39599,7 +39599,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
+Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Navbar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39840,7 +39840,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\university\\Sidebar.vue"
+Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\university\\Sidebar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Sidebar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40048,7 +40048,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
+Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Login.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40236,7 +40236,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Register.vue"
+Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Register.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Register.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40407,7 +40407,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\passwords\\Email.vue"
+Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\auth\\passwords\\Email.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Email.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40558,7 +40558,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\passwords\\Reset.vue"
+Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\auth\\passwords\\Reset.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Reset.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40746,7 +40746,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
+Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Dashboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -41122,7 +41122,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\schedule\\Edit.vue"
+Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\schedule\\Edit.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Edit.vue: functional components are not supported with templates, they should use render functions.")}
 

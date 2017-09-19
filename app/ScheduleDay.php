@@ -87,11 +87,6 @@ class ScheduleDay extends Model
     private function isEmpty($object, $data): ScheduleDay
     {
         if($data['is_empty'] != 1) {
-//            try{
-//                $object->teacher_id = $data['teacher']['id'];
-//            }catch (\Exception $e){
-//                throw new \Exception('Вы не вказалы выкладача на ' . ($object->week + 1) . ' тиждні, ' . self::DAYS[$object->day] . ', ' . ($object->order + 1) . ' пара');
-//            }
             $object->subject_id = $data['subject']['id'];
         }
 
