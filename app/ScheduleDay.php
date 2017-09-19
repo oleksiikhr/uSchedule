@@ -38,12 +38,12 @@ class ScheduleDay extends Model
                             if (isset($match)) {
                                 $match->schedule_id = $couple['schedule_id'];
                                 $match->subject_id = 0;
-                                $match->teacher_id = 0;
                                 $match->day = $dayNum;
                                 $match->week = $weekNum;
                                 $match->order = $order;
 
                                 $this->isEmpty($match, $couple);
+                                ScheduleDayTeacher::saveTeachers($couple, $match->id);
 
                                 $match->is_empty = $couple['is_empty'];
                                 $match->room = $couple['room'];
@@ -58,7 +58,6 @@ class ScheduleDay extends Model
                                 $coupleDay = new ScheduleDay();
                                 $coupleDay->schedule_id = $couple['schedule_id'];
                                 $coupleDay->is_empty = $couple['is_empty'];
-                                $coupleDay->teacher_id = 0;
                                 $coupleDay->subject_id = 0;
                                 $coupleDay->day = $dayNum;
                                 $coupleDay->week = $weekNum;
@@ -71,6 +70,7 @@ class ScheduleDay extends Model
                                 $coupleDay->timestamps;
                                 try{
                                     $coupleDay->save();
+                                    ScheduleDayTeacher::saveTeachers($couple, $coupleDay->id);
                                 }catch (\Exception $e){
                                     echo $e;
                                 }
@@ -87,14 +87,16 @@ class ScheduleDay extends Model
     private function isEmpty($object, $data): ScheduleDay
     {
         if($data['is_empty'] != 1) {
-            try{
-                $object->teacher_id = $data['teacher']['id'];
-            }catch (\Exception $e){
-                throw new \Exception('Вы не вказалы выкладача на ' . ($object->week + 1) . ' тиждні, ' . self::DAYS[$object->day] . ', ' . ($object->order + 1) . ' пара');
-            }
+//            try{
+//                $object->teacher_id = $data['teacher']['id'];
+//            }catch (\Exception $e){
+//                throw new \Exception('Вы не вказалы выкладача на ' . ($object->week + 1) . ' тиждні, ' . self::DAYS[$object->day] . ', ' . ($object->order + 1) . ' пара');
+//            }
             $object->subject_id = $data['subject']['id'];
         }
 
         return $object;
     }
+
+
 }
