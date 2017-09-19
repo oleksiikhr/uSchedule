@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ScheduleDay extends Model
 {
+    const DAYS = ['понеділок', 'вівторок', 'середа', 'четверг', 'п\'ятниця', 'субота'];
+
     public function schedule()
     {
         return $this->belongsTo(Schedule::class);
@@ -16,47 +18,80 @@ class ScheduleDay extends Model
         return $this->belongsTo(Subject::class);
     }
 
-    public function teacher()
+    public function teachers()
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->hasMany(ScheduleDayTeacher::class);
     }
 
     public function saveSchedule($schedule){
+        $weekNum = 0;
         foreach ($schedule as $week) {
-            foreach ($week as $weekNum => $days) {
-                if(is_string($weekNum)){
-                    break;
-                }
-                foreach ($days as $dayNum => $day) {
-                    foreach ($day as $order => $couple) {
-                        $match = self::where('schedule_id', $couple['schedule_id'])
-                            ->where('day', $dayNum)
-                            ->where('week', $weekNum)
-                            ->where('order', $order)
-                            ->first();
-                        if (isset($match)) {
-                            $match->schedule_id = $couple['schedule_id'];
-                            $match->subject_id = $couple['subject']['id'];
-                            $match->day = $dayNum;
-                            $match->week = $weekNum;
-                            $match->order = $order;
-                            $match->room = $couple['room'];
-                            $match->timestamps;
-                            $match->save();
-                        } else {
-                            $this->schedule_id = $couple['schedule_id'];
-                            $this->subject_id = $couple['subject']['id'];
-                            $this->day = $dayNum;
-                            $this->week = $weekNum;
-                            $this->order = $order;
-                            $this->room = $couple['room'];
-                            $this->timestamps;
-                            $this->save();
+            foreach ($week as $days) {
+                if ($weekNum <= 1) {
+                    foreach ($days as $dayNum => $day) {
+                        foreach ($day as $order => $couple) {
+                            $match = self::where('schedule_id', $couple['schedule_id'])
+                                ->where('day', $dayNum)
+                                ->where('week', $weekNum)
+                                ->where('order', $order)
+                                ->first();
+                            if (isset($match)) {
+                                $match->schedule_id = $couple['schedule_id'];
+                                $match->subject_id = 0;
+                                $match->day = $dayNum;
+                                $match->week = $weekNum;
+                                $match->order = $order;
+
+                                $this->isEmpty($match, $couple);
+                                ScheduleDayTeacher::saveTeachers($couple, $match->id);
+
+                                $match->is_empty = $couple['is_empty'];
+                                $match->room = $couple['room'];
+                                $match->type = $couple['type'];
+                                $match->timestamps;
+                                try{
+                                    $match->save();
+                                }catch (\Exception $e){
+                                    echo $e;
+                                }
+                            } else {
+                                $coupleDay = new ScheduleDay();
+                                $coupleDay->schedule_id = $couple['schedule_id'];
+                                $coupleDay->is_empty = $couple['is_empty'];
+                                $coupleDay->subject_id = 0;
+                                $coupleDay->day = $dayNum;
+                                $coupleDay->week = $weekNum;
+                                $coupleDay->order = $order;
+
+                                $this->isEmpty($coupleDay, $couple);
+
+                                $coupleDay->room = $couple['room'];
+                                $coupleDay->type = $couple['type'];
+                                $coupleDay->timestamps;
+                                try{
+                                    $coupleDay->save();
+                                    ScheduleDayTeacher::saveTeachers($couple, $coupleDay->id);
+                                }catch (\Exception $e){
+                                    echo $e;
+                                }
+
+                            }
                         }
                     }
+                    $weekNum++;
                 }
             }
         }
-
     }
+
+    private function isEmpty($object, $data): ScheduleDay
+    {
+        if($data['is_empty'] != 1) {
+            $object->subject_id = $data['subject']['id'];
+        }
+
+        return $object;
+    }
+
+
 }

@@ -13,8 +13,8 @@
 <body class="@yield('body-classes')">
 
     <div id="app">
-        <navbar user="{{ Auth::check() ? json_encode(Auth::user()) : 'empty' }}"
-                time="{{ json_encode($time) }}"
+        <navbar :user="{{ json_encode(Auth::user())  }}"
+                :time="{{ json_encode($time) }}"
         ></navbar>
 
         @yield('content')

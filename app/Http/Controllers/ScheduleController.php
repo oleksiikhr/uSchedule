@@ -64,7 +64,7 @@ class ScheduleController extends WebController
     {
         $schedule = Schedule::findOrFail($id);
 
-        $scheduleDays = ScheduleDay::with('schedule', 'subject', 'teacher')
+        $scheduleDays = ScheduleDay::with('schedule', 'subject', 'teachers.teacher')
             ->where('schedule_id', $id)
             ->orderBy('week')
             ->orderBy('day')
@@ -81,6 +81,9 @@ class ScheduleController extends WebController
             'schedule'     => $schedule,
             'teachers'     => Teacher::get(), // TODO: Temporary get all teachers
             'subjects'     => $subjects,
+            'daysWeek'     => ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+            'types'        => [['Л', 'Лекція'], ['П', 'Практика'], ['Лб1', 'Лабораторна робота 1'],
+                ['Лб2', 'Лабораторна робота 2']],
         ]);
     }
 

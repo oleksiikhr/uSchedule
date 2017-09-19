@@ -8,12 +8,14 @@
             <md-button href="/">Розклад КНТЕУ</md-button>
             <span style="flex: 1"></span>
 
-            <template v-if="empty">
+            <template v-if="!u">
                 <md-button href="/login">Увійти</md-button>
                 <md-button href="/register" class="md-raised">Реєстрація</md-button>
             </template>
             <template v-else>
-                <md-button v-if="!empty && u.group_id" class="md-raised" :href="'/group/' + u.group_id">Розклад</md-button>
+                <md-button v-if="u.group_id" class="md-raised" :href="'/group/' + u.group_id">
+                    Розклад
+                </md-button>
             </template>
         </md-toolbar>
 
@@ -29,17 +31,17 @@
                     <md-list-item href="/">
                         <md-icon>home</md-icon> <span>Головна сторінка</span>
                     </md-list-item>
-                    <md-list-item v-if="!empty && u.group_id" :href="'/group/' + u.group_id">
+                    <md-list-item v-if="u && u.group_id" :href="'/group/' + u.group_id">
                         <md-icon>schedule</md-icon> <span>Розклад групи</span>
                     </md-list-item>
                     <md-list-item href="/news">
                         <md-icon>description</md-icon> <span>Новини</span>
                     </md-list-item>
-                    <md-list-item v-if="!empty" href="/settings">
+                    <md-list-item v-if="u" href="/settings">
                         <md-icon>settings</md-icon> <span>Налаштування</span>
                     </md-list-item>
 
-                    <template v-if="!empty">
+                    <template v-if="u">
                         <br>
 
                         <!--TODO: isCan-->
@@ -60,7 +62,7 @@
                     </div>
                 </md-toolbar>
 
-                <md-table v-if="t">
+                <md-table v-if="time">
                     <md-table-header>
                         <md-table-row>
                             <md-table-head>Пара</md-table-head>
@@ -69,10 +71,10 @@
                         </md-table-row>
                     </md-table-header>
                     <md-table-body>
-                        <md-table-row v-for="(item, i) in t.length" :key="i">
+                        <md-table-row v-for="(item, i) in time.length" :key="i">
                             <md-table-cell>{{ i + 1 }}</md-table-cell>
-                            <md-table-cell>{{ t[i][0] }}</md-table-cell>
-                            <md-table-cell>{{ t[i][1] }}</md-table-cell>
+                            <md-table-cell>{{ time[i][0] }}</md-table-cell>
+                            <md-table-cell>{{ time[i][1] }}</md-table-cell>
                         </md-table-row>
                     </md-table-body>
                 </md-table>
@@ -82,30 +84,22 @@
 </template>
 
 <script>
-//    TODO: add Moment.js
+//    TODO: add Moment.js for time (color*)
 
     export default {
-        props: [
-            'user', 'time',
-        ],
-
-        data () {
-            return {
-                u: null,
-                t: null,
-                empty: false,
+        props: {
+            'user': {
+                type: Object,
+            },
+            'time': {
+                type: Array,
             }
         },
 
-        created () {
-            this.t = JSON.parse(this.time);
-
-            if (this.user === 'empty') {
-                this.empty = true;
-                return;
+        data () {
+            return {
+                u: this.user,
             }
-
-            this.u = JSON.parse(this.user);
         },
 
         methods: {

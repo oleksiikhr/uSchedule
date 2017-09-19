@@ -6,11 +6,13 @@
 
 @section('content')
 
-    <edit in-schedule-days="{{ json_encode($scheduleDays) }}"
-          in-schedule="{{ json_encode($schedule) }}"
-          in-teachers="{{ json_encode($teachers) }}"
-          in-subjects="{{ json_encode($subjects) }}"
-          in-time="{{ json_encode($time) }}"
+    <edit :schedule-days="{{ json_encode($scheduleDays) }}"
+          :schedule="{{ json_encode($schedule) }}"
+          :teachers="{{ json_encode($teachers) }}"
+          :subjects="{{ json_encode($subjects) }}"
+          :time="{{ json_encode($time) }}"
+          :days-week="{{ json_encode($daysWeek) }}"
+          :types="{{ json_encode($types) }}"
     ></edit>
 
 @endsection

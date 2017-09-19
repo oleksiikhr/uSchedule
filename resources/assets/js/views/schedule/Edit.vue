@@ -49,6 +49,7 @@
             </md-layout>
 
             <md-layout md-flex="80" class="right-column">
+                <md-button class="md-raised md-primary" @click="saveSchedule">Зберегти розклад</md-button>
                 <table class="schedule">
                     <thead>
                     <tr>
@@ -72,30 +73,36 @@
 
                         <template v-for="week in 2">
                             <draggable :class="'week-schedule' + (isMoving && days[week - 1][day - 1].length < time.length ? ' draggable' : '')"
-                                       :list="days[week - 1][day - 1]" element="table" @start="startSubjectRight" :move="moveSubject"
-                                       @end="endSubject" :options="{group: 'subjects', draggable: '.item'}" :week="week - 1" :day="day - 1">
+                                       :list="days[week - 1][day - 1]" element="table" @start="startRight" :move="moveSubject"
+                                       @end="endSubject" :options="{group: 'subjects', draggable: '.item'}">
                                 <tr class="item" v-for="(schedule, index) in days[week - 1][day - 1]" :key="index">
-                                    <td class="element" v-if="schedule.id > 0">
-                                        <div class="type" :title="types[1][schedule.type]" @click="changeType(week - 1, day - 1, index)">
-                                            <span>{{ types[0][schedule.type] }}</span>
+                                    <td class="element" v-if="schedule.is_empty === 0">
+                                        <div class="type" :title="types[schedule.type][1]" @click="changeType(week - 1, day - 1, index)">
+                                            <span>{{ types[schedule.type][0] }}</span>
                                         </div>
 
                                         <div class="right">
                                             <div class="info">
                                                 <span class="title">{{ schedule.subject.title }}</span>
-                                                <draggable class="teacher" :options="{group: 'teachers', draggable: '.teacher-item'}">
-                                                    <span v-if="schedule.teacher_id > 0" :week="week - 1" :day="day - 1" :index="index"
-                                                          :title="fullNameTeacher(schedule.teacher)" :class="isMoving ? 'teacher-item' : ''">
-                                                        {{ shortNameTeacher(schedule.teacher) }}
-                                                    </span>
-                                                    <span v-else :week="week - 1" :day="day - 1" :index="index" :class="isMoving ? 'teacher-item no' : 'no'">
+                                                <draggable class="teacher" :options="{group: 'teachers', draggable: '.teacher-item'}" @end="endTeacher"
+                                                           :list="days[week - 1][day - 1][index].teachers" @start="startRight" :move="moveTeacher">
+                                                    <span v-if="schedule.teachers.length < 1" :index="index"
+                                                          :class="isMoving ? 'teacher-item no' : 'no'">
                                                         Викладача не вказано
+                                                    </span>
+                                                    <span v-for="teacher in schedule.teachers" :index="index" class="teacher-item"
+                                                          :title="fullNameTeacher(teacher.teacher)" v-else>
+                                                        {{ shortNameTeacher(teacher.teacher) }}
                                                     </span>
                                                 </draggable>
                                             </div>
 
-                                            <div class="cabinet">
-                                                <a @click="editRoom(week - 1, day - 1, index)">
+                                            <div class="additionally">
+                                                <div v-if="schedule.teachers.length > 1" class="more-teachers">
+                                                    <span title="Кількість підгруп">{{ schedule.teachers.length }}</span>
+                                                </div>
+
+                                                <a class="cabinet" @click="editRoom(week - 1, day - 1, index)">
                                                     <span v-if="schedule.room">{{ schedule.room }}</span>
                                                     <md-icon v-else>business</md-icon>
                                                 </a>
@@ -134,6 +141,10 @@
                     <md-button class="md-primary" @click="saveRoom()">Зберегти</md-button>
                 </md-dialog-actions>
             </md-dialog>
+            <md-snackbar :md-position="'top right'" ref="snackbar" :md-duration="5000">
+                <span v-text="message"></span>
+                <md-button @click="$refs.snackbar.close()">Сховати</md-button>
+            </md-snackbar>
         </md-layout>
     </md-theme>
 </template>
@@ -146,26 +157,39 @@
             draggable,
         },
 
-        props: [
-            'inSchedule', 'inScheduleDays', 'inSubjects', 'inTeachers', 'inTime',
-        ],
-
-        created() {
-            this.scheduleDays = JSON.parse(this.inScheduleDays);
-            this.schedule = JSON.parse(this.inSchedule);
-            this.subjects = JSON.parse(this.inSubjects);
-            this.teachers = JSON.parse(this.inTeachers);
-            this.time = JSON.parse(this.inTime);
+        props: {
+            'schedule': {
+                type: Object,
+                required: true,
+            },
+            'scheduleDays': {
+                type: Array,
+                required: true,
+            },
+            'subjects': {
+                type: Array,
+                required: true,
+            },
+            'teachers': {
+                type: Array,
+                required: true,
+            },
+            'time': {
+                type: Array,
+                required: true,
+            },
+            'daysWeek': {
+                type: Array,
+                required: true,
+            },
+            'types': {
+                type: Array,
+                required: true,
+            }
         },
 
         data() {
             return {
-                // Props
-                scheduleDays: [],
-                schedule: [],
-                subjects: [],
-                teachers: [],
-
                 // Search
                 searchSubject: '',
                 searchTeacher: '',
@@ -176,6 +200,7 @@
                 isMoving: false,
                 isDelete: true,
                 deleteSubject: null,
+                deleteTeacher: null,
 
                 // Dialog
                 openedWeekIndex: null,
@@ -184,11 +209,9 @@
                 dialogRoom: null,
 
                 // Other
-                time: [],
                 days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
-                daysWeek: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-                types: [['Л', 'П', 'Лб1', 'Лб2'], ['Лекція', 'Практика', 'Лабораторна робота 1', 'Лабораторна робота 2']],
 
+                message: '',
                 response: null,
             }
         },
@@ -205,6 +228,8 @@
                     }
                 }
             }
+
+            console.log(this.days);
         },
 
         computed: {
@@ -249,7 +274,7 @@
         methods: {
             // Type
             changeType(week, day, index) {
-                this.days[week][day][index].type = (this.days[week][day][index].type + 1) % this.types[0].length;
+                this.days[week][day][index].type = (this.days[week][day][index].type + 1) % this.types.length;
             },
 
             // Room
@@ -274,12 +299,23 @@
                 this.$refs['room'].close();
             },
 
-//            TODO: replace on vue-material - snackbar
             // Save schedule
             saveSchedule() {
                 axios.post('/schedule', this.days)
-                    .then(res => console.log(this.res))
-                    .catch(error => this.response = error.response.data);
+                    .then(res => {
+                        this.message = 'Розклад збережено';
+
+                        this.$nextTick(() => {
+                            this.$refs.snackbar.open();
+                        });
+                    })
+                    .catch(error => {
+                        this.message = error.response.data.message;
+
+                        this.$nextTick(() => {
+                            this.$refs.snackbar.open();
+                        });
+                    });
             },
 
             // Subject
@@ -292,7 +328,8 @@
                     room: '',
                     schedule_id: this.schedule.id,
                     type: 0,
-                    teacher: [],
+                    is_empty: 0,
+                    teachers: [],
                     subject: {
                         id: el.id,
                         title: el.title,
@@ -304,7 +341,7 @@
             moveSubject(evt, originalEvent) {
                 this.isDelete = !evt.relatedContext.list;
 
-                // Protect draggable after "+", but can't return back
+                // TODO: Protect draggable after "+", but can't return back
                 if (evt.to == evt.from && evt.relatedContext.list.length == 1) {
                     return false;
                 }
@@ -321,8 +358,6 @@
                 this.isMoving = false;
 
                 if (this.deleteSubject) {
-                    this.days[this.deleteSubject.week.value][this.deleteSubject.day.value]
-                        .splice(this.days[this.deleteSubject.week.value][this.deleteSubject.day.value].length - 1, 1);
                     this.deleteSubject = null;
                 }
             },
@@ -332,37 +367,52 @@
             addEmptySubject(week, day) {
                 this.days[week][day].push({
                     id: -1,
+                    room: 0,
+                    schedule_id: this.schedule.id,
+                    type: 0,
+                    is_empty: 1,
+                    teachers: [],
+                    subject: {
+                        id: 0,
+                        title: '',
+                        course: 0,
+                        faculty_id: 0,
+                    },
                 });
-            },
-            startSubjectRight() {
-                this.isMoving = true;
-                this.isDelete = false;
             },
 
             // Teachers
             cloneTeacher(el) {
                 this.isMoving = true;
                 this.isDelete = true;
-                this.toElement = null;
-                this.fromTeacher = el;
+
+                return {
+                    teacher_id: el.id,
+                    teacher: {
+                        id: el.id,
+                        academic_title: el.academic_title,
+                        first_name: el.first_name,
+                        last_name: el.last_name,
+                        middle_name: el.middle_name,
+                    },
+                };
             },
             moveTeacher(evt, originalEvent) {
-                if (evt.related.attributes.week) {
-                    this.isDelete = false;
-                    this.toElement = evt.related.attributes;
+                this.isDelete = !evt.relatedContext.list;
+
+                if (evt.to != evt.from) {
+                    this.deleteTeacher = evt.relatedContext.list && evt.relatedContext.list.length > this.time.length - 1
+                        ? evt.to.attributes
+                        : null;
                 } else {
-                    this.isDelete = true;
-                    this.toElement = null;
+                    this.deleteTeacher = null;
                 }
             },
             endTeacher(el) {
                 this.isMoving = false;
 
-                if (this.toElement) {
-                    this.days[this.toElement.week.value][this.toElement.day.value][this.toElement.index.value]
-                        .teacher = this.fromTeacher;
-                    this.days[this.toElement.week.value][this.toElement.day.value][this.toElement.index.value]
-                        .teacher_id = this.fromTeacher.id;
+                if (this.deleteTeacher) {
+                    this.deleteTeacher = null;
                 }
             },
             fullNameTeacher(teacher) {
@@ -371,6 +421,12 @@
             shortNameTeacher(teacher) {
                 return teacher.last_name + ' ' + teacher.first_name.charAt(0) + '. '
                     + teacher.middle_name.charAt(0) + '.';
+            },
+
+            // Other
+            startRight() {
+                this.isMoving = true;
+                this.isDelete = false;
             },
         },
     }

@@ -17,12 +17,12 @@ class CreateScheduleDaysTable extends Migration
             $table->increments('id');
             $table->integer('schedule_id');
             $table->integer('subject_id');
-            $table->integer('teacher_id');
             $table->tinyInteger('day');
             $table->tinyInteger('week');
             $table->tinyInteger('order');
-            $table->string('room', 10);
+            $table->string('room', 10)->nullable();
             $table->tinyInteger('type'); // 0 - Лекция, 1 - Практика, 2 - Лб1, 3 - Лб2
+            $table->boolean('is_empty');
             $table->timestamps();
         });
     }

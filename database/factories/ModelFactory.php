@@ -61,16 +61,22 @@ $factory->define(App\Subject::class, function (Faker\Generator $faker){
 // Only for schedule_id = 1
 $factory->define(App\ScheduleDay::class, function (Faker\Generator $faker) {
     $subject = \App\Subject::inRandomOrder()->first();
-    $teacher = \App\Teacher::inRandomOrder()->first();
 
     return [
         'schedule_id' => 1,
         'subject_id' => $subject->id,
-        'teacher_id' => $teacher->id,
         'day' => mt_rand(0, 5),
         'week' => mt_rand(0, 1),
         'order' => mt_rand(0, 6),
-        'room' => mt_rand(1, 500) . chr(mt_rand(65, 90)),
-        'type' => mt_rand(0, 3)
+        'room' => mt_rand(1, 500) . (mt_rand(0, 1) == 0 ? chr(mt_rand(65, 90)) : ''),
+        'type' => mt_rand(0, 3),
+        'is_empty' => mt_rand(0, 1),
+    ];
+});
+
+$factory->define(App\ScheduleDayTeacher::class, function (Faker\Generator $faker) {
+    return [
+        'schedule_day_id' => $faker->numberBetween(1, 30), // See count seeder
+        'teacher_id' => $faker->numberBetween(1, 40), // See count seeder
     ];
 });

@@ -21,6 +21,12 @@ class TeacherController extends Controller
         return $teachers;
     }
 
+    public function all($perPage = 20){
+        $teachers = Teacher::paginate($perPage);
+
+        return $teachers;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
