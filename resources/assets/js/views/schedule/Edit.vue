@@ -406,7 +406,15 @@
 
                 if (this.toElement) {
                     this.days[this.toElement.week.value][this.toElement.day.value][this.toElement.index.value]
-                        .teacher = this.fromTeacher;
+                        .teachers.push({
+                        teacher: {
+                            academic_title: this.fromTeacher.academic_title,
+                            first_name: this.fromTeacher.first_name,
+                            id: this.fromTeacher.id,
+                            last_name: this.fromTeacher.last_name,
+                            middle_name: this.fromTeacher.middle_name
+                        }
+                        });
                     this.days[this.toElement.week.value][this.toElement.day.value][this.toElement.index.value]
                         .teacher_id = this.fromTeacher.id;
                 }
