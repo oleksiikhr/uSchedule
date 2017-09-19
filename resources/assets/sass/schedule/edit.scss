@@ -355,9 +355,6 @@
 
 .teacher-item {
   margin-right: 5px;
-  &:first-child {
-    margin-right: 0;
-  }
   &:last-child {
     &::after {
       content: none;

@@ -39599,7 +39599,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\components\\header\\Navbar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Navbar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39840,7 +39840,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\university\\Sidebar.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\university\\Sidebar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Sidebar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40048,7 +40048,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Login.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Login.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40236,7 +40236,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Register.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\Register.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Register.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40407,7 +40407,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\auth\\passwords\\Email.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\passwords\\Email.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Email.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40558,7 +40558,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\auth\\passwords\\Reset.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\auth\\passwords\\Reset.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Reset.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -40746,7 +40746,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\Dashboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Dashboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -41122,7 +41122,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\OpenServer\\domains\\uschedule.dev\\uSchedule\\resources\\assets\\js\\views\\schedule\\Edit.vue"
+Component.options.__file = "D:\\dev\\uSchedule\\resources\\assets\\js\\views\\schedule\\Edit.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Edit.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -41153,6 +41153,7 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuedraggable__);
+//
 //
 //
 //
@@ -41354,6 +41355,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             isMoving: false,
             isDelete: true,
             deleteSubject: null,
+            deleteTeacher: null,
 
             // Dialog
             openedWeekIndex: null,
@@ -41514,7 +41516,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.isMoving = false;
 
             if (this.deleteSubject) {
-                this.days[this.deleteSubject.week.value][this.deleteSubject.day.value].splice(this.days[this.deleteSubject.week.value][this.deleteSubject.day.value].length - 1, 1);
                 this.deleteSubject = null;
             }
         },
@@ -41537,42 +41538,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
-        startSubjectRight: function startSubjectRight() {
-            this.isMoving = true;
-            this.isDelete = false;
-        },
 
 
         // Teachers
         cloneTeacher: function cloneTeacher(el) {
             this.isMoving = true;
             this.isDelete = true;
-            this.toElement = null;
-            this.fromTeacher = el;
+
+            return {
+                teacher_id: el.id,
+                teacher: {
+                    id: el.id,
+                    academic_title: el.academic_title,
+                    first_name: el.first_name,
+                    last_name: el.last_name,
+                    middle_name: el.middle_name
+                }
+            };
         },
         moveTeacher: function moveTeacher(evt, originalEvent) {
-            if (evt.related.attributes.week) {
-                this.isDelete = false;
-                this.toElement = evt.related.attributes;
+            this.isDelete = !evt.relatedContext.list;
+
+            if (evt.to != evt.from) {
+                this.deleteTeacher = evt.relatedContext.list && evt.relatedContext.list.length > this.time.length - 1 ? evt.to.attributes : null;
             } else {
-                this.isDelete = true;
-                this.toElement = null;
+                this.deleteTeacher = null;
             }
         },
         endTeacher: function endTeacher(el) {
             this.isMoving = false;
 
-            if (this.toElement) {
-                this.days[this.toElement.week.value][this.toElement.day.value][this.toElement.index.value].teachers.push({
-                    teacher: {
-                        academic_title: this.fromTeacher.academic_title,
-                        first_name: this.fromTeacher.first_name,
-                        id: this.fromTeacher.id,
-                        last_name: this.fromTeacher.last_name,
-                        middle_name: this.fromTeacher.middle_name
-                    }
-                });
-                this.days[this.toElement.week.value][this.toElement.day.value][this.toElement.index.value].teacher_id = this.fromTeacher.id;
+            if (this.deleteTeacher) {
+                this.deleteTeacher = null;
             }
         },
         fullNameTeacher: function fullNameTeacher(teacher) {
@@ -41580,6 +41577,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         shortNameTeacher: function shortNameTeacher(teacher) {
             return teacher.last_name + ' ' + teacher.first_name.charAt(0) + '. ' + teacher.middle_name.charAt(0) + '.';
+        },
+
+
+        // Other
+        startRight: function startRight() {
+            this.isMoving = true;
+            this.isDelete = false;
         }
     }
 });
@@ -43657,12 +43661,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "options": {
             group: 'subjects',
             draggable: '.item'
-          },
-          "week": week - 1,
-          "day": day - 1
+          }
         },
         on: {
-          "start": _vm.startSubjectRight,
+          "start": _vm.startRight,
           "end": _vm.endSubject
         }
       }, [_vm._l((_vm.days[week - 1][day - 1]), function(schedule, index) {
@@ -43693,21 +43695,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
             "options": {
               group: 'teachers',
               draggable: '.teacher-item'
-            }
+            },
+            "list": _vm.days[week - 1][day - 1][index].teachers,
+            "move": _vm.moveTeacher
+          },
+          on: {
+            "end": _vm.endTeacher,
+            "start": _vm.startRight
           }
         }, [(schedule.teachers.length < 1) ? _c('span', {
-          staticClass: "teacher-item no",
+          class: _vm.isMoving ? 'teacher-item no' : 'no',
           attrs: {
-            "week": week - 1,
-            "day": day - 1,
             "index": index
           }
         }, [_vm._v("\n                                                    Викладача не вказано\n                                                ")]) : _vm._l((schedule.teachers), function(teacher) {
           return _c('span', {
             staticClass: "teacher-item",
             attrs: {
-              "week": week - 1,
-              "day": day - 1,
               "index": index,
               "title": _vm.fullNameTeacher(teacher.teacher)
             }

@@ -9255,10 +9255,6 @@ body {
   margin-right: 5px;
 }
 
-.teacher-item:first-child {
-  margin-right: 0;
-}
-
 .teacher-item:last-child::after {
   content: none;
 }

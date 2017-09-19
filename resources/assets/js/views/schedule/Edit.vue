@@ -73,8 +73,8 @@
 
                         <template v-for="week in 2">
                             <draggable :class="'week-schedule' + (isMoving && days[week - 1][day - 1].length < time.length ? ' draggable' : '')"
-                                       :list="days[week - 1][day - 1]" element="table" @start="startSubjectRight" :move="moveSubject"
-                                       @end="endSubject" :options="{group: 'subjects', draggable: '.item'}" :week="week - 1" :day="day - 1">
+                                       :list="days[week - 1][day - 1]" element="table" @start="startRight" :move="moveSubject"
+                                       @end="endSubject" :options="{group: 'subjects', draggable: '.item'}">
                                 <tr class="item" v-for="(schedule, index) in days[week - 1][day - 1]" :key="index">
                                     <td class="element" v-if="schedule.is_empty === 0">
                                         <div class="type" :title="types[schedule.type][1]" @click="changeType(week - 1, day - 1, index)">
@@ -84,13 +84,14 @@
                                         <div class="right">
                                             <div class="info">
                                                 <span class="title">{{ schedule.subject.title }}</span>
-                                                <!--TODO: support array teachers-->
-                                                <draggable class="teacher" :options="{group: 'teachers', draggable: '.teacher-item'}">
-                                                    <span v-if="schedule.teachers.length < 1" :week="week - 1" :day="day - 1" :index="index" class="teacher-item no">
+                                                <draggable class="teacher" :options="{group: 'teachers', draggable: '.teacher-item'}" @end="endTeacher"
+                                                           :list="days[week - 1][day - 1][index].teachers" @start="startRight" :move="moveTeacher">
+                                                    <span v-if="schedule.teachers.length < 1" :index="index"
+                                                          :class="isMoving ? 'teacher-item no' : 'no'">
                                                         Викладача не вказано
                                                     </span>
-                                                    <span v-else v-for="teacher in schedule.teachers" :week="week - 1" :day="day - 1" :index="index"
-                                                          :title="fullNameTeacher(teacher.teacher)" class="teacher-item">
+                                                    <span v-for="teacher in schedule.teachers" :index="index" class="teacher-item"
+                                                          :title="fullNameTeacher(teacher.teacher)" v-else>
                                                         {{ shortNameTeacher(teacher.teacher) }}
                                                     </span>
                                                 </draggable>
@@ -199,6 +200,7 @@
                 isMoving: false,
                 isDelete: true,
                 deleteSubject: null,
+                deleteTeacher: null,
 
                 // Dialog
                 openedWeekIndex: null,
@@ -356,8 +358,6 @@
                 this.isMoving = false;
 
                 if (this.deleteSubject) {
-                    this.days[this.deleteSubject.week.value][this.deleteSubject.day.value]
-                        .splice(this.days[this.deleteSubject.week.value][this.deleteSubject.day.value].length - 1, 1);
                     this.deleteSubject = null;
                 }
             },
@@ -380,43 +380,39 @@
                     },
                 });
             },
-            startSubjectRight() {
-                this.isMoving = true;
-                this.isDelete = false;
-            },
 
             // Teachers
             cloneTeacher(el) {
                 this.isMoving = true;
                 this.isDelete = true;
-                this.toElement = null;
-                this.fromTeacher = el;
+
+                return {
+                    teacher_id: el.id,
+                    teacher: {
+                        id: el.id,
+                        academic_title: el.academic_title,
+                        first_name: el.first_name,
+                        last_name: el.last_name,
+                        middle_name: el.middle_name,
+                    },
+                };
             },
             moveTeacher(evt, originalEvent) {
-                if (evt.related.attributes.week) {
-                    this.isDelete = false;
-                    this.toElement = evt.related.attributes;
+                this.isDelete = !evt.relatedContext.list;
+
+                if (evt.to != evt.from) {
+                    this.deleteTeacher = evt.relatedContext.list && evt.relatedContext.list.length > this.time.length - 1
+                        ? evt.to.attributes
+                        : null;
                 } else {
-                    this.isDelete = true;
-                    this.toElement = null;
+                    this.deleteTeacher = null;
                 }
             },
             endTeacher(el) {
                 this.isMoving = false;
 
-                if (this.toElement) {
-                    this.days[this.toElement.week.value][this.toElement.day.value][this.toElement.index.value]
-                        .teachers.push({
-                        teacher: {
-                            academic_title: this.fromTeacher.academic_title,
-                            first_name: this.fromTeacher.first_name,
-                            id: this.fromTeacher.id,
-                            last_name: this.fromTeacher.last_name,
-                            middle_name: this.fromTeacher.middle_name
-                        }
-                        });
-                    this.days[this.toElement.week.value][this.toElement.day.value][this.toElement.index.value]
-                        .teacher_id = this.fromTeacher.id;
+                if (this.deleteTeacher) {
+                    this.deleteTeacher = null;
                 }
             },
             fullNameTeacher(teacher) {
@@ -425,6 +421,12 @@
             shortNameTeacher(teacher) {
                 return teacher.last_name + ' ' + teacher.first_name.charAt(0) + '. '
                     + teacher.middle_name.charAt(0) + '.';
+            },
+
+            // Other
+            startRight() {
+                this.isMoving = true;
+                this.isDelete = false;
             },
         },
     }
