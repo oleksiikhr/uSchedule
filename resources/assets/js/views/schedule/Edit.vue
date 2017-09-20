@@ -75,7 +75,7 @@
                                        :list="days[week - 1][day - 1]" element="table" @start="startRight" :move="moveSubject"
                                        @end="endSubject" :options="{group: 'subjects', draggable: '.item'}">
                                 <tr class="item" v-for="(schedule, index) in days[week - 1][day - 1]" :key="index">
-                                    <td class="element" v-if="schedule.is_empty === 0">
+                                    <td class="element" v-if="schedule.is_empty == 0">
                                         <div class="type" :title="types[schedule.type][1]" @click="changeType(week - 1, day - 1, index)">
                                             <span>{{ types[schedule.type][0] }}</span>
                                         </div>
