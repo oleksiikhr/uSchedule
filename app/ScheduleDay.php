@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ScheduleDay extends Model
 {
     const DAYS = ['понеділок', 'вівторок', 'середа', 'четверг', 'п\'ятниця', 'субота'];
+
+    protected $fillable = ['schedule_id', 'day', 'week', 'order', 'subject_id', 'is_empty', 'room', 'type'];
 
     public function schedule()
     {
@@ -23,58 +26,29 @@ class ScheduleDay extends Model
         return $this->hasMany(ScheduleDayTeacher::class);
     }
 
-    public function saveSchedule($schedule){
+    public function saveSchedule($schedule)
+    {
         $weekNum = 0;
         foreach ($schedule as $week) {
             foreach ($week as $days) {
                 if ($weekNum <= 1) {
                     foreach ($days as $dayNum => $day) {
                         foreach ($day as $order => $couple) {
-                            $match = self::where('schedule_id', $couple['schedule_id'])
-                                ->where('day', $dayNum)
-                                ->where('week', $weekNum)
-                                ->where('order', $order)
-                                ->first();
-                            if (isset($match)) {
-                                $match->schedule_id = $couple['schedule_id'];
-                                $match->subject_id = 0;
-                                $match->day = $dayNum;
-                                $match->week = $weekNum;
-                                $match->order = $order;
-
-                                $this->isEmpty($match, $couple);
-                                ScheduleDayTeacher::saveTeachers($couple, $match->id);
-
-                                $match->is_empty = $couple['is_empty'];
-                                $match->room = $couple['room'];
-                                $match->type = $couple['type'];
-                                $match->timestamps;
-                                try{
-                                    $match->save();
-                                }catch (\Exception $e){
-                                    echo $e;
+                            try {
+                                $match = self::updateOrCreate(
+                                    ['schedule_id' => $couple['schedule_id'], 'day' => $dayNum, 'week' => $weekNum, 'order' => $order],
+                                    [
+                                        'subject_id' => $couple['is_empty'] == 1 ? 0 : $couple['subject']['id'],
+                                        'is_empty' => $couple['is_empty'],
+                                        'room' => $couple['room'],
+                                        'type' => $couple['type'],
+                                    ]
+                                );
+                                if ($couple['is_empty'] != 1) {
+                                    ScheduleDayTeacher::saveTeachers($couple, $match->id);
                                 }
-                            } else {
-                                $coupleDay = new ScheduleDay();
-                                $coupleDay->schedule_id = $couple['schedule_id'];
-                                $coupleDay->is_empty = $couple['is_empty'];
-                                $coupleDay->subject_id = 0;
-                                $coupleDay->day = $dayNum;
-                                $coupleDay->week = $weekNum;
-                                $coupleDay->order = $order;
-
-                                $this->isEmpty($coupleDay, $couple);
-
-                                $coupleDay->room = $couple['room'];
-                                $coupleDay->type = $couple['type'];
-                                $coupleDay->timestamps;
-                                try{
-                                    $coupleDay->save();
-                                    ScheduleDayTeacher::saveTeachers($couple, $coupleDay->id);
-                                }catch (\Exception $e){
-                                    echo $e;
-                                }
-
+                            }catch (\Exception $e){
+                                throw new NotFoundHttpException($e);
                             }
                         }
                     }
@@ -83,15 +57,4 @@ class ScheduleDay extends Model
             }
         }
     }
-
-    private function isEmpty($object, $data): ScheduleDay
-    {
-        if($data['is_empty'] != 1) {
-            $object->subject_id = $data['subject']['id'];
-        }
-
-        return $object;
-    }
-
-
 }
