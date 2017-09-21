@@ -9097,7 +9097,7 @@ body {
 }
 
 .element.no-pair {
-  background: #f3f3f3;
+  background: #f7f7f7;
 }
 
 .element .right {
@@ -9150,6 +9150,12 @@ body {
 
 .element .info .teacher .no {
   color: #ce8080;
+  margin-right: 5px;
+}
+
+.element .info .teacher .no:not(:first-child),
+.element .info .teacher .no:not(:last-child) {
+  display: none;
 }
 
 .element .additionally {
@@ -9169,7 +9175,6 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background: #fff4f4;
   border-left: 1px solid #d4d4d4;
 }
 
@@ -9221,13 +9226,13 @@ body {
   background: #fff59d;
 }
 
-.week-schedule > .left-block.sortable-chosen {
+.week-schedule > .left-block.subject-block.sortable-chosen {
   list-style: none;
   height: 45px;
   border-bottom: 1px solid #d4d4d4;
 }
 
-.week-schedule > .left-block.sortable-chosen::before {
+.week-schedule > .left-block.subject-block.sortable-chosen::before {
   content: "+";
   float: left;
   display: -webkit-box;
@@ -9247,12 +9252,45 @@ body {
   background: #ad5858;
 }
 
-.week-schedule > .left-block.sortable-chosen > .md-list-item-container {
+.week-schedule > .left-block.subject-block.sortable-chosen > .md-list-item-container {
   min-height: 45px;
 }
 
+.teacher > *:first-child {
+  margin-left: 0 !important;
+}
+
+.teacher:not(.no) > li .name::after {
+  content: '/';
+  color: #777;
+  margin-left: 5px;
+}
+
+.teacher > li:last-child .name::after {
+  content: none;
+}
+
+.teacher > .left-block.teacher-block.sortable-chosen {
+  list-style: none;
+  display: inline-block;
+  color: #d87b7b;
+  border-bottom: none;
+  margin-left: 5px;
+}
+
+.teacher > .left-block.teacher-block.sortable-chosen > div {
+  min-height: unset;
+  padding: 0;
+  font-size: inherit;
+}
+
 .teacher-item {
-  margin-right: 5px;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.teacher-item:hover {
+  background: #f1f1f1;
 }
 
 .teacher-item:last-child::after {
@@ -9260,7 +9298,7 @@ body {
 }
 
 .teacher-item::after {
-  content: ",";
+  content: "/";
 }
 
 .university .phone-viewport {

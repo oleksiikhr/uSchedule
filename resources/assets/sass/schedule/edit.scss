@@ -233,7 +233,7 @@
     cursor: -webkit-grabbing;
   }
   &.no-pair {
-    background: #f3f3f3;
+    background: #f7f7f7;
   }
 
   .right {
@@ -269,6 +269,10 @@
       white-space: nowrap;
       .no {
         color: #ce8080;
+        margin-right: 5px;
+        &:not(:first-child), &:not(:last-child) {
+          display: none;
+        }
       }
     }
   }
@@ -281,7 +285,6 @@
       min-width: 40px;
       justify-content: center;
       align-items: center;
-      background: #fff4f4;
       border-left: 1px solid #d4d4d4;
     }
 
@@ -330,7 +333,7 @@
 }
 
 // Sortable
-.week-schedule > .left-block.sortable-chosen {
+.week-schedule > .left-block.subject-block.sortable-chosen {
   list-style: none;
   height: 45px;
   border-bottom: 1px solid #d4d4d4;
@@ -353,14 +356,49 @@
   }
 }
 
+.teacher {
+  > *:first-child {
+    margin-left: 0 !important;
+  }
+
+  &:not(.no) > li .name::after {
+    content: '/';
+    color: #777;
+    margin-left: 5px;
+  }
+
+  > li:last-child .name::after {
+    content: none;
+  }
+
+  > .left-block.teacher-block.sortable-chosen {
+    list-style: none;
+    display: inline-block;
+    color: #d87b7b;
+    border-bottom: none;
+    margin-left: 5px;
+
+    > div {
+      min-height: unset;
+      padding: 0;
+      font-size: inherit;
+    }
+  }
+}
+
 .teacher-item {
-  margin-right: 5px;
+  transition: .3s;
+  
+  &:hover {
+    background: #f1f1f1;
+  }
+
   &:last-child {
     &::after {
       content: none;
     }
   }
   &::after {
-    content: ","
+    content: "/"
   }
 }
