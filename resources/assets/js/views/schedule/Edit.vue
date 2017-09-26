@@ -49,7 +49,7 @@
             </md-layout>
 
             <md-layout md-flex="80" class="right-column">
-                <md-button class="md-raised md-primary" @click="saveSchedule">Зберегти розклад</md-button>
+                <md-button class="md-raised md-primary" @click="saveScheduleNew">Зберегти розклад</md-button>
                 <table class="schedule">
                     <thead>
                     <tr>
@@ -217,6 +217,7 @@
 
         mounted() {
             let count = this.scheduleDays.length;
+            console.log(this.schedule);
 
             for (let week = 0; week < 2; week++) {
                 for (let i = 0; i < count; i++) {
@@ -316,6 +317,29 @@
                         });
                     });
             },
+            saveScheduleNew() {
+                axios.post('/schedule/' + this.schedule.id, this.days)
+                    .then(res => {
+                        this.message = 'Розклад збережено';
+
+                        this.$nextTick(() => {
+                            this.$refs.snackbar.open();
+                        });
+
+                        console.log(this.days);
+                    })
+                    .catch(error => {
+                        this.message = error.response.data.message;
+
+                        // TODO: show all errors
+
+                        this.$nextTick(() => {
+                            this.$refs.snackbar.open();
+                        });
+
+                        console.log(this.days);
+                    });
+            },
 
             // Subject
             cloneSubject(el) {
@@ -323,7 +347,6 @@
                 this.isDelete = true;
 
                 return {
-                    id: el.id,
                     room: '',
                     schedule_id: this.schedule.id,
                     type: 0,
@@ -365,14 +388,12 @@
             },
             addEmptySubject(week, day) {
                 this.days[week][day].push({
-                    id: -1,
                     room: 0,
                     schedule_id: this.schedule.id,
                     type: 0,
                     is_empty: 1,
                     teachers: [],
                     subject: {
-                        id: 0,
                         title: '',
                         course: 0,
                         faculty_id: 0,
