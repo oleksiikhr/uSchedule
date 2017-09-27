@@ -40869,6 +40869,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         var count = this.scheduleDays.length;
+        console.log(this.schedule);
 
         for (var week = 0; week < 2; week++) {
             for (var i = 0; i < count; i++) {
@@ -40973,6 +40974,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             });
         },
+        saveScheduleNew: function saveScheduleNew() {
+            var _this3 = this;
+
+            axios.post('/schedule/' + this.schedule.id, this.days).then(function (res) {
+                _this3.message = 'Розклад збережено';
+
+                _this3.$nextTick(function () {
+                    _this3.$refs.snackbar.open();
+                });
+
+                console.log(_this3.days);
+            }).catch(function (error) {
+                _this3.message = error.response.data.message;
+
+                // TODO: show all errors
+
+                _this3.$nextTick(function () {
+                    _this3.$refs.snackbar.open();
+                });
+
+                console.log(_this3.days);
+            });
+        },
 
 
         // Subject
@@ -40981,7 +41005,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.isDelete = true;
 
             return {
-                id: el.id,
                 room: '',
                 schedule_id: this.schedule.id,
                 type: 0,
@@ -41021,14 +41044,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         addEmptySubject: function addEmptySubject(week, day) {
             this.days[week][day].push({
-                id: -1,
                 room: 0,
                 schedule_id: this.schedule.id,
                 type: 0,
                 is_empty: 1,
                 teachers: [],
                 subject: {
-                    id: 0,
                     title: '',
                     course: 0,
                     faculty_id: 0
@@ -43122,7 +43143,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('md-button', {
     staticClass: "md-raised md-primary",
     on: {
-      "click": _vm.saveSchedule
+      "click": _vm.saveScheduleNew
     }
   }, [_vm._v("Зберегти розклад")]), _vm._v(" "), _c('table', {
     staticClass: "schedule"
