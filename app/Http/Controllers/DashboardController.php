@@ -18,12 +18,15 @@ class DashboardController extends WebController
     }
 
     public function find(Request $request){
+        $faculties = [
+            'foais' => 1
+        ];
         $schedule = Schedule::where([
             'degree' => $request->degree,
             'daytime' => $request->daytime,
             'course' => $request->course,
             'group_id' => $request->groups,
-            'faculty_id' => $request->faculty])->firstOrFail();
+            'faculty_id' => $faculties[$request->faculty]])->firstOrFail();
 
         return $schedule->id;
     }

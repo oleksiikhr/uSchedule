@@ -940,11 +940,6 @@ button:focus {
   border-radius: 2px;
 }
 
-.md-button-toggle.md-raised button:not([disabled]) {
-  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
-          box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
-}
-
 /* Common */
 
 /* Responsive Breakpoints */
@@ -2126,6 +2121,7 @@ img.md-icon {
 }
 
 .md-input-container.md-input-required label:after {
+  position: absolute;
   top: 2px;
   right: 0;
   -webkit-transform: translateX(calc(100% + 2px));
@@ -4052,7 +4048,7 @@ img.md-icon {
   }
 }
 
-@media (min-width: 1265px) {
+@media (min-width: 1264px) {
   .md-row-large-and-up {
     -ms-flex-direction: row;
     -webkit-box-orient: horizontal;
@@ -4338,7 +4334,7 @@ img.md-icon {
   }
 }
 
-@media (min-width: 945px) {
+@media (min-width: 944px) {
   .md-row-medium-and-up {
     -ms-flex-direction: row;
     -webkit-box-orient: horizontal;
@@ -4624,7 +4620,7 @@ img.md-icon {
   }
 }
 
-@media (min-width: 601px) {
+@media (min-width: 660px) {
   .md-row-small-and-up {
     -ms-flex-direction: row;
     -webkit-box-orient: horizontal;
@@ -6186,13 +6182,6 @@ img.md-icon {
   user-drag: none;
 }
 
-.md-select.md-disabled label,
-.md-select.md-disabled span,
-.md-select.md-disabled input,
-.md-select.md-disabled textarea {
-  color: rgba(0, 0, 0, 0.38);
-}
-
 .md-select select {
   position: absolute;
   left: -999em;
@@ -7025,19 +7014,6 @@ img.md-icon {
   width: 24px;
 }
 
-.md-stepper .md-step-header .md-step-error {
-  margin-right: 8px;
-  min-width: 24px;
-  height: 24px;
-  width: 24px;
-  line-height: 24px;
-  pointer-events: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
 .md-stepper .md-step-header .md-step-number {
   border-radius: 50%;
   display: inline-block;
@@ -7177,7 +7153,7 @@ img.md-icon {
   border-left: 1px solid #BDBDBD;
 }
 
-@media (min-width: 601px) {
+@media (min-width: 660px) {
   .md-stepper .md-steps-navigation .md-steps-navigation-container {
     margin-bottom: -15px;
   }
@@ -7975,7 +7951,7 @@ img.md-icon {
   right: 0;
 }
 
-@media (min-width: 601px) {
+@media (min-width: 660px) {
   .md-tabs .md-tabs-navigation.md-has-navigation-scroll .md-tabs-navigation-container {
     margin-bottom: -15px;
   }
@@ -8166,7 +8142,6 @@ img.md-icon {
   line-height: 20px;
   text-transform: none;
   white-space: nowrap;
-  letter-spacing: 0.1em;
 }
 
 .md-tooltip.md-active {
