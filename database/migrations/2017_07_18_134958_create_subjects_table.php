@@ -18,8 +18,12 @@ class CreateSubjectsTable extends Migration
             $table->string('title');
             $table->tinyInteger('course');
             $table->tinyInteger('type');
-            $table->integer('faculty_id');
+            $table->integer('faculty_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('faculty_id')->references('id')->on('faculties');
+
+            $table->index('faculty_id');
         });
     }
 

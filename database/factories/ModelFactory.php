@@ -75,8 +75,11 @@ $factory->define(App\ScheduleDay::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\ScheduleDayTeacher::class, function (Faker\Generator $faker) {
+    $scheduleDay = \App\ScheduleDay::inRandomOrder()->first();
+    $teacher = \App\Teacher::inRandomOrder()->first();
+
     return [
-        'schedule_day_id' => $faker->numberBetween(1, 30), // See count seeder
-        'teacher_id' => $faker->numberBetween(1, 40), // See count seeder
+        'schedule_day_id' => $scheduleDay->id,
+        'teacher_id' => $teacher->id,
     ];
 });

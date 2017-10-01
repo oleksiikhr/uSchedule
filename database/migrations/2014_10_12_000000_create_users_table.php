@@ -13,7 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-//        TODO: edit role
+//        TODO: add role in future
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('first_name')->nullable();
@@ -21,9 +21,14 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('is_edit')->default(0);
-            $table->integer('group_id')->nullable();
+            $table->integer('group_id')->unsigned()->nullable();
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('group_id')->references('id')->on('groups');
+
+            $table->index('group_id');
         });
 
         DB::table('users')->insert([

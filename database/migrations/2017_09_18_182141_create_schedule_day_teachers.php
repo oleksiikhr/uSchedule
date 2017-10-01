@@ -14,10 +14,16 @@ class CreateScheduleDayTeachers extends Migration
     public function up()
     {
         Schema::create('schedule_day_teachers', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('schedule_day_id');
-            $table->integer('teacher_id');
+            $table->integer('schedule_day_id')->unsigned();
+            $table->integer('teacher_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('schedule_day_id')->references('id')->on('schedule_days')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('teacher_id')->references('id')->on('teachers')
+                ->onUpdate('cascade')->onDelete('cascade');
+
+            $table->index(['schedule_day_id', 'teacher_id']);
         });
     }
 

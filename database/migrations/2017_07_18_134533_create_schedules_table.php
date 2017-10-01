@@ -18,19 +18,17 @@ class CreateSchedulesTable extends Migration
             $table->string('degree', 60);
             $table->string('daytime', 60);
             $table->tinyInteger('course');
-            $table->integer('group_id');
-            $table->integer('faculty_id');
+            $table->integer('group_id')->unsigned();
+            $table->integer('faculty_id')->unsigned();
             $table->timestamps();
-        });
 
-        // TODO: del in future. Simple/Test record.
-        DB::table('schedules')->insert([
-            'degree'     => 'bachelor',
-            'daytime'    => 'daytime',
-            'course'     => 1,
-            'group_id'   => 1,
-            'faculty_id' => 1,
-        ]);
+            $table->foreign('group_id')->references('id')->on('groups')
+                ->onDelete('cascade');
+            $table->foreign('faculty_id')->references('id')->on('faculties')
+                ->onDelete('cascade');
+
+            $table->index(['group_id', 'faculty_id']);
+        });
     }
 
     /**
