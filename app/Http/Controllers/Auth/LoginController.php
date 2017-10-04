@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\WebController;
+use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
-class LoginController extends WebController
+class LoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -25,7 +25,7 @@ class LoginController extends WebController
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -35,6 +35,5 @@ class LoginController extends WebController
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        parent::__construct();
     }
 }

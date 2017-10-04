@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\WebController;
 use App\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
-class RegisterController extends WebController
+class RegisterController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -27,7 +27,7 @@ class RegisterController extends WebController
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -37,7 +37,6 @@ class RegisterController extends WebController
     public function __construct()
     {
         $this->middleware('guest');
-        parent::__construct();
     }
 
     /**
@@ -49,6 +48,7 @@ class RegisterController extends WebController
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -63,6 +63,7 @@ class RegisterController extends WebController
     protected function create(array $data)
     {
         return User::create([
+            'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);

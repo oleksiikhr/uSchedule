@@ -1,20 +1,9 @@
-$main-color: #00796b;
 
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons");
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
-// Vue Material
-@import "~vue-material/dist/vue-material";
+// Variables
+@import "variables";
 
-// Media screen
-@import "media";
-
-// Alerts
-@import "~pnotify/dist/pnotify";
-@import "~pnotify/dist/pnotify.brighttheme";
-
-@import "main";
-@import "home";
-@import "auth/index";
-@import "schedule/edit";
-@import "university/main";
+// Bootstrap
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
