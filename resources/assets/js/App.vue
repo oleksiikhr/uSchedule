@@ -36,8 +36,7 @@
         </v-toolbar>
         <main>
             <v-container fluid>
-                <div class="title">Click on sidebar to re-open.</div>
-                <!--v-router-->
+                <router-view></router-view>
             </v-container>
         </main>
     </v-app>
@@ -48,12 +47,11 @@
         data () {
             return {
                 drawer: true,
+                mini: true,
                 items: [
                     { title: 'Home', icon: 'dashboard' },
                     { title: 'About', icon: 'question_answer' }
                 ],
-                mini: false,
-                right: null
             }
         }
     }

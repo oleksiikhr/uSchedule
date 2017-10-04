@@ -6,15 +6,17 @@ window.axios = require('axios');
 // Other config
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-// Vue
+// Vue libs
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 
+// Vue files
 import App from './App.vue';
 import router from './router/index';
 
-// Vue include
+// Vue use
 Vue.use(Vuetify);
+
 
 const app = new Vue({
     el: '#app',
