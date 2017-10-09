@@ -1,10 +1,11 @@
 import axios from 'axios';
 import Auth from '../store/auth';
 
-export function get(url) {
+export function get(url, params) {
     return axios({
         method: 'GET',
         url: url,
+        params: params,
         headers: {
             'Authorization': 'Bearer ' + Auth.state.token
         }
