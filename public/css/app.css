@@ -15996,3 +15996,10 @@ table.table tfoot tr {
   text-transform: uppercase;
 }
 
+.schedule-find {
+  padding: 44px 20px 20px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+}
+
