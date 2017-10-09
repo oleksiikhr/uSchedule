@@ -1,12 +1,11 @@
 <template>
     <v-app>
-        <v-navigation-drawer persistent enable-resize-watcher disable-route-watcher clipped app
-                             :mini-variant.sync="mini" v-model="drawer">
+        <v-navigation-drawer persistent enable-resize-watcher clipped app :mini-variant.sync="mini" v-model="drawer">
             <v-toolbar flat>
                 <v-list class="pa-0">
                     <v-list-tile>
                         <v-list-tile-avatar>
-                            <img src="/img/logo_200.png" alt="КНТЕУ">
+                            <img src="/img/logo_200.png" alt="КНТЕУ"> <!-- TODO: need 48x48 -->
                         </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title class="h-title">Розклад КНТЕУ</v-list-tile-title>
@@ -22,18 +21,18 @@
 
             <v-list class="pt-0">
                 <template v-for="(item, i) in items">
-                    <v-divider v-if="item.divider" dark class="my-4" :key="i"></v-divider>
+                    <v-divider v-if="item.divider" dark class="my-2" :key="i"></v-divider>
 
-                    <v-list-tile v-else :to="item.to">
+                    <v-list-tile v-else :to="item.to" @click.native.stop="!!mini">
                         <v-list-tile-action >
                             <v-icon>{{ item.icon }}</v-icon>
                         </v-list-tile-action>
                         <v-list-tile-content>
                             <v-list-tile-title>{{ item.text }}</v-list-tile-title>
                         </v-list-tile-content>
-                        <v-list-tile-action>
-                            <v-tooltip bottom v-if="item.subIcon">
-                                <v-btn icon ripple slot="activator" :to="item.subTo">
+                        <v-list-tile-action v-if="item.subIcon">
+                            <v-tooltip bottom>
+                                <v-btn icon ripple :to="item.subTo" slot="activator">
                                     <v-icon>{{ item.subIcon }}</v-icon>
                                 </v-btn>
                                 <span v-if="item.subText">{{ item.subText }}</span>
@@ -51,9 +50,16 @@
             </v-toolbar-title>
             <v-text-field solo prepend-icon="search" placeholder="Пошук"></v-text-field>
             <v-spacer></v-spacer>
-            <v-btn icon> <!-- TODO: ..-->
+            <v-btn outline color="white"> <!-- TODO: ..-->
                 <v-icon>notifications</v-icon>
+                <span>Розклад дзвінків</span>
             </v-btn>
+            <v-tooltip bottom>
+                <v-btn v-if="auth" icon @click="logout" slot="activator">
+                    <v-icon>exit_to_app</v-icon>
+                </v-btn>
+                <span>Вийти</span>
+            </v-tooltip>
         </v-toolbar>
         <main>
             <v-content>
@@ -77,15 +83,13 @@
                 mini: true,
                 items: [
                     {
-                        icon: 'home', text: 'Головна сторінка', to: 'home'
-                    },
-                    {
-                        icon: 'account_circle', text: 'Профіль', to: 'profile',
-                        subIcon: 'edit', subText: 'Налаштування', subTo: 'edit'
-                    },
-                    {
-                        icon: 'description', text: 'Новини', to: 'news',
-                        subIcon: 'add', subText: 'Додати новину', subTo: 'news-create'
+                        icon: 'home', text: 'Головна сторінка', to: '/home'
+                    }, {
+                        icon: 'account_circle', text: 'Профіль', to: '/profile',
+                        subIcon: 'edit', subText: 'Налаштування', subTo: '/edit/edit'
+                    }, {
+                        icon: 'description', text: 'Новини', to: '/news',
+                        subIcon: 'add', subText: 'Додати', subTo: '/news/create'
                     },
                 ]
             }
@@ -102,8 +106,9 @@
             logout() {
                 post('/api/logout')
                     .then(res => {
-                        console.log(res);
-                    })
+                        Auth.remove();
+                        this.$router.push('login');
+                    });
             }
         },
     }

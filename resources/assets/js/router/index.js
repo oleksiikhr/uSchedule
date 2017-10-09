@@ -19,7 +19,7 @@ Vue.use(VueRouter);
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        { path: '/', component: Home },
+        { path: '/home', name: 'home', component: Home },
         { path: '*', component: NotFound },
     ]
 });
@@ -32,6 +32,14 @@ axios.interceptors.response.use(null, err => {
     }
 
     return Promise.reject(err);
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.path === '/') {
+        next({ name: 'home' });
+    } else {
+        next();
+    }
 });
 
 export default router;
