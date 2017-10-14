@@ -5,14 +5,12 @@ import VueRouter from 'vue-router'
 // Other libs
 import axios from 'axios'
 
-// Store
-import AuthStore from '../store/auth'
-
 // Views, components
 import Home from '../views/Home.vue'
 import Profile from '../views/users/Profile.vue'
 import Login from '../views/auth/Login.vue'
 import NotFound from '../views/NotFound.vue'
+import ScheduleEdit from '../views/schedule/Edit.vue'
 
 // Vue use
 Vue.use(VueRouter)
@@ -24,6 +22,7 @@ const router = new VueRouter({
         { path: '/', redirect: { name: 'home' } },
         { path: '/home', name: 'home', component: Home },
         { path: '/profile', name: 'profile', component: Profile, meta: { isLogin: true } },
+        { path: '/schedule/:id/edit', name: 'schedule-edit', component: ScheduleEdit },
         { path: '/login', name: 'login', component: Login },
         { path: '*', name: 'not-found', component: NotFound }
     ]
@@ -61,9 +60,11 @@ axios.interceptors.response.use(null, err => {
 
 // Protect router
 router.beforeEach((to, from, next) => {
-    if (to.meta.isLogin && !AuthStore.state.token) {
+    let token = window.localStorage.getItem('token')
+
+    if (to.meta.isLogin && !token) {
         next({ name: 'login' })
-    } else if (!to.meta.isLogin && AuthStore.state.token) {
+    } else if (!to.meta.isLogin && token) {
         next({ name: 'home' })
     } else {
         next()
