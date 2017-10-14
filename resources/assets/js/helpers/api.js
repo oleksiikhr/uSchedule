@@ -1,5 +1,4 @@
-import axios from 'axios';
-import Auth from '../store/auth';
+import axios from 'axios'
 
 export function get(url, params) {
     return axios({
@@ -7,9 +6,9 @@ export function get(url, params) {
         url: url,
         params: params,
         headers: {
-            'Authorization': 'Bearer ' + Auth.state.token
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         }
-    });
+    })
 }
 
 export function post(url, data) {
@@ -18,7 +17,7 @@ export function post(url, data) {
         url: url,
         data: data,
         headers: {
-            'Authorization': 'Bearer ' + Auth.state.token
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         }
     })
 }
@@ -28,7 +27,7 @@ export function del(url) {
         method: 'DELETE',
         url: url,
         headers: {
-            'Authorization': 'Bearer ' + Auth.state.token
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         }
     })
 }
@@ -39,7 +38,7 @@ export function put(url, data) {
         url: url,
         data: data,
         headers: {
-            'Authorization': 'Bearer ' + Auth.state.token
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         }
     })
 }

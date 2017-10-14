@@ -1,20 +1,32 @@
+// Vue libs
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+// Vue use
+Vue.use(Vuex)
+
+const state = {
+    authUser: null
+}
+
+const mutations = {
+    SET_AUTH_USER (state, userObj) {
+        state.authUser = userObj
+    },
+    CLEAR_AUTH_USER (state) {
+        state.authUser = null
+    }
+}
+
+const actions = {
+    setUserObject: ({commit}, userObj) => {
+        commit('SET_AUTH_USER', userObj)
+    },
+    clearAuthUser: ({commit}) => {
+        commit('CLEAR_AUTH_USER')
+    }
+}
+
 export default {
-    state: {
-        token: null,
-        user: null,
-    },
-    initialize() {
-        this.state.token = localStorage.getItem('token');
-        this.state.user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
-    },
-    set(token, user) {
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(user));
-        this.initialize();
-    },
-    remove() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        this.initialize();
-    },
+    state, mutations, actions
 }

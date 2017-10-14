@@ -55,7 +55,7 @@
                 <span>Розклад дзвінків</span>
             </v-btn>
             <v-tooltip bottom>
-                <v-btn v-if="auth" icon @click="logout" slot="activator">
+                <v-btn v-if="guest" icon @click="logout()" slot="activator">
                     <v-icon>exit_to_app</v-icon>
                 </v-btn>
                 <span>Вийти</span>
@@ -74,10 +74,8 @@
     import { post } from './helpers/api'
 
     export default {
-        data() {
+        data () {
             return {
-                authState: Auth.state,
-
                 title: 'Головна сторінка',
                 drawer: true,
                 mini: true,
@@ -95,21 +93,19 @@
             }
         },
         computed: {
-            auth() {
-                return !!this.authState.token;
-            },
             guest() {
-                return !this.auth;
-            },
+                return !!this.$store.state.userStore.authUser
+            }
         },
         methods: {
             logout() {
                 post('/api/logout')
                     .then(res => {
-                        Auth.remove();
-                        this.$router.push('login');
-                    });
+                        localStorage.removeItem('token')
+                        this.$store.dispatch('clearAuthUser')
+                        this.$router.push({ name: 'login' })
+                    })
             }
-        },
+        }
     }
 </script>
