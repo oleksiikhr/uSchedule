@@ -9,7 +9,7 @@ class TeacherController extends Controller
 {
 
     /**
-     * Get all schedules with pagination
+     * Get all teachers
      *
      * @param Request $request
      */
@@ -19,7 +19,7 @@ class TeacherController extends Controller
     }
 
     /**
-     * Get one item
+     * Get one teacher
      *
      * @param  Request $request
      */
@@ -29,7 +29,7 @@ class TeacherController extends Controller
     }
 
     /**
-     * Create new item
+     * Create new teacher
      *
      * @param Request $request
      */
@@ -39,7 +39,7 @@ class TeacherController extends Controller
     }
 
     /**
-     * Update existing item by id
+     * Update existing teacher by id
      *
      * @param Request $request
      */
@@ -49,7 +49,7 @@ class TeacherController extends Controller
     }
 
     /**
-     * Delete item by id
+     * Delete teacher by id
      *
      * @param  Request $request
      */

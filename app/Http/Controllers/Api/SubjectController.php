@@ -27,7 +27,7 @@ class SubjectController extends Controller
     }
 
     /**
-     * Get one item
+     * Get one subject
      *
      * @param  Request $request
      */
@@ -37,7 +37,7 @@ class SubjectController extends Controller
     }
 
     /**
-     * Create new item
+     * Create new subject
      *
      * @param Request $request
      */
@@ -47,7 +47,7 @@ class SubjectController extends Controller
     }
 
     /**
-     * Update existing item by id
+     * Update existing subject by id
      *
      * @param Request $request
      */
@@ -57,7 +57,7 @@ class SubjectController extends Controller
     }
 
     /**
-     * Delete item by id
+     * Delete subject by id
      *
      * @param  Request $request
      */

@@ -20,7 +20,7 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Get one item
+     * Get one schedule
      *
      * @param  Request $request
      */
@@ -30,7 +30,7 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Create new item
+     * Create new schedule
      *
      * @param Request $request
      */
@@ -40,7 +40,7 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Update existing item by id
+     * Update existing schedule by id
      *
      * @param Request $request
      */
@@ -50,7 +50,7 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Delete item by id
+     * Delete schedule by id
      *
      * @param  Request $request
      */
