@@ -70,42 +70,42 @@
 </template>
 
 <script>
-    import Auth from './store/auth'
-    import { post } from './helpers/api'
+  import Auth from './store/auth'
+  import { post } from './helpers/api'
 
-    export default {
-        data () {
-            return {
-                title: 'Головна сторінка',
-                drawer: true,
-                mini: true,
-                items: [
-                    {
-                        icon: 'home', text: 'Головна сторінка', to: '/home'
-                    }, {
-                        icon: 'account_circle', text: 'Профіль', to: '/profile',
-                        subIcon: 'edit', subText: 'Налаштування', subTo: '/edit/edit'
-                    }, {
-                        icon: 'description', text: 'Новини', to: '/news',
-                        subIcon: 'add', subText: 'Додати', subTo: '/news/create'
-                    },
-                ]
-            }
-        },
-        computed: {
-            guest() {
-                return !!this.$store.state.userStore.authUser
-            }
-        },
-        methods: {
-            logout() {
-                post('/api/logout')
-                    .then(res => {
-                        localStorage.removeItem('token')
-                        this.$store.dispatch('clearAuthUser')
-                        this.$router.push({ name: 'login' })
-                    })
-            }
-        }
+  export default {
+    data () {
+      return {
+        title: 'Головна сторінка',
+        drawer: true,
+        mini: true,
+        items: [
+          {
+            icon: 'home', text: 'Головна сторінка', to: '/home'
+          }, {
+            icon: 'account_circle', text: 'Профіль', to: '/profile',
+            subIcon: 'edit', subText: 'Налаштування', subTo: '/edit/edit'
+          }, {
+            icon: 'description', text: 'Новини', to: '/news',
+            subIcon: 'add', subText: 'Додати', subTo: '/news/create'
+          },
+        ]
+      }
+    },
+    computed: {
+      guest() {
+        return !!this.$store.state.userStore.authUser
+      }
+    },
+    methods: {
+      logout() {
+        post('/api/logout')
+            .then(res => {
+              localStorage.removeItem('token')
+              this.$store.dispatch('authClearUser')
+              this.$router.push({ name: 'login' })
+            })
+      }
     }
+  }
 </script>

@@ -21,9 +21,9 @@ import store from './store/store'
 Vue.use(Vuetify)
 
 const app = new Vue({
-    el: '#app',
-    template: '<app></app>',
-    components: { App },
-    store,
-    router
+  el: '#app',
+  template: '<app></app>',
+  components: { App },
+  store,
+  router
 })

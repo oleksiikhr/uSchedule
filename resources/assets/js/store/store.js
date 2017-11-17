@@ -3,13 +3,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 // Vue store
-import userStore from './auth'
+import auth from './auth'
+import snackbar from './snackbar'
 
 // Vue use
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-    modules: {
-        userStore
-    }
+  modules: {
+    auth, snackbar
+  }
 })
