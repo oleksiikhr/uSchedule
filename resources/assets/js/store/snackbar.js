@@ -1,6 +1,6 @@
 // Vue libs
-import Vue from 'Vue'
-import Vuex from 'Vuex'
+import Vue from 'vue'
+import Vuex from 'vuex'
 
 // Vue use
 Vue.use(Vuex)
