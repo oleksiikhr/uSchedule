@@ -47,7 +47,7 @@
         <v-toolbar-side-icon @click.stop="drawer = !drawer" />
         {{ $store.state.template.title }}
       </v-toolbar-title>
-      <v-text-field solo prepend-icon="search" placeholder="Пошук" autofocus />
+      <v-text-field solo prepend-icon="search" placeholder="Пошук" />
       <v-btn class="ml-5" outline color="white"> <!-- TODO: ..-->
         <v-icon>notifications</v-icon>
         <span>Розклад дзвінків</span>
