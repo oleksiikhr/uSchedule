@@ -1,9 +1,9 @@
 <template>
-    <span>Not found</span>
+  <span>Not found</span>
 </template>
 
 <script>
-    export default {
+  export default {
 
-    }
+  }
 </script>

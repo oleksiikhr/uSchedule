@@ -1,9 +1,9 @@
 <template>
-    <span>Login</span>
+  <span>Login</span>
 </template>
 
 <script>
-    export default {
+  export default {
 
-    }
+  }
 </script>
