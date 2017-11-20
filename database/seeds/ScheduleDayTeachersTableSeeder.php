@@ -11,6 +11,11 @@ class ScheduleDayTeachersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\ScheduleDayTeacher::class, 60)->create();
+        for ($i = 1; $i <= 30; $i++) {
+            \App\ScheduleDayTeacher::insert([
+                'schedule_day_id' => $i,
+                'teacher_id' => mt_rand(1, 10),
+            ]);
+        }
     }
 }

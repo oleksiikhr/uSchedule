@@ -22,7 +22,7 @@ const router = new VueRouter({
     { path: '/', redirect: { name: 'home' } },
     { path: '/home', name: 'home', component: Home },
     { path: '/profile', name: 'profile', component: Profile, meta: { isLogin: true } },
-    { path: '/schedule/:id/edit', name: 'schedule-edit', component: ScheduleEdit },
+    { path: '/schedule/:id/edit', name: 'schedule-edit', component: ScheduleEdit, meta: { isLogin: true } },
     { path: '/login', name: 'login', component: Login },
     { path: '*', name: 'not-found', component: NotFound }
   ]

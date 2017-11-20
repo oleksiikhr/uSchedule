@@ -1,8 +1,10 @@
-
+// TODO: temporary. Prod: download
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons");
 
+// Libs
 @import "~vuetify/dist/vuetify";
 
+// Custom
 @import "header/index";
 @import "home/index";
 @import "auth/index";

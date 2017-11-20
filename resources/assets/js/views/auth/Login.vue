@@ -3,7 +3,7 @@
     <v-layout column justify-center align-center>
       <v-flex>
         <v-text-field label="Email" v-model="form.email" autofocus />
-        <v-text-field label="Пароль" v-model="form.password" />
+        <v-text-field label="Пароль" v-model="form.password" type="password" />
         <v-btn outline block color="primary" :loading="loadingAuth" @click="fetchAuth()">
           Увійти
         </v-btn>
@@ -19,9 +19,10 @@
     data () {
       return {
         loadingAuth: false,
+//        TODO: Delete default value
         form: {
-          email: '',
-          password: ''
+          email: 'admin@example.com',
+          password: 'admin123'
         }
       }
     },
@@ -31,6 +32,18 @@
     methods: {
       fetchAuth () {
         this.loadingAuth = true
+
+        post('/api/login', this.form)
+            .then(res => {
+              // TODO: save data in store
+              console.log(res.data)
+              this.loadingAuth = false
+            })
+            .catch(err => {
+              // TODO: Show error message
+              console.log(err.response.data)
+              this.loadingAuth = false
+            })
       }
     }
   }

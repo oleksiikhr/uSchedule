@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use JWTAuth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -12,45 +12,25 @@ class AuthController extends Controller
      * Authenticate an user.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function authenticate(Request $request)
+    public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-
-        $validator = Validator::make($credentials, [
-            'email' => 'required|email',
-            'password' => 'required'
+        $this->validate($request, [
+            'email' => 'required|email|max:191',
+            'password' => 'required|between:6,191'
         ]);
 
-        if ($validator->fails()) {
-            return response()
-                ->json([
-                    'code' => 1,
-                    'message' => 'Validation failed.',
-                    'errors' => $validator->errors()
-                ], 422);
-        }
-
-        $token = JWTAuth::attempt($credentials);
+        $token = JWTAuth::attempt($request->only('email', 'password'));
 
         if ($token) {
-            return response()->json(['token' => $token]);
-        } else {
-            return response()->json(['code' => 2, 'message' => 'Invalid credentials.'], 401);
+            return response()->json([
+                'token' => $token,
+                'user' => Auth::user(),
+            ]);
         }
-    }
 
-    /**
-     * Get the user by token.
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getUser(Request $request)
-    {
-        JWTAuth::setToken($request->input('token'));
-        $user = JWTAuth::toUser();
-        return response()->json($user);
+        return response()->json(['message' => 'Email або пароль не існує.'], 401);
     }
 }

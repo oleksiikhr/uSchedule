@@ -57762,7 +57762,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 // Vue router
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
   mode: 'history',
-  routes: [{ path: '/', redirect: { name: 'home' } }, { path: '/home', name: 'home', component: __WEBPACK_IMPORTED_MODULE_3__views_Home_vue___default.a }, { path: '/profile', name: 'profile', component: __WEBPACK_IMPORTED_MODULE_4__views_users_Profile_vue___default.a, meta: { isLogin: true } }, { path: '/schedule/:id/edit', name: 'schedule-edit', component: __WEBPACK_IMPORTED_MODULE_7__views_schedule_Edit_vue___default.a }, { path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_5__views_auth_Login_vue___default.a }, { path: '*', name: 'not-found', component: __WEBPACK_IMPORTED_MODULE_6__views_NotFound_vue___default.a }]
+  routes: [{ path: '/', redirect: { name: 'home' } }, { path: '/home', name: 'home', component: __WEBPACK_IMPORTED_MODULE_3__views_Home_vue___default.a }, { path: '/profile', name: 'profile', component: __WEBPACK_IMPORTED_MODULE_4__views_users_Profile_vue___default.a, meta: { isLogin: true } }, { path: '/schedule/:id/edit', name: 'schedule-edit', component: __WEBPACK_IMPORTED_MODULE_7__views_schedule_Edit_vue___default.a, meta: { isLogin: true } }, { path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_5__views_auth_Login_vue___default.a }, { path: '*', name: 'not-found', component: __WEBPACK_IMPORTED_MODULE_6__views_NotFound_vue___default.a }]
 });
 
 // Axios global interceptors
@@ -60850,9 +60850,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       loadingAuth: false,
+      //        TODO: Delete default value
       form: {
-        email: '',
-        password: ''
+        email: 'admin@example.com',
+        password: 'admin123'
       }
     };
   },
@@ -60862,7 +60863,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     fetchAuth: function fetchAuth() {
+      var _this = this;
+
       this.loadingAuth = true;
+
+      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["b" /* post */])('/api/login', this.form).then(function (res) {
+        // TODO: save data in store
+        console.log(res.data);
+        _this.loadingAuth = false;
+      }).catch(function (err) {
+        // TODO: Show error message
+        console.log(err.response.data);
+        _this.loadingAuth = false;
+      });
     }
   }
 });
@@ -60898,7 +60911,7 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("v-text-field", {
-                attrs: { label: "Пароль" },
+                attrs: { label: "Пароль", type: "password" },
                 model: {
                   value: _vm.form.password,
                   callback: function($$v) {
