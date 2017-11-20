@@ -45,11 +45,10 @@
     <v-toolbar class="light-blue darken-2" flat dark app>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
         <v-toolbar-side-icon @click.stop="drawer = !drawer" />
-        {{ title }}
+        {{ $store.state.template.title }}
       </v-toolbar-title>
-      <v-text-field solo prepend-icon="search" placeholder="Пошук" />
-      <v-spacer />
-      <v-btn outline color="white"> <!-- TODO: ..-->
+      <v-text-field solo prepend-icon="search" placeholder="Пошук" autofocus />
+      <v-btn class="ml-5" outline color="white"> <!-- TODO: ..-->
         <v-icon>notifications</v-icon>
         <span>Розклад дзвінків</span>
       </v-btn>
@@ -76,7 +75,6 @@
   export default {
     data () {
       return {
-        title: 'Головна сторінка',
         drawer: true,
         mini: true,
         items: [
@@ -91,6 +89,9 @@
           }
         ]
       }
+    },
+    created () {
+      this.$store.dispatch('templateSetTitle', 'Головна сторінка')
     },
     computed: {
       guest() {

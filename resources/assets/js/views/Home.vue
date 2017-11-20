@@ -47,6 +47,9 @@
         faculty_data: ['ФОАІС', 'ФЕМП', 'ФТМ', 'ФРГТБ', 'ФФБС', 'ФМТП']
       }
     },
+    activated () {
+      this.$store.dispatch('templateSetTitle', 'Головна сторінка')
+    },
     watch: {
       degree() {
         this.trainingForm = null

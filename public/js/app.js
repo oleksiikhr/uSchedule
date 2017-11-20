@@ -57409,14 +57409,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      title: 'Головна сторінка',
       drawer: true,
       mini: true,
       items: [{
@@ -57429,6 +57427,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         subIcon: 'add', subText: 'Додати', subTo: '/news/create'
       }]
     };
+  },
+  created: function created() {
+    this.$store.dispatch('templateSetTitle', 'Головна сторінка');
   },
 
   computed: {
@@ -57651,20 +57652,25 @@ var render = function() {
                   }
                 }
               }),
-              _vm._v("\n      " + _vm._s(_vm.title) + "\n    ")
+              _vm._v(
+                "\n      " + _vm._s(_vm.$store.state.template.title) + "\n    "
+              )
             ],
             1
           ),
           _vm._v(" "),
           _c("v-text-field", {
-            attrs: { solo: "", "prepend-icon": "search", placeholder: "Пошук" }
+            attrs: {
+              solo: "",
+              "prepend-icon": "search",
+              placeholder: "Пошук",
+              autofocus: ""
+            }
           }),
-          _vm._v(" "),
-          _c("v-spacer"),
           _vm._v(" "),
           _c(
             "v-btn",
-            { attrs: { outline: "", color: "white" } },
+            { staticClass: "ml-5", attrs: { outline: "", color: "white" } },
             [
               _c("v-icon", [_vm._v("notifications")]),
               _vm._v(" "),
@@ -60540,6 +60546,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       faculty_data: ['ФОАІС', 'ФЕМП', 'ФТМ', 'ФРГТБ', 'ФФБС', 'ФМТП']
     };
   },
+  activated: function activated() {
+    this.$store.dispatch('templateSetTitle', 'Головна сторінка');
+  },
 
   watch: {
     degree: function degree() {
@@ -60829,7 +60838,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  activated: function activated() {
+    this.$store.dispatch('templateSetTitle', 'Авторизація');
+  }
+});
 
 /***/ }),
 /* 53 */
@@ -61048,6 +61061,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth__ = __webpack_require__(61);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__snackbar__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__template__ = __webpack_require__(68);
 // Vue libs
 
 
@@ -61056,12 +61070,13 @@ if (false) {
 
 
 
+
 // Vue use
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
   modules: {
-    auth: __WEBPACK_IMPORTED_MODULE_2__auth__["a" /* default */], snackbar: __WEBPACK_IMPORTED_MODULE_3__snackbar__["a" /* default */]
+    auth: __WEBPACK_IMPORTED_MODULE_2__auth__["a" /* default */], snackbar: __WEBPACK_IMPORTED_MODULE_3__snackbar__["a" /* default */], template: __WEBPACK_IMPORTED_MODULE_4__template__["a" /* default */]
   }
 }));
 
@@ -61154,6 +61169,47 @@ var actions = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(6);
+// Vue libs
+
+
+
+// Vue use
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
+
+var state = {
+  title: ''
+};
+
+var mutations = {
+  SET_TITLE: function SET_TITLE(state, str) {
+    state.title = str;
+  }
+};
+
+var actions = {
+  templateSetTitle: function templateSetTitle(_ref, str) {
+    var commit = _ref.commit;
+
+    commit('SET_TITLE', str);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  state: state, mutations: mutations, actions: actions
+});
 
 /***/ })
 /******/ ]);
