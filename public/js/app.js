@@ -57766,7 +57766,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 // Vue router
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
   mode: 'history',
-  routes: [{ path: '/', redirect: { name: 'home' } }, { path: '/home', name: 'home', component: __WEBPACK_IMPORTED_MODULE_3__views_Home_vue___default.a }, { path: '/profile', name: 'profile', component: __WEBPACK_IMPORTED_MODULE_4__views_users_Profile_vue___default.a, meta: { isLogin: true } }, { path: '/schedule/:id/edit', name: 'schedule-edit', component: __WEBPACK_IMPORTED_MODULE_7__views_schedule_Edit_vue___default.a, meta: { isLogin: true } }, { path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_5__views_auth_Login_vue___default.a }, { path: '*', name: 'not-found', component: __WEBPACK_IMPORTED_MODULE_6__views_NotFound_vue___default.a }]
+  routes: [{ path: '/', redirect: { name: 'home' } }, { path: '/home', name: 'home', component: __WEBPACK_IMPORTED_MODULE_3__views_Home_vue___default.a }, { path: '/profile', name: 'profile', component: __WEBPACK_IMPORTED_MODULE_4__views_users_Profile_vue___default.a, meta: { isLogin: true } }, { path: '/schedule/:id/edit', name: 'schedule-edit', component: __WEBPACK_IMPORTED_MODULE_7__views_schedule_Edit_vue___default.a, meta: { isLogin: true } }, { path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_5__views_auth_Login_vue___default.a, meta: { isLogin: false } }, { path: '*', name: 'not-found', component: __WEBPACK_IMPORTED_MODULE_6__views_NotFound_vue___default.a }]
 });
 
 // Axios global interceptors
@@ -57803,13 +57803,16 @@ __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(null, fu
 router.beforeEach(function (to, from, next) {
   var token = window.localStorage.getItem('token');
 
-  if (to.meta.isLogin && !token) {
+  var isLogin = to.meta.isLogin;
+  var isLoginUndefined = typeof isLogin === 'undefined';
+
+  if (to.name !== 'login' && !isLoginUndefined && isLogin && !token) {
     next({ name: 'login' });
-  } else if (typeof to.meta.isLogin !== 'undefined' && !to.meta.isLogin && token) {
+  } else if (to.name !== 'home' && !isLoginUndefined && !isLogin && token) {
     next({ name: 'home' });
-  } else {
-    next();
   }
+
+  next();
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (router);

@@ -23,7 +23,7 @@ const router = new VueRouter({
     { path: '/home', name: 'home', component: Home },
     { path: '/profile', name: 'profile', component: Profile, meta: { isLogin: true } },
     { path: '/schedule/:id/edit', name: 'schedule-edit', component: ScheduleEdit, meta: { isLogin: true } },
-    { path: '/login', name: 'login', component: Login },
+    { path: '/login', name: 'login', component: Login, meta: { isLogin: false } },
     { path: '*', name: 'not-found', component: NotFound }
   ]
 })
@@ -64,13 +64,16 @@ axios.interceptors.response.use(null, err => {
 router.beforeEach((to, from, next) => {
   let token = window.localStorage.getItem('token')
 
-  if (to.meta.isLogin && !token) {
+  let isLogin = to.meta.isLogin
+  let isLoginUndefined = typeof isLogin === 'undefined'
+
+  if (to.name !== 'login' && !isLoginUndefined && isLogin && !token) {
     next({ name: 'login' })
-  } else if (typeof to.meta.isLogin !== 'undefined' && !to.meta.isLogin && token) {
+  } else if (to.name !== 'home' && !isLoginUndefined && !isLogin && token) {
     next({ name: 'home' })
-  } else {
-    next()
   }
+
+  next()
 })
 
 export default router
