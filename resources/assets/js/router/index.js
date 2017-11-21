@@ -66,7 +66,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.isLogin && !token) {
     next({ name: 'login' })
-  } else if (!to.meta.isLogin && token) {
+  } else if (typeof to.meta.isLogin !== 'undefined' && !to.meta.isLogin && token) {
     next({ name: 'home' })
   } else {
     next()

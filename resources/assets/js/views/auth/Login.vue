@@ -35,9 +35,15 @@
 
         post('/api/login', this.form)
             .then(res => {
-              // TODO: save data in store
-              console.log(res.data)
+              this.$store.dispatch('authSetUser', res.data.user)
+              localStorage.setItem('token', res.data.token)
               this.loadingAuth = false
+              if (window.history.length > 1) {
+                this.$router.go(-1)
+              }
+              else {
+                this.$router.push({ name: 'home' })
+              }
             })
             .catch(err => {
               // TODO: Show error message

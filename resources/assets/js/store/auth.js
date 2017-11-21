@@ -19,8 +19,8 @@ const mutations = {
 }
 
 const actions = {
-  authSetUser: ({commit}, userObj) => {
-    commit('SET_USER', userObj)
+  authSetUser: ({commit}, obj) => {
+    commit('SET_USER', obj)
   },
   authClearUser: ({commit}) => {
     commit('CLEAR_USER')

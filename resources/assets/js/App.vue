@@ -18,7 +18,6 @@
           </v-list-tile>
         </v-list>
       </v-toolbar>
-
       <v-list class="pt-0">
         <template v-for="(item, i) in items">
           <v-divider v-if="item.divider" dark class="my-2" :key="i" />
@@ -41,7 +40,6 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-
     <v-toolbar class="light-blue darken-2" flat dark app>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
         <v-toolbar-side-icon @click.stop="drawer = !drawer" />
@@ -53,7 +51,7 @@
         <span>Розклад дзвінків</span>
       </v-btn>
       <v-tooltip bottom>
-        <v-btn v-if="guest" icon @click="logout()" slot="activator">
+        <v-btn v-if="!guest" icon @click="logout()" slot="activator">
           <v-icon>exit_to_app</v-icon>
         </v-btn>
         <span>Вийти</span>
@@ -70,7 +68,7 @@
 </template>
 
 <script>
-  import { post } from './helpers/api'
+  import { get } from './helpers/api'
 
   export default {
     data () {
@@ -92,20 +90,26 @@
     },
     created () {
       this.$store.dispatch('templateSetTitle', 'Головна сторінка')
+      if (localStorage.getItem('token')) {
+        this.getProfile()
+      }
     },
     computed: {
-      guest() {
-        return !!this.$store.state.auth.user
+      guest () {
+        return this.$store.state.auth.user === null
       }
     },
     methods: {
-      logout() {
-        post('/api/logout')
+      getProfile () {
+        get('/api/profile')
             .then(res => {
-              localStorage.removeItem('token')
-              this.$store.dispatch('authClearUser')
-              this.$router.push({ name: 'login' })
+              this.$store.dispatch('authSetUser', res.data.token)
             })
+      },
+      logout () {
+        localStorage.removeItem('token')
+        this.$store.dispatch('authClearUser')
+        this.$router.push({ name: 'login' }) // TODO: **
       }
     }
   }
