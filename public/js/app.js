@@ -57811,16 +57811,18 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_Home_vue__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_Home_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__views_Home_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_users_Profile_vue__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_users_Profile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__views_users_Profile_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_auth_Login_vue__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_auth_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__views_auth_Login_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_NotFound_vue__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_NotFound_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__views_NotFound_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_schedule_Edit_vue__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_schedule_Edit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__views_schedule_Edit_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__store_store__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__helpers_api__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_auth_Register_vue__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_auth_Register_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__views_auth_Register_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_users_Profile_vue__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_users_Profile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__views_users_Profile_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_NotFound_vue__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_NotFound_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__views_NotFound_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__views_schedule_Edit_vue__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__views_schedule_Edit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__views_schedule_Edit_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__store_store__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__helpers_api__ = __webpack_require__(7);
 // Vue libs
 
 
@@ -57829,6 +57831,9 @@ if (false) {
 
 
 // Views, components
+
+
+
 
 
 
@@ -57845,7 +57850,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 // Vue router
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
   mode: 'history',
-  routes: [{ path: '/', redirect: { name: 'home' } }, { path: '/home', name: 'home', component: __WEBPACK_IMPORTED_MODULE_3__views_Home_vue___default.a }, { path: '/profile', name: 'profile', component: __WEBPACK_IMPORTED_MODULE_4__views_users_Profile_vue___default.a, meta: { isLogin: true } }, { path: '/schedule/:id/edit', name: 'schedule-edit', component: __WEBPACK_IMPORTED_MODULE_7__views_schedule_Edit_vue___default.a, meta: { isLogin: true } }, { path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_5__views_auth_Login_vue___default.a, meta: { isLogin: false } }, { path: '*', name: 'not-found', component: __WEBPACK_IMPORTED_MODULE_6__views_NotFound_vue___default.a }]
+  routes: [{ path: '/', redirect: { name: 'home' } }, { path: '/home', name: 'home', component: __WEBPACK_IMPORTED_MODULE_3__views_Home_vue___default.a }, { path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue___default.a, meta: { isLogin: false } }, { path: '/register', name: 'register', component: __WEBPACK_IMPORTED_MODULE_5__views_auth_Register_vue___default.a, meta: { isLogin: false } }, { path: '/profile', name: 'profile', component: __WEBPACK_IMPORTED_MODULE_6__views_users_Profile_vue___default.a, meta: { isLogin: true } }, { path: '/schedule/:id/edit', name: 'schedule-edit', component: __WEBPACK_IMPORTED_MODULE_8__views_schedule_Edit_vue___default.a, meta: { isLogin: true } }, { path: '*', name: 'not-found', component: __WEBPACK_IMPORTED_MODULE_7__views_NotFound_vue___default.a }]
 });
 
 // Axios global interceptors
@@ -57860,7 +57865,7 @@ __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(null, fu
     if (!token) {
       router.push({ name: 'login' });
     } else {
-      return Object(__WEBPACK_IMPORTED_MODULE_9__helpers_api__["a" /* get */])('/api/refresh-token').then(function (res) {
+      return Object(__WEBPACK_IMPORTED_MODULE_10__helpers_api__["a" /* get */])('/api/refresh-token').then(function (res) {
         if (res.data.token) {
           window.localStorage.setItem('token', res.data.token);
           originalRequest.headers['Authorization'] = 'Bearer ' + res.data.token;
@@ -57878,7 +57883,7 @@ __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(null, fu
   }
 
   if (err.response.status !== 404 && err.response.data.message) {
-    __WEBPACK_IMPORTED_MODULE_8__store_store__["a" /* default */].dispatch('snackbarShow', { color: 'error', text: err.response.data.message });
+    __WEBPACK_IMPORTED_MODULE_9__store_store__["a" /* default */].dispatch('snackbarShow', { color: 'error', text: err.response.data.message });
   }
 
   return Promise.reject(err);
@@ -60619,6 +60624,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -60762,6 +60770,10 @@ var render = function() {
                 ],
                 1
               ),
+              _vm._v(" "),
+              _c("v-btn", { attrs: { to: "/schedule/1/edit" } }, [
+                _vm._v("Go to edit")
+              ]),
               _vm._v(" "),
               _c("v-layout", {
                 staticClass: "schedile-list",
@@ -60935,6 +60947,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -60969,10 +60987,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this.$router.push({ name: 'home' });
         }
       }).catch(function (err) {
-        // TODO: Show error message
-        console.log(err.response.data);
         _this.loadingAuth = false;
       });
+    },
+    goRegister: function goRegister() {
+      this.$router.push({ name: 'register' });
     }
   }
 });
@@ -61034,7 +61053,25 @@ var render = function() {
                   }
                 },
                 [_vm._v("\n        Увійти\n      ")]
-              )
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "reg" }, [
+                _c(
+                  "span",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.goRegister()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v("\n          Реєстрація\n          "),
+                    _c("v-icon", [_vm._v("keyboard_arrow_right")])
+                  ],
+                  1
+                )
+              ])
             ],
             1
           )
@@ -61195,27 +61232,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  created: function created() {
-    // TODO ..
-  },
   data: function data() {
     return {
+      id: null,
       subjects: [],
       schedule: []
     };
   },
-  mounted: function mounted() {
-    this.subjects = this.getSubjects();
+  activated: function activated() {
+    this.$store.dispatch('templateSetTitle', 'Редагування');
+    this.id = parseInt(this.$route.params.id);
+    this.getSubjects();
+    this.getSchedule();
   },
 
   methods: {
     getSubjects: function getSubjects() {
-      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/subjects?faculty=1&course=1').then(function (res) {
+      var _this = this;
+
+      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/subjects', {
+        faculty: 1,
+        course: 1
+      }).then(function (res) {
+        _this.subjects = res.data;
         console.log(res.data);
       });
     },
     getSchedule: function getSchedule() {
-      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/schedule?id=' + this.$route.params).then(function (res) {
+      var _this2 = this;
+
+      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/schedule', {
+        id: this.id
+      }).then(function (res) {
+        _this2.schedule = res.data;
         console.log(res.data);
       });
     }
@@ -61370,6 +61419,96 @@ var actions = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(70)
+/* template */
+var __vue_template__ = __webpack_require__(71)
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\views\\auth\\Register.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Register.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e7db7878", Component.options)
+  } else {
+    hotAPI.reload("data-v-e7db7878", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
+  activated: function activated() {
+    this.$store.dispatch('templateSetTitle', 'Реєстрація');
+  }
+});
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", [_vm._v("Register")])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-e7db7878", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

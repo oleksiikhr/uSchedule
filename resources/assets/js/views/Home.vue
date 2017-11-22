@@ -21,6 +21,9 @@
           </v-flex>
         </v-layout>
 
+        <!-- TODO: Temporary -->
+        <v-btn to="/schedule/1/edit">Go to edit</v-btn>
+
         <v-layout class="schedile-list" row wrap>
 
         </v-layout>
@@ -35,7 +38,7 @@
 
 <script>
   export default {
-    data() {
+    data () {
       return {
         degree: null,
         trainingForm: null,
@@ -51,22 +54,22 @@
       this.$store.dispatch('templateSetTitle', 'Головна сторінка')
     },
     watch: {
-      degree() {
+      degree () {
         this.trainingForm = null
         this.faculty = null
         this.course = null
         this.groups = null
       },
-      trainingForm() {
+      trainingForm () {
         this.faculty = null
         this.course = null
         this.groups = null
       },
-      faculty() {
+      faculty () {
         this.course = null
         this.groups = null
       },
-      course() {
+      course () {
         this.groups = null
       }
     }

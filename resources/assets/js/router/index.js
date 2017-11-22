@@ -7,8 +7,11 @@ import axios from 'axios'
 
 // Views, components
 import Home from '../views/Home.vue'
-import Profile from '../views/users/Profile.vue'
+
 import Login from '../views/auth/Login.vue'
+import Register from '../views/auth/Register.vue'
+
+import Profile from '../views/users/Profile.vue'
 import NotFound from '../views/NotFound.vue'
 import ScheduleEdit from '../views/schedule/Edit.vue'
 
@@ -25,9 +28,12 @@ const router = new VueRouter({
   routes: [
     { path: '/', redirect: { name: 'home' } },
     { path: '/home', name: 'home', component: Home },
+
+    { path: '/login', name: 'login', component: Login, meta: { isLogin: false } },
+    { path: '/register', name: 'register', component: Register, meta: { isLogin: false } },
+
     { path: '/profile', name: 'profile', component: Profile, meta: { isLogin: true } },
     { path: '/schedule/:id/edit', name: 'schedule-edit', component: ScheduleEdit, meta: { isLogin: true } },
-    { path: '/login', name: 'login', component: Login, meta: { isLogin: false } },
     { path: '*', name: 'not-found', component: NotFound }
   ]
 })
@@ -41,7 +47,7 @@ axios.interceptors.response.use(null, err => {
   if (err.response.status === 401 && !originalRequest._retry) {
     originalRequest._retry = true
 
-    if (! token) {
+    if (!token) {
       router.push({ name: 'login' })
     }
     else {
@@ -81,7 +87,8 @@ router.beforeEach((to, from, next) => {
 
   if (to.name !== 'login' && !isLoginUndefined && isLogin && !token) {
     next({ name: 'login' })
-  } else if (to.name !== 'home' && !isLoginUndefined && !isLogin && token) {
+  }
+  else if (to.name !== 'home' && !isLoginUndefined && !isLogin && token) {
     next({ name: 'home' })
   }
 

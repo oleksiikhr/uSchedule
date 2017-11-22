@@ -7,6 +7,12 @@
         <v-btn outline block color="primary" :loading="loadingAuth" @click="fetchAuth()">
           Увійти
         </v-btn>
+        <div class="reg">
+          <span @click="goRegister()">
+            Реєстрація
+            <v-icon>keyboard_arrow_right</v-icon>
+          </span>
+        </div>
       </v-flex>
     </v-layout>
   </v-container>
@@ -46,10 +52,11 @@
               }
             })
             .catch(err => {
-              // TODO: Show error message
-              console.log(err.response.data)
               this.loadingAuth = false
             })
+      },
+      goRegister () {
+        this.$router.push({ name: 'register' })
       }
     }
   }

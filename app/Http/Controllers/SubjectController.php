@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\SubjectRequest;
 use App\Subject;
+use Illuminate\Http\Request;
+use App\Http\Requests\SubjectRequest;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\{Request};
 
 class SubjectController extends Controller
 {

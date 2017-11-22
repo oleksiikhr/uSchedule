@@ -6,28 +6,36 @@
   import { post, get } from '../../helpers/api'
 
   export default {
-    created () {
-      // TODO ..
-    },
     data() {
       return {
+        id: null,
         subjects: [],
         schedule: []
       }
     },
-    mounted() {
-      this.subjects = this.getSubjects()
+    activated () {
+      this.$store.dispatch('templateSetTitle', 'Редагування')
+      this.id = parseInt(this.$route.params.id)
+      this.getSubjects()
+      this.getSchedule()
     },
     methods: {
-      getSubjects() {
-        get('/api/subjects?faculty=1&course=1')
+      getSubjects () {
+        get('/api/subjects', {
+          faculty: 1,
+          course: 1
+        })
             .then(res => {
+              this.subjects = res.data
               console.log(res.data)
             })
       },
-      getSchedule() {
-        get('/api/schedule?id=' + this.$route.params)
+      getSchedule () {
+        get('/api/schedule', {
+          id: this.id
+        })
             .then(res => {
+              this.schedule = res.data
               console.log(res.data)
             })
       }
