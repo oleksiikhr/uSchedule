@@ -1,5 +1,30 @@
 .schedule {
   &.edit {
+    position: relative;
     padding: 0;
+    height: 100%;
+  }
+
+  .wrap {
+    height: 100%;
+  }
+
+  .left-column {
+    background: #fff;
+    height: 100%;
+    width: 300px;
+    border-right: 1px solid #e0e0e0;
+    > .tabs {
+      height: calc(100% - 68px);
+      > .tabs__items {
+        height: calc(100% - 48px);
+        overflow: auto;
+      }
+    }
+  }
+
+  .right-column {
+    width: calc(100% - 300px);
+    overflow: auto;
   }
 }

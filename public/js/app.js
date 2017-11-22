@@ -57503,6 +57503,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-app",
+    { class: _vm.$store.state.template.bodyClass },
     [
       _c(
         "v-navigation-drawer",
@@ -61354,6 +61355,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -61395,8 +61406,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   activated: function activated() {
     this.$store.dispatch('templateSetTitle', 'Редагування');
+    this.$store.dispatch('templateSetBodyClass', 'height100');
     this.scheduleId = parseInt(this.$route.params.id);
     this.getSchedule();
+  },
+  deactivated: function deactivated() {
+    this.$store.dispatch('templateSetBodyClass', '');
   },
 
   computed: {
@@ -63463,150 +63478,238 @@ var render = function() {
     "v-container",
     { staticClass: "schedule edit", attrs: { fluid: "" } },
     [
-      _c(
-        "v-layout",
-        { attrs: { row: "", wrap: "" } },
-        [
-          _c(
-            "v-flex",
-            { attrs: { "d-flex": "", xs12: "", sm4: "", md3: "" } },
-            [
-              _vm.isMoving
-                ? _c(
-                    "draggable",
-                    {
-                      staticClass: "delete-choose",
-                      attrs: {
-                        options: { group: { name: ["subjects", "teachers"] } }
-                      }
-                    },
-                    [
-                      _c("v-icon", [
-                        _vm._v(
-                          "\n          " +
-                            _vm._s(_vm.isDelete ? "delete_forever" : "delete") +
-                            "\n        "
-                        )
-                      ])
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _c(
-                "v-tabs",
-                { attrs: { dark: "", grow: "", centered: "" } },
-                [
-                  _c(
-                    "v-tabs-bar",
-                    { staticClass: "light-blue darken-2", attrs: { dark: "" } },
-                    [
-                      _c("v-tabs-item", { attrs: { href: "#tab-schedules" } }, [
-                        _vm._v("Schedules")
-                      ]),
-                      _vm._v(" "),
-                      _c("v-tabs-item", { attrs: { href: "#tab-teachers" } }, [
-                        _vm._v("Teachers")
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tabs-items",
-                    [
-                      _c(
-                        "v-tabs-content",
-                        { attrs: { id: "tab-schedules" } },
-                        [
-                          _c(
-                            "v-card",
-                            { attrs: { flat: "" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: { label: "Предмет" },
-                                model: {
-                                  value: _vm.searchSubject,
-                                  callback: function($$v) {
-                                    _vm.searchSubject = $$v
-                                  },
-                                  expression: "searchSubject"
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "draggable",
-                                {
-                                  attrs: {
-                                    list: _vm.filterSubjects,
-                                    element: "v-list",
-                                    clone: _vm.cloneSubject,
-                                    move: _vm.moveSubject,
-                                    options: {
-                                      group: {
-                                        name: "subjects",
-                                        pull: "clone",
-                                        put: false
-                                      },
-                                      sort: false
-                                    }
-                                  },
-                                  on: { end: _vm.endSubject }
-                                },
-                                _vm._l(_vm.filterSubjects, function(subject) {
-                                  return _c(
-                                    "v-list-tile",
-                                    {
-                                      key: subject.id,
-                                      attrs: { title: subject.title }
-                                    },
-                                    [
-                                      _c("v-list-tile-content", [
-                                        _vm._v(_vm._s(subject.title))
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                })
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-tabs-content",
-                        { attrs: { id: "tab-teachers" } },
-                        [
-                          _c(
-                            "v-card",
-                            { attrs: { flat: "" } },
-                            [_c("v-card-text", [_vm._v("Teachers")])],
-                            1
-                          )
-                        ],
-                        1
+      _c("v-layout", { attrs: { row: "", wrap: "" } }, [
+        _c(
+          "div",
+          { staticClass: "left-column" },
+          [
+            _vm.isMoving
+              ? _c(
+                  "draggable",
+                  {
+                    staticClass: "delete-choose",
+                    attrs: {
+                      options: { group: { name: ["subjects", "teachers"] } }
+                    }
+                  },
+                  [
+                    _c("v-icon", [
+                      _vm._v(
+                        "\n          " +
+                          _vm._s(_vm.isDelete ? "delete_forever" : "delete") +
+                          "\n        "
                       )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-flex",
-            { attrs: { "d-flex": "", xs12: "", sm8: "", md9: "" } },
-            [_vm._v("\n      123\n    ")]
-          )
-        ],
-        1
-      )
+                    ])
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "v-tabs",
+              { attrs: { dark: "", grow: "", centered: "" } },
+              [
+                _c(
+                  "v-tabs-bar",
+                  { staticClass: "light-blue darken-2", attrs: { dark: "" } },
+                  [
+                    _c(
+                      "v-tabs-item",
+                      { attrs: { href: "#tab-schedules" } },
+                      [_c("v-icon", [_vm._v("book")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-tabs-item",
+                      { attrs: { href: "#tab-teachers" } },
+                      [_c("v-icon", [_vm._v("people")])],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-tabs-items",
+                  [
+                    _c(
+                      "v-tabs-content",
+                      { attrs: { id: "tab-schedules" } },
+                      [
+                        _c(
+                          "v-card",
+                          { attrs: { flat: "" } },
+                          [
+                            _c("v-text-field", {
+                              attrs: {
+                                label: "Предмет",
+                                "single-line": "",
+                                "prepend-icon": "search"
+                              },
+                              model: {
+                                value: _vm.searchSubject,
+                                callback: function($$v) {
+                                  _vm.searchSubject = $$v
+                                },
+                                expression: "searchSubject"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "draggable",
+                              {
+                                attrs: {
+                                  list: _vm.filterSubjects,
+                                  element: "v-list",
+                                  clone: _vm.cloneSubject,
+                                  move: _vm.moveSubject,
+                                  options: {
+                                    group: {
+                                      name: "subjects",
+                                      pull: "clone",
+                                      put: false
+                                    },
+                                    sort: false
+                                  }
+                                },
+                                on: { end: _vm.endSubject }
+                              },
+                              _vm._l(_vm.filterSubjects, function(subject) {
+                                return _c(
+                                  "v-list-tile",
+                                  {
+                                    key: subject.id,
+                                    attrs: { title: subject.title }
+                                  },
+                                  [
+                                    _c("v-list-tile-content", [
+                                      _vm._v(_vm._s(subject.title))
+                                    ])
+                                  ],
+                                  1
+                                )
+                              })
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-tabs-content",
+                      { attrs: { id: "tab-teachers" } },
+                      [
+                        _c(
+                          "v-card",
+                          { attrs: { flat: "" } },
+                          [_c("v-card-text", [_vm._v("Teachers")])],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "right-column" }, [
+          _c("table", [
+            _c("thead", [
+              _c("tr", [
+                _vm._v("\n          1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("\n          1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br"),
+                _vm._v("1"),
+                _c("br")
+              ])
+            ])
+          ])
+        ])
+      ])
     ],
     1
   )
@@ -63723,12 +63826,16 @@ var actions = {
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 var state = {
-  title: ''
+  title: '',
+  bodyClass: ''
 };
 
 var mutations = {
   SET_TITLE: function SET_TITLE(state, str) {
     state.title = str;
+  },
+  SET_BODY_CLASS: function SET_BODY_CLASS(state, str) {
+    state.bodyClass = str;
   }
 };
 
@@ -63737,6 +63844,11 @@ var actions = {
     var commit = _ref.commit;
 
     commit('SET_TITLE', str);
+  },
+  templateSetBodyClass: function templateSetBodyClass(_ref2, str) {
+    var commit = _ref2.commit;
+
+    commit('SET_BODY_CLASS', str);
   }
 };
 

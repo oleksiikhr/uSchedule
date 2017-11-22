@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :class="$store.state.template.bodyClass">
     <v-navigation-drawer persistent enable-resize-watcher clipped app :mini-variant.sync="mini" v-model="drawer">
       <v-toolbar flat>
         <v-list class="pa-0">

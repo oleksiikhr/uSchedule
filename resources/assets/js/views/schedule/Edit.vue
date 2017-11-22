@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="schedule edit">
     <v-layout row wrap>
-      <v-flex d-flex xs12 sm4 md3>
+      <div class="left-column">
         <draggable :options="{ group:{ name: ['subjects', 'teachers'] }}" class="delete-choose" v-if="isMoving">
           <v-icon>
             {{ isDelete ? 'delete_forever' : 'delete' }}
@@ -9,16 +9,19 @@
         </draggable>
         <v-tabs dark grow centered>
           <v-tabs-bar class="light-blue darken-2" dark>
-            <!--<v-tabs-slider class="yellow" />-->
-            <v-tabs-item href="#tab-schedules">Schedules</v-tabs-item>
-            <v-tabs-item href="#tab-teachers">Teachers</v-tabs-item>
+            <v-tabs-item href="#tab-schedules">
+              <v-icon>book</v-icon>
+            </v-tabs-item>
+            <v-tabs-item href="#tab-teachers">
+              <v-icon>people</v-icon>
+            </v-tabs-item>
           </v-tabs-bar>
           <v-tabs-items>
             <v-tabs-content id="tab-schedules">
               <v-card flat>
-                <v-text-field label="Предмет" v-model="searchSubject" />
+                <v-text-field label="Предмет" v-model="searchSubject" single-line prepend-icon="search" />
                 <draggable :list="filterSubjects" element="v-list" :clone="cloneSubject" :move="moveSubject" @end="endSubject"
-                           :options="{group: {name: 'subjects', pull: 'clone', put: false}, sort: false}">
+                           :options="{ group:{ name: 'subjects', pull: 'clone', put: false }, sort: false }">
                   <v-list-tile :title="subject.title" v-for="subject in filterSubjects" :key="subject.id">
                     <v-list-tile-content>{{ subject.title }}</v-list-tile-content>
                   </v-list-tile>
@@ -32,10 +35,17 @@
             </v-tabs-content>
           </v-tabs-items>
         </v-tabs>
-      </v-flex>
-      <v-flex d-flex xs12 sm8 md9>
-        123
-      </v-flex>
+      </div>
+      <div class="right-column">
+        <table>
+          <thead>
+          <tr>
+            1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>
+            1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>
+          </tr>
+          </thead>
+        </table>
+      </div>
     </v-layout>
   </v-container>
 </template>
@@ -82,8 +92,12 @@
     },
     activated () {
       this.$store.dispatch('templateSetTitle', 'Редагування')
+      this.$store.dispatch('templateSetBodyClass', 'height100')
       this.scheduleId = parseInt(this.$route.params.id)
       this.getSchedule()
+    },
+    deactivated () {
+      this.$store.dispatch('templateSetBodyClass', '')
     },
     computed: {
       filterSubjects () {

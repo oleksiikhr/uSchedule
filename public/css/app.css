@@ -15983,6 +15983,19 @@ table.table tfoot tr {
 
 
 
+.height100 {
+  height: 100%;
+  overflow: hidden;
+}
+
+.height100 > main {
+  height: 100%;
+}
+
+.height100 > main > .content {
+  height: 100%;
+}
+
 .application--light .toolbar {
   background-color: #fff;
   border-bottom: 1px solid #e0e0e0;
@@ -16030,6 +16043,33 @@ table.table tfoot tr {
 }
 
 .schedule.edit {
+  position: relative;
   padding: 0;
+  height: 100%;
+}
+
+.schedule .wrap {
+  height: 100%;
+}
+
+.schedule .left-column {
+  background: #fff;
+  height: 100%;
+  width: 300px;
+  border-right: 1px solid #e0e0e0;
+}
+
+.schedule .left-column > .tabs {
+  height: calc(100% - 68px);
+}
+
+.schedule .left-column > .tabs > .tabs__items {
+  height: calc(100% - 48px);
+  overflow: auto;
+}
+
+.schedule .right-column {
+  width: calc(100% - 300px);
+  overflow: auto;
 }
 
