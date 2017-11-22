@@ -60907,11 +60907,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.$store.dispatch('authSetUser', res.data.user);
         localStorage.setItem('token', res.data.token);
         _this.loadingAuth = false;
-        if (window.history.length > 1) {
-          _this.$router.go(-1);
-        } else {
-          _this.$router.push({ name: 'home' });
-        }
+        _this.$router.push({ name: 'profile' });
       }).catch(function (err) {
         _this.loadingAuth = false;
       });

@@ -44,12 +44,7 @@
               this.$store.dispatch('authSetUser', res.data.user)
               localStorage.setItem('token', res.data.token)
               this.loadingAuth = false
-              if (window.history.length > 1) {
-                this.$router.go(-1)
-              }
-              else {
-                this.$router.push({ name: 'home' })
-              }
+              this.$router.push({ name: 'profile' })
             })
             .catch(err => {
               this.loadingAuth = false
