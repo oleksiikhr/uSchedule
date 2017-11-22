@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Schedule;
 use Illuminate\Http\Request;
+use App\Http\Requests\ScheduleRequest;
 
 class ScheduleController extends Controller
 {
@@ -11,9 +13,11 @@ class ScheduleController extends Controller
     /**
      * Get all schedules with pagination
      *
-     * @param Request $request
+     * @param ScheduleRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function list(Request $request)
+    public function list(ScheduleRequest $request)
     {
         // TODO: Implement list() method.
     }
@@ -21,11 +25,16 @@ class ScheduleController extends Controller
     /**
      * Get one schedule
      *
-     * @param  Request $request
+     * @param integer $id Schedule
+     * @param ScheduleRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function one(Request $request)
+    public function one($id, ScheduleRequest $request)
     {
-        // TODO: Implement one() method.
+        // TODO: Temporary
+
+        return response()->json(Schedule::findOrFail($id));
     }
 
     /**

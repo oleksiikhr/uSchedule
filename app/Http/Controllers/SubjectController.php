@@ -14,15 +14,18 @@ class SubjectController extends Controller
      *
      * @param SubjectRequest $request
      *
-     * @return Collection|static[]
+     * @return \Illuminate\Http\JsonResponse
      */
     public function list(SubjectRequest $request)
     {
         $subjects = Subject::with('teacher')
-            ->where(['faculty_id' => $request->faculty, 'course' => $request->course])
+            ->where([
+                'faculty_id' => $request->faculty,
+                'course' => $request->course
+            ])
             ->get();
 
-        return $subjects;
+        return response()->json($subjects);
     }
 
     /**

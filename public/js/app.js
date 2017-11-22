@@ -61234,37 +61234,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      id: null,
+      scheduleId: null,
       subjects: [],
       schedule: []
     };
   },
   activated: function activated() {
     this.$store.dispatch('templateSetTitle', 'Редагування');
-    this.id = parseInt(this.$route.params.id);
-    this.getSubjects();
+    this.scheduleId = parseInt(this.$route.params.id);
     this.getSchedule();
   },
 
   methods: {
-    getSubjects: function getSubjects() {
+    getSchedule: function getSchedule() {
       var _this = this;
 
-      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/subjects', {
-        faculty: 1,
-        course: 1
-      }).then(function (res) {
-        _this.subjects = res.data;
+      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/schedules/' + this.scheduleId).then(function (res) {
+        _this.schedule = res.data;
         console.log(res.data);
       });
     },
-    getSchedule: function getSchedule() {
+    getSubjects: function getSubjects() {
       var _this2 = this;
 
-      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/schedule', {
-        id: this.id
+      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/subjects', {
+        faculty: this.schedule.faculty_id,
+        course: this.schedule.course
       }).then(function (res) {
-        _this2.schedule = res.data;
+        _this2.subjects = res.data;
+        console.log(res.data);
+      });
+    },
+    getTeachers: function getTeachers() {
+      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/teachers', {
+        id: this.scheduleId
+      }).then(function (res) {
         console.log(res.data);
       });
     }

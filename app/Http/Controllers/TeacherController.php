@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Teacher;
 use Illuminate\Http\Request;
+use App\Http\Requests\TeacherRequest;
 
 class TeacherController extends Controller
 {
@@ -10,11 +12,16 @@ class TeacherController extends Controller
     /**
      * Get all teachers
      *
-     * @param Request $request
+     * @param TeacherRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function list(Request $request)
+    public function list(TeacherRequest $request)
     {
-        // TODO: Implement list() method.
+        // TODO: Temporary
+        $teachers = Teacher::all();
+
+        return response()->json($teachers);
     }
 
     /**

@@ -8,35 +8,41 @@
   export default {
     data() {
       return {
-        id: null,
+        scheduleId: null,
         subjects: [],
         schedule: []
       }
     },
     activated () {
       this.$store.dispatch('templateSetTitle', 'Редагування')
-      this.id = parseInt(this.$route.params.id)
-      this.getSubjects()
+      this.scheduleId = parseInt(this.$route.params.id)
       this.getSchedule()
     },
     methods: {
+      getSchedule () {
+        get('/api/schedules/' + this.scheduleId)
+            .then(res => {
+              this.schedule = res.data
+              console.log(res.data)
+            })
+      },
       getSubjects () {
         get('/api/subjects', {
-          faculty: 1,
-          course: 1
+          faculty: this.schedule.faculty_id,
+          course: this.schedule.course
         })
             .then(res => {
               this.subjects = res.data
               console.log(res.data)
             })
       },
-      getSchedule () {
-        get('/api/schedule', {
-          id: this.id
+      getTeachers () {
+        get('/api/teachers', {
+          id: this.scheduleId
         })
             .then(res => {
-              this.schedule = res.data
               console.log(res.data)
+
             })
       }
     }
