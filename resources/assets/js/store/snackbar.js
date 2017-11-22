@@ -7,13 +7,15 @@ Vue.use(Vuex)
 
 const state = {
   model: false,
-  color: 'info'
+  color: 'info',
+  text: ''
 }
 
 const mutations = {
   SHOW (state, obj) {
-    state.model = obj.model
+    state.model = true
     state.color = obj.color
+    state.text = obj.text
   }
 }
 

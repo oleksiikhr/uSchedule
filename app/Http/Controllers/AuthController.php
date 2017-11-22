@@ -33,4 +33,20 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Email або пароль не існує.'], 401);
     }
+
+    /**
+     * Refresh token to user.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refreshToken()
+    {
+        $token = JWTAuth::getToken();
+
+        if (! $token) {
+            return response()->json(['message' => 'Токен не дійсний'], 401);
+        }
+
+        return response()->json(['token' => JWTAuth::refresh($token)]);
+    }
 }

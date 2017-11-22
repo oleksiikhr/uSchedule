@@ -12,6 +12,10 @@ import Login from '../views/auth/Login.vue'
 import NotFound from '../views/NotFound.vue'
 import ScheduleEdit from '../views/schedule/Edit.vue'
 
+// Other components
+import store from '../store/store'
+import { get } from '../helpers/api'
+
 // Vue use
 Vue.use(VueRouter)
 
@@ -39,7 +43,8 @@ axios.interceptors.response.use(null, err => {
 
     if (! token) {
       router.push({ name: 'login' })
-    } else {
+    }
+    else {
       return get('/api/refresh-token')
           .then(res => {
             if (res.data.token) {
@@ -48,13 +53,20 @@ axios.interceptors.response.use(null, err => {
               return axios(originalRequest)
             }
           })
-          .catch(err => {
+          .catch(error => {
             if (error.response.status === 401) {
               window.localStorage.removeItem('token')
               router.push({ name: 'login' })
             }
+            else {
+              window.location.reload()
+            }
           })
     }
+  }
+
+  if (err.response.status !== 404 && err.response.data.message) {
+    store.dispatch('snackbarShow', { color: 'error', text: err.response.data.message })
   }
 
   return Promise.reject(err)

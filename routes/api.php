@@ -2,6 +2,7 @@
 
 // Auth
 Route::post('/login', 'AuthController@login')->middleware('guest');
+Route::get('/refresh-token', 'AuthController@refreshToken')->middleware('guest');
 
 // Public
 Route::get('subjects', 'Api\SubjectController@list');

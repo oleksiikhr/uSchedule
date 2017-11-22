@@ -64,6 +64,16 @@
         </keep-alive>
       </v-content>
     </main>
+
+    <v-snackbar
+            :color="$store.state.snackbar.color"
+            v-model="$store.state.snackbar.model"
+            :timeout="5000"
+            top
+    >
+      {{ $store.state.snackbar.text }}
+      <v-btn dark flat @click.native="$store.state.snackbar.model = false">Закрити</v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
