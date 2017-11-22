@@ -78,7 +78,7 @@
 </template>
 
 <script>
-  import { get } from './helpers/api'
+  import { get, post } from './helpers/api'
 
   export default {
     data () {
@@ -117,9 +117,12 @@
             })
       },
       logout () {
-        localStorage.removeItem('token')
-        this.$store.dispatch('authClearUser')
-        this.$router.push({ name: 'login' }) // TODO: **
+        post('/api/logout')
+            .then(res => {
+              localStorage.removeItem('token')
+              this.$store.dispatch('authClearUser')
+              this.$router.push({ name: 'login' }) // TODO: **
+            })
       }
     }
   }

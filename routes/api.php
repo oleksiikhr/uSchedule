@@ -13,7 +13,9 @@ Route::get('/teachers', 'TeacherController@list');
 // Private
 Route::group(['middleware' => 'jwt.auth'], function () {
 
-    // TODO: User is auth
+    // Note: User is auth
+
+    Route::post('/logout', 'AuthController@logout');
 
     // Profile
     Route::group(['prefix' => 'profile'], function () {

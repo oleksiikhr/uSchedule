@@ -60,7 +60,7 @@ axios.interceptors.response.use(null, err => {
             }
           })
           .catch(error => {
-            if (error.response.status === 401) {
+            if (error.response.status === 401 || error.response.status === 500) {
               window.localStorage.removeItem('token')
               router.push({ name: 'login' })
             }

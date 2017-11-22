@@ -57486,9 +57486,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     logout: function logout() {
-      localStorage.removeItem('token');
-      this.$store.dispatch('authClearUser');
-      this.$router.push({ name: 'login' }); // TODO: **
+      var _this2 = this;
+
+      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["b" /* post */])('/api/logout').then(function (res) {
+        localStorage.removeItem('token');
+        _this2.$store.dispatch('authClearUser');
+        _this2.$router.push({ name: 'login' }); // TODO: **
+      });
     }
   }
 });
@@ -57873,7 +57877,7 @@ __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(null, fu
           return __WEBPACK_IMPORTED_MODULE_2_axios___default()(originalRequest);
         }
       }).catch(function (error) {
-        if (error.response.status === 401) {
+        if (error.response.status === 401 || error.response.status === 500) {
           window.localStorage.removeItem('token');
           router.push({ name: 'login' });
         } else {

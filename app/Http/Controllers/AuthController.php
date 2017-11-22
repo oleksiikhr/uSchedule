@@ -49,4 +49,14 @@ class AuthController extends Controller
 
         return response()->json(['token' => JWTAuth::refresh($token)]);
     }
+
+    /**
+     * Logout user.
+     *
+     * @return void
+     */
+    public function logout()
+    {
+        JWTAuth::invalidate(JWTAuth::getToken());
+    }
 }
