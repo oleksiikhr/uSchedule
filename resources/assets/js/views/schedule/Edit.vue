@@ -85,6 +85,7 @@
 
         // Other
         days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
+        scheduleDays: [],
 
         message: '',
         response: null
@@ -165,6 +166,14 @@
               console.log(res.data)
 
             })
+      },
+      getDays () {
+          get('/api/schedules/days', {
+              id: this.scheduleId
+          })
+              .then(res => {
+                  this.scheduleDays = res.data
+              })
       },
 
 

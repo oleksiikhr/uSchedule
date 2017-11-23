@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Schedule;
+use App\ScheduleDay;
 use Illuminate\Http\Request;
 use App\Http\Requests\ScheduleRequest;
 
@@ -25,16 +26,15 @@ class ScheduleController extends Controller
     /**
      * Get one schedule
      *
-     * @param integer $id Schedule
      * @param ScheduleRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function one($id, ScheduleRequest $request)
+    public function one(ScheduleRequest $request)
     {
         // TODO: Temporary
 
-        return response()->json(Schedule::findOrFail($id));
+        return response()->json(Schedule::findOrFail($request->id));
     }
 
     /**
@@ -65,6 +65,17 @@ class ScheduleController extends Controller
     public function delete(Request $request)
     {
         // TODO: Implement delete() method.
+    }
+
+    public function days(Request $request) {
+        $scheduleDays = ScheduleDay::with('schedule', 'subject', 'teachers.teacher')
+            ->where('schedule_id', $request->id)
+            ->orderBy('week')
+            ->orderBy('day')
+            ->orderBy('order')
+            ->get();
+
+        return $scheduleDays;
     }
 
 }

@@ -61399,6 +61399,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       // Other
       days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
+      scheduleDays: [],
 
       message: '',
       response: null
@@ -61481,6 +61482,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         id: this.scheduleId
       }).then(function (res) {
         console.log(res.data);
+      });
+    },
+    getDays: function getDays() {
+      var _this4 = this;
+
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/schedules/days', {
+        id: this.scheduleId
+      }).then(function (res) {
+        _this4.scheduleDays = res.data;
       });
     },
 

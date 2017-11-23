@@ -2284,12 +2284,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tymondesigns/jwt-auth.git",
-                "reference": "8ed99d3ddffa02668e3356a936bd1851469cfced"
+                "reference": "3ea078d08611c7ee5c8d0fac4249a7f365fba937"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tymondesigns/jwt-auth/zipball/8ed99d3ddffa02668e3356a936bd1851469cfced",
-                "reference": "8ed99d3ddffa02668e3356a936bd1851469cfced",
+                "url": "https://api.github.com/repos/tymondesigns/jwt-auth/zipball/3ea078d08611c7ee5c8d0fac4249a7f365fba937",
+                "reference": "3ea078d08611c7ee5c8d0fac4249a7f365fba937",
                 "shasum": ""
             },
             "require": {
@@ -2306,7 +2306,7 @@
                 "illuminate/console": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
                 "illuminate/database": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
                 "illuminate/routing": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
-                "mockery/mockery": "0.9.*",
+                "mockery/mockery": ">=0.9.9",
                 "phpunit/phpunit": "~4.8 || ~6.0"
             },
             "type": "library",
@@ -2350,7 +2350,7 @@
                 "jwt",
                 "laravel"
             ],
-            "time": "2017-11-06T18:07:09+00:00"
+            "time": "2017-11-17T23:50:47+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

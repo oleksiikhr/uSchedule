@@ -7,6 +7,7 @@ Route::get('/refresh-token', 'AuthController@refreshToken')->middleware('guest')
 // Public
 // TODO: temporary&
 Route::get('/schedules/{id}', 'ScheduleController@one')->where('id', '[0-9]+');
+Route::get('/schedules/days/{id}', 'ScheduleController@days')->where('id', '[0-9]+');
 Route::get('/subjects', 'SubjectController@list');
 Route::get('/teachers', 'TeacherController@list');
 
