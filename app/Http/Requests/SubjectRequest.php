@@ -24,8 +24,8 @@ class SubjectRequest extends FormRequest
     public function rules()
     {
         return [
-            'faculty' => 'required|integer|exists:faculties,id',
-            'course'  => 'required|integer',
+            'faculty_id' => 'integer|exists:faculties,id',
+            'course'  => 'integer',
         ];
     }
 }

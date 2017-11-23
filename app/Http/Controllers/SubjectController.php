@@ -20,7 +20,7 @@ class SubjectController extends Controller
     {
         $subjects = Subject::with('teacher')
             ->where([
-                'faculty_id' => $request->faculty,
+                'faculty_id' => $request->faculty_id,
                 'course' => $request->course
             ])
             ->get();

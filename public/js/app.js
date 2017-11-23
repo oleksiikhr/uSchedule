@@ -61364,7 +61364,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -61375,9 +61374,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   data: function data() {
     return {
-      scheduleId: null,
+      schedule: {},
       subjects: [],
-      schedule: [],
+      teachers: [],
+      scheduleDays: [],
 
       // Search
       searchSubject: '',
@@ -61399,7 +61399,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       // Other
       days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
-      scheduleDays: [],
 
       message: '',
       response: null
@@ -61408,7 +61407,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   activated: function activated() {
     this.$store.dispatch('templateSetTitle', 'Редагування');
     this.$store.dispatch('templateSetBodyClass', 'height100');
-    this.scheduleId = parseInt(this.$route.params.id);
+    this.schedule.id = parseInt(this.$route.params.id);
     this.getSchedule();
   },
   deactivated: function deactivated() {
@@ -61456,46 +61455,64 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   methods: {
+    /*
+     * Fetch API
+     */
     getSchedule: function getSchedule() {
       var _this2 = this;
 
-      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/schedules/' + this.scheduleId).then(function (res) {
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/schedules', {
+        schedule_id: this.schedule.id
+      }).then(function (res) {
         _this2.schedule = res.data;
-        _this2.getSubjects();
-        _this2.getTeachers();
-        console.log(res.data);
+        console.log('Schedule', res.data);
+        _this2.fetchGetSubjects();
+        _this2.fetchGetTeachers();
+        _this2.fetchGetScheduleDays();
       });
     },
-    getSubjects: function getSubjects() {
+
+    // For the list on the left
+    fetchGetSubjects: function fetchGetSubjects() {
       var _this3 = this;
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/subjects', {
-        faculty: this.schedule.faculty_id,
+        faculty_id: this.schedule.id,
         course: this.schedule.course
       }).then(function (res) {
         _this3.subjects = res.data;
-        console.log(res.data);
+        console.log('Subjects', res.data);
       });
     },
-    getTeachers: function getTeachers() {
-      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/teachers', {
-        id: this.scheduleId
-      }).then(function (res) {
-        console.log(res.data);
-      });
-    },
-    getDays: function getDays() {
+
+    // For the list on the left
+    fetchGetTeachers: function fetchGetTeachers() {
       var _this4 = this;
 
-      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/schedules/days', {
-        id: this.scheduleId
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/teachers', {
+        schedule_id: this.schedule.id
       }).then(function (res) {
-        _this4.scheduleDays = res.data;
+        _this4.teachers = res.data;
+        console.log('Teachers', res.data);
+      });
+    },
+
+    // Main part of the schedule
+    fetchGetScheduleDays: function fetchGetScheduleDays() {
+      var _this5 = this;
+
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/schedules/days', {
+        schedule_id: this.schedule.id
+      }).then(function (res) {
+        _this5.scheduleDays = res.data;
+        console.log('Days', _this5.scheduleDays);
       });
     },
 
 
-    // Subject
+    /*
+     * Draggable Subject
+     */
     cloneSubject: function cloneSubject(el) {
       this.isMoving = true;
       this.isDelete = true;
@@ -61528,7 +61545,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.deleteSubject = null;
       }
     },
-    endSubject: function endSubject(el) {
+    endMoveSubject: function endMoveSubject(el) {
       this.isMoving = false;
 
       if (this.deleteSubject) {
@@ -63583,7 +63600,7 @@ var render = function() {
                                     sort: false
                                   }
                                 },
-                                on: { end: _vm.endSubject }
+                                on: { end: _vm.endMoveSubject }
                               },
                               _vm._l(_vm.filterSubjects, function(subject) {
                                 return _c(
@@ -63632,92 +63649,7 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("div", { staticClass: "right-column" }, [
-          _c("table", [
-            _c("thead", [
-              _c("tr", [
-                _vm._v("\n          1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("\n          1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br"),
-                _vm._v("1"),
-                _c("br")
-              ])
-            ])
-          ])
+          _c("table", [_c("thead", [_c("tr")])])
         ])
       ])
     ],

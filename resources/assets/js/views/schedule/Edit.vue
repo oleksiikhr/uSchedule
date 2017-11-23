@@ -20,7 +20,7 @@
             <v-tabs-content id="tab-schedules">
               <v-card flat>
                 <v-text-field label="Предмет" v-model="searchSubject" single-line prepend-icon="search" />
-                <draggable :list="filterSubjects" element="v-list" :clone="cloneSubject" :move="moveSubject" @end="endSubject"
+                <draggable :list="filterSubjects" element="v-list" :clone="cloneSubject" :move="moveSubject" @end="endMoveSubject"
                            :options="{ group:{ name: 'subjects', pull: 'clone', put: false }, sort: false }">
                   <v-list-tile :title="subject.title" v-for="subject in filterSubjects" :key="subject.id">
                     <v-list-tile-content>{{ subject.title }}</v-list-tile-content>
@@ -40,8 +40,7 @@
         <table>
           <thead>
           <tr>
-            1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>
-            1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>
+
           </tr>
           </thead>
         </table>
@@ -60,10 +59,10 @@
     },
     data() {
       return {
-        scheduleId: null,
+        schedule: {},
         subjects: [],
-        schedule: [],
-
+        teachers: [],
+        scheduleDays: [],
 
         // Search
         searchSubject: '',
@@ -85,7 +84,6 @@
 
         // Other
         days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
-        scheduleDays: [],
 
         message: '',
         response: null
@@ -94,7 +92,7 @@
     activated () {
       this.$store.dispatch('templateSetTitle', 'Редагування')
       this.$store.dispatch('templateSetBodyClass', 'height100')
-      this.scheduleId = parseInt(this.$route.params.id)
+      this.schedule.id = parseInt(this.$route.params.id)
       this.getSchedule()
     },
     deactivated () {
@@ -139,45 +137,56 @@
       }
     },
     methods: {
+      /*
+       * Fetch API
+       */
       getSchedule () {
-        get('/api/schedules/' + this.scheduleId)
+        get('/api/schedules', {
+          schedule_id: this.schedule.id
+        })
             .then(res => {
               this.schedule = res.data
-              this.getSubjects()
-              this.getTeachers()
-              console.log(res.data)
+              console.log('Schedule', res.data)
+              this.fetchGetSubjects()
+              this.fetchGetTeachers()
+              this.fetchGetScheduleDays()
             })
       },
-      getSubjects () {
+      // For the list on the left
+      fetchGetSubjects () {
         get('/api/subjects', {
-          faculty: this.schedule.faculty_id,
+          faculty_id: this.schedule.id,
           course: this.schedule.course
         })
             .then(res => {
               this.subjects = res.data
-              console.log(res.data)
+              console.log('Subjects', res.data)
             })
       },
-      getTeachers () {
+      // For the list on the left
+      fetchGetTeachers () {
         get('/api/teachers', {
-          id: this.scheduleId
+          schedule_id: this.schedule.id
         })
             .then(res => {
-              console.log(res.data)
-
+              this.teachers = res.data
+              console.log('Teachers', res.data)
             })
       },
-      getDays () {
-          get('/api/schedules/days', {
-              id: this.scheduleId
-          })
-              .then(res => {
-                  this.scheduleDays = res.data
-              })
+      // Main part of the schedule
+      fetchGetScheduleDays () {
+        get('/api/schedules/days', {
+          schedule_id: this.schedule.id
+        })
+            .then(res => {
+              this.scheduleDays = res.data
+              console.log('Days', this.scheduleDays)
+            })
       },
 
-
-      // Subject
+      /*
+       * Draggable Subject
+       */
       cloneSubject (el) {
         this.isMoving = true
         this.isDelete = true
@@ -213,7 +222,7 @@
           this.deleteSubject = null
         }
       },
-      endSubject (el) {
+      endMoveSubject (el) {
         this.isMoving = false
 
         if (this.deleteSubject) {

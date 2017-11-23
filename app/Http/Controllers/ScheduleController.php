@@ -34,7 +34,7 @@ class ScheduleController extends Controller
     {
         // TODO: Temporary
 
-        return response()->json(Schedule::findOrFail($request->id));
+        return response()->json(Schedule::findOrFail($request->schedule_id));
     }
 
     /**
@@ -67,15 +67,24 @@ class ScheduleController extends Controller
         // TODO: Implement delete() method.
     }
 
-    public function days(Request $request) {
+    /**
+     * Get days
+     *
+     * @param ScheduleRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function days(ScheduleRequest $request) {
+        // TODO: check $request->id* in ScheduleRequest
+
         $scheduleDays = ScheduleDay::with('schedule', 'subject', 'teachers.teacher')
-            ->where('schedule_id', $request->id)
+            ->where('schedule_id', $request->schedule_id)
             ->orderBy('week')
             ->orderBy('day')
             ->orderBy('order')
             ->get();
 
-        return $scheduleDays;
+        return response()->json($scheduleDays);
     }
 
 }
