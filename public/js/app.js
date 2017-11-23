@@ -61364,6 +61364,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -61379,29 +61382,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       teachers: [],
       scheduleDays: [],
 
+      loadingSchedule: false,
+      loadingSubjects: false,
+      loadingTeachers: false,
+      loadingScheduleDays: false,
+
       // Search
       searchSubject: '',
       searchTeacher: '',
 
       // Draggable
-      fromTeacher: null,
-      toElement: null,
       isMoving: false,
-      isDelete: true,
-      deleteSubject: null,
-      deleteTeacher: null,
-
-      // Dialog
-      openedWeekIndex: null,
-      openedDayIndex: null,
-      openedIndex: null,
-      dialogRoom: null,
-
-      // Other
-      days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
-
-      message: '',
-      response: null
+      isDelete: false
     };
   },
   activated: function activated() {
@@ -61518,8 +61510,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.isDelete = true;
 
       return {
-        room: '',
         schedule_id: this.schedule.id,
+        room: '',
         type: 0,
         is_empty: 0,
         teachers: [],
@@ -61532,17 +61524,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       };
     },
     moveSubject: function moveSubject(evt, originalEvent) {
-      this.isDelete = !evt.relatedContext.list;
+      var drag = evt.to.attributes.drag;
 
-      // TODO: Protect draggable after "+", but can't return back
-      if (evt.to == evt.from && evt.relatedContext.list.length == 1) {
-        return false;
-      }
-
-      if (evt.to != evt.from) {
-        this.deleteSubject = evt.relatedContext.list && evt.relatedContext.list.length > this.time.length - 1 ? evt.to.attributes : null;
-      } else {
-        this.deleteSubject = null;
+      if (typeof drag !== 'undefined' && drag.value === 'delete') {
+        this.isDelete = true;
       }
     },
     endMoveSubject: function endMoveSubject(el) {
@@ -63516,7 +63501,8 @@ var render = function() {
                   {
                     staticClass: "delete-choose",
                     attrs: {
-                      options: { group: { name: ["subjects", "teachers"] } }
+                      options: { group: { name: ["subjects", "teachers"] } },
+                      drag: "delete"
                     }
                   },
                   [
@@ -63649,7 +63635,26 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("div", { staticClass: "right-column" }, [
-          _c("table", [_c("thead", [_c("tr")])])
+          _c("table", [
+            _c("thead", [
+              _c(
+                "tr",
+                [
+                  _c("draggable", {
+                    attrs: {
+                      list: _vm.filterSubjects,
+                      element: "table",
+                      options: {
+                        group: { name: "subjects", pull: "clone", put: false },
+                        sort: false
+                      }
+                    }
+                  })
+                ],
+                1
+              )
+            ])
+          ])
         ])
       ])
     ],

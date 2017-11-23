@@ -2,7 +2,7 @@
   <v-container fluid class="schedule edit">
     <v-layout row wrap>
       <div class="left-column">
-        <draggable :options="{ group:{ name: ['subjects', 'teachers'] }}" class="delete-choose" v-if="isMoving">
+        <draggable :options="{ group:{ name: ['subjects', 'teachers'] }}" class="delete-choose" drag="delete" v-if="isMoving">
           <v-icon>
             {{ isDelete ? 'delete_forever' : 'delete' }}
           </v-icon>
@@ -40,7 +40,10 @@
         <table>
           <thead>
           <tr>
+            <draggable :list="filterSubjects" element="table"
+                       :options="{ group:{ name: 'subjects', pull: 'clone', put: false }, sort: false }">
 
+            </draggable>
           </tr>
           </thead>
         </table>
@@ -64,29 +67,18 @@
         teachers: [],
         scheduleDays: [],
 
+        loadingSchedule: false,
+        loadingSubjects: false,
+        loadingTeachers: false,
+        loadingScheduleDays: false,
+
         // Search
         searchSubject: '',
         searchTeacher: '',
 
         // Draggable
-        fromTeacher: null,
-        toElement: null,
         isMoving: false,
-        isDelete: true,
-        deleteSubject: null,
-        deleteTeacher: null,
-
-        // Dialog
-        openedWeekIndex: null,
-        openedDayIndex: null,
-        openedIndex: null,
-        dialogRoom: null,
-
-        // Other
-        days: [[[], [], [], [], [], []], [[], [], [], [], [], []]],
-
-        message: '',
-        response: null
+        isDelete: false
       }
     },
     activated () {
@@ -192,8 +184,8 @@
         this.isDelete = true
 
         return {
-          room: '',
           schedule_id: this.schedule.id,
+          room: '',
           type: 0,
           is_empty: 0,
           teachers: [],
@@ -206,20 +198,10 @@
         }
       },
       moveSubject (evt, originalEvent) {
-        this.isDelete = !evt.relatedContext.list
+        let drag = evt.to.attributes.drag
 
-        // TODO: Protect draggable after "+", but can't return back
-        if (evt.to == evt.from && evt.relatedContext.list.length == 1) {
-          return false
-        }
-
-        if (evt.to != evt.from) {
-          this.deleteSubject = evt.relatedContext.list && evt.relatedContext.list.length > this.time.length - 1
-              ? evt.to.attributes
-              : null
-        }
-        else {
-          this.deleteSubject = null
+        if (typeof drag !== 'undefined' && drag.value === 'delete') {
+          this.isDelete = true
         }
       },
       endMoveSubject (el) {
