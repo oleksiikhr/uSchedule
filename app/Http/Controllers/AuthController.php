@@ -13,6 +13,8 @@ class AuthController extends Controller
      *
      * @param Request $request
      *
+     * @see ProfileController::getFullInfoUser()
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
@@ -25,10 +27,10 @@ class AuthController extends Controller
         $token = JWTAuth::attempt($request->only('email', 'password'));
 
         if ($token) {
-            return response()->json([
-                'token' => $token,
-                'user' => Auth::user(),
-            ]);
+            $info = ProfileController::getFullInfoUser();
+            $info['token'] = $token;
+
+            return response()->json($info);
         }
 
         return response()->json(['message' => 'Email або пароль не існує.'], 401);

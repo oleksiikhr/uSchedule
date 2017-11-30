@@ -1,5 +1,5 @@
 <template>
-  <v-container id="register" fluid>
+  <v-container id="register" class="auth" fluid>
     <v-layout column justify-center align-center>
       <v-flex>
         <v-text-field label="Email" v-model="form.email" ref="email" required />
@@ -8,7 +8,7 @@
         <v-btn outline block color="primary" :loading="loading" @click="fetchRegister()">
           Зареєструватись
         </v-btn>
-        <div class="log">
+        <div class="act">
           <span @click="actionGoLoginForm()">
             <v-icon>keyboard_arrow_left</v-icon>
             Авторизація

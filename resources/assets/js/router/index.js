@@ -10,6 +10,7 @@ import Home from '../views/Home.vue'
 
 import Login from '../views/auth/Login.vue'
 import Register from '../views/auth/Register.vue'
+import Email from '../views/auth/Email.vue'
 
 import Profile from '../views/users/Profile.vue'
 import NotFound from '../views/NotFound.vue'
@@ -31,6 +32,7 @@ const router = new VueRouter({
 
     { path: '/login', name: 'login', component: Login, meta: { isLogin: false } },
     { path: '/register', name: 'register', component: Register, meta: { isLogin: false } },
+    { path: '/email', name: 'email', component: Email, meta: { isLogin: false } },
 
     { path: '/profile', name: 'profile', component: Profile, meta: { isLogin: true } },
     { path: '/schedule/:id/edit', name: 'schedule-edit', component: ScheduleEdit, meta: { isLogin: true } },

@@ -1,5 +1,5 @@
 <template>
-  <v-container id="login" fluid>
+  <v-container id="login" class="auth" fluid>
     <v-layout column justify-center align-center>
       <v-flex>
         <v-text-field label="Email" v-model="form.email" ref="email" required />
@@ -7,7 +7,10 @@
         <v-btn outline block color="primary" :loading="loading" @click="fetchAuth()">
           Увійти
         </v-btn>
-        <div class="reg">
+        <div class="act">
+          <span @click="actionGoEmailForm()">
+            Забули пароль?
+          </span>
           <span @click="actionGoRegisterForm()">
             Реєстрація
             <v-icon>keyboard_arrow_right</v-icon>
@@ -53,6 +56,9 @@
       },
       actionGoRegisterForm () {
         this.$router.push({ name: 'register' })
+      },
+      actionGoEmailForm () {
+        this.$router.push({ name: 'email' })
       }
     }
   }

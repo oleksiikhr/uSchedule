@@ -7,6 +7,7 @@ Route::group(['middleware' => 'guest'], function () {
 
     Route::post('/register', 'AuthController@register');
     Route::post('/login', 'AuthController@login');
+    Route::post('/restore-password', 'AuthController@restorePassword'); // TODO: write this method
     Route::get('/refresh-token', 'AuthController@refreshToken');
 
 });

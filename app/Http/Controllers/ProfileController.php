@@ -8,14 +8,27 @@ use Illuminate\Support\Facades\Auth;
 class ProfileController extends Controller
 {
     /**
-     * Get all info current User
+     * Get full information about the user.
+     *
+     * NOTE: Primary data after visiting the site.
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return response()->json([
+        return response()->json(self::getFullInfoUser());
+    }
+
+    /**
+     * Get full information about the user.
+     *
+     * @return array
+     */
+    public static function getFullInfoUser()
+    {
+        return [
             'user' => Auth::user(),
-        ]);
+            'roles' => [],
+        ];
     }
 }

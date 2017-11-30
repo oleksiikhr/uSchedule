@@ -1,4 +1,4 @@
-#login, #register {
+.auth {
   .flex {
     width: 100%;
     max-width: 500px;
@@ -6,10 +6,9 @@
     background: #fff;
     padding: 40px;
   }
-  .reg {
-    text-align: right;
-  }
-  .log, .reg {
+  .act {
+    display: flex;
+    justify-content: space-between;
     > span {
       display: inline-block;
       padding: 2px 10px;
