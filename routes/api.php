@@ -1,20 +1,20 @@
 <?php
 
-// Auth
-Route::post('/login', 'AuthController@login')->middleware('guest');
-Route::get('/refresh-token', 'AuthController@refreshToken')->middleware('guest');
+/*
+ * User is not logged in.
+ */
+Route::group(['middleware' => 'guest'], function () {
 
-// Public
-// TODO: temporary&
-Route::get('/schedules', 'ScheduleController@one');
-Route::get('/schedules/days', 'ScheduleController@days');
-Route::get('/subjects', 'SubjectController@list');
-Route::get('/teachers', 'TeacherController@list');
+    Route::post('/register', 'AuthController@register');
+    Route::post('/login', 'AuthController@login');
+    Route::get('/refresh-token', 'AuthController@refreshToken');
 
-// Private
+});
+
+/*
+ * User authorized.
+ */
 Route::group(['middleware' => 'jwt.auth'], function () {
-
-    // Note: User is auth
 
     Route::post('/logout', 'AuthController@logout');
 
@@ -24,3 +24,11 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     });
 
 });
+
+/*
+ * Public.
+ */
+Route::get('/schedules', 'ScheduleController@one');
+Route::get('/schedules/days', 'ScheduleController@days');
+Route::get('/subjects', 'SubjectController@list');
+Route::get('/teachers', 'TeacherController@list');

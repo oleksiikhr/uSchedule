@@ -16016,7 +16016,8 @@ table.table tfoot tr {
   border: 1px solid #e0e0e0;
 }
 
-#login .flex {
+#login .flex,
+#register .flex {
   width: 100%;
   max-width: 500px;
   border: 1px solid #e0e0e0;
@@ -16024,11 +16025,15 @@ table.table tfoot tr {
   padding: 40px;
 }
 
-#login .reg {
+#login .reg,
+#register .reg {
   text-align: right;
 }
 
-#login .reg > span {
+#login .log > span,
+#login .reg > span,
+#register .log > span,
+#register .reg > span {
   display: inline-block;
   padding: 2px 10px;
   margin-top: 10px;
@@ -16038,7 +16043,10 @@ table.table tfoot tr {
   transition: .3s;
 }
 
-#login .reg > span:hover {
+#login .log > span:hover,
+#login .reg > span:hover,
+#register .log > span:hover,
+#register .reg > span:hover {
   color: rgba(0, 0, 0, 0.7);
 }
 

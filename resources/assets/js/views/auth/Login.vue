@@ -2,13 +2,13 @@
   <v-container id="login" fluid>
     <v-layout column justify-center align-center>
       <v-flex>
-        <v-text-field label="Email" v-model="form.email" autofocus />
-        <v-text-field label="Пароль" v-model="form.password" type="password" />
-        <v-btn outline block color="primary" :loading="loadingAuth" @click="fetchAuth()">
+        <v-text-field label="Email" v-model="form.email" ref="email" required />
+        <v-text-field label="Пароль" v-model="form.password" type="password" required />
+        <v-btn outline block color="primary" :loading="loading" @click="fetchAuth()">
           Увійти
         </v-btn>
         <div class="reg">
-          <span @click="goRegister()">
+          <span @click="actionGoRegisterForm()">
             Реєстрація
             <v-icon>keyboard_arrow_right</v-icon>
           </span>
@@ -24,7 +24,7 @@
   export default {
     data () {
       return {
-        loadingAuth: false,
+        loading: false,
 //        TODO: Delete default value
         form: {
           email: 'admin@example.com',
@@ -34,23 +34,24 @@
     },
     activated () {
       this.$store.dispatch('templateSetTitle', 'Авторизація')
+      this.$refs.email.focus()
     },
     methods: {
       fetchAuth () {
-        this.loadingAuth = true
+        this.loading = true
 
         post('/api/login', this.form)
             .then(res => {
               this.$store.dispatch('authSetUser', res.data.user)
               localStorage.setItem('token', res.data.token)
-              this.loadingAuth = false
+              this.loading = false
               this.$router.push({ name: 'profile' })
             })
             .catch(err => {
-              this.loadingAuth = false
+              this.loading = false
             })
       },
-      goRegister () {
+      actionGoRegisterForm () {
         this.$router.push({ name: 'register' })
       }
     }

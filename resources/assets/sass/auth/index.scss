@@ -1,4 +1,4 @@
-#login {
+#login, #register {
   .flex {
     width: 100%;
     max-width: 500px;
@@ -8,6 +8,8 @@
   }
   .reg {
     text-align: right;
+  }
+  .log, .reg {
     > span {
       display: inline-block;
       padding: 2px 10px;

@@ -60885,7 +60885,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      loadingAuth: false,
+      loading: false,
       //        TODO: Delete default value
       form: {
         email: 'admin@example.com',
@@ -60895,24 +60895,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   activated: function activated() {
     this.$store.dispatch('templateSetTitle', 'Авторизація');
+    this.$refs.email.focus();
   },
 
   methods: {
     fetchAuth: function fetchAuth() {
       var _this = this;
 
-      this.loadingAuth = true;
+      this.loading = true;
 
       Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["b" /* post */])('/api/login', this.form).then(function (res) {
         _this.$store.dispatch('authSetUser', res.data.user);
         localStorage.setItem('token', res.data.token);
-        _this.loadingAuth = false;
+        _this.loading = false;
         _this.$router.push({ name: 'profile' });
       }).catch(function (err) {
-        _this.loadingAuth = false;
+        _this.loading = false;
       });
     },
-    goRegister: function goRegister() {
+    actionGoRegisterForm: function actionGoRegisterForm() {
       this.$router.push({ name: 'register' });
     }
   }
@@ -60938,7 +60939,8 @@ var render = function() {
             "v-flex",
             [
               _c("v-text-field", {
-                attrs: { label: "Email", autofocus: "" },
+                ref: "email",
+                attrs: { label: "Email", required: "" },
                 model: {
                   value: _vm.form.email,
                   callback: function($$v) {
@@ -60949,7 +60951,7 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("v-text-field", {
-                attrs: { label: "Пароль", type: "password" },
+                attrs: { label: "Пароль", type: "password", required: "" },
                 model: {
                   value: _vm.form.password,
                   callback: function($$v) {
@@ -60966,7 +60968,7 @@ var render = function() {
                     outline: "",
                     block: "",
                     color: "primary",
-                    loading: _vm.loadingAuth
+                    loading: _vm.loading
                   },
                   on: {
                     click: function($event) {
@@ -60983,7 +60985,7 @@ var render = function() {
                   {
                     on: {
                       click: function($event) {
-                        _vm.goRegister()
+                        _vm.actionGoRegisterForm()
                       }
                     }
                   },
@@ -61066,17 +61068,65 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(3);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      loading: false,
+      form: {
+        email: '',
+        password: '',
+        password_repeat: ''
+      }
+    };
   },
   activated: function activated() {
     this.$store.dispatch('templateSetTitle', 'Реєстрація');
+    this.$refs.email.focus();
+  },
+
+  methods: {
+    fetchRegister: function fetchRegister() {
+      var _this = this;
+
+      this.loading = true;
+
+      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["b" /* post */])('/api/register', this.form).then(function (res) {
+        _this.$store.dispatch('authSetUser', res.data.user);
+        localStorage.setItem('token', res.data.token);
+        _this.loading = false;
+        _this.$router.push({ name: 'profile' });
+      }).catch(function (err) {
+        _this.loading = false;
+      });
+    },
+    actionGoLoginForm: function actionGoLoginForm() {
+      this.$router.push({ name: 'login' });
+    }
   }
 });
 
@@ -61088,7 +61138,99 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("span", [_vm._v("Register")])
+  return _c(
+    "v-container",
+    { attrs: { id: "register", fluid: "" } },
+    [
+      _c(
+        "v-layout",
+        { attrs: { column: "", "justify-center": "", "align-center": "" } },
+        [
+          _c(
+            "v-flex",
+            [
+              _c("v-text-field", {
+                ref: "email",
+                attrs: { label: "Email", required: "" },
+                model: {
+                  value: _vm.form.email,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "email", $$v)
+                  },
+                  expression: "form.email"
+                }
+              }),
+              _vm._v(" "),
+              _c("v-text-field", {
+                attrs: { label: "Пароль", type: "password", required: "" },
+                model: {
+                  value: _vm.form.password,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "password", $$v)
+                  },
+                  expression: "form.password"
+                }
+              }),
+              _vm._v(" "),
+              _c("v-text-field", {
+                attrs: {
+                  label: "Повторити пароль",
+                  type: "password",
+                  required: ""
+                },
+                model: {
+                  value: _vm.form.password_repeat,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "password_repeat", $$v)
+                  },
+                  expression: "form.password_repeat"
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: {
+                    outline: "",
+                    block: "",
+                    color: "primary",
+                    loading: _vm.loading
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.fetchRegister()
+                    }
+                  }
+                },
+                [_vm._v("\n        Зареєструватись\n      ")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "log" }, [
+                _c(
+                  "span",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.actionGoLoginForm()
+                      }
+                    }
+                  },
+                  [
+                    _c("v-icon", [_vm._v("keyboard_arrow_left")]),
+                    _vm._v("\n          Авторизація\n        ")
+                  ],
+                  1
+                )
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
