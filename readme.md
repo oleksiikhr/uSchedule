@@ -13,12 +13,11 @@ Installation:
 6. Console: "php artisan jwt:secret"
 ```
 
-Notes for developers:
+Информация для разработчиков (рус.):
 ------
-- All errors in the php code should return array:
+- Все ошибки в php коде должны возвращать массив с
+элементом `message`, для вызова Snackbar:
 
 ```php
-['message' => 'error text']
+['message' => 'Error text']
 ```
-
-*To call Snackbar

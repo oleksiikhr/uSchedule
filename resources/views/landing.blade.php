@@ -4,14 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Розклад учбових закладів</title>
+    <title>uSchedule - We make the world better</title>
 
     <link href="{{ asset('css/app.css') }}" type="text/css" rel="stylesheet">
 </head>
 <body>
 
-<div id="app"></div>
+Landing Page
 
-<script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
 </body>
 </html>

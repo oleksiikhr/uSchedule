@@ -10,4 +10,13 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    /**
+     * Landing Page.
+     */
+    public function index()
+    {
+        // TODO: Get basic info from DB
+        return view('landing');
+    }
 }
