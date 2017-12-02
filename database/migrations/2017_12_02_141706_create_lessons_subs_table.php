@@ -14,19 +14,19 @@ class CreateLessonsSubsTable extends Migration
     public function up()
     {
         Schema::create('lessons_subs', function (Blueprint $table) {
-            $table->integer('lesson_id')->unsigned();
-            $table->integer('teacher_id')->unsigned()->nullable();
-            $table->integer('type_id')->unsigned()->nullable();
+            $table->unsignedInteger('lesson_id');
+            $table->unsignedInteger('teacher_id')->nullable();
+            $table->unsignedInteger('type_id')->nullable();
             $table->string('cabinet', 10);
 
-            $table->index('lesson_id');
-            $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade');
+            $table->foreign('lesson_id')->references('id')->on('lessons')
+                ->onDelete('cascade');
+            $table->foreign('teacher_id')->references('id')->on('teachers')
+                ->onDelete('set null');
+            $table->foreign('type_id')->references('id')->on('lessons_types')
+                ->onDelete('set null');
 
-            $table->index('teacher_id');
-            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('set null');
-
-            $table->index('type_id');
-            $table->foreign('type_id')->references('id')->on('lessons_types')->onDelete('set null');
+            $table->index(['lesson_id', 'teacher_id', 'type_id']);
         });
     }
 

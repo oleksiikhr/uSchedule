@@ -15,13 +15,15 @@ class CreateObjectsLessonsTimeTable extends Migration
     {
         Schema::create('objects_lessons_time', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('object_id')->unsigned();
+            $table->unsignedInteger('object_id');
             $table->tinyInteger('lesson_num');
             $table->time('start_time');
             $table->time('end_time');
 
+            $table->foreign('object_id')->references('id')->on('objects')
+                ->onDelete('cascade');
+
             $table->index('object_id');
-            $table->foreign('object_id')->references('id')->on('objects')->onDelete('cascade');
         });
     }
 

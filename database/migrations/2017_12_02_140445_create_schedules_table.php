@@ -15,20 +15,20 @@ class CreateSchedulesTable extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('object_id')->unsigned();
-            $table->integer('faculty_id')->unsigned();
-            $table->integer('group_id')->unsigned();
+            $table->unsignedInteger('object_id');
+            $table->unsignedInteger('faculty_id');
+            $table->unsignedInteger('group_id');
             $table->integer('course');
-            $table->integer('daytime');
+            $table->integer('daytime'); // TODO: Look later*
 
-            $table->index('object_id');
-            $table->foreign('object_id')->references('id')->on('objects')->onDelete('cascade');
+            $table->foreign('object_id')->references('id')->on('objects')
+                ->onDelete('cascade');
+            $table->foreign('faculty_id')->references('id')->on('faculties')
+                ->onDelete('cascade');
+            $table->foreign('group_id')->references('id')->on('groups')
+                ->onDelete('cascade');
 
-            $table->index('faculty_id');
-            $table->foreign('faculty_id')->references('id')->on('faculties')->onDelete('cascade');
-
-            $table->index('group_id');
-            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+            $table->index(['object_id', 'faculty_id', 'group_id']);
         });
     }
 

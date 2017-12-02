@@ -15,14 +15,16 @@ class CreateColumnsTable extends Migration
     {
         Schema::create('columns', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('schedule_id')->unsigned();
-            $table->string('name');
-            $table->string('description');
+            $table->unsignedInteger('schedule_id');
+            $table->string('name', 100);
+            $table->string('description')->nullable();
             $table->smallInteger('order');
             $table->timestamps();
 
+            $table->foreign('schedule_id')->references('id')->on('schedules')
+                ->onDelete('cascade');
+
             $table->index('schedule_id');
-            $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade');
         });
     }
 

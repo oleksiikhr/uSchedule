@@ -15,12 +15,14 @@ class CreateDaysTable extends Migration
     {
         Schema::create('days', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('column_id')->unsigned();
+            $table->unsignedInteger('column_id')->unsigned();
             $table->smallInteger('order');
             $table->date('custom_date')->nullable();
 
+            $table->foreign('column_id')->references('id')->on('columns')
+                ->onDelete('cascade');
+
             $table->index('column_id');
-            $table->foreign('column_id')->references('id')->on('columns')->onDelete('cascade');
         });
     }
 

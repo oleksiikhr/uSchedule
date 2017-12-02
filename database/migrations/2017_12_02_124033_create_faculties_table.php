@@ -15,10 +15,15 @@ class CreateFacultiesTable extends Migration
     {
         Schema::create('faculties', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('object_id')->unsigned();
+            $table->unsignedInteger('object_id');
             $table->string('name');
             $table->text('description')->nullable();
             $table->timestamps();
+
+            $table->foreign('object_id')->references('id')->on('objects')
+                ->onDelete('cascade');
+
+            $table->index('object_id');
         });
     }
 

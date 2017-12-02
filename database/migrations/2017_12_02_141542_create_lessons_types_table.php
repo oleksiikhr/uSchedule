@@ -15,12 +15,14 @@ class CreateLessonsTypesTable extends Migration
     {
         Schema::create('lessons_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('object_id')->unsigned();
-            $table->string('name', 30);
+            $table->unsignedInteger('object_id');
+            $table->string('name', 60);
             $table->string('display_name');
 
+            $table->foreign('object_id')->references('id')->on('objects')
+                ->onDelete('cascade');
+
             $table->index('object_id');
-            $table->foreign('object_id')->references('id')->on('objects')->onDelete('cascade');
         });
     }
 

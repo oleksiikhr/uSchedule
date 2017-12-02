@@ -13,12 +13,15 @@ class CreateObjectsTable extends Migration
      */
     public function up()
     {
+        /**
+         * @see RelationshipObjectsTable
+         */
         Schema::create('objects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('slug');
-            $table->integer('type_id')->unsigned()->nullable();
-            $table->string('image')->default('no-object-image.png');
+            $table->unsignedInteger('type_id')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

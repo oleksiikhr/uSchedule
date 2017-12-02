@@ -14,10 +14,19 @@ class CreateGroupUsersTable extends Migration
     public function up()
     {
         Schema::create('group_users', function (Blueprint $table) {
-            $table->integer('group_id')->unsigned();
-            $table->integer('user_id')->unsigned();
-            $table->integer('role_id')->unsigned()->default(1); // Default student
+            $table->unsignedInteger('group_id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('role_id')->default(1); // Default student
             $table->timestamps();
+
+            $table->foreign('group_id')->references('id')->on('groups')
+                ->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->foreign('role_id')->references('id')->on('group_roles')
+                ->onDelete('cascade');
+
+            $table->index(['group_id', 'user_id', 'role_id']);
         });
     }
 

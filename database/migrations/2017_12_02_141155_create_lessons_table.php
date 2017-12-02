@@ -15,16 +15,17 @@ class CreateLessonsTable extends Migration
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('day_id')->unsigned();
-            $table->integer('subjects_id')->unsigned()->nullable();
+            $table->unsignedInteger('day_id');
+            $table->unsignedInteger('subjects_id')->nullable();
             $table->smallInteger('order');
             $table->timestamps();
 
-            $table->index('day_id');
-            $table->foreign('day_id')->references('id')->on('days')->onDelete('cascade');
+            $table->foreign('day_id')->references('id')->on('days')
+                ->onDelete('cascade');
+            $table->foreign('subjects_id')->references('id')->on('subjects')
+                ->onDelete('set null');
 
-            $table->index('subjects_id');
-            $table->foreign('subjects_id')->references('id')->on('subjects')->onDelete('set null');
+            $table->index(['subjects_id', 'day_id']);
         });
     }
 

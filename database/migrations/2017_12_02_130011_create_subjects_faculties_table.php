@@ -14,9 +14,16 @@ class CreateSubjectsFacultiesTable extends Migration
     public function up()
     {
         Schema::create('subjects_faculties', function (Blueprint $table) {
-            $table->integer('subject_id')->unsigned();
-            $table->integer('faculty_id')->unsigned();
+            $table->unsignedInteger('subject_id');
+            $table->unsignedInteger('faculty_id');
             $table->timestamps();
+
+            $table->foreign('subject_id')->references('id')->on('subjects')
+                ->onDelete('cascade');
+            $table->foreign('faculty_id')->references('id')->on('faculties')
+                ->onDelete('cascade');
+
+            $table->index(['subject_id', 'faculty_id']);
         });
     }
 

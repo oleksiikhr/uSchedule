@@ -15,13 +15,18 @@ class CreateTeachersTable extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('object_id')->unsigned();
-            $table->string('first_name');
-            $table->string('middle_name');
-            $table->string('last_name');
+            $table->unsignedInteger('object_id');
+            $table->string('first_name', 35);
+            $table->string('middle_name', 35);
+            $table->string('last_name', 35);
             $table->string('academic_title')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->timestamps();
+
+            $table->foreign('object_id')->references('id')->on('objects')
+                ->onDelete('cascade');
+
+            $table->index('object_id');
         });
     }
 
