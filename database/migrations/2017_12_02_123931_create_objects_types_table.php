@@ -13,6 +13,9 @@ class CreateObjectsTypesTable extends Migration
      */
     public function up()
     {
+        /*
+         * Types - university, college, school, etc.
+         */
         Schema::create('objects_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
