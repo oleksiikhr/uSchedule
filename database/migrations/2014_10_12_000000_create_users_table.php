@@ -14,7 +14,10 @@ class CreateUsersTable extends Migration
     public function up()
     {
         /**
-         * @see RelationshipUsersTable
+         * @see RelationShipUsersTable
+         *
+         * @see CreateObjectsTable object_id
+         * @see CreateGroupsTable group_id
          */
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');

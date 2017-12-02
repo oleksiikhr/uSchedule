@@ -13,6 +13,9 @@ class CreateColumnsTable extends Migration
      */
     public function up()
     {
+        /**
+         * @see CreateSchedulesTable schedule_id
+         */
         Schema::create('columns', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('schedule_id');

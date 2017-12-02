@@ -13,6 +13,11 @@ class CreateLessonsSubsTable extends Migration
      */
     public function up()
     {
+        /**
+         * @see CreateLessonsTable lesson_id
+         * @see CreateTeachersTable teacher_id
+         * @see CreateLessonsTypesTable type_id
+         */
         Schema::create('lessons_subs', function (Blueprint $table) {
             $table->unsignedInteger('lesson_id');
             $table->unsignedInteger('teacher_id')->nullable();

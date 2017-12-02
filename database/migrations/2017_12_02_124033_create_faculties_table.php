@@ -13,6 +13,11 @@ class CreateFacultiesTable extends Migration
      */
     public function up()
     {
+        /**
+         * NOTE: Table may not be used in the Objects table.
+         *
+         * @see CreateObjectsTable object_id
+         */
         Schema::create('faculties', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('object_id');

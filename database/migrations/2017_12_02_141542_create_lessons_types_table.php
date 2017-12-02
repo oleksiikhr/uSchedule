@@ -13,6 +13,9 @@ class CreateLessonsTypesTable extends Migration
      */
     public function up()
     {
+        /**
+         * @see CreateObjectsTable object_id
+         */
         Schema::create('lessons_types', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('object_id');

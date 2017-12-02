@@ -13,19 +13,22 @@ class CreateLessonsTable extends Migration
      */
     public function up()
     {
+        /**
+         * @see CreateSubjectsTable subject_id
+         */
         Schema::create('lessons', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('day_id');
-            $table->unsignedInteger('subjects_id')->nullable();
+            $table->unsignedInteger('subject_id')->nullable();
             $table->smallInteger('order');
             $table->timestamps();
 
             $table->foreign('day_id')->references('id')->on('days')
                 ->onDelete('cascade');
-            $table->foreign('subjects_id')->references('id')->on('subjects')
+            $table->foreign('subject_id')->references('id')->on('subjects')
                 ->onDelete('set null');
 
-            $table->index(['subjects_id', 'day_id']);
+            $table->index(['subject_id', 'day_id']);
         });
     }
 

@@ -13,6 +13,10 @@ class CreateGroupsTable extends Migration
      */
     public function up()
     {
+        /**
+         * @see CreateUsersTable captain_id
+         * @see CreateFacultiesTable faculty_id
+         */
         Schema::create('groups', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('captain_id')->nullable();

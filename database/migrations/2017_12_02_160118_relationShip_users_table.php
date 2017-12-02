@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RelationshipUsersTable extends Migration
+class RelationShipUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,6 +15,9 @@ class RelationshipUsersTable extends Migration
     {
         /**
          * @see CreateUsersTable
+         *
+         * @see CreateObjectsTable object_id
+         * @see CreateGroupsTable group_id
          */
         Schema::table('users', function (Blueprint $table) {
             $table->foreign('object_id')->references('id')->on('objects')

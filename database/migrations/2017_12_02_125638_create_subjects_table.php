@@ -13,6 +13,9 @@ class CreateSubjectsTable extends Migration
      */
     public function up()
     {
+        /**
+         * @see CreateObjectsTable object_id
+         */
         Schema::create('subjects', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('object_id');
@@ -22,7 +25,7 @@ class CreateSubjectsTable extends Migration
             $table->foreign('object_id')->references('id')->on('objects')
                 ->onDelete('cascade');
 
-            $table->index('object_id', 'title');
+            $table->index(['object_id', 'title']);
         });
     }
 

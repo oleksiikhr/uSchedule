@@ -15,6 +15,8 @@ class RelationshipObjectsTable extends Migration
     {
         /**
          * @see CreateObjectsTable
+         *
+         * @see CreateObjectsTypesTable type_id
          */
         Schema::table('objects', function (Blueprint $table) {
             $table->foreign('type_id')->references('id')->on('objects_types')

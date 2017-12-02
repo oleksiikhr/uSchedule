@@ -13,6 +13,10 @@ class CreateSubjectsFacultiesTable extends Migration
      */
     public function up()
     {
+        /**
+         * @see CreateSubjectsTable subject_id
+         * @see CreateFacultiesTable faculty_id
+         */
         Schema::create('subjects_faculties', function (Blueprint $table) {
             $table->unsignedInteger('subject_id');
             $table->unsignedInteger('faculty_id');

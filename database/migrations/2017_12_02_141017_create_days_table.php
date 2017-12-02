@@ -13,6 +13,9 @@ class CreateDaysTable extends Migration
      */
     public function up()
     {
+        /**
+         * @see CreateColumnsTable column_id
+         */
         Schema::create('days', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('column_id')->unsigned();

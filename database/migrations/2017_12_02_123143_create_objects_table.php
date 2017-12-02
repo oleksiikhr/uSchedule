@@ -15,11 +15,13 @@ class CreateObjectsTable extends Migration
     {
         /**
          * @see RelationshipObjectsTable
+         *
+         * @see CreateObjectsTypesTable type_id
          */
         Schema::create('objects', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('slug');
+            $table->string('name', 100);
+            $table->string('slug', 60);
             $table->unsignedInteger('type_id')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
