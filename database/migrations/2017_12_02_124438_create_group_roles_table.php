@@ -16,7 +16,7 @@ class CreateGroupRolesTable extends Migration
         Schema::create('group_roles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100);
-            $table->string('description');
+            $table->string('description'); // TODO: change to Text field*
             $table->timestamps();
         });
     }

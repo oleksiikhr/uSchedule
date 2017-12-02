@@ -20,7 +20,6 @@ class CreateSubjectsFacultiesTable extends Migration
         Schema::create('subjects_faculties', function (Blueprint $table) {
             $table->unsignedInteger('subject_id');
             $table->unsignedInteger('faculty_id');
-            $table->timestamps();
 
             $table->foreign('subject_id')->references('id')->on('subjects')
                 ->onDelete('cascade');

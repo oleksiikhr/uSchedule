@@ -19,8 +19,8 @@ class CreateObjectsTypesTable extends Migration
          */
         Schema::create('objects_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('slug');
+            $table->string('name', 100);
+            $table->string('slug', 60);
             $table->timestamps();
         });
     }

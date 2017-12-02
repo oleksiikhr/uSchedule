@@ -22,7 +22,6 @@ class CreateGroupUsersTable extends Migration
             $table->unsignedInteger('group_id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('role_id')->default(1); // Default student
-            $table->timestamps();
 
             $table->foreign('group_id')->references('id')->on('groups')
                 ->onDelete('cascade');
