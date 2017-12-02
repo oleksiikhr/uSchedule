@@ -15,15 +15,9 @@ class CreateSubjectsTable extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('object_id')->unsigned();
             $table->string('title');
-            $table->tinyInteger('course');
-            $table->tinyInteger('type');
-            $table->integer('faculty_id')->unsigned();
             $table->timestamps();
-
-            $table->foreign('faculty_id')->references('id')->on('faculties');
-
-            $table->index('faculty_id');
         });
     }
 

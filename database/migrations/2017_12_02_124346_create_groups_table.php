@@ -15,14 +15,10 @@ class CreateGroupsTable extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->increments('id');
-            $table->tinyInteger('course');
+            $table->integer('captain_id')->unsigned()->nullable();
             $table->integer('faculty_id')->unsigned();
+            $table->string('name')->nullable();
             $table->timestamps();
-
-            $table->foreign('faculty_id')->references('id')->on('faculties')
-                ->onDelete('cascade');
-
-            $table->index('faculty_id');
         });
     }
 
