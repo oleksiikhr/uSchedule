@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Subject extends Model
+class GroupRole extends Model
 {
-    protected $table = 'subjects';
+    protected $table = 'group_roles';
 }

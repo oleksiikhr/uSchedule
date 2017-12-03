@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ScheduleDaysTableSeeder extends Seeder
+class ObjectSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class ScheduleDaysTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\ScheduleDay::class, 30)->create();
+        factory(App\Object::class, 5)->create();
     }
 }

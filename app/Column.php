@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Subject extends Model
+class Column extends Model
 {
-    protected $table = 'subjects';
+    protected $table = 'columns';
 }

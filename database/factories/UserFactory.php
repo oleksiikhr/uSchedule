@@ -1,47 +1,72 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Object::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->company,
+        'slug' => lcfirst($faker->unique()->firstName),
+        'type_id' => $faker->numberBetween(1, 3),
+        'image' => 'no-image.png',
+        'created_at' => $faker->dateTime(),
+        'updated_at' => $faker->dateTime()
+    ];
+});
+
 $factory->define(App\Faculty::class, function (Faker\Generator $faker) {
+   $object = \App\Object::inRandomOrder()->first();
    return [
-       'title' => $faker->unique()->company,
-       'slug' => lcfirst($faker->unique()->firstName)
+       'object_id' => $object->id,
+       'name' => $faker->unique()->company,
+       'description' => $faker->realText(),
+       'created_at' => $faker->dateTime(),
+       'updated_at' => $faker->dateTime()
    ];
 });
 
 $factory->define(App\Group::class, function (Faker\Generator $faker) {
+    $faculty = \App\Faculty::inRandomOrder()->first();
+
     return [
-        'course' => $faker->numberBetween(1, 5),
-        'faculty_id' => $faker->numberBetween(1, 5),
+        'captain_id' => null,
+        'faculty_id' => $faculty->id,
+        'name' => $faker->unique()->company,
+        'created_at' => $faker->dateTime(),
+        'updated_at' => $faker->dateTime()
     ];
 });
 
 $factory->define(App\Teacher::class, function (Faker\Generator $faker) {
+    $object = \App\Object::inRandomOrder()->first();
+
     return [
-        'first_name' => $faker->firstName,
+        'object_id' => $object->id,
+        'first_name' => $faker->firstName(),
         'last_name' => $faker->lastName,
-        'middle_name' => $faker->title
+        'middle_name' => $faker->company,
+        'academic_title' => $faker->title,
+        'image' => 'no-image.png',
+        'created_at' => $faker->dateTime(),
+        'updated_at' => $faker->dateTime()
     ];
 });
 
 $factory->define(App\Subject::class, function (Faker\Generator $faker) {
+    $object = \App\Object::inRandomOrder()->first();
+
     return [
+        'object_id' => $object->id,
         'title' => $faker->jobTitle,
-        'course' => $faker->numberBetween(1, 5),
-        'faculty_id' => $faker->numberBetween(1, 5),
-        'type' => mt_rand(1, 2)
+        'created_at' => $faker->dateTime(),
+        'updated_at' => $faker->dateTime()
     ];
 });
 
-// Only for schedule_id = 1
-$factory->define(App\ScheduleDay::class, function (Faker\Generator $faker) {
+$factory->define(App\SubjectFaculty::class, function (Faker\Generator $faker) {
+    $subject = \App\Subject::inRandomOrder()->first();
+    $faculty = \App\Faculty::inRandomOrder()->first();
+
     return [
-        'schedule_id' => 1,
-        'subject_id' => $faker->numberBetween(1, 100),
-        'day' => mt_rand(0, 5),
-        'week' => mt_rand(0, 1),
-        'order' => mt_rand(0, 6),
-        'room' => mt_rand(1, 500) . (mt_rand(0, 1) == 0 ? chr(mt_rand(65, 90)) : ''),
-        'type' => mt_rand(0, 3),
-        'is_empty' => mt_rand(0, 1),
+        'subject_id' => $subject->id,
+        'faculty_id' => $faculty->id,
     ];
 });
