@@ -1,5 +1,6 @@
 <?php
 
+use App\ObjectType;
 use Illuminate\Database\Seeder;
 
 class ObjectTypeSeeder extends Seeder
@@ -11,17 +12,17 @@ class ObjectTypeSeeder extends Seeder
      */
     public function run()
     {
-        \App\ObjectType::insert([
+        ObjectType::insert([
             'name' => 'Университет',
             'slug' => 'university',
         ]);
 
-        \App\ObjectType::insert([
-            'name' => 'Коледж',
+        ObjectType::insert([
+            'name' => 'Колледж',
             'slug' => 'college',
         ]);
 
-        \App\ObjectType::insert([
+        ObjectType::insert([
             'name' => 'Школа',
             'slug' => 'school',
         ]);

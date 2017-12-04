@@ -6,7 +6,7 @@ $factory->define(App\Object::class, function (Faker\Generator $faker) {
         'name' => $faker->company,
         'slug' => lcfirst($faker->unique()->firstName),
         'type_id' => $faker->numberBetween(1, 3),
-        'image' => 'no-image.png',
+        'image' => null,
         'created_at' => $faker->dateTime(),
         'updated_at' => $faker->dateTime()
     ];
@@ -14,6 +14,7 @@ $factory->define(App\Object::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Faculty::class, function (Faker\Generator $faker) {
    $object = \App\Object::inRandomOrder()->first();
+
    return [
        'object_id' => $object->id,
        'name' => $faker->unique()->company,
@@ -44,7 +45,7 @@ $factory->define(App\Teacher::class, function (Faker\Generator $faker) {
         'last_name' => $faker->lastName,
         'middle_name' => $faker->company,
         'academic_title' => $faker->title,
-        'image' => 'no-image.png',
+        'image' => null,
         'created_at' => $faker->dateTime(),
         'updated_at' => $faker->dateTime()
     ];
