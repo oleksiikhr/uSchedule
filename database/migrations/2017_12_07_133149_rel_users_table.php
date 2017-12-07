@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RelationShipUsersTable extends Migration
+class RelUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,6 @@ class RelationShipUsersTable extends Migration
      */
     public function up()
     {
-        /**
-         * @see CreateUsersTable
-         *
-         * @see CreateObjectsTable object_id
-         * @see CreateGroupsTable group_id
-         */
         Schema::table('users', function (Blueprint $table) {
             $table->foreign('object_id')->references('id')->on('objects')
                 ->onDelete('set null');
@@ -37,8 +31,10 @@ class RelationShipUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['object_id', 'group_id']);
-            $table->dropIndex(['object_id', 'group_id']);
+            $table->dropForeign('users_object_id_foreign');
+            $table->dropForeign('users_group_id_foreign');
+
+            $table->dropIndex('users_object_id_group_id_index');
         });
     }
 }

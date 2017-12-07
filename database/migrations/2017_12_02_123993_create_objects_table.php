@@ -25,6 +25,11 @@ class CreateObjectsTable extends Migration
             $table->unsignedInteger('type_id')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
+
+            $table->foreign('type_id')->references('id')->on('objects_types')
+                ->onDelete('set null');
+
+            $table->index('type_id');
         });
     }
 
