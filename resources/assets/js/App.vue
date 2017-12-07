@@ -21,14 +21,14 @@
       <v-list class="pt-0">
         <template v-for="(item, i) in items">
           <v-divider v-if="item.divider" dark class="my-2" :key="i" />
-          <v-list-tile v-else :to="item.to" @click.native.stop="!!mini">
-            <v-list-tile-action >
+          <v-list-tile v-else-if="(item.isAuth && !guest) || (!item.isAuth)" :to="item.to" @click.native.stop="!!mini">
+            <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>{{ item.text }}</v-list-tile-title>
             </v-list-tile-content>
-            <v-list-tile-action v-if="item.subIcon">
+            <v-list-tile-action v-if="item.subIcon && (item.subIsAuth && !guest) || (!item.subIsAuth)">
               <v-tooltip bottom>
                 <v-btn icon ripple :to="item.subTo" slot="activator">
                   <v-icon>{{ item.subIcon }}</v-icon>
@@ -46,15 +46,21 @@
         {{ $store.state.template.title }}
       </v-toolbar-title>
       <v-text-field solo prepend-icon="search" placeholder="Пошук" />
-      <v-btn class="ml-5" outline color="white"> <!-- TODO: ..-->
+      <v-btn v-if="!guest" class="ml-5" outline color="white"> <!-- TODO: ..-->
         <v-icon>notifications</v-icon>
         <span>Розклад дзвінків</span>
       </v-btn>
-      <v-tooltip bottom>
-        <v-btn v-if="!guest" icon @click="logout()" slot="activator">
+      <v-tooltip v-if="!guest" bottom>
+        <v-btn icon @click="logout()" slot="activator">
           <v-icon>exit_to_app</v-icon>
         </v-btn>
         <span>Вийти</span>
+      </v-tooltip>
+      <v-tooltip v-else bottom>
+        <v-btn icon @click="goLogin()" slot="activator">
+          <v-icon>lock_outline</v-icon>
+        </v-btn>
+        <span>Авторизація</span>
       </v-tooltip>
     </v-toolbar>
     <main>
@@ -89,11 +95,11 @@
           {
             icon: 'home', text: 'Головна сторінка', to: '/home'
           }, {
-            icon: 'account_circle', text: 'Профіль', to: '/profile',
+            icon: 'account_circle', text: 'Профіль', to: '/profile', isAuth: true,
             subIcon: 'edit', subText: 'Налаштування', subTo: '/edit/edit'
           }, {
             icon: 'description', text: 'Новини', to: '/news',
-            subIcon: 'add', subText: 'Додати', subTo: '/news/create'
+            subIcon: 'add', subText: 'Додати', subTo: '/news/create', subIsAuth: true
           }
         ]
       }
@@ -123,6 +129,9 @@
               this.$store.dispatch('authClearUser')
               this.$router.push({ name: 'login' }) // TODO: **
             })
+      },
+      goLogin () {
+        this.$router.push({ name: 'login' })
       }
     }
   }

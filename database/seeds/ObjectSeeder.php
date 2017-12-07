@@ -1,5 +1,6 @@
 <?php
 
+use App\Object;
 use Illuminate\Database\Seeder;
 
 class ObjectSeeder extends Seeder
@@ -11,6 +12,6 @@ class ObjectSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Object::class, 5)->create();
+        factory(Object::class, 5)->create();
     }
 }

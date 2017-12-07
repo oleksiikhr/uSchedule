@@ -2,10 +2,12 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Object::class, function (Faker\Generator $faker) {
+    $type = \App\ObjectType::inRandomOrder()->first();
+
     return [
         'name' => mb_substr($faker->company, 0, 100),
         'slug' => lcfirst($faker->unique()->firstName),
-        'type_id' => $faker->numberBetween(1, 3),
+        'type_id' => $type->id,
         'image' => null,
         'created_at' => $faker->date('Y-m-d H:i:s'),
         'updated_at' => $faker->date('Y-m-d H:i:s')
@@ -57,8 +59,8 @@ $factory->define(App\Subject::class, function (Faker\Generator $faker) {
     return [
         'object_id' => $object->id,
         'title' => $faker->jobTitle,
-        'created_at' => $faker->dateTime(),
-        'updated_at' => $faker->dateTime()
+        'created_at' => $faker->date('Y-m-d H:i:s'),
+        'updated_at' => $faker->date('Y-m-d H:i:s')
     ];
 });
 
