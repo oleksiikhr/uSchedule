@@ -20,7 +20,7 @@ class ScheduleController extends Controller
      */
     public function list(ScheduleRequest $request)
     {
-        // TODO: Implement list() method.
+        // TODO: Temporary
     }
 
     /**

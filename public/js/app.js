@@ -57464,6 +57464,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -57745,7 +57746,10 @@ var render = function() {
         [
           _c(
             "v-toolbar-title",
-            { staticClass: "ml-0 pl-3", staticStyle: { width: "300px" } },
+            {
+              staticClass: "toolbar-title ml-0 pl-3",
+              staticStyle: { width: "300px" }
+            },
             [
               _c("v-toolbar-side-icon", {
                 on: {
@@ -57755,9 +57759,8 @@ var render = function() {
                   }
                 }
               }),
-              _vm._v(
-                "\n      " + _vm._s(_vm.$store.state.template.title) + "\n    "
-              )
+              _vm._v(" "),
+              _c("span", [_vm._v(_vm._s(_vm.$store.state.template.title))])
             ],
             1
           ),
@@ -61930,7 +61933,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
   activated: function activated() {
-    this.$store.dispatch('templateSetTitle', 'Редагування');
+    this.$store.dispatch('templateSetTitle', 'Редагування розкладу');
     this.$store.dispatch('templateSetBodyClass', 'height100');
     this.schedule.id = parseInt(this.$route.params.id);
     this.getSchedule();
@@ -64089,6 +64092,7 @@ var render = function() {
                           [
                             _c("v-text-field", {
                               attrs: {
+                                solo: "",
                                 label: "Предмет",
                                 "single-line": "",
                                 "prepend-icon": "search"
@@ -64151,7 +64155,7 @@ var render = function() {
                         _c(
                           "v-card",
                           { attrs: { flat: "" } },
-                          [_c("v-card-text", [_vm._v("Teachers")])],
+                          [_c("v-card-text", [_vm._v("Teachers..")])],
                           1
                         )
                       ],

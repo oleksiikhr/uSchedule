@@ -6,7 +6,7 @@
           <v-list-tile>
             <template v-if="guest">
               <v-list-tile-avatar>
-                <!-- TODO: Out logo -->
+                <!-- TODO: Our logo -->
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title class="h-title">u-Schedule</v-list-tile-title>
@@ -15,6 +15,7 @@
             <template v-else>
               <v-list-tile-avatar>
                 <img v-if="objectImage" :src="objectImage" alt="КНТЕУ"> <!-- TODO: need 48x48 -->
+                <!-- TODO: v-else => no-image.png* -->
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title class="h-title">{{ objectName }}</v-list-tile-title>
@@ -51,9 +52,9 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar class="light-blue darken-2" flat dark app>
-      <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+      <v-toolbar-title style="width: 300px" class="toolbar-title ml-0 pl-3">
         <v-toolbar-side-icon @click.stop="drawer = !drawer" />
-        {{ $store.state.template.title }}
+        <span>{{ $store.state.template.title }}</span>
       </v-toolbar-title>
       <v-text-field solo prepend-icon="search" placeholder="Пошук" />
       <v-btn v-if="!guest" class="ml-5" outline color="white"> <!-- TODO: ..-->

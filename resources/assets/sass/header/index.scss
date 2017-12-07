@@ -10,3 +10,14 @@
   text-indent: 10px;
   text-transform: uppercase;
 }
+
+.toolbar-title {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  padding-right: 16px;
+  > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

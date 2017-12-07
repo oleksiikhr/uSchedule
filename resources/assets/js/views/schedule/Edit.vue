@@ -19,7 +19,7 @@
           <v-tabs-items>
             <v-tabs-content id="tab-schedules">
               <v-card flat>
-                <v-text-field label="Предмет" v-model="searchSubject" single-line prepend-icon="search" />
+                <v-text-field solo label="Предмет" v-model="searchSubject" single-line prepend-icon="search" />
                 <draggable :list="filterSubjects" element="v-list" :clone="cloneSubject" :move="moveSubject" @end="endMoveSubject"
                            :options="{ group:{ name: 'subjects', pull: 'clone', put: false }, sort: false }">
                   <v-list-tile :title="subject.title" v-for="subject in filterSubjects" :key="subject.id">
@@ -30,7 +30,7 @@
             </v-tabs-content>
             <v-tabs-content id="tab-teachers">
               <v-card flat>
-                <v-card-text>Teachers</v-card-text>
+                <v-card-text>Teachers..</v-card-text>
               </v-card>
             </v-tabs-content>
           </v-tabs-items>
@@ -82,7 +82,7 @@
       }
     },
     activated () {
-      this.$store.dispatch('templateSetTitle', 'Редагування')
+      this.$store.dispatch('templateSetTitle', 'Редагування розкладу')
       this.$store.dispatch('templateSetBodyClass', 'height100')
       this.schedule.id = parseInt(this.$route.params.id)
       this.getSchedule()
