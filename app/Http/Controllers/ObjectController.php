@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Object;
+use App\ObjectType;
 use Illuminate\Http\Request;
 
 class ObjectController extends Controller
@@ -23,11 +24,15 @@ class ObjectController extends Controller
     /**
      * Get one subject
      *
-     * @param  Request $request
+     * @param string $id Object
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function one(Request $request)
+    public function one($id, Request $request)
     {
-        // TODO: Implement one() method.
+        // TODO: temporary
+        return response()->json(Object::findOrFail($id));
     }
 
     /**

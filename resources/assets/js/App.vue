@@ -4,12 +4,22 @@
       <v-toolbar flat>
         <v-list class="pa-0">
           <v-list-tile>
-            <v-list-tile-avatar>
-              <img src="/img/logo_200.png" alt="КНТЕУ"> <!-- TODO: need 48x48 -->
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title class="h-title">Розклад КНТЕУ</v-list-tile-title>
-            </v-list-tile-content>
+            <template v-if="guest">
+              <v-list-tile-avatar>
+
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title class="h-title">Temp</v-list-tile-title>
+              </v-list-tile-content>
+            </template>
+            <template v-else>
+              <v-list-tile-avatar>
+                <img v-if="objectImage" :src="objectImage" alt="КНТЕУ"> <!-- TODO: need 48x48 -->
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title class="h-title">Розклад КНТЕУ</v-list-tile-title>
+              </v-list-tile-content>
+            </template>
             <v-list-tile-action>
               <v-btn icon @click.native.stop="mini = !mini">
                 <v-icon>chevron_left</v-icon>
@@ -84,6 +94,7 @@
 </template>
 
 <script>
+  import { getImage } from "./helpers/object";
   import { get, post } from './helpers/api'
 
   export default {
@@ -113,13 +124,26 @@
     computed: {
       guest () {
         return this.$store.state.auth.user === null
+      },
+      objectImage () {
+        return getImage(this.$store.state.auth.object)
+      },
+      objectName () {
+        return this.$store.state.auth.object
       }
     },
     methods: {
       getProfile () {
         get('/api/profile')
             .then(res => {
-              this.$store.dispatch('authSetUser', res.data.token)
+              this.$store.dispatch('authSetUser', res.data.user)
+              this.getObject(res.data.user.object_id)
+            })
+      },
+      getObject (id) {
+        get('/api/object/' + id)
+            .then(res => {
+              this.$store.dispatch('authSetObject', res.data)
             })
       },
       logout () {

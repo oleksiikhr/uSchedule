@@ -20,6 +20,7 @@ class ExampleSeeder extends Seeder
             'name' => 'Demo',
             'slug' => 'demo',
             'type_id' => 1,
+            'image' => 'objects/demo/img/logo_200.png'
         ]);
 
         Faculty::insert([

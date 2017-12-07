@@ -57366,7 +57366,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_object__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(3);
 //
 //
 //
@@ -57452,6 +57453,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -57481,23 +57493,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     guest: function guest() {
       return this.$store.state.auth.user === null;
+    },
+    objectImage: function objectImage() {
+      return Object(__WEBPACK_IMPORTED_MODULE_0__helpers_object__["a" /* getImage */])(this.$store.state.auth.object);
+    },
+    objectName: function objectName() {
+      return this.$store.state.auth.object;
     }
   },
   methods: {
     getProfile: function getProfile() {
       var _this = this;
 
-      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/profile').then(function (res) {
-        _this.$store.dispatch('authSetUser', res.data.token);
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/profile').then(function (res) {
+        _this.$store.dispatch('authSetUser', res.data.user);
+        _this.getObject(res.data.user.object_id);
+      });
+    },
+    getObject: function getObject(id) {
+      var _this2 = this;
+
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/object/' + id).then(function (res) {
+        _this2.$store.dispatch('authSetObject', res.data);
       });
     },
     logout: function logout() {
-      var _this2 = this;
+      var _this3 = this;
 
-      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["b" /* post */])('/api/logout').then(function (res) {
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["b" /* post */])('/api/logout').then(function (res) {
         localStorage.removeItem('token');
-        _this2.$store.dispatch('authClearUser');
-        _this2.$router.push({ name: 'login' }); // TODO: **
+        _this3.$store.dispatch('authClearUser');
+        _this3.$router.push({ name: 'login' }); // TODO: **
       });
     },
     goLogin: function goLogin() {
@@ -57553,21 +57579,46 @@ var render = function() {
                   _c(
                     "v-list-tile",
                     [
-                      _c("v-list-tile-avatar", [
-                        _c("img", {
-                          attrs: { src: "/img/logo_200.png", alt: "КНТЕУ" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", { staticClass: "h-title" }, [
-                            _vm._v("Розклад КНТЕУ")
-                          ])
-                        ],
-                        1
-                      ),
+                      _vm.guest
+                        ? [
+                            _c("v-list-tile-avatar"),
+                            _vm._v(" "),
+                            _c(
+                              "v-list-tile-content",
+                              [
+                                _c(
+                                  "v-list-tile-title",
+                                  { staticClass: "h-title" },
+                                  [_vm._v("Temp")]
+                                )
+                              ],
+                              1
+                            )
+                          ]
+                        : [
+                            _c("v-list-tile-avatar", [
+                              _vm.objectImage
+                                ? _c("img", {
+                                    attrs: {
+                                      src: _vm.objectImage,
+                                      alt: "КНТЕУ"
+                                    }
+                                  })
+                                : _vm._e()
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "v-list-tile-content",
+                              [
+                                _c(
+                                  "v-list-tile-title",
+                                  { staticClass: "h-title" },
+                                  [_vm._v("Розклад КНТЕУ")]
+                                )
+                              ],
+                              1
+                            )
+                          ],
                       _vm._v(" "),
                       _c(
                         "v-list-tile-action",
@@ -57590,7 +57641,7 @@ var render = function() {
                         1
                       )
                     ],
-                    1
+                    2
                   )
                 ],
                 1
@@ -64175,7 +64226,8 @@ if (false) {
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 var state = {
-  user: null
+  user: null,
+  object: null
 };
 
 var mutations = {
@@ -64184,6 +64236,12 @@ var mutations = {
   },
   CLEAR_USER: function CLEAR_USER(state) {
     state.user = null;
+  },
+  SET_OBJECT: function SET_OBJECT(state, obj) {
+    state.object = obj;
+  },
+  CLEAR_OBJECT: function CLEAR_OBJECT(state) {
+    state.object = null;
   }
 };
 
@@ -64193,10 +64251,16 @@ var actions = {
 
     commit('SET_USER', obj);
   },
-  authClearUser: function authClearUser(_ref2) {
+  authSetObject: function authSetObject(_ref2, obj) {
     var commit = _ref2.commit;
 
+    commit('SET_OBJECT', obj);
+  },
+  authClearUser: function authClearUser(_ref3) {
+    var commit = _ref3.commit;
+
     commit('CLEAR_USER');
+    commit('CLEAR_OBJECT');
   }
 };
 
@@ -64296,6 +64360,30 @@ var actions = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = getImage;
+/**
+ * @param object
+ *
+ * @return string|null link
+ */
+function getImage(object) {
+  if (!object) {
+    return null;
+  }
+
+  return '//' + window.location.hostname + '/' + object.image || null;
+}
 
 /***/ })
 /******/ ]);

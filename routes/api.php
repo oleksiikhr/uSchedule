@@ -24,6 +24,11 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('/', 'ProfileController@index');
     });
 
+    // Object
+    Route::group(['prefix' => 'object'], function () {
+        Route::get('{id}', 'ObjectController@one');
+    });
+
 });
 
 /*
