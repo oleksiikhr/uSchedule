@@ -3,12 +3,12 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Object::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->company,
+        'name' => mb_substr($faker->company, 0, 100),
         'slug' => lcfirst($faker->unique()->firstName),
         'type_id' => $faker->numberBetween(1, 3),
         'image' => null,
-        'created_at' => $faker->dateTime(),
-        'updated_at' => $faker->dateTime()
+        'created_at' => $faker->date('Y-m-d H:i:s'),
+        'updated_at' => $faker->date('Y-m-d H:i:s')
     ];
 });
 
@@ -17,10 +17,10 @@ $factory->define(App\Faculty::class, function (Faker\Generator $faker) {
 
    return [
        'object_id' => $object->id,
-       'name' => $faker->unique()->company,
+       'name' => mb_substr($faker->unique()->company, 0, 191),
        'description' => $faker->realText(),
-       'created_at' => $faker->dateTime(),
-       'updated_at' => $faker->dateTime()
+       'created_at' => $faker->date('Y-m-d H:i:s'),
+       'updated_at' => $faker->date('Y-m-d H:i:s')
    ];
 });
 
@@ -30,9 +30,9 @@ $factory->define(App\Group::class, function (Faker\Generator $faker) {
     return [
         'captain_id' => null,
         'faculty_id' => $faculty->id,
-        'name' => $faker->unique()->company,
-        'created_at' => $faker->dateTime(),
-        'updated_at' => $faker->dateTime()
+        'name' => mb_substr($faker->unique()->company, 0, 191),
+        'created_at' => $faker->date('Y-m-d H:i:s'),
+        'updated_at' => $faker->date('Y-m-d H:i:s')
     ];
 });
 
@@ -41,13 +41,13 @@ $factory->define(App\Teacher::class, function (Faker\Generator $faker) {
 
     return [
         'object_id' => $object->id,
-        'first_name' => $faker->firstName(),
+        'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'middle_name' => $faker->company,
         'academic_title' => $faker->title,
         'image' => null,
-        'created_at' => $faker->dateTime(),
-        'updated_at' => $faker->dateTime()
+        'created_at' => $faker->date('Y-m-d H:i:s'),
+        'updated_at' => $faker->date('Y-m-d H:i:s')
     ];
 });
 
