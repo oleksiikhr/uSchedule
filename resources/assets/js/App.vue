@@ -6,10 +6,10 @@
           <v-list-tile>
             <template v-if="guest">
               <v-list-tile-avatar>
-
+                <!-- TODO: Out logo -->
               </v-list-tile-avatar>
               <v-list-tile-content>
-                <v-list-tile-title class="h-title">Temp</v-list-tile-title>
+                <v-list-tile-title class="h-title">u-Schedule</v-list-tile-title>
               </v-list-tile-content>
             </template>
             <template v-else>
@@ -17,7 +17,7 @@
                 <img v-if="objectImage" :src="objectImage" alt="КНТЕУ"> <!-- TODO: need 48x48 -->
               </v-list-tile-avatar>
               <v-list-tile-content>
-                <v-list-tile-title class="h-title">Розклад КНТЕУ</v-list-tile-title>
+                <v-list-tile-title class="h-title">{{ objectName }}</v-list-tile-title>
               </v-list-tile-content>
             </template>
             <v-list-tile-action>
@@ -31,14 +31,14 @@
       <v-list class="pt-0">
         <template v-for="(item, i) in items">
           <v-divider v-if="item.divider" dark class="my-2" :key="i" />
-          <v-list-tile v-else-if="(item.isAuth && !guest) || (!item.isAuth)" :to="item.to" @click.native.stop="!!mini">
+          <v-list-tile v-else-if="(item.isAuth && !guest) || !item.isAuth" :to="item.to" @click.native.stop="!!mini">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>{{ item.text }}</v-list-tile-title>
             </v-list-tile-content>
-            <v-list-tile-action v-if="item.subIcon && (item.subIsAuth && !guest) || (!item.subIsAuth)">
+            <v-list-tile-action v-if="item.subIcon && ((item.subIsAuth && !guest) || !item.subIsAuth)">
               <v-tooltip bottom>
                 <v-btn icon ripple :to="item.subTo" slot="activator">
                   <v-icon>{{ item.subIcon }}</v-icon>
@@ -61,7 +61,7 @@
         <span>Розклад дзвінків</span>
       </v-btn>
       <v-tooltip v-if="!guest" bottom>
-        <v-btn icon @click="logout()" slot="activator">
+        <v-btn icon @click="querySendLogout()" slot="activator">
           <v-icon>exit_to_app</v-icon>
         </v-btn>
         <span>Вийти</span>
@@ -94,7 +94,8 @@
 </template>
 
 <script>
-  import { getImage } from "./helpers/object";
+  import { init } from "./helpers/auth";
+  import { objGetImage, objGetName } from "./helpers/object";
   import { get, post } from './helpers/api'
 
   export default {
@@ -118,7 +119,7 @@
     created () {
       this.$store.dispatch('templateSetTitle', 'Головна сторінка')
       if (localStorage.getItem('token')) {
-        this.getProfile()
+        this.queryGetProfile()
       }
     },
     computed: {
@@ -126,27 +127,20 @@
         return this.$store.state.auth.user === null
       },
       objectImage () {
-        return getImage(this.$store.state.auth.object)
+        return objGetImage(this.$store.state.auth.object)
       },
       objectName () {
-        return this.$store.state.auth.object
+        return objGetName(this.$store.state.auth.object)
       }
     },
     methods: {
-      getProfile () {
+      queryGetProfile () {
         get('/api/profile')
             .then(res => {
-              this.$store.dispatch('authSetUser', res.data.user)
-              this.getObject(res.data.user.object_id)
+              init(res.data)
             })
       },
-      getObject (id) {
-        get('/api/object/' + id)
-            .then(res => {
-              this.$store.dispatch('authSetObject', res.data)
-            })
-      },
-      logout () {
+      querySendLogout () {
         post('/api/logout')
             .then(res => {
               localStorage.removeItem('token')

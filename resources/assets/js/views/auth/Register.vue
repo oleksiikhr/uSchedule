@@ -34,6 +34,7 @@
 </template>
 
 <script>
+  import { init } from "../../helpers/auth";
   import { get, post } from '../../helpers/api'
 
   export default {
@@ -68,8 +69,7 @@
 
         post('/api/register', this.form)
             .then(res => {
-              this.$store.dispatch('authSetUser', res.data.user)
-              localStorage.setItem('token', res.data.token)
+              init(res.data)
               this.loading = false
               this.$router.push({ name: 'profile' })
             })

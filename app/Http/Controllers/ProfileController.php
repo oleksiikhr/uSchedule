@@ -26,8 +26,11 @@ class ProfileController extends Controller
      */
     public static function getFullInfoUser()
     {
+        $user = Auth::user();
+        $user->load('object');
+
         return [
-            'user' => Auth::user(),
+            'user' => $user,
             'roles' => [],
         ];
     }

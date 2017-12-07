@@ -29,4 +29,9 @@ class Object extends Model
     {
         return $this->hasOne('App\ObjectType', 'type_id');
     }
+
+    public function object()
+    {
+        return $this->hasMany(Object::class);
+    }
 }

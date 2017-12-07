@@ -57366,8 +57366,9 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_object__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_auth__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_object__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_api__ = __webpack_require__(3);
 //
 //
 //
@@ -57463,6 +57464,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -57486,7 +57488,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   created: function created() {
     this.$store.dispatch('templateSetTitle', 'Головна сторінка');
     if (localStorage.getItem('token')) {
-      this.getProfile();
+      this.queryGetProfile();
     }
   },
 
@@ -57495,35 +57497,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return this.$store.state.auth.user === null;
     },
     objectImage: function objectImage() {
-      return Object(__WEBPACK_IMPORTED_MODULE_0__helpers_object__["a" /* getImage */])(this.$store.state.auth.object);
+      return Object(__WEBPACK_IMPORTED_MODULE_1__helpers_object__["a" /* objGetImage */])(this.$store.state.auth.object);
     },
     objectName: function objectName() {
-      return this.$store.state.auth.object;
+      return Object(__WEBPACK_IMPORTED_MODULE_1__helpers_object__["b" /* objGetName */])(this.$store.state.auth.object);
     }
   },
   methods: {
-    getProfile: function getProfile() {
+    queryGetProfile: function queryGetProfile() {
+      Object(__WEBPACK_IMPORTED_MODULE_2__helpers_api__["a" /* get */])('/api/profile').then(function (res) {
+        Object(__WEBPACK_IMPORTED_MODULE_0__helpers_auth__["a" /* init */])(res.data);
+      });
+    },
+    querySendLogout: function querySendLogout() {
       var _this = this;
 
-      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/profile').then(function (res) {
-        _this.$store.dispatch('authSetUser', res.data.user);
-        _this.getObject(res.data.user.object_id);
-      });
-    },
-    getObject: function getObject(id) {
-      var _this2 = this;
-
-      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/object/' + id).then(function (res) {
-        _this2.$store.dispatch('authSetObject', res.data);
-      });
-    },
-    logout: function logout() {
-      var _this3 = this;
-
-      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["b" /* post */])('/api/logout').then(function (res) {
+      Object(__WEBPACK_IMPORTED_MODULE_2__helpers_api__["b" /* post */])('/api/logout').then(function (res) {
         localStorage.removeItem('token');
-        _this3.$store.dispatch('authClearUser');
-        _this3.$router.push({ name: 'login' }); // TODO: **
+        _this.$store.dispatch('authClearUser');
+        _this.$router.push({ name: 'login' }); // TODO: **
       });
     },
     goLogin: function goLogin() {
@@ -57589,7 +57581,7 @@ var render = function() {
                                 _c(
                                   "v-list-tile-title",
                                   { staticClass: "h-title" },
-                                  [_vm._v("Temp")]
+                                  [_vm._v("u-Schedule")]
                                 )
                               ],
                               1
@@ -57613,7 +57605,7 @@ var render = function() {
                                 _c(
                                   "v-list-tile-title",
                                   { staticClass: "h-title" },
-                                  [_vm._v("Розклад КНТЕУ")]
+                                  [_vm._v(_vm._s(_vm.objectName))]
                                 )
                               ],
                               1
@@ -57691,8 +57683,8 @@ var render = function() {
                               1
                             ),
                             _vm._v(" "),
-                            (item.subIcon && (item.subIsAuth && !_vm.guest)) ||
-                            !item.subIsAuth
+                            item.subIcon &&
+                            ((item.subIsAuth && !_vm.guest) || !item.subIsAuth)
                               ? _c(
                                   "v-list-tile-action",
                                   [
@@ -57798,7 +57790,7 @@ var render = function() {
                       attrs: { slot: "activator", icon: "" },
                       on: {
                         click: function($event) {
-                          _vm.logout()
+                          _vm.querySendLogout()
                         }
                       },
                       slot: "activator"
@@ -60948,7 +60940,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_auth__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(3);
 //
 //
 //
@@ -60972,6 +60965,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -60997,9 +60991,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.loading = true;
 
-      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["b" /* post */])('/api/login', this.form).then(function (res) {
-        _this.$store.dispatch('authSetUser', res.data.user);
-        localStorage.setItem('token', res.data.token);
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["b" /* post */])('/api/login', this.form).then(function (res) {
+        Object(__WEBPACK_IMPORTED_MODULE_0__helpers_auth__["a" /* init */])(res.data);
         _this.loading = false;
         _this.$router.push({ name: 'profile' });
       }).catch(function (err) {
@@ -61176,7 +61169,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_auth__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(3);
 //
 //
 //
@@ -61212,6 +61206,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -61248,9 +61243,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.loading = true;
 
-      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["b" /* post */])('/api/register', this.form).then(function (res) {
-        _this.$store.dispatch('authSetUser', res.data.user);
-        localStorage.setItem('token', res.data.token);
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["b" /* post */])('/api/register', this.form).then(function (res) {
+        Object(__WEBPACK_IMPORTED_MODULE_0__helpers_auth__["a" /* init */])(res.data);
         _this.loading = false;
         _this.$router.push({ name: 'profile' });
       }).catch(function (err) {
@@ -61262,7 +61256,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.select.loading = true;
 
-      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/objects', {
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/objects', {
         search: this.select.search
       }).then(function (res) {
         _this2.select.items = res.data;
@@ -64371,18 +64365,61 @@ var actions = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = getImage;
+/* harmony export (immutable) */ __webpack_exports__["a"] = objGetImage;
+/* harmony export (immutable) */ __webpack_exports__["b"] = objGetName;
 /**
  * @param object
  *
  * @return string|null link
  */
-function getImage(object) {
+function objGetImage(object) {
   if (!object) {
     return null;
   }
 
   return '//' + window.location.hostname + '/' + object.image || null;
+}
+
+/**
+ * @param object
+ *
+ * @return string|null link
+ */
+function objGetName(object) {
+  if (!object) {
+    return null;
+  }
+
+  return object.name;
+}
+
+/***/ }),
+/* 79 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = init;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_store__ = __webpack_require__(14);
+
+
+/**
+ * Primary data acquisition.
+ *
+ * @param data - Response from api
+ *
+ * @return void
+ */
+function init(data) {
+  if (data.token) {
+    localStorage.setItem('token', data.token);
+  }
+
+  if (data.user) {
+    __WEBPACK_IMPORTED_MODULE_0__store_store__["a" /* default */].dispatch('authSetUser', data.user);
+    if (data.user.object) {
+      __WEBPACK_IMPORTED_MODULE_0__store_store__["a" /* default */].dispatch('authSetObject', data.user.object);
+    }
+  }
 }
 
 /***/ })
