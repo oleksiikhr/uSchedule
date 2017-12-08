@@ -4,6 +4,7 @@ namespace App;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class Object extends Model
 {
@@ -25,13 +26,13 @@ class Object extends Model
         ];
     }
 
-    public function objectType()
+    public function objectType(): Relation
     {
-        return $this->hasOne('App\ObjectType', 'type_id');
+        return $this->hasOne(ObjectType::class, 'id', 'type_id');
     }
 
-    public function object()
+    public function subjects(): Relation
     {
-        return $this->hasMany(Object::class);
+        return $this->hasMany(Subject::class, 'object_id', 'id');
     }
 }
