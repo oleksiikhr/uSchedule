@@ -1,7 +1,7 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Object::class, function (Faker\Generator $faker) {
+$factory->define(App\ObjectModel::class, function (Faker\Generator $faker) {
     $type = \App\ObjectType::inRandomOrder()->first();
 
     return [
@@ -15,7 +15,7 @@ $factory->define(App\Object::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Faculty::class, function (Faker\Generator $faker) {
-   $object = \App\Object::inRandomOrder()->first();
+   $object = \App\ObjectModel::inRandomOrder()->first();
 
    return [
        'object_id' => $object->id,
@@ -39,7 +39,7 @@ $factory->define(App\Group::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Teacher::class, function (Faker\Generator $faker) {
-    $object = \App\Object::inRandomOrder()->first();
+    $object = \App\ObjectModel::inRandomOrder()->first();
 
     return [
         'object_id' => $object->id,
@@ -54,7 +54,7 @@ $factory->define(App\Teacher::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Subject::class, function (Faker\Generator $faker) {
-    $object = \App\Object::inRandomOrder()->first();
+    $object = \App\ObjectModel::inRandomOrder()->first();
 
     return [
         'object_id' => $object->id,

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ObjectRequest;
-use App\Object;
+use App\ObjectModel;
 use Illuminate\Http\{Request, JsonResponse};
 use Illuminate\Support\Facades\Auth;
 
@@ -26,7 +26,7 @@ class ObjectController extends Controller
     public function list(Request $request)
     {
         // TODO: Temporary
-        return Object::where('name', 'like', '%' . $request->search . '%')->get();
+        return ObjectModel::where('name', 'like', '%' . $request->search . '%')->get();
     }
 
     /**
@@ -38,7 +38,7 @@ class ObjectController extends Controller
      */
     public function one(Request $request)
     {
-        $object = Object::findOrFail($request->id);
+        $object = ObjectModel::findOrFail($request->id);
 
 
         if ($object && (Auth::user()->object_id === $object->id)) {
@@ -57,7 +57,7 @@ class ObjectController extends Controller
      */
     public function create(ObjectRequest $request)
     {
-        $object = new Object();
+        $object = new ObjectModel();
 
         $object->name = $request->name;
         $object->type_id = $request->type;
@@ -80,7 +80,7 @@ class ObjectController extends Controller
      */
     public function update(ObjectRequest $request)
     {
-        $object = Object::find($request->id);
+        $object = ObjectModel::find($request->id);
 
         if(!$object) {
             return response()->json(['message' => 'Object not found'], 404);

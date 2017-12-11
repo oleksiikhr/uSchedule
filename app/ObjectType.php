@@ -27,6 +27,6 @@ class ObjectType extends Model
 
     public function objects()
     {
-        return $this->hasMany('App\Object', 'type_id', 'id');
+        return $this->hasMany('App\ObjectModel', 'type_id', 'id');
     }
 }

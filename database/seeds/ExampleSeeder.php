@@ -2,7 +2,7 @@
 
 use App\Faculty;
 use App\Group;
-use App\Object;
+use App\ObjectModel;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -16,7 +16,7 @@ class ExampleSeeder extends Seeder
      */
     public function run()
     {
-        Object::insert([
+        ObjectModel::insert([
             'name' => 'Demo',
             'slug' => 'demo',
             'type_id' => 1,
