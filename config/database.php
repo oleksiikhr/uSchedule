@@ -54,11 +54,11 @@ return [
             'engine' => null,
         ],
 
-        'pgsql' => [
+        'heroku' => [
             'driver' => 'pgsql',
             'host' => env('HEROKU_DB_HOST', '127.0.0.1'),
-            'port' => env('HEROKU_DB_PORT', '5432'),
-            'database' => env('HEROKU_DB_DATABSE', 'forge'),
+            'port' => env('HEROKU_DB_PORT', '3306'),
+            'database' => env('HEROKU_DB_DATABASE', 'forge'),
             'username' => env('HEROKU_DB_USERNAME', 'forge'),
             'password' => env('HEROKU_DB_PASSWORD', ''),
             'charset' => 'utf8',
