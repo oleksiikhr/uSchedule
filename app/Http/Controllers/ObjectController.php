@@ -45,7 +45,6 @@ class ObjectController extends Controller
             return $object;
         }
 
-
         return JsonResponse::fromJsonString('You don\'t have permissions for this object', 403);
     }
 
@@ -82,6 +81,14 @@ class ObjectController extends Controller
     public function update(ObjectRequest $request)
     {
         $object = Object::find($request->id);
+
+        if(!$object) {
+            return JsonResponse::fromJsonString('Object not found', 404);
+        }
+
+        if((Auth::user()->object_id !== $object->id)) {
+            return JsonResponse::fromJsonString('You don\'t have permissions for this object', 403);
+        }
 
         $object->name = $request->name;
         $object->type_id = $request->type;
