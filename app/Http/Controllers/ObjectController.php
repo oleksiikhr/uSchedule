@@ -45,7 +45,7 @@ class ObjectController extends Controller
             return $object;
         }
 
-        return JsonResponse::fromJsonString('You don\'t have permissions for this object', 403);
+        return response()->json(['message' => 'You don\'t have permissions for this object'], 403);
     }
 
     /**
@@ -65,10 +65,10 @@ class ObjectController extends Controller
         $object->timestamps;
 
         if($object->save()) {
-            return JsonResponse::fromJsonString('Object successful saved');
+            return response()->json(['message' => 'Object successful saved']);
         }
 
-        return JsonResponse::fromJsonString('Something was wrong', 400);
+        return response()->json(['message' => 'Something was wrong'], 400);
     }
 
     /**
@@ -83,11 +83,11 @@ class ObjectController extends Controller
         $object = Object::find($request->id);
 
         if(!$object) {
-            return JsonResponse::fromJsonString('Object not found', 404);
+            return response()->json(['message' => 'Object not found'], 404);
         }
 
         if((Auth::user()->object_id !== $object->id)) {
-            return JsonResponse::fromJsonString('You don\'t have permissions for this object', 403);
+            return response()->json(['message' => 'You don\'t have permissions for this object'], 403);
         }
 
         $object->name = $request->name;
@@ -96,10 +96,10 @@ class ObjectController extends Controller
         $object->timestamps;
 
         if($object->save()) {
-            return JsonResponse::fromJsonString('Object successful saved');
+            return response()->json(['message' => 'Object successful saved']);
         }
 
-        return JsonResponse::fromJsonString('Something was wrong', 400);
+        return response()->json(['message' => 'Something was wrong'], 400);
     }
 
     /**
