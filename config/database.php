@@ -54,7 +54,7 @@ return [
             'engine' => null,
         ],
 
-        'heroku' => [
+        'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('HEROKU_DB_HOST', '127.0.0.1'),
             'port' => env('HEROKU_DB_PORT', '3306'),
