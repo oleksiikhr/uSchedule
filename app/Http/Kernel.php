@@ -61,7 +61,7 @@ class Kernel extends HttpKernel
         /*
          * Custom
          */
-        'role' => \Zizaco\Entrust\Middleware\EntrustRole::class,
+        'role' => \App\Http\Middleware\CheckRole::class,
         'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
         'jwt.auth' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,

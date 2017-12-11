@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ScheduleRequest extends FormRequest
+class ObjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class ScheduleRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -23,9 +23,10 @@ class ScheduleRequest extends FormRequest
      */
     public function rules()
     {
-        // TODO: fillable
         return [
-
+            'name' => 'string|required|size:100',
+            'type_id' => 'integer|required|size:10',
+            'image' => 'string|size:190'
         ];
     }
 }

@@ -27,6 +27,9 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     // Object
     Route::group(['prefix' => 'object'], function () {
         Route::get('{id}', 'ObjectController@one');
+        Route::post('/create', 'ObjectController@create');
+        Route::put('/{id}', 'ObjectController@update');
+        Route::delete('/{id}', 'ObjectController@delete');
     });
 
 });
@@ -35,7 +38,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
  * Public.
  */
 Route::get('objects', 'ObjectController@list');
-Route::get('schedules', 'ScheduleController@one');
+Route::get('schedules', 'ScheduleController@list');
 Route::get('schedules/days', 'ScheduleController@days');
 Route::get('subjects', 'SubjectController@list');
 Route::get('teachers', 'TeacherController@list');
