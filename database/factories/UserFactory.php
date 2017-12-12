@@ -73,3 +73,13 @@ $factory->define(App\SubjectFaculty::class, function (Faker\Generator $faker) {
         'faculty_id' => $faculty->id,
     ];
 });
+
+$factory->define(App\TeacherFaculty::class, function(Faker\Generator $faker) {
+    $teacher = \App\Teacher::inRandomOrder()->first();
+    $faculty = \App\Faculty::inRandomOrder()->first();
+
+    return [
+        'teacher_id' => $teacher->id,
+        'faculty_id' => $faculty->id,
+    ];
+});
