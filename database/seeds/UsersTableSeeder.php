@@ -14,8 +14,8 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         User::insert([
-            'email'    => 'admin@example.com',
-            'password' => bcrypt('admin123'),
+            'email'      => 'admin@example.com',
+            'password'   => bcrypt('admin123'),
             'updated_at' => Carbon::now(),
             'created_at' => Carbon::now(),
         ]);

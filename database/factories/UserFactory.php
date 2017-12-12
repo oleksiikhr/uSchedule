@@ -65,13 +65,16 @@ $factory->define(App\Subject::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\SubjectFaculty::class, function (Faker\Generator $faker) {
-    $subject = \App\Subject::inRandomOrder()->first();
-    $faculty = \App\Faculty::where('object_id', '=', $subject->object_id)->inRandomOrder()->first();
+    $faculty = \App\Faculty::inRandomOrder()->first();
 
-    return [
-        'subject_id' => $subject->id,
-        'faculty_id' => $faculty->id,
-    ];
+    while (true) {
+        if ($subject = \App\Subject::where('object_id', '=', $faculty->object_id)->inRandomOrder()->first()) {
+            return [
+                'subject_id' => $subject->id,
+                'faculty_id' => $faculty->id,
+            ];
+        }
+    }
 });
 
 $factory->define(App\TeacherFaculty::class, function(Faker\Generator $faker) {

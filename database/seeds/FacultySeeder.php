@@ -12,6 +12,6 @@ class FacultySeeder extends Seeder
      */
     public function run()
     {
-        factory(Faculty::class, 5)->create();
+        factory(Faculty::class, 10)->create();
     }
 }
