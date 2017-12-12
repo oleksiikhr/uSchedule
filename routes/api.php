@@ -39,6 +39,10 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('/list', 'SubjectController@list');
     });
 
+    Route::group(['prefix' => 'teacher'], function () {
+        Route::get('/list', 'TeacherController@list');
+    });
+
 });
 
 /* | -------------------------------------------------------------------

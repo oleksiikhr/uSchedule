@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Faculty;
-use App\Subject;
-use App\SubjectFaculty;
 use Illuminate\Http\Request;
 use App\Http\Requests\SubjectRequest;
-use Illuminate\Database\Eloquent\Collection;
 
 class SubjectController extends Controller
 {
