@@ -66,7 +66,7 @@ $factory->define(App\Subject::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\SubjectFaculty::class, function (Faker\Generator $faker) {
+$factory->define(App\FacultySubject::class, function (Faker\Generator $faker) {
     $faculty = \App\Faculty::inRandomOrder()->first();
 
     while (true) {

@@ -10,7 +10,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('register', 'AuthController@register'); // TODO: make (email, password, object_id)
     Route::post('login', 'AuthController@login');
     Route::post('restore-password', 'AuthController@restorePassword'); // TODO: write this method
-    Route::get('refresh-token', 'AuthController@refreshToken');
+    Route::post('refresh-token', 'AuthController@refreshToken');
 
 });
 
@@ -28,19 +28,19 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     });
 
     /** @see \App\Http\Controllers\ObjectController - Object Section */
-    Route::group(['prefix' => 'object'], function () {
+    Route::group(['prefix' => 'objects'], function () {
         Route::get('{id}', 'ObjectController@one');
         Route::post('/create', 'ObjectController@create');
         Route::put('/{id}', 'ObjectController@update');
         Route::delete('/{id}', 'ObjectController@delete');
     });
 
-    Route::group(['prefix' => 'subject'], function () {
-        Route::get('/list', 'SubjectController@list');
+    Route::group(['prefix' => 'subjects'], function () {
+        Route::get('list', 'SubjectController@list');
     });
 
-    Route::group(['prefix' => 'teacher'], function () {
-        Route::get('/list', 'TeacherController@list');
+    Route::group(['prefix' => 'teachers'], function () {
+        Route::get('list', 'TeacherController@list');
     });
 
 });
@@ -49,6 +49,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
  * | Public methods.
  * | -------------------------------------------------------------------
  */
+// TODO: All temporary* Check..
 Route::get('objects', 'ObjectController@list');
 Route::get('schedules', 'ScheduleController@list');
 Route::get('schedules/days', 'ScheduleController@days');

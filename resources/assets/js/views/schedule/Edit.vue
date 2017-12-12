@@ -19,16 +19,30 @@
           <v-tabs-items>
             <v-tabs-content id="tab-schedules">
               <v-card flat>
-                <v-text-field solo label="Предмет" v-model="searchSubject" single-line prepend-icon="search" />
-                <draggable :list="filterSubjects" element="v-list" :clone="cloneSubject" :move="moveSubject" @end="endMoveSubject"
-                           :options="{ group:{ name: 'subjects', pull: 'clone', put: false }, sort: false }">
-                  <v-list-tile :title="subject.title" v-for="subject in filterSubjects" :key="subject.id">
-                    <v-list-tile-content>{{ subject.title }}</v-list-tile-content>
-                  </v-list-tile>
-                </draggable>
+                <template v-if="!loadingSubjects">
+                  <v-text-field solo label="Предмет" v-model="searchSubject" single-line prepend-icon="search" />
+                  <draggable :list="filterSubjects" element="v-list" :clone="cloneSubject" :move="moveSubject" @end="endMoveSubject"
+                             :options="{ group:{ name: 'subjects', pull: 'clone', put: false }, sort: false }">
+                    <v-list-tile :title="subject.title" v-for="subject in filterSubjects" :key="subject.id">
+                      <v-list-tile-content>{{ subject.title }}</v-list-tile-content>
+                    </v-list-tile>
+                  </draggable>
+                </template>
+                <template v-else> <!-- Subjects is loading or error -->
+                  <template v-if="errorSubjects">
+                    <div class="bad-response error-left-column">
+                      <v-btn outline block color="black" @click="fetchGetSubjects()">Оновити</v-btn>
+                    </div>
+                  </template>
+                  <template v-else-if="!loadingSchedule && !errorSchedule">
+                    <div class="bad-response loading-subjects">
+                      <v-progress-circular indeterminate :size="50" :width="3" color="primary" />
+                    </div>
+                  </template>
+                </template> <!-- END Subjects is loading or error -->
               </v-card>
             </v-tabs-content>
-            <v-tabs-content id="tab-teachers">
+            <v-tabs-content id="tab-teachers"> <!-- TODO: After complete subjects -->
               <v-card flat>
                 <v-card-text>Teachers..</v-card-text>
               </v-card>
@@ -52,8 +66,8 @@
         <template v-else> <!-- Schedule is loading or error -->
           <template v-if="errorSchedule">
             <div class="bad-response error-schedule">
-              <h2 class="red darken-1 white--text">Помилка при отримані розкладу</h2>
-              <v-btn outline color="primary" @click="getSchedule()">Оновити</v-btn>
+              <h2 class="light-blue darken-2 white--text">Помилка при отримані розкладу</h2>
+              <v-btn outline color="black" @click="getSchedule()">Оновити</v-btn>
             </div>
           </template>
           <template v-else>
@@ -88,6 +102,8 @@
 
         // Error
         errorSchedule: false,
+        errorSubjects: false,
+        errorTeachers: false,
 
         // Search
         searchSubject: '',
@@ -106,7 +122,6 @@
     },
     deactivated () {
       this.$store.dispatch('templateSetBodyClass', '')
-      this.loadingSchedule = false
     },
     computed: {
       filterSubjects () {
@@ -154,7 +169,6 @@
       getSchedule () {
         this.loadingSchedule = true
         this.errorSchedule = false
-        this.schedule = {}
 
         get('/api/schedule', {
           schedule_id: this.schedule.id
@@ -176,8 +190,8 @@
         this.subjects = []
 
         get('/api/subjects', {
-          faculty_id: this.schedule.id,
-          course: this.schedule.course
+          object_id: 1,
+          faculty_id: this.schedule.id
         })
             .then(res => {
               console.log('Subjects', res.data)

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Faculty;
+use App\Subject;
+use App\FacultySubject;
 use Illuminate\Http\Request;
 use App\Http\Requests\SubjectRequest;
 
@@ -17,7 +19,10 @@ class SubjectController extends Controller
      */
     public function list(SubjectRequest $request)
     {
-        $subjects = Faculty::find($request->faculty_id)->subjects()->get();
+        $subjects = Subject::whereHas('faculty', function ($q) {
+            $q->where('faculty_id', 1);
+        })
+            ->get();
 
         return $subjects;
     }

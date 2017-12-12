@@ -18,7 +18,7 @@ import ScheduleEdit from '../views/schedule/Edit.vue'
 
 // Other components
 import store from '../store/store'
-import { get } from '../helpers/api'
+import { post } from '../helpers/api'
 
 // Vue use
 Vue.use(VueRouter)
@@ -53,7 +53,7 @@ axios.interceptors.response.use(null, err => {
       router.push({ name: 'login' })
     }
     else {
-      return get('/api/refresh-token')
+      return post('/api/refresh-token')
           .then(res => {
             if (res.data.token) {
               window.localStorage.setItem('token', res.data.token)

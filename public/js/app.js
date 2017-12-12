@@ -58162,7 +58162,7 @@ __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(null, fu
     if (!token) {
       router.push({ name: 'login' });
     } else {
-      return Object(__WEBPACK_IMPORTED_MODULE_11__helpers_api__["a" /* get */])('/api/refresh-token').then(function (res) {
+      return Object(__WEBPACK_IMPORTED_MODULE_11__helpers_api__["b" /* post */])('/api/refresh-token').then(function (res) {
         if (res.data.token) {
           window.localStorage.setItem('token', res.data.token);
           originalRequest.headers['Authorization'] = 'Bearer ' + res.data.token;
@@ -62125,6 +62125,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -62146,6 +62160,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       // Error
       errorSchedule: false,
+      errorSubjects: false,
+      errorTeachers: false,
 
       // Search
       searchSubject: '',
@@ -62164,7 +62180,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   deactivated: function deactivated() {
     this.$store.dispatch('templateSetBodyClass', '');
-    this.loadingSchedule = false;
   },
 
   computed: {
@@ -62217,7 +62232,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.loadingSchedule = true;
       this.errorSchedule = false;
-      this.schedule = {};
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/schedule', {
         schedule_id: this.schedule.id
@@ -62240,8 +62254,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.subjects = [];
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/subjects', {
-        faculty_id: this.schedule.id,
-        course: this.schedule.course
+        object_id: 1,
+        faculty_id: this.schedule.id
       }).then(function (res) {
         console.log('Subjects', res.data);
         _this3.subjects = res.data;
@@ -64318,59 +64332,117 @@ var render = function() {
                           "v-card",
                           { attrs: { flat: "" } },
                           [
-                            _c("v-text-field", {
-                              attrs: {
-                                solo: "",
-                                label: "Предмет",
-                                "single-line": "",
-                                "prepend-icon": "search"
-                              },
-                              model: {
-                                value: _vm.searchSubject,
-                                callback: function($$v) {
-                                  _vm.searchSubject = $$v
-                                },
-                                expression: "searchSubject"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "draggable",
-                              {
-                                attrs: {
-                                  list: _vm.filterSubjects,
-                                  element: "v-list",
-                                  clone: _vm.cloneSubject,
-                                  move: _vm.moveSubject,
-                                  options: {
-                                    group: {
-                                      name: "subjects",
-                                      pull: "clone",
-                                      put: false
+                            !_vm.loadingSubjects
+                              ? [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      solo: "",
+                                      label: "Предмет",
+                                      "single-line": "",
+                                      "prepend-icon": "search"
                                     },
-                                    sort: false
-                                  }
-                                },
-                                on: { end: _vm.endMoveSubject }
-                              },
-                              _vm._l(_vm.filterSubjects, function(subject) {
-                                return _c(
-                                  "v-list-tile",
-                                  {
-                                    key: subject.id,
-                                    attrs: { title: subject.title }
-                                  },
-                                  [
-                                    _c("v-list-tile-content", [
-                                      _vm._v(_vm._s(subject.title))
-                                    ])
-                                  ],
-                                  1
-                                )
-                              })
-                            )
+                                    model: {
+                                      value: _vm.searchSubject,
+                                      callback: function($$v) {
+                                        _vm.searchSubject = $$v
+                                      },
+                                      expression: "searchSubject"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "draggable",
+                                    {
+                                      attrs: {
+                                        list: _vm.filterSubjects,
+                                        element: "v-list",
+                                        clone: _vm.cloneSubject,
+                                        move: _vm.moveSubject,
+                                        options: {
+                                          group: {
+                                            name: "subjects",
+                                            pull: "clone",
+                                            put: false
+                                          },
+                                          sort: false
+                                        }
+                                      },
+                                      on: { end: _vm.endMoveSubject }
+                                    },
+                                    _vm._l(_vm.filterSubjects, function(
+                                      subject
+                                    ) {
+                                      return _c(
+                                        "v-list-tile",
+                                        {
+                                          key: subject.id,
+                                          attrs: { title: subject.title }
+                                        },
+                                        [
+                                          _c("v-list-tile-content", [
+                                            _vm._v(_vm._s(subject.title))
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                    })
+                                  )
+                                ]
+                              : [
+                                  _vm.errorSubjects
+                                    ? [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "bad-response error-left-column"
+                                          },
+                                          [
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                attrs: {
+                                                  outline: "",
+                                                  block: "",
+                                                  color: "black"
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.fetchGetSubjects()
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("Оновити")]
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ]
+                                    : !_vm.loadingSchedule && !_vm.errorSchedule
+                                      ? [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "bad-response loading-subjects"
+                                            },
+                                            [
+                                              _c("v-progress-circular", {
+                                                attrs: {
+                                                  indeterminate: "",
+                                                  size: 50,
+                                                  width: 3,
+                                                  color: "primary"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      : _vm._e()
+                                ]
                           ],
-                          1
+                          2
                         )
                       ],
                       1
@@ -64439,14 +64511,16 @@ var render = function() {
                           [
                             _c(
                               "h2",
-                              { staticClass: "red darken-1 white--text" },
+                              {
+                                staticClass: "light-blue darken-2 white--text"
+                              },
                               [_vm._v("Помилка при отримані розкладу")]
                             ),
                             _vm._v(" "),
                             _c(
                               "v-btn",
                               {
-                                attrs: { outline: "", color: "primary" },
+                                attrs: { outline: "", color: "black" },
                                 on: {
                                   click: function($event) {
                                     _vm.getSchedule()

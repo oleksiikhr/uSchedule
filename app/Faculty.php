@@ -9,14 +9,9 @@ class Faculty extends Model
 {
     protected $table = 'faculties';
 
-    /**
-     * Get all subjects by relation faculty
-     *
-     * @return HasMany
-     */
-    public function subjects(): HasMany
+    public function subjects()
     {
-        return $this->hasMany(SubjectFaculty::class, 'faculty_id', 'id')->with('subject');
+        return $this->belongsToMany(Subject::class);
     }
 
     /**

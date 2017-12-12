@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSubjectsFacultiesTable extends Migration
+class CreateFacultySubjectTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,16 +17,16 @@ class CreateSubjectsFacultiesTable extends Migration
          * @see CreateSubjectsTable subject_id
          * @see CreateFacultiesTable faculty_id
          */
-        Schema::create('subjects_faculties', function (Blueprint $table) {
-            $table->unsignedInteger('subject_id');
+        Schema::create('faculty_subject', function (Blueprint $table) {
             $table->unsignedInteger('faculty_id');
+            $table->unsignedInteger('subject_id');
 
-            $table->foreign('subject_id')->references('id')->on('subjects')
-                ->onDelete('cascade');
             $table->foreign('faculty_id')->references('id')->on('faculties')
                 ->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')
+                ->onDelete('cascade');
 
-            $table->index(['subject_id', 'faculty_id']);
+            $table->index(['faculty_id', 'subject_id']);
         });
     }
 
@@ -37,6 +37,6 @@ class CreateSubjectsFacultiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subjects_faculties');
+        Schema::dropIfExists('faculty_subject');
     }
 }

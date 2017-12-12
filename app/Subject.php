@@ -8,6 +8,11 @@ class Subject extends Model
 {
     protected $table = 'subjects';
 
+    public function faculty()
+    {
+        return $this->belongsToMany(Faculty::class);
+    }
+
     /**
      * Get all subjects by object
      *
