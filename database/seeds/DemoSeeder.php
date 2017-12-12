@@ -13,6 +13,8 @@ use App\LessonSub;
 use Carbon\Carbon;
 use App\LessonType;
 use App\ObjectModel;
+use App\FacultySubject;
+use App\FacultyTeacher;
 use App\ObjectLessonTime;
 use Illuminate\Database\Seeder;
 
@@ -41,6 +43,8 @@ class DemoSeeder extends Seeder
         self::LessonType();
         self::LessonSub();
         self::LessonTime();
+        self::FacultySubject();
+        self::FacultyTeacher();
     }
 
     private static function Object()
@@ -209,6 +213,26 @@ class DemoSeeder extends Seeder
                 'end_time' => $end[$i],
                 'updated_at' => Carbon::now(),
                 'created_at' => Carbon::now(),
+            ]);
+        }
+    }
+
+    private static function FacultySubject()
+    {
+        for ($i = 0; $i < self::$countSubject / 2; $i++) {
+            FacultySubject::insert([
+                'faculty_id' => 1,
+                'subject_id' => mt_rand(1, self::$countSubject),
+            ]);
+        }
+    }
+
+    private static function FacultyTeacher()
+    {
+        for ($i = 0; $i < self::$countTeacher / 2; $i++) {
+            FacultyTeacher::insert([
+                'faculty_id' => 1,
+                'teacher_id' => mt_rand(1, self::$countTeacher),
             ]);
         }
     }

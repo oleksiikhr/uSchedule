@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Faculty extends Model
 {
@@ -14,13 +13,8 @@ class Faculty extends Model
         return $this->belongsToMany(Subject::class);
     }
 
-    /**
-     * Get all teachers by relation faculty
-     *
-     * @return HasMany
-     */
-    public function teachers(): HasMany
+    public function teachers()
     {
-        return $this->hasMany(TeacherFaculty::class, 'faculty_id', 'id')->with('teacher');
+        return $this->belongsToMany(Teacher::class);
     }
 }

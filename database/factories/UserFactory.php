@@ -72,21 +72,21 @@ $factory->define(App\FacultySubject::class, function (Faker\Generator $faker) {
     while (true) {
         if ($subject = Subject::where('object_id', '=', $faculty->object_id)->inRandomOrder()->first()) {
             return [
-                'subject_id' => $subject->id,
                 'faculty_id' => $faculty->id,
+                'subject_id' => $subject->id,
             ];
         }
     }
 });
 
-$factory->define(App\TeacherFaculty::class, function(Faker\Generator $faker) {
+$factory->define(App\FacultyTeacher::class, function(Faker\Generator $faker) {
     $faculty = \App\Faculty::inRandomOrder()->first();
 
     while (true) {
         if ($teacher = Teacher::where('object_id', '=', $faculty->object_id)->inRandomOrder()->first()) {
             return [
-                'teacher_id' => $teacher->id,
                 'faculty_id' => $faculty->id,
+                'teacher_id' => $teacher->id,
             ];
         }
     }
