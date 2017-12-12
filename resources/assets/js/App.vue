@@ -109,7 +109,7 @@
             icon: 'home', text: 'Головна сторінка', to: '/home'
           }, {
             icon: 'account_circle', text: 'Профіль', to: '/profile', isAuth: true,
-            subIcon: 'edit', subText: 'Налаштування', subTo: '/edit/edit'
+            subIcon: 'settings', subText: 'Налаштування', subTo: '/edit/edit'
           }, {
             icon: 'description', text: 'Новини', to: '/news',
             subIcon: 'add', subText: 'Додати', subTo: '/news/create', subIsAuth: true

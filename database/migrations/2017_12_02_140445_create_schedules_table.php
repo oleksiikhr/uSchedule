@@ -23,8 +23,8 @@ class CreateSchedulesTable extends Migration
             $table->unsignedInteger('object_id');
             $table->unsignedInteger('faculty_id');
             $table->unsignedInteger('group_id');
-            $table->integer('course');
             $table->integer('daytime'); // TODO: Look later (new table, school)**
+            $table->timestamps();
 
             $table->foreign('object_id')->references('id')->on('objects')
                 ->onDelete('cascade');

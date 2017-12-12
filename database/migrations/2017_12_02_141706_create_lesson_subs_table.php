@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLessonsSubsTable extends Migration
+class CreateLessonSubsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,9 +16,9 @@ class CreateLessonsSubsTable extends Migration
         /**
          * @see CreateLessonsTable lesson_id
          * @see CreateTeachersTable teacher_id
-         * @see CreateLessonsTypesTable type_id
+         * @see CreateLessonTypesTable type_id
          */
-        Schema::create('lessons_subs', function (Blueprint $table) {
+        Schema::create('lesson_subs', function (Blueprint $table) {
             $table->unsignedInteger('lesson_id');
             $table->unsignedInteger('teacher_id')->nullable();
             $table->unsignedInteger('type_id')->nullable();
@@ -28,7 +28,7 @@ class CreateLessonsSubsTable extends Migration
                 ->onDelete('cascade');
             $table->foreign('teacher_id')->references('id')->on('teachers')
                 ->onDelete('set null');
-            $table->foreign('type_id')->references('id')->on('lessons_types')
+            $table->foreign('type_id')->references('id')->on('lesson_types')
                 ->onDelete('set null');
 
             $table->index(['lesson_id', 'teacher_id', 'type_id']);
@@ -42,6 +42,6 @@ class CreateLessonsSubsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lessons_subs');
+        Schema::dropIfExists('lesson_subs');
     }
 }

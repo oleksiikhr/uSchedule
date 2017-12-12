@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ObjectLessonTime extends Model
 {
-    protected $table = 'objects_lessons_time';
+    protected $table = 'object_lessons_time';
 }

@@ -30,8 +30,8 @@ $factory->define(App\Group::class, function (Faker\Generator $faker) {
     $faculty = \App\Faculty::inRandomOrder()->first();
 
     return [
-        'captain_id' => null,
         'faculty_id' => $faculty->id,
+        'course' => mt_rand(1, 4),
         'name' => mb_substr($faker->unique()->company, 0, 191),
         'created_at' => $faker->date('Y-m-d H:i:s'),
         'updated_at' => $faker->date('Y-m-d H:i:s')
@@ -45,7 +45,7 @@ $factory->define(App\Teacher::class, function (Faker\Generator $faker) {
         'object_id' => $object->id,
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
-        'middle_name' => $faker->company,
+        'middle_name' => $faker->lastName,
         'academic_title' => $faker->title,
         'image' => null,
         'created_at' => $faker->date('Y-m-d H:i:s'),
@@ -66,7 +66,7 @@ $factory->define(App\Subject::class, function (Faker\Generator $faker) {
 
 $factory->define(App\SubjectFaculty::class, function (Faker\Generator $faker) {
     $subject = \App\Subject::inRandomOrder()->first();
-    $faculty = \App\Faculty::inRandomOrder()->first();
+    $faculty = \App\Faculty::where('object_id', '=', $subject->object_id)->inRandomOrder()->first();
 
     return [
         'subject_id' => $subject->id,
@@ -76,7 +76,7 @@ $factory->define(App\SubjectFaculty::class, function (Faker\Generator $faker) {
 
 $factory->define(App\TeacherFaculty::class, function(Faker\Generator $faker) {
     $teacher = \App\Teacher::inRandomOrder()->first();
-    $faculty = \App\Faculty::inRandomOrder()->first();
+    $faculty = \App\Faculty::where('object_id', '=', $teacher->object_id)->inRandomOrder()->first();
 
     return [
         'teacher_id' => $teacher->id,

@@ -133,7 +133,7 @@
        * Fetch API
        */
       getSchedule () {
-        get('/api/schedules', {
+        get('/api/schedule', {
           schedule_id: this.schedule.id
         })
             .then(res => {

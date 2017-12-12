@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLessonsTypesTable extends Migration
+class CreateLessonTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,11 +16,12 @@ class CreateLessonsTypesTable extends Migration
         /**
          * @see CreateObjectsTable object_id
          */
-        Schema::create('lessons_types', function (Blueprint $table) {
+        Schema::create('lesson_types', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('object_id');
-            $table->string('name', 60);
-            $table->string('display_name');
+            $table->string('short_name', 60);
+            $table->string('long_name', 100);
+            $table->timestamps();
 
             $table->foreign('object_id')->references('id')->on('objects')
                 ->onDelete('cascade');
@@ -36,6 +37,6 @@ class CreateLessonsTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lessons_types');
+        Schema::dropIfExists('lesson_types');
     }
 }

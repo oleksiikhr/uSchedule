@@ -46,3 +46,5 @@ Route::get('schedules', 'ScheduleController@list');
 Route::get('schedules/days', 'ScheduleController@days');
 Route::get('subjects', 'SubjectController@list');
 Route::get('teachers', 'TeacherController@list');
+
+Route::get('schedule', 'ScheduleController@one');
