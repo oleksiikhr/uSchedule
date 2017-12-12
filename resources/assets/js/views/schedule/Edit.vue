@@ -37,16 +37,31 @@
         </v-tabs>
       </div>
       <div class="right-column">
-        <table>
-          <thead>
-          <tr>
-            <draggable :list="filterSubjects" element="table"
-                       :options="{ group:{ name: 'subjects', pull: 'clone', put: false }, sort: false }">
+        <template v-if="!loadingSchedule">
+          <table>
+            <thead>
+            <tr>
+              <draggable :list="filterSubjects" element="table"
+                         :options="{ group:{ name: 'subjects', pull: 'clone', put: false }, sort: false }">
 
-            </draggable>
-          </tr>
-          </thead>
-        </table>
+              </draggable>
+            </tr>
+            </thead>
+          </table>
+        </template>
+        <template v-else> <!-- Schedule is loading or error -->
+          <template v-if="errorSchedule">
+            <div class="bad-response error-schedule">
+              <h2 class="red darken-1 white--text">Помилка при отримані розкладу</h2>
+              <v-btn outline color="primary" @click="getSchedule()">Оновити</v-btn>
+            </div>
+          </template>
+          <template v-else>
+            <div class="bad-response loading-schedule">
+              <v-progress-circular indeterminate :size="80" :width="5" color="primary" />
+            </div>
+          </template>
+        </template> <!-- End Schedule is loading or error  -->
       </div>
     </v-layout>
   </v-container>
@@ -65,12 +80,14 @@
         schedule: {},
         subjects: [],
         teachers: [],
-        scheduleDays: [],
 
-        loadingSchedule: false,
-        loadingSubjects: false,
-        loadingTeachers: false,
-        loadingScheduleDays: false,
+        // Loading
+        loadingSchedule: true,
+        loadingSubjects: true,
+        loadingTeachers: true,
+
+        // Error
+        errorSchedule: false,
 
         // Search
         searchSubject: '',
@@ -89,6 +106,7 @@
     },
     deactivated () {
       this.$store.dispatch('templateSetBodyClass', '')
+      this.loadingSchedule = false
     },
     computed: {
       filterSubjects () {
@@ -132,47 +150,53 @@
       /*
        * Fetch API
        */
+      // Global info about Schedule
       getSchedule () {
+        this.loadingSchedule = true
+        this.errorSchedule = false
+        this.schedule = {}
+
         get('/api/schedule', {
           schedule_id: this.schedule.id
         })
             .then(res => {
-              this.schedule = res.data
               console.log('Schedule', res.data)
+              this.schedule = res.data
+              this.loadingSchedule = false
               this.fetchGetSubjects()
               this.fetchGetTeachers()
-              this.fetchGetScheduleDays()
+            })
+            .catch(err => {
+              this.errorSchedule = true
             })
       },
       // For the list on the left
       fetchGetSubjects () {
+        this.loadingSubjects = true
+        this.subjects = []
+
         get('/api/subjects', {
           faculty_id: this.schedule.id,
           course: this.schedule.course
         })
             .then(res => {
-              this.subjects = res.data
               console.log('Subjects', res.data)
+              this.subjects = res.data
+              this.loadingSubjects = false
             })
       },
       // For the list on the left
       fetchGetTeachers () {
+        this.loadingTeachers = true
+        this.teachers = []
+
         get('/api/teachers', {
           schedule_id: this.schedule.id
         })
             .then(res => {
-              this.teachers = res.data
               console.log('Teachers', res.data)
-            })
-      },
-      // Main part of the schedule
-      fetchGetScheduleDays () {
-        get('/api/schedules/days', {
-          schedule_id: this.schedule.id
-        })
-            .then(res => {
-              this.scheduleDays = res.data
-              console.log('Days', this.scheduleDays)
+              this.teachers = res.data
+              this.loadingTeachers = false
             })
       },
 

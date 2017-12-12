@@ -13,12 +13,12 @@
     background: #fff;
     height: 100%;
     width: 300px;
-    border-right: 1px solid #e0e0e0;
     > .tabs {
       height: calc(100% - 68px);
       > .tabs__items {
         height: calc(100% - 48px);
         overflow: auto;
+        border-right: 1px solid #e0e0e0;
       }
     }
   }
@@ -26,5 +26,60 @@
   .right-column {
     width: calc(100% - 300px);
     overflow: auto;
+  }
+}
+
+/* Response error */
+.bad-response {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100% - 65px); // 65px - header
+  align-items: center;
+  justify-content: center;
+}
+
+/* Loading */
+.loading-schedule {
+
+}
+
+/* Errors */
+.error-schedule {
+  max-width: 400px;
+  max-height: 400px;
+  text-align: center;
+  margin: 0 auto;
+
+  h2 {
+    position: relative;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 50px;
+    padding: 20px;
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -43px;
+      left: calc(50% - 10px);
+      border: 10px solid transparent;
+      border-top: 16px solid #424242;
+    }
+    &:before {
+      content: "";
+      position: absolute;
+      bottom: -25px;
+      left: 0;
+      right: 0;
+      max-width: 200px;
+      border-bottom: 1px solid;
+      margin: 0 auto;
+      color: #e0e0e0;
+    }
+  }
+
+  .btn {
+    width: 100%;
+    margin: 0;
   }
 }

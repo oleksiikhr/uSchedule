@@ -62110,6 +62110,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -62123,12 +62138,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       schedule: {},
       subjects: [],
       teachers: [],
-      scheduleDays: [],
 
-      loadingSchedule: false,
-      loadingSubjects: false,
-      loadingTeachers: false,
-      loadingScheduleDays: false,
+      // Loading
+      loadingSchedule: true,
+      loadingSubjects: true,
+      loadingTeachers: true,
+
+      // Error
+      errorSchedule: false,
 
       // Search
       searchSubject: '',
@@ -62147,6 +62164,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   deactivated: function deactivated() {
     this.$store.dispatch('templateSetBodyClass', '');
+    this.loadingSchedule = false;
   },
 
   computed: {
@@ -62193,17 +62211,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     /*
      * Fetch API
      */
+    // Global info about Schedule
     getSchedule: function getSchedule() {
       var _this2 = this;
+
+      this.loadingSchedule = true;
+      this.errorSchedule = false;
+      this.schedule = {};
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/schedule', {
         schedule_id: this.schedule.id
       }).then(function (res) {
-        _this2.schedule = res.data;
         console.log('Schedule', res.data);
+        _this2.schedule = res.data;
+        _this2.loadingSchedule = false;
         _this2.fetchGetSubjects();
         _this2.fetchGetTeachers();
-        _this2.fetchGetScheduleDays();
+      }).catch(function (err) {
+        _this2.errorSchedule = true;
       });
     },
 
@@ -62211,12 +62236,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchGetSubjects: function fetchGetSubjects() {
       var _this3 = this;
 
+      this.loadingSubjects = true;
+      this.subjects = [];
+
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/subjects', {
         faculty_id: this.schedule.id,
         course: this.schedule.course
       }).then(function (res) {
-        _this3.subjects = res.data;
         console.log('Subjects', res.data);
+        _this3.subjects = res.data;
+        _this3.loadingSubjects = false;
       });
     },
 
@@ -62224,23 +62253,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchGetTeachers: function fetchGetTeachers() {
       var _this4 = this;
 
+      this.loadingTeachers = true;
+      this.teachers = [];
+
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/teachers', {
         schedule_id: this.schedule.id
       }).then(function (res) {
-        _this4.teachers = res.data;
         console.log('Teachers', res.data);
-      });
-    },
-
-    // Main part of the schedule
-    fetchGetScheduleDays: function fetchGetScheduleDays() {
-      var _this5 = this;
-
-      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/schedules/days', {
-        schedule_id: this.schedule.id
-      }).then(function (res) {
-        _this5.scheduleDays = res.data;
-        console.log('Days', _this5.scheduleDays);
+        _this4.teachers = res.data;
+        _this4.loadingTeachers = false;
       });
     },
 
@@ -64378,28 +64399,87 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("div", { staticClass: "right-column" }, [
-          _c("table", [
-            _c("thead", [
-              _c(
-                "tr",
-                [
-                  _c("draggable", {
-                    attrs: {
-                      list: _vm.filterSubjects,
-                      element: "table",
-                      options: {
-                        group: { name: "subjects", pull: "clone", put: false },
-                        sort: false
-                      }
-                    }
-                  })
-                ],
-                1
-              )
-            ])
-          ])
-        ])
+        _c(
+          "div",
+          { staticClass: "right-column" },
+          [
+            !_vm.loadingSchedule
+              ? [
+                  _c("table", [
+                    _c("thead", [
+                      _c(
+                        "tr",
+                        [
+                          _c("draggable", {
+                            attrs: {
+                              list: _vm.filterSubjects,
+                              element: "table",
+                              options: {
+                                group: {
+                                  name: "subjects",
+                                  pull: "clone",
+                                  put: false
+                                },
+                                sort: false
+                              }
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ])
+                  ])
+                ]
+              : [
+                  _vm.errorSchedule
+                    ? [
+                        _c(
+                          "div",
+                          { staticClass: "bad-response error-schedule" },
+                          [
+                            _c(
+                              "h2",
+                              { staticClass: "red darken-1 white--text" },
+                              [_vm._v("Помилка при отримані розкладу")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: { outline: "", color: "primary" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.getSchedule()
+                                  }
+                                }
+                              },
+                              [_vm._v("Оновити")]
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    : [
+                        _c(
+                          "div",
+                          { staticClass: "bad-response loading-schedule" },
+                          [
+                            _c("v-progress-circular", {
+                              attrs: {
+                                indeterminate: "",
+                                size: 80,
+                                width: 5,
+                                color: "primary"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]
+                ]
+          ],
+          2
+        )
       ])
     ],
     1

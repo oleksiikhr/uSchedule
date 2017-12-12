@@ -16077,7 +16077,6 @@ table.table tfoot tr {
   background: #fff;
   height: 100%;
   width: 300px;
-  border-right: 1px solid #e0e0e0;
 }
 
 .schedule .left-column > .tabs {
@@ -16087,10 +16086,76 @@ table.table tfoot tr {
 .schedule .left-column > .tabs > .tabs__items {
   height: calc(100% - 48px);
   overflow: auto;
+  border-right: 1px solid #e0e0e0;
 }
 
 .schedule .right-column {
   width: calc(100% - 300px);
   overflow: auto;
+}
+
+/* Response error */
+
+.bad-response {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  height: calc(100% - 65px);
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+/* Loading */
+
+/* Errors */
+
+.error-schedule {
+  max-width: 400px;
+  max-height: 400px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.error-schedule h2 {
+  position: relative;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 50px;
+  padding: 20px;
+}
+
+.error-schedule h2:after {
+  content: "";
+  position: absolute;
+  bottom: -43px;
+  left: calc(50% - 10px);
+  border: 10px solid transparent;
+  border-top: 16px solid #424242;
+}
+
+.error-schedule h2:before {
+  content: "";
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+  right: 0;
+  max-width: 200px;
+  border-bottom: 1px solid;
+  margin: 0 auto;
+  color: #e0e0e0;
+}
+
+.error-schedule .btn {
+  width: 100%;
+  margin: 0;
 }
 
