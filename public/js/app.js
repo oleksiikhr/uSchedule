@@ -62139,6 +62139,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -64334,21 +64340,46 @@ var render = function() {
                           [
                             !_vm.loadingSubjects
                               ? [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      solo: "",
-                                      label: "Предмет",
-                                      "single-line": "",
-                                      "prepend-icon": "search"
+                                  _c(
+                                    "v-layout",
+                                    {
+                                      staticClass: "line-search-update",
+                                      attrs: { row: "", wrap: "" }
                                     },
-                                    model: {
-                                      value: _vm.searchSubject,
-                                      callback: function($$v) {
-                                        _vm.searchSubject = $$v
-                                      },
-                                      expression: "searchSubject"
-                                    }
-                                  }),
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          solo: "",
+                                          label: "Предмет",
+                                          clearable: "",
+                                          "single-line": "",
+                                          "prepend-icon": "search"
+                                        },
+                                        model: {
+                                          value: _vm.searchSubject,
+                                          callback: function($$v) {
+                                            _vm.searchSubject = $$v
+                                          },
+                                          expression: "searchSubject"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { flat: "", icon: "" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.fetchGetSubjects()
+                                            }
+                                          }
+                                        },
+                                        [_c("v-icon", [_vm._v("refresh")])],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
                                   _vm._v(" "),
                                   _c(
                                     "draggable",
@@ -64379,9 +64410,11 @@ var render = function() {
                                           attrs: { title: subject.title }
                                         },
                                         [
-                                          _c("v-list-tile-content", [
-                                            _vm._v(_vm._s(subject.title))
-                                          ])
+                                          _c(
+                                            "v-list-tile-content",
+                                            { staticClass: "cursor-grab" },
+                                            [_vm._v(_vm._s(subject.title))]
+                                          )
                                         ],
                                         1
                                       )

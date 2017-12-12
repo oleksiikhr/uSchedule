@@ -8,25 +8,45 @@
   .wrap {
     height: 100%;
   }
+}
 
-  .left-column {
-    background: #fff;
-    height: 100%;
-    width: 300px;
-    > .tabs {
-      height: calc(100% - 68px);
-      > .tabs__items {
-        height: calc(100% - 48px);
-        overflow: auto;
-        border-right: 1px solid #e0e0e0;
-      }
+/* Left Column */
+.left-column {
+  background: #fff;
+  height: 100%;
+  width: 300px;
+  > .tabs {
+    height: calc(100% - 68px);
+    > .tabs__items {
+      height: calc(100% - 48px);
+      overflow: auto;
+      border-right: 1px solid #e0e0e0;
     }
   }
+}
 
-  .right-column {
-    width: calc(100% - 300px);
-    overflow: auto;
+.line-search-update {
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+  margin-bottom: 5px;
+  .btn {
+    width: 46px;
+    height: 46px;
+    margin: 0;
+    border-radius: unset;
+    .btn__content::before {
+      border-radius: unset;
+    }
   }
+  .input-group {
+    box-shadow: none;
+  }
+}
+
+/* Right Column */
+.right-column {
+  width: calc(100% - 300px);
+  overflow: auto;
 }
 
 /* Response error */

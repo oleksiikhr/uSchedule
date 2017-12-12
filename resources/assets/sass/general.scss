@@ -8,3 +8,13 @@
     }
   }
 }
+
+.cursor-grab {
+  cursor: move;
+  cursor: -webkit-grab;
+}
+
+.cursor-grabbing {
+  cursor: move;
+  cursor: -webkit-grabbing;
+}

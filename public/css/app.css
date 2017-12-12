@@ -15996,6 +15996,16 @@ table.table tfoot tr {
   height: 100%;
 }
 
+.cursor-grab {
+  cursor: move;
+  cursor: -webkit-grab;
+}
+
+.cursor-grabbing {
+  cursor: move;
+  cursor: -webkit-grabbing;
+}
+
 .application--light .toolbar {
   background-color: #fff;
   border-bottom: 1px solid #e0e0e0;
@@ -16073,23 +16083,49 @@ table.table tfoot tr {
   height: 100%;
 }
 
-.schedule .left-column {
+/* Left Column */
+
+.left-column {
   background: #fff;
   height: 100%;
   width: 300px;
 }
 
-.schedule .left-column > .tabs {
+.left-column > .tabs {
   height: calc(100% - 68px);
 }
 
-.schedule .left-column > .tabs > .tabs__items {
+.left-column > .tabs > .tabs__items {
   height: calc(100% - 48px);
   overflow: auto;
   border-right: 1px solid #e0e0e0;
 }
 
-.schedule .right-column {
+.line-search-update {
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+  margin-bottom: 5px;
+}
+
+.line-search-update .btn {
+  width: 46px;
+  height: 46px;
+  margin: 0;
+  border-radius: unset;
+}
+
+.line-search-update .btn .btn__content::before {
+  border-radius: unset;
+}
+
+.line-search-update .input-group {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+/* Right Column */
+
+.right-column {
   width: calc(100% - 300px);
   overflow: auto;
 }

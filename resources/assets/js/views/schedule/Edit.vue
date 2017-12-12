@@ -20,11 +20,17 @@
             <v-tabs-content id="tab-schedules">
               <v-card flat>
                 <template v-if="!loadingSubjects">
-                  <v-text-field solo label="Предмет" v-model="searchSubject" single-line prepend-icon="search" />
+                  <v-layout row wrap class="line-search-update">
+                    <v-text-field solo label="Предмет" clearable v-model="searchSubject" single-line
+                                  prepend-icon="search" />
+                    <v-btn flat icon @click="fetchGetSubjects()">
+                      <v-icon>refresh</v-icon>
+                    </v-btn>
+                  </v-layout>
                   <draggable :list="filterSubjects" element="v-list" :clone="cloneSubject" :move="moveSubject" @end="endMoveSubject"
                              :options="{ group:{ name: 'subjects', pull: 'clone', put: false }, sort: false }">
                     <v-list-tile :title="subject.title" v-for="subject in filterSubjects" :key="subject.id">
-                      <v-list-tile-content>{{ subject.title }}</v-list-tile-content>
+                      <v-list-tile-content class="cursor-grab">{{ subject.title }}</v-list-tile-content>
                     </v-list-tile>
                   </draggable>
                 </template>
