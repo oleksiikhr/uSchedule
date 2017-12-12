@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Teacher;
+use App\Faculty;
 use Illuminate\Http\Request;
 use App\Http\Requests\TeacherRequest;
 
@@ -18,10 +18,9 @@ class TeacherController extends Controller
      */
     public function list(TeacherRequest $request)
     {
-        // TODO: Temporary
-        $teachers = Teacher::all();
+        $teachers = Faculty::find($request->faculty_id)->teachers()->get();
 
-        return response()->json($teachers);
+        return $teachers;
     }
 
     /**
