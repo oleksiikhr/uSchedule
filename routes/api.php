@@ -35,6 +35,10 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::delete('/{id}', 'ObjectController@delete');
     });
 
+    Route::group(['prefix' => 'subject'], function () {
+        Route::get('/list', 'SubjectController@list');
+    });
+
 });
 
 /* | -------------------------------------------------------------------

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Faculty;
 use App\Subject;
+use App\SubjectFaculty;
 use Illuminate\Http\Request;
 use App\Http\Requests\SubjectRequest;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,14 +20,9 @@ class SubjectController extends Controller
      */
     public function list(SubjectRequest $request)
     {
-        $subjects = Subject::with('teacher')
-            ->where([
-                'faculty_id' => $request->faculty_id,
-                'course' => $request->course
-            ])
-            ->get();
+        $subjects = Faculty::find($request->faculty_id)->subjects()->get();
 
-        return response()->json($subjects);
+        return $subjects;
     }
 
     /**

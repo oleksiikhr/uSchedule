@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SubjectFaculty extends Model
 {
@@ -14,10 +14,10 @@ class SubjectFaculty extends Model
     /**
      * Get subject info
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return BelongsTo
      */
-    public function subject(): HasOne
+    public function subject(): BelongsTo
     {
-        return $this->hasOne(Subject::class, 'id', 'subject_id');
+        return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
 }

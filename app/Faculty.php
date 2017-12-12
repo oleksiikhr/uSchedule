@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Expression;
 
 class Faculty extends Model
 {
@@ -16,6 +17,6 @@ class Faculty extends Model
      */
     public function subjects(): HasMany
     {
-        return $this->hasMany(SubjectFaculty::class, 'faculty_id', 'id');
+        return $this->hasMany(SubjectFaculty::class, 'faculty_id', 'id')->with('subject');
     }
 }
