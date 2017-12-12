@@ -1,6 +1,8 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+use App\{Teacher, Subject};
+
 $factory->define(App\ObjectModel::class, function (Faker\Generator $faker) {
     $type = \App\ObjectType::inRandomOrder()->first();
 
@@ -68,7 +70,7 @@ $factory->define(App\SubjectFaculty::class, function (Faker\Generator $faker) {
     $faculty = \App\Faculty::inRandomOrder()->first();
 
     while (true) {
-        if ($subject = \App\Subject::where('object_id', '=', $faculty->object_id)->inRandomOrder()->first()) {
+        if ($subject = Subject::where('object_id', '=', $faculty->object_id)->inRandomOrder()->first()) {
             return [
                 'subject_id' => $subject->id,
                 'faculty_id' => $faculty->id,
@@ -78,11 +80,14 @@ $factory->define(App\SubjectFaculty::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\TeacherFaculty::class, function(Faker\Generator $faker) {
-    $teacher = \App\Teacher::inRandomOrder()->first();
-    $faculty = \App\Faculty::where('object_id', '=', $teacher->object_id)->inRandomOrder()->first();
+    $faculty = \App\Faculty::inRandomOrder()->first();
 
-    return [
-        'teacher_id' => $teacher->id,
-        'faculty_id' => $faculty->id,
-    ];
+    while (true) {
+        if ($teacher = Teacher::where('object_id', '=', $faculty->object_id)->inRandomOrder()->first()) {
+            return [
+                'teacher_id' => $teacher->id,
+                'faculty_id' => $faculty->id,
+            ];
+        }
+    }
 });
