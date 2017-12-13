@@ -5319,8 +5319,8 @@ kbd {
   border-radius: 3px;
   white-space: pre-wrap;
   font-size: 85%;
-  font-weight: 100;
-  font-weight: 900;
+  font-weight: 100 !important;
+  font-weight: 900 !important;
 }
 
 code:after,
@@ -6329,6 +6329,12 @@ p {
   color: #1976d2;
 }
 
+.application--light a:hover,
+.application--light a:focus,
+.application--light a:active {
+  color: #424242;
+}
+
 .application--dark {
   background: #303030;
   color: #fff;
@@ -6336,6 +6342,12 @@ p {
 
 .application--dark a {
   color: #82b1ff;
+}
+
+.application--dark a:hover,
+.application--dark a:focus,
+.application--dark a:active {
+  color: #eee;
 }
 
 .alert {
@@ -6592,13 +6604,11 @@ p {
   border-radius: 0;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
-  font-weight: 400;
   height: 100%;
   margin: 0;
   max-width: 168px;
   min-width: 80px;
   padding: 0px;
-  text-transform: none;
   opacity: 0.5;
   width: 100%;
 }
@@ -6797,8 +6807,6 @@ p {
   right: 0;
   bottom: 0;
   pointer-events: none;
-  -webkit-transition: 0.5s cubic-bezier(0.25, 0.8, 0.5, 1);
-  transition: 0.5s cubic-bezier(0.25, 0.8, 0.5, 1);
   z-index: 5;
 }
 
@@ -6816,10 +6824,8 @@ p {
   position: absolute;
   right: 0;
   top: 0;
-  -webkit-transition: inherit;
-  transition: inherit;
-  -webkit-transition-delay: 150ms;
-  transition-delay: 150ms;
+  -webkit-transition: 0.5s ease;
+  transition: 0.5s ease;
   width: 100%;
 }
 
@@ -7130,7 +7136,7 @@ p {
 /** Icons */
 
 .btn .btn__content .icon {
-  color: inherit;
+  color: inherit !important;
 }
 
 /** Types */
@@ -7452,6 +7458,27 @@ p {
 .btn.error,
 .btn.warning,
 .btn.info {
+  color: #fff;
+}
+
+.btn.primary:hover,
+.btn.secondary:hover,
+.btn.success:hover,
+.btn.error:hover,
+.btn.warning:hover,
+.btn.info:hover,
+.btn.primary:focus,
+.btn.secondary:focus,
+.btn.success:focus,
+.btn.error:focus,
+.btn.warning:focus,
+.btn.info:focus,
+.btn.primary:active,
+.btn.secondary:active,
+.btn.success:active,
+.btn.error:active,
+.btn.warning:active,
+.btn.info:active {
   color: #fff;
 }
 
@@ -8272,7 +8299,7 @@ p {
 }
 
 .input-group.input-group--text-field:not(.input-group--single-line):not(.input-group--error).input-group--focused .input-group__input {
-  border-color: inherit;
+  border-color: #1976d2;
 }
 
 .input-group.input-group--text-field.input-group--focused:not(.input-group--disabled) .input-group__details:after {
@@ -8741,7 +8768,7 @@ p {
   border-radius: 2px;
 }
 
-.chip.chip--outline {
+.chip--outline {
   background: transparent !important;
   border: 1px solid transparent;
   color: #9e9e9e;
@@ -9214,9 +9241,7 @@ table.table tfoot tr {
   font-size: 12px;
 }
 
-.datatable__progress tr,
-.datatable__progress td,
-.datatable__progress th {
+.datatable__progress tr {
   height: auto !important;
 }
 
@@ -9469,23 +9494,15 @@ table.table tfoot tr {
   background: rgba(255, 255, 255, 0.6);
 }
 
-.application--light .input-group--text-field input::-webkit-input-placeholder,
-.application--light .input-group--text-field textarea::-webkit-input-placeholder {
+.application--light .input-group--text-field input::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.application--light .input-group--text-field input:-ms-input-placeholder,
-.application--light .input-group--text-field textarea:-ms-input-placeholder {
+.application--light .input-group--text-field input:-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.application--light .input-group--text-field input::-ms-input-placeholder,
-.application--light .input-group--text-field textarea::-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.application--light .input-group--text-field input::placeholder,
-.application--light .input-group--text-field textarea::placeholder {
+.application--light .input-group--text-field input::placeholder {
   color: rgba(0, 0, 0, 0.38);
 }
 
@@ -9497,23 +9514,15 @@ table.table tfoot tr {
   background: rgba(255, 255, 255, 0.6);
 }
 
-.application .theme--light.input-group--text-field input::-webkit-input-placeholder,
-.application .theme--light.input-group--text-field textarea::-webkit-input-placeholder {
+.application .theme--light.input-group--text-field input::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.application .theme--light.input-group--text-field input:-ms-input-placeholder,
-.application .theme--light.input-group--text-field textarea:-ms-input-placeholder {
+.application .theme--light.input-group--text-field input:-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.application .theme--light.input-group--text-field input::-ms-input-placeholder,
-.application .theme--light.input-group--text-field textarea::-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.application .theme--light.input-group--text-field input::placeholder,
-.application .theme--light.input-group--text-field textarea::placeholder {
+.application .theme--light.input-group--text-field input::placeholder {
   color: rgba(0, 0, 0, 0.38);
 }
 
@@ -9525,23 +9534,15 @@ table.table tfoot tr {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.application--dark .input-group--text-field input::-webkit-input-placeholder,
-.application--dark .input-group--text-field textarea::-webkit-input-placeholder {
+.application--dark .input-group--text-field input::-webkit-input-placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.application--dark .input-group--text-field input:-ms-input-placeholder,
-.application--dark .input-group--text-field textarea:-ms-input-placeholder {
+.application--dark .input-group--text-field input:-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.application--dark .input-group--text-field input::-ms-input-placeholder,
-.application--dark .input-group--text-field textarea::-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.application--dark .input-group--text-field input::placeholder,
-.application--dark .input-group--text-field textarea::placeholder {
+.application--dark .input-group--text-field input::placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
 
@@ -9553,23 +9554,15 @@ table.table tfoot tr {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.application .theme--dark.input-group--text-field input::-webkit-input-placeholder,
-.application .theme--dark.input-group--text-field textarea::-webkit-input-placeholder {
+.application .theme--dark.input-group--text-field input::-webkit-input-placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.application .theme--dark.input-group--text-field input:-ms-input-placeholder,
-.application .theme--dark.input-group--text-field textarea:-ms-input-placeholder {
+.application .theme--dark.input-group--text-field input:-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.application .theme--dark.input-group--text-field input::-ms-input-placeholder,
-.application .theme--dark.input-group--text-field textarea::-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.application .theme--dark.input-group--text-field input::placeholder,
-.application .theme--dark.input-group--text-field textarea::placeholder {
+.application .theme--dark.input-group--text-field input::placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
 
@@ -9595,29 +9588,16 @@ table.table tfoot tr {
 .input-group--text-field input::-webkit-input-placeholder,
 .input-group--text-field textarea::-webkit-input-placeholder {
   color: inherit;
-  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
 
 .input-group--text-field input:-ms-input-placeholder,
 .input-group--text-field textarea:-ms-input-placeholder {
   color: inherit;
-  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-}
-
-.input-group--text-field input::-ms-input-placeholder,
-.input-group--text-field textarea::-ms-input-placeholder {
-  color: inherit;
-  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
 
 .input-group--text-field input::placeholder,
 .input-group--text-field textarea::placeholder {
   color: inherit;
-  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
 
 .input-group--text-field input {
@@ -9632,6 +9612,21 @@ table.table tfoot tr {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.input-group--text-field input::-webkit-input-placeholder {
+  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+
+.input-group--text-field input:-ms-input-placeholder {
+  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+
+.input-group--text-field input::placeholder {
+  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
 
 .input-group--text-field input:focus {
@@ -9660,8 +9655,6 @@ table.table tfoot tr {
 
 .input-group--text-field.input-group--textarea .input-group__input {
   border-radius: 2px;
-  -webkit-transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .input-group--text-field.input-group--textarea textarea {
@@ -9696,23 +9689,15 @@ table.table tfoot tr {
 
 /** Input States */
 
-.input-group--text-field.input-group--placeholder.input-group--dirty input::-webkit-input-placeholder,
-.input-group--text-field.input-group--placeholder.input-group--dirty textarea::-webkit-input-placeholder {
+.input-group--text-field.input-group--placeholder.input-group--dirty input::-webkit-input-placeholder {
   opacity: 0;
 }
 
-.input-group--text-field.input-group--placeholder.input-group--dirty input:-ms-input-placeholder,
-.input-group--text-field.input-group--placeholder.input-group--dirty textarea:-ms-input-placeholder {
+.input-group--text-field.input-group--placeholder.input-group--dirty input:-ms-input-placeholder {
   opacity: 0;
 }
 
-.input-group--text-field.input-group--placeholder.input-group--dirty input::-ms-input-placeholder,
-.input-group--text-field.input-group--placeholder.input-group--dirty textarea::-ms-input-placeholder {
-  opacity: 0;
-}
-
-.input-group--text-field.input-group--placeholder.input-group--dirty input::placeholder,
-.input-group--text-field.input-group--placeholder.input-group--dirty textarea::placeholder {
+.input-group--text-field.input-group--placeholder.input-group--dirty input::placeholder {
   opacity: 0;
 }
 
@@ -9763,12 +9748,6 @@ table.table tfoot tr {
 .input-group--text-field:not(.input-group--single-line).input-group--placeholder:not(.input-group--full-width).input-group--textarea label {
   -webkit-transform: translate3d(0, -8px, 0) scale(0.75);
   transform: translate3d(0, -8px, 0) scale(0.75);
-}
-
-.input-group--text-field:not(.input-group--single-line).input-group--focused.input-group--text-field-box label,
-.input-group--text-field:not(.input-group--single-line).input-group--placeholder.input-group--text-field-box label {
-  -webkit-transform: translate3d(0, -10px, 0) scale(0.75);
-  transform: translate3d(0, -10px, 0) scale(0.75);
 }
 
 .input-group--text-field.input-group--dirty.input-group--select label,
@@ -9900,7 +9879,7 @@ table.table tfoot tr {
 
 .input-group--select .input-group--select__autocomplete {
   display: block;
-  height: 0px;
+  padding-bottom: 1px;
 }
 
 .input-group--select .input-group--select__autocomplete--index {
@@ -9917,14 +9896,9 @@ table.table tfoot tr {
   transition: none;
 }
 
-.input-group--select:not(.input-group--dirty) .input-group--select__autocomplete,
-.input-group--select.input-group--focused .input-group--select__autocomplete {
-  padding-bottom: 1px;
-  height: 30px;
-}
-
 .input-group--select.input-group--focused .input-group--select__autocomplete {
   display: inline-block;
+  height: 30px;
   opacity: 1;
 }
 
@@ -9960,7 +9934,7 @@ table.table tfoot tr {
   display: -ms-inline-flexbox;
   display: inline-flex;
   font-size: 16px;
-  padding: 3px 4px 3px 0;
+  padding-right: 4px;
 }
 
 .input-group--select .input-group__selections__comma--active {
@@ -9978,10 +9952,6 @@ table.table tfoot tr {
 
 .input-group--select.input-group--autocomplete.input-group--search-focused .input-group__selections__comma {
   display: none;
-}
-
-.input-group--autocomplete .input-group__selections {
-  cursor: text;
 }
 
 .input-group.input-group--overflow,
@@ -10046,9 +10016,16 @@ table.table tfoot tr {
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
 
+.input-group.input-group--overflow .input-group__input:hover,
+.input-group.input-group--editable .input-group__input:hover,
+.input-group.input-group--segmented .input-group__input:hover {
+  background: #fff;
+}
+
 .input-group.input-group--overflow.input-group--focused .input-group__input,
 .input-group.input-group--editable.input-group--focused .input-group__input,
 .input-group.input-group--segmented.input-group--focused .input-group__input {
+  background: #fff;
   -webkit-box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
@@ -10400,10 +10377,6 @@ table.table tfoot tr {
 
 .list__tile--active {
   color: #1976d2;
-}
-
-.list__tile--active .list__tile__action:first-of-type .icon {
-  color: inherit;
 }
 
 .list__tile--disabled {
@@ -11472,7 +11445,7 @@ table.table tfoot tr {
   transition: none;
 }
 
-.expansion-panel__container--active > .expansion-panel__header .header__icon .icon {
+.expansion-panel__container--active .header__icon .icon {
   -webkit-transform: rotate(-180deg);
   transform: rotate(-180deg);
 }
@@ -12985,11 +12958,11 @@ table.table tfoot tr {
   color: rgba(0, 0, 0, 0.87);
 }
 
-.application--light .navigation-drawer .list__tile:not(.list__tile--active) .icon {
+.application--light .navigation-drawer .list__tile__sub-title {
   color: rgba(0, 0, 0, 0.54);
 }
 
-.application--light .navigation-drawer .list__tile__sub-title {
+.application--light .navigation-drawer .list .icon {
   color: rgba(0, 0, 0, 0.54);
 }
 
@@ -13020,11 +12993,11 @@ table.table tfoot tr {
   color: rgba(0, 0, 0, 0.87);
 }
 
-.application .theme--light.navigation-drawer .list__tile:not(.list__tile--active) .icon {
+.application .theme--light.navigation-drawer .list__tile__sub-title {
   color: rgba(0, 0, 0, 0.54);
 }
 
-.application .theme--light.navigation-drawer .list__tile__sub-title {
+.application .theme--light.navigation-drawer .list .icon {
   color: rgba(0, 0, 0, 0.54);
 }
 
@@ -13055,12 +13028,12 @@ table.table tfoot tr {
   color: #fff;
 }
 
-.application--dark .navigation-drawer .list__tile:not(.list__tile--active) .icon {
-  color: #fff;
-}
-
 .application--dark .navigation-drawer .list__tile__sub-title {
   color: rgba(255, 255, 255, 0.7);
+}
+
+.application--dark .navigation-drawer .list .icon {
+  color: #fff;
 }
 
 .application--dark .navigation-drawer .list--group__header--active .list__tile:after,
@@ -13090,12 +13063,12 @@ table.table tfoot tr {
   color: #fff;
 }
 
-.application .theme--dark.navigation-drawer .list__tile:not(.list__tile--active) .icon {
-  color: #fff;
-}
-
 .application .theme--dark.navigation-drawer .list__tile__sub-title {
   color: rgba(255, 255, 255, 0.7);
+}
+
+.application .theme--dark.navigation-drawer .list .icon {
+  color: #fff;
 }
 
 .application .theme--dark.navigation-drawer .list--group__header--active .list__tile:after,
@@ -13226,12 +13199,20 @@ table.table tfoot tr {
   color: inherit;
 }
 
+.navigation-drawer > .list .list__tile--active > *:first-child .icon {
+  color: #1976d2;
+}
+
 .navigation-drawer > .list .list--group .list__tile {
   font-weight: 400;
 }
 
 .navigation-drawer > .list .list--group__header--active:after {
   background: transparent;
+}
+
+.navigation-drawer > .list .list--group__header--active .list__tile__action:first-of-type .icon {
+  color: #1976d2;
 }
 
 .navigation-drawer > .list .list--group__container .list__tile--active .list__tile__title {
@@ -15768,7 +15749,7 @@ table.table tfoot tr {
 }
 
 .application--light .toolbar .btn:not(.btn--disabled) {
-  color: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .application .theme--light.toolbar {
@@ -15777,7 +15758,7 @@ table.table tfoot tr {
 }
 
 .application .theme--light.toolbar .btn:not(.btn--disabled) {
-  color: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .application--dark .toolbar {
@@ -16140,6 +16121,10 @@ table.table tfoot tr {
 .line-search-update .input-group {
   -webkit-box-shadow: none;
           box-shadow: none;
+}
+
+.line-search-update .input-group .input-group__input {
+  padding-right: 0;
 }
 
 /* Right Column */

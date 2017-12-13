@@ -6,8 +6,8 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  user: null,
-  object: null
+  user: {},
+  object: {}
 }
 
 const mutations = {
@@ -15,13 +15,13 @@ const mutations = {
     state.user = obj
   },
   CLEAR_USER (state) {
-    state.user = null
+    state.user = {}
   },
   SET_OBJECT (state, obj) {
     state.object = obj
   },
   CLEAR_OBJECT (state) {
-    state.object = null
+    state.object = {}
   }
 }
 

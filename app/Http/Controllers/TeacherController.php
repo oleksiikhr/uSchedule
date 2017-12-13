@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Faculty;
+use App\Teacher;
 use Illuminate\Http\Request;
 use App\Http\Requests\TeacherRequest;
 
 class TeacherController extends Controller
 {
-
     /**
      * Get all teachers
      *
@@ -18,7 +18,10 @@ class TeacherController extends Controller
      */
     public function list(TeacherRequest $request)
     {
-        $teachers = Faculty::find($request->faculty_id)->teachers()->get();
+        $teachers = Teacher::whereHas('faculty', function ($q) use ($request) {
+            $q->where('faculty_id', $request->faculty_id);
+        })
+            ->get();
 
         return $teachers;
     }
