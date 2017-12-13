@@ -89,12 +89,14 @@
             <thead> <!-- Columns --> <!-- TODO: NOW -->
             <draggable :list="schedule.columns" element="tr"
                        :options="{ group:{ name: 'columns', pull: 'clone', put: false }, sort: true}">
-              <td class="column edit cursor-grab" v-for="(column, colIndex) in schedule.columns" :key="column.id"
-                  @click="columnIndex = colIndex">
+              <td class="column edit cursor-grab" v-for="(column, columnIndex) in schedule.columns" :key="column.id"
+                  @click="columnIndex = columnIndex">
                 {{ column.name }}
               </td>
               <td class="column add">
-                <v-icon @click="actColumnAdd()">add</v-icon>
+                <v-btn outline @click="actColumnAdd()"> <!-- TODO: delete styles -->
+                  <v-icon>add</v-icon>
+                </v-btn>
               </td>
             </draggable>
             </thead> <!-- EMD Columns -->
@@ -120,11 +122,12 @@
     </v-layout>
 
     <!-- Dialogs -->
-    <v-dialog v-model="dialogColumnEdit" v-if="columnIndex > 0" max-width="290">
+    <v-dialog v-model="dialogColumnEdit" max-width="400">
       <v-card>
-        <v-card-title class="headline">{{ columnOpenObj.name }}</v-card-title>
-        <v-card-text>
-          <!-- TODO: Fields -->
+        <v-card-title class="headline">Редагування колонки</v-card-title>
+        <v-card-text> <!-- TODO: Size -->
+          <v-text-field label="Назва колонки" v-model="columnOpenObj.name" />
+          <v-text-field label="Опис" v-model="columnOpenObj.description" multi-line />
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -169,7 +172,6 @@
         dialogColumnEdit: false,
         dialogColumnDelete: false,
         columnOpenObj: {},
-        columnIndex: -1,
 
         // Draggable
         isMoving: false,
@@ -288,7 +290,7 @@
       actColumnAdd () {
         console.log('Column add')
         this.schedule.columns.push({ days: [], name: 'Назва', description: '' })
-        console.log(this.schedule)
+        this.actColumnDialogEditOpen(this.schedule.columns.length - 1)
       },
       actColumnDialogEditOpen (index) {
         console.log('Column open')
@@ -305,8 +307,9 @@
       },
       actColumnDialogClose () {
         console.log('Column close')
+        this.dialogColumnEdit = false
+        this.dialogColumnDelete = false
         this.columnOpenObj = {}
-        this.columnIndex = -1
       },
 
       /* | ------------------------

@@ -62195,6 +62195,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -62228,7 +62231,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       dialogColumnEdit: false,
       dialogColumnDelete: false,
       columnOpenObj: {},
-      columnIndex: -1,
 
       // Draggable
       isMoving: false,
@@ -62353,7 +62355,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     actColumnAdd: function actColumnAdd() {
       console.log('Column add');
       this.schedule.columns.push({ days: [], name: 'Назва', description: '' });
-      console.log(this.schedule);
+      this.actColumnDialogEditOpen(this.schedule.columns.length - 1);
     },
     actColumnDialogEditOpen: function actColumnDialogEditOpen(index) {
       console.log('Column open');
@@ -62370,8 +62372,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     actColumnDialogClose: function actColumnDialogClose() {
       console.log('Column close');
+      this.dialogColumnEdit = false;
+      this.dialogColumnDelete = false;
       this.columnOpenObj = {};
-      this.columnIndex = -1;
     },
 
 
@@ -64759,7 +64762,7 @@ var render = function() {
                           [
                             _vm._l(_vm.schedule.columns, function(
                               column,
-                              colIndex
+                              columnIndex
                             ) {
                               return _c(
                                 "td",
@@ -64768,7 +64771,7 @@ var render = function() {
                                   staticClass: "column edit cursor-grab",
                                   on: {
                                     click: function($event) {
-                                      _vm.columnIndex = colIndex
+                                      columnIndex = columnIndex
                                     }
                                   }
                                 },
@@ -64787,15 +64790,17 @@ var render = function() {
                               { staticClass: "column add" },
                               [
                                 _c(
-                                  "v-icon",
+                                  "v-btn",
                                   {
+                                    attrs: { outline: "" },
                                     on: {
                                       click: function($event) {
                                         _vm.actColumnAdd()
                                       }
                                     }
                                   },
-                                  [_vm._v("add")]
+                                  [_c("v-icon", [_vm._v("add")])],
+                                  1
                                 )
                               ],
                               1
@@ -64864,61 +64869,83 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm.columnIndex > 0
-        ? _c(
-            "v-dialog",
-            {
-              attrs: { "max-width": "290" },
-              model: {
-                value: _vm.dialogColumnEdit,
-                callback: function($$v) {
-                  _vm.dialogColumnEdit = $$v
-                },
-                expression: "dialogColumnEdit"
-              }
+      _c(
+        "v-dialog",
+        {
+          attrs: { "max-width": "400" },
+          model: {
+            value: _vm.dialogColumnEdit,
+            callback: function($$v) {
+              _vm.dialogColumnEdit = $$v
             },
+            expression: "dialogColumnEdit"
+          }
+        },
+        [
+          _c(
+            "v-card",
             [
+              _c("v-card-title", { staticClass: "headline" }, [
+                _vm._v("Редагування колонки")
+              ]),
+              _vm._v(" "),
               _c(
-                "v-card",
+                "v-card-text",
                 [
-                  _c("v-card-title", { staticClass: "headline" }, [
-                    _vm._v(_vm._s(_vm.columnOpenObj.name))
-                  ]),
+                  _c("v-text-field", {
+                    attrs: { label: "Назва колонки" },
+                    model: {
+                      value: _vm.columnOpenObj.name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.columnOpenObj, "name", $$v)
+                      },
+                      expression: "columnOpenObj.name"
+                    }
+                  }),
                   _vm._v(" "),
-                  _c("v-card-text"),
+                  _c("v-text-field", {
+                    attrs: { label: "Опис", "multi-line": "" },
+                    model: {
+                      value: _vm.columnOpenObj.description,
+                      callback: function($$v) {
+                        _vm.$set(_vm.columnOpenObj, "description", $$v)
+                      },
+                      expression: "columnOpenObj.description"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
                   _vm._v(" "),
                   _c(
-                    "v-card-actions",
-                    [
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { color: "red", flat: "" },
-                          nativeOn: {
-                            click: function($event) {
-                              _vm.actColumnDialogClose()
-                            }
-                          }
-                        },
-                        [_vm._v("Закрити")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { color: "primary", flat: "" },
-                          nativeOn: {
-                            click: function($event) {
-                              _vm.actColumnDialogEditSave()
-                            }
-                          }
-                        },
-                        [_vm._v("Зберегти")]
-                      )
-                    ],
-                    1
+                    "v-btn",
+                    {
+                      attrs: { color: "red", flat: "" },
+                      nativeOn: {
+                        click: function($event) {
+                          _vm.actColumnDialogClose()
+                        }
+                      }
+                    },
+                    [_vm._v("Закрити")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", flat: "" },
+                      nativeOn: {
+                        click: function($event) {
+                          _vm.actColumnDialogEditSave()
+                        }
+                      }
+                    },
+                    [_vm._v("Зберегти")]
                   )
                 ],
                 1
@@ -64926,7 +64953,9 @@ var render = function() {
             ],
             1
           )
-        : _vm._e()
+        ],
+        1
+      )
     ],
     1
   )

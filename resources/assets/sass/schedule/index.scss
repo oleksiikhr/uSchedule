@@ -84,9 +84,10 @@ table {
 /* Right Column */
 .right-column {
   width: calc(100% - 300px);
+  height: calc(100% - 65px);
   overflow: auto;
   table {
-    width: 100%;
+    min-width: 100%;
     max-width: 1200px;
   }
 }
@@ -95,6 +96,7 @@ table {
   text-align: center;
   height: 48px;
   font-size: 18px;
+  min-width: 300px;
   border-top: 0;
   border-left: 0;
   color: #000;
