@@ -16181,14 +16181,7 @@ table {
   overflow: auto;
 }
 
-.right-column table {
-  min-width: 100%;
-  max-width: 1200px;
-}
-
-/* Columns */
-
-.column {
+.right-column .column {
   text-align: center;
   height: 48px;
   font-size: 18px;
@@ -16200,13 +16193,12 @@ table {
           box-shadow: inset 0 -1px 0px 1px #0288d1;
 }
 
-.column.add {
-  cursor: pointer;
+.right-column .column.small {
   width: 50px;
   min-width: 50px;
 }
 
-.column.add .btn {
+.right-column .column.small .btn {
   border: 0;
   margin: 0;
   width: 100%;
@@ -16214,15 +16206,15 @@ table {
   height: 48px;
 }
 
-.column.add .icon {
+.right-column .column.small .icon {
   color: #000;
 }
 
-.column.edit {
+.right-column .column.edit {
   position: relative;
 }
 
-.column.edit > span {
+.right-column .column.edit > span {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -16236,23 +16228,23 @@ table {
   overflow: hidden;
 }
 
-.column.edit .hover-visible {
+.right-column .column.edit .hover-visible {
   display: none;
   z-index: 99;
 }
 
-.column.edit .hover-visible .edit,
-.column.edit .hover-visible .delete {
+.right-column .column.edit .hover-visible .edit,
+.right-column .column.edit .hover-visible .delete {
   height: 100%;
 }
 
-.column.edit .hover-visible .btn {
+.right-column .column.edit .hover-visible .btn {
   border: 0;
   margin: 0;
   height: 100%;
 }
 
-.column.edit:hover .hover-visible {
+.right-column .column.edit:hover .hover-visible {
   position: absolute;
   top: 0;
   left: 0;

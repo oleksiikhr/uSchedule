@@ -28,8 +28,8 @@
                       <v-icon>refresh</v-icon>
                     </v-btn>
                   </v-layout>
-                  <draggable :list="filterSubjects" element="v-list" :clone="cloneSubject" :move="moveSubject" @end="endMoveSubject"
-                             :options="{ group:{ name: 'subjects', pull: 'clone', put: false }, sort: false }">
+                  <draggable v-model="filterSubjects" :clone="cloneSubject" :move="moveSubject" @end="endMoveSubject"
+                             :options="{ group:{ name: 'subjects', pull: 'clone', put: false }, sort: false }" element="v-list">
                     <v-list-tile :title="subject.title" v-for="subject in filterSubjects" :key="subject.id">
                       <v-list-tile-content class="cursor-grab">{{ subject.title }}</v-list-tile-content>
                     </v-list-tile>
@@ -59,8 +59,8 @@
                       <v-icon>refresh</v-icon>
                     </v-btn>
                   </v-layout>
-                  <draggable :list="filterTeachers" element="v-list" :clone="cloneTeacher" :move="moveTeacher" @end="endMoveTeacher"
-                             :options="{ group:{ name: 'teachers', pull: 'clone', put: false }, sort: false }">
+                  <draggable v-model="filterTeachers" :clone="cloneTeacher" :move="moveTeacher" @end="endMoveTeacher"
+                             :options="{ group:{ name: 'teachers', pull: 'clone', put: false }, sort: false }" element="v-list">
                     <v-list-tile v-for="teacher in filterTeachers" :key="teacher.id">
                       <v-list-tile-content class="cursor-grab">{{ fullNameTeacher(teacher) }}</v-list-tile-content>
                     </v-list-tile>
@@ -86,10 +86,12 @@
       <div class="right-column">
         <template v-if="!loadingSchedule">
           <table> <!-- Main Left Column -->
-            <thead> <!-- Columns --> <!-- TODO: NOW -->
-            <draggable :list="schedule.columns" element="tr"
-                       :options="{ group:{ name: 'columns', pull: 'clone', put: false }, sort: true}">
-              <td class="column edit cursor-grab" v-for="(column, columnIndex) in schedule.columns" :key="column.id">
+            <thead> <!-- Columns -->
+            <draggable :options="{ group: { name: 'columns' }, sort: true, draggable: '.item' }" element="tr"
+                       :v-model="schedule.columns">
+              <td class="column small fixed">#</td>
+              <td v-for="(column, columnIndex) in schedule.columns" class="column edit cursor-grab item"
+                  :key="column.id">
                 <span>{{ column.name }}</span>
                 <div class="hover-visible">
                   <div class="edit">
@@ -107,7 +109,7 @@
                   </div>
                 </div>
               </td>
-              <td class="column add">
+              <td class="column small" slot="footer">
                 <v-btn outline @click="actColumnAdd()"> <!-- TODO: delete styles -->
                   <v-icon>add</v-icon>
                 </v-btn>
@@ -115,7 +117,18 @@
             </draggable>
             </thead> <!-- EMD Columns -->
             <tbody> <!-- Rows -->
-
+            <!--<template v-for="(column, columnIndex) in schedule.columns">--> <!-- TODO: Rewrite* -->
+              <!--<template v-for="(day, dayIndex) in column.days">-->
+                <!--<draggable :options="{ group:{ name: 'days', pull: 'clone', put: false }, sort: true, draggable: '.item' }"-->
+                           <!--v-model="column.days" element="tr">-->
+                  <!--<td>{{ dayIndex }}</td>-->
+                  <!--<tr>-->
+                    <!--<td>123</td>-->
+                    <!--<td>2145</td>-->
+                  <!--</tr>-->
+                <!--</draggable>-->
+              <!--</template>-->
+            <!--</template>-->
             </tbody> <!-- EMD Rows -->
           </table> <!-- END Main Left Column -->
         </template>
@@ -264,16 +277,16 @@
       }
     },
     methods: {
-      /* | ------------------------
+      /* | ------------------------------------------------------------------------
        * | Import helpers
-       * | ------------------------
+       * | ------------------------------------------------------------------------
        */
       fullNameTeacher,
       shortNameTeacher,
 
-      /* | ------------------------
+      /* | ------------------------------------------------------------------------
        * | Fetch API
-       * | ------------------------
+       * | ------------------------------------------------------------------------
        */
       getSchedule () {
         this.loadingSchedule = true
@@ -320,9 +333,9 @@
             })
       },
 
-      /* | ------------------------
+      /* | ------------------------------------------------------------------------
        * | Action
-       * | ------------------------
+       * | ------------------------------------------------------------------------
        */
       // Column
       actColumnAdd () {
@@ -354,9 +367,9 @@
         this.columnOpenIndex = -1
       },
 
-      /* | ------------------------
+      /* | ------------------------------------------------------------------------
        * | Draggable. Left Column
-       * | ------------------------
+       * | ------------------------------------------------------------------------
        */
       cloneSubject (el) {
         this.isMoving = true

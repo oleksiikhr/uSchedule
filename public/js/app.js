@@ -62229,6 +62229,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -62326,16 +62339,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   methods: {
-    /* | ------------------------
+    /* | ------------------------------------------------------------------------
      * | Import helpers
-     * | ------------------------
+     * | ------------------------------------------------------------------------
      */
     fullNameTeacher: __WEBPACK_IMPORTED_MODULE_2__helpers_teacher__["a" /* fullNameTeacher */],
     shortNameTeacher: __WEBPACK_IMPORTED_MODULE_2__helpers_teacher__["b" /* shortNameTeacher */],
 
-    /* | ------------------------
+    /* | ------------------------------------------------------------------------
      * | Fetch API
-     * | ------------------------
+     * | ------------------------------------------------------------------------
      */
     getSchedule: function getSchedule() {
       var _this2 = this;
@@ -62385,9 +62398,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
 
-    /* | ------------------------
+    /* | ------------------------------------------------------------------------
      * | Action
-     * | ------------------------
+     * | ------------------------------------------------------------------------
      */
     // Column
     actColumnAdd: function actColumnAdd() {
@@ -62424,9 +62437,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
 
-    /* | ------------------------
+    /* | ------------------------------------------------------------------------
      * | Draggable. Left Column
-     * | ------------------------
+     * | ------------------------------------------------------------------------
      */
     cloneSubject: function cloneSubject(el) {
       this.isMoving = true;
@@ -64545,8 +64558,6 @@ var render = function() {
                                     "draggable",
                                     {
                                       attrs: {
-                                        list: _vm.filterSubjects,
-                                        element: "v-list",
                                         clone: _vm.cloneSubject,
                                         move: _vm.moveSubject,
                                         options: {
@@ -64556,9 +64567,17 @@ var render = function() {
                                             put: false
                                           },
                                           sort: false
-                                        }
+                                        },
+                                        element: "v-list"
                                       },
-                                      on: { end: _vm.endMoveSubject }
+                                      on: { end: _vm.endMoveSubject },
+                                      model: {
+                                        value: _vm.filterSubjects,
+                                        callback: function($$v) {
+                                          _vm.filterSubjects = $$v
+                                        },
+                                        expression: "filterSubjects"
+                                      }
                                     },
                                     _vm._l(_vm.filterSubjects, function(
                                       subject
@@ -64696,8 +64715,6 @@ var render = function() {
                                     "draggable",
                                     {
                                       attrs: {
-                                        list: _vm.filterTeachers,
-                                        element: "v-list",
                                         clone: _vm.cloneTeacher,
                                         move: _vm.moveTeacher,
                                         options: {
@@ -64707,9 +64724,17 @@ var render = function() {
                                             put: false
                                           },
                                           sort: false
-                                        }
+                                        },
+                                        element: "v-list"
                                       },
-                                      on: { end: _vm.endMoveTeacher }
+                                      on: { end: _vm.endMoveTeacher },
+                                      model: {
+                                        value: _vm.filterTeachers,
+                                        callback: function($$v) {
+                                          _vm.filterTeachers = $$v
+                                        },
+                                        expression: "filterTeachers"
+                                      }
                                     },
                                     _vm._l(_vm.filterTeachers, function(
                                       teacher
@@ -64818,19 +64843,20 @@ var render = function() {
                           "draggable",
                           {
                             attrs: {
-                              list: _vm.schedule.columns,
-                              element: "tr",
                               options: {
-                                group: {
-                                  name: "columns",
-                                  pull: "clone",
-                                  put: false
-                                },
-                                sort: true
-                              }
+                                group: { name: "columns" },
+                                sort: true,
+                                draggable: ".item"
+                              },
+                              element: "tr",
+                              "v-model": _vm.schedule.columns
                             }
                           },
                           [
+                            _c("td", { staticClass: "column small fixed" }, [
+                              _vm._v("#")
+                            ]),
+                            _vm._v(" "),
                             _vm._l(_vm.schedule.columns, function(
                               column,
                               columnIndex
@@ -64839,7 +64865,7 @@ var render = function() {
                                 "td",
                                 {
                                   key: column.id,
-                                  staticClass: "column edit cursor-grab"
+                                  staticClass: "column edit cursor-grab item"
                                 },
                                 [
                                   _c("span", [_vm._v(_vm._s(column.name))]),
@@ -64913,7 +64939,11 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "td",
-                              { staticClass: "column add" },
+                              {
+                                staticClass: "column small",
+                                attrs: { slot: "footer" },
+                                slot: "footer"
+                              },
                               [
                                 _c(
                                   "v-btn",
