@@ -89,9 +89,23 @@
             <thead> <!-- Columns --> <!-- TODO: NOW -->
             <draggable :list="schedule.columns" element="tr"
                        :options="{ group:{ name: 'columns', pull: 'clone', put: false }, sort: true}">
-              <td class="column edit cursor-grab" v-for="(column, columnIndex) in schedule.columns" :key="column.id"
-                  @click="columnIndex = columnIndex">
-                {{ column.name }}
+              <td class="column edit cursor-grab" v-for="(column, columnIndex) in schedule.columns" :key="column.id">
+                <span>{{ column.name }}</span>
+                <div class="hover-visible">
+                  <div class="edit">
+                    <v-btn outline @click="actColumnDialogEditOpen(columnIndex)" color="primary">
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                  </div>
+                  <div class="move">
+                    <v-icon>chevron_left</v-icon><v-icon>chevron_right</v-icon>
+                  </div>
+                  <div class="delete">
+                    <v-btn outline @click="actColumnDialogDeleteOpen(columnIndex)" color="red">
+                      <v-icon>delete</v-icon>
+                    </v-btn>
+                  </div>
+                </div>
               </td>
               <td class="column add">
                 <v-btn outline @click="actColumnAdd()"> <!-- TODO: delete styles -->
@@ -125,16 +139,31 @@
     <v-dialog v-model="dialogColumnEdit" max-width="400">
       <v-card>
         <v-card-title class="headline">Редагування колонки</v-card-title>
-        <v-card-text> <!-- TODO: Size -->
+        <v-card-text>
           <form @keydown.enter.prevent="actColumnDialogEditSave()">
-            <v-text-field label="Назва колонки" v-model="columnOpenObj.name" ref="columnEdit" />
-            <v-text-field label="Опис" v-model="columnOpenObj.description" multi-line />
+            <v-text-field label="Назва колонки" v-model="columnOpenObj.name" counter="100" ref="columnEdit" />
+            <v-text-field label="Опис" v-model="columnOpenObj.description" counter="191" multi-line />
           </form>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn color="red" flat @click.native="dialogColumnEdit = false">Закрити</v-btn>
           <v-btn color="primary" flat @click.native="actColumnDialogEditSave()">Зберегти</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialogColumnDelete" v-if="columnOpenIndex > -1" max-width="400">
+      <v-card>
+        <v-card-title class="headline">Видалення колонки</v-card-title>
+        <v-card-text>
+          Ви дійсно хочете видалити "{{ schedule.columns[columnOpenIndex].name}}" колонку?
+          Всі дані, які прікріплені до цієї колонки <strong>видаляться</strong>.
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="red" flat @click.native="dialogColumnDelete = false">Закрити</v-btn>
+          <v-btn color="primary" flat @click.native="actColumnDialogDeleteConfirm()">Видалити</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -297,28 +326,28 @@
        */
       // Column
       actColumnAdd () {
-        console.log('Column add')
         this.schedule.columns.push({ days: [], name: '', description: '' })
         this.actColumnDialogEditOpen(this.schedule.columns.length - 1)
       },
       actColumnDialogEditOpen (index) {
-        console.log('Column open')
         this.columnOpenIndex = index
         this.columnOpenObj = JSON.parse(JSON.stringify(this.schedule.columns[index]))
         this.$nextTick(() => this.$refs.columnEdit.focus())
         this.dialogColumnEdit = true
       },
       actColumnDialogEditSave () {
-        console.log('Column save')
         this.schedule.columns[this.columnOpenIndex] = this.columnOpenObj
         this.actColumnDialogClose()
       },
-      actColumnDialogDeleteOpen () {
-        console.log('Column delete')
+      actColumnDialogDeleteOpen (index) {
+        this.columnOpenIndex = index
+        this.dialogColumnDelete= true
+      },
+      actColumnDialogDeleteConfirm () {
+        this.schedule.columns.splice(this.columnOpenIndex, 1)
         this.actColumnDialogClose()
       },
       actColumnDialogClose () {
-        console.log('Column close')
         this.dialogColumnEdit = false
         this.dialogColumnDelete = false
         this.columnOpenObj = {}
@@ -356,6 +385,9 @@
     },
     watch: {
       dialogColumnEdit (val) {
+        !val && this.actColumnDialogClose()
+      },
+      dialogColumnDelete (val) {
         !val && this.actColumnDialogClose()
       }
     }

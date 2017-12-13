@@ -92,6 +92,7 @@ table {
   }
 }
 
+/* Columns */
 .column {
   text-align: center;
   height: 48px;
@@ -99,9 +100,8 @@ table {
   min-width: 300px;
   border-top: 0;
   border-left: 0;
-  color: #000;
   background: #fff;
-  box-shadow: inset 0 -1px 0px 1px #0288d1;
+  box-shadow: inset 0 -1px 0px 1px $primary-color;
   &.add {
     cursor: pointer;
     width: 50px;
@@ -109,7 +109,7 @@ table {
     .btn {
       border: 0;
       margin: 0;
-      width: 50px;
+      width: 100%;
       min-width: 50px;
       height: 48px;
     }
@@ -118,7 +118,38 @@ table {
     }
   }
   &.edit {
-
+    position: relative;
+    > span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 48px;
+      overflow: hidden;
+    }
+    .hover-visible {
+      display: none;
+      z-index: 99;
+      .edit, .delete {
+        height: 100%;
+      }
+      .btn {
+        border: 0;
+        margin: 0;
+        height: 100%;
+      }
+    }
+    &:hover .hover-visible {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      background: #f5f5f5;
+      box-shadow: inset 0 -1px 0px 1px $primary-color;
+    }
   }
 }
 

@@ -62200,6 +62200,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -62362,14 +62391,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
      */
     // Column
     actColumnAdd: function actColumnAdd() {
-      console.log('Column add');
       this.schedule.columns.push({ days: [], name: '', description: '' });
       this.actColumnDialogEditOpen(this.schedule.columns.length - 1);
     },
     actColumnDialogEditOpen: function actColumnDialogEditOpen(index) {
       var _this5 = this;
 
-      console.log('Column open');
       this.columnOpenIndex = index;
       this.columnOpenObj = JSON.parse(JSON.stringify(this.schedule.columns[index]));
       this.$nextTick(function () {
@@ -62378,16 +62405,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.dialogColumnEdit = true;
     },
     actColumnDialogEditSave: function actColumnDialogEditSave() {
-      console.log('Column save');
       this.schedule.columns[this.columnOpenIndex] = this.columnOpenObj;
       this.actColumnDialogClose();
     },
-    actColumnDialogDeleteOpen: function actColumnDialogDeleteOpen() {
-      console.log('Column delete');
+    actColumnDialogDeleteOpen: function actColumnDialogDeleteOpen(index) {
+      this.columnOpenIndex = index;
+      this.dialogColumnDelete = true;
+    },
+    actColumnDialogDeleteConfirm: function actColumnDialogDeleteConfirm() {
+      this.schedule.columns.splice(this.columnOpenIndex, 1);
       this.actColumnDialogClose();
     },
     actColumnDialogClose: function actColumnDialogClose() {
-      console.log('Column close');
       this.dialogColumnEdit = false;
       this.dialogColumnDelete = false;
       this.columnOpenObj = {};
@@ -62426,6 +62455,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   watch: {
     dialogColumnEdit: function dialogColumnEdit(val) {
+      !val && this.actColumnDialogClose();
+    },
+    dialogColumnDelete: function dialogColumnDelete(val) {
       !val && this.actColumnDialogClose();
     }
   }
@@ -64807,19 +64839,74 @@ var render = function() {
                                 "td",
                                 {
                                   key: column.id,
-                                  staticClass: "column edit cursor-grab",
-                                  on: {
-                                    click: function($event) {
-                                      columnIndex = columnIndex
-                                    }
-                                  }
+                                  staticClass: "column edit cursor-grab"
                                 },
                                 [
-                                  _vm._v(
-                                    "\n              " +
-                                      _vm._s(column.name) +
-                                      "\n            "
-                                  )
+                                  _c("span", [_vm._v(_vm._s(column.name))]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "hover-visible" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "edit" },
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              outline: "",
+                                              color: "primary"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.actColumnDialogEditOpen(
+                                                  columnIndex
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [_c("v-icon", [_vm._v("edit")])],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "move" },
+                                      [
+                                        _c("v-icon", [_vm._v("chevron_left")]),
+                                        _c("v-icon", [_vm._v("chevron_right")])
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "delete" },
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              outline: "",
+                                              color: "red"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.actColumnDialogDeleteOpen(
+                                                  columnIndex
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [_c("v-icon", [_vm._v("delete")])],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ])
                                 ]
                               )
                             }),
@@ -64948,7 +65035,7 @@ var render = function() {
                   [
                     _c("v-text-field", {
                       ref: "columnEdit",
-                      attrs: { label: "Назва колонки" },
+                      attrs: { label: "Назва колонки", counter: "100" },
                       model: {
                         value: _vm.columnOpenObj.name,
                         callback: function($$v) {
@@ -64959,7 +65046,11 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _c("v-text-field", {
-                      attrs: { label: "Опис", "multi-line": "" },
+                      attrs: {
+                        label: "Опис",
+                        counter: "191",
+                        "multi-line": ""
+                      },
                       model: {
                         value: _vm.columnOpenObj.description,
                         callback: function($$v) {
@@ -65011,7 +65102,79 @@ var render = function() {
           )
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _vm.columnOpenIndex > -1
+        ? _c(
+            "v-dialog",
+            {
+              attrs: { "max-width": "400" },
+              model: {
+                value: _vm.dialogColumnDelete,
+                callback: function($$v) {
+                  _vm.dialogColumnDelete = $$v
+                },
+                expression: "dialogColumnDelete"
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c("v-card-title", { staticClass: "headline" }, [
+                    _vm._v("Видалення колонки")
+                  ]),
+                  _vm._v(" "),
+                  _c("v-card-text", [
+                    _vm._v(
+                      '\n        Ви дійсно хочете видалити "' +
+                        _vm._s(_vm.schedule.columns[_vm.columnOpenIndex].name) +
+                        '" колонку?\n        Всі дані, які прікріплені до цієї колонки '
+                    ),
+                    _c("strong", [_vm._v("видаляться")]),
+                    _vm._v(".\n      ")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "red", flat: "" },
+                          nativeOn: {
+                            click: function($event) {
+                              _vm.dialogColumnDelete = false
+                            }
+                          }
+                        },
+                        [_vm._v("Закрити")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "primary", flat: "" },
+                          nativeOn: {
+                            click: function($event) {
+                              _vm.actColumnDialogDeleteConfirm()
+                            }
+                          }
+                        },
+                        [_vm._v("Видалити")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e()
     ],
     1
   )
