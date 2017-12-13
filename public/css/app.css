@@ -16073,6 +16073,14 @@ table.table tfoot tr {
   color: rgba(0, 0, 0, 0.7);
 }
 
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-color: #e0e0e0;
+}
+
+/* Schedule */
+
 .schedule.edit {
   position: relative;
   padding: 0;
@@ -16086,6 +16094,7 @@ table.table tfoot tr {
 /* Left Column */
 
 .left-column {
+  position: relative;
   background: #fff;
   height: 100%;
   width: 300px;
@@ -16127,11 +16136,74 @@ table.table tfoot tr {
   padding-right: 0;
 }
 
+.delete-choose {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
+  z-index: 999;
+}
+
+.delete-choose * {
+  display: none;
+}
+
+.delete-choose .icon {
+  display: block;
+  font-size: 60px;
+}
+
+.delete-choose .icon.delete {
+  color: #b71c1c;
+}
+
+.delete-choose .icon.delete_forever {
+  color: #525252;
+}
+
 /* Right Column */
 
 .right-column {
   width: calc(100% - 300px);
   overflow: auto;
+}
+
+.right-column table {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.column {
+  text-align: center;
+  height: 48px;
+  font-size: 18px;
+  border-top: 0;
+  border-left: 0;
+  color: #000;
+  background: #fff;
+  -webkit-box-shadow: inset 0 -1px 0px 1px #0288d1;
+          box-shadow: inset 0 -1px 0px 1px #0288d1;
+}
+
+.column.add {
+  cursor: pointer;
+  width: 50px;
+}
+
+.column.add .icon {
+  color: #000;
 }
 
 /* Response error */

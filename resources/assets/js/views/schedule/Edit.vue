@@ -2,8 +2,9 @@
   <v-container fluid class="schedule edit">
     <v-layout row wrap>
       <div class="left-column">
-        <draggable :options="{ group:{ name: ['subjects', 'teachers'] }}" class="delete-choose" drag="delete" v-if="isMoving">
-          <v-icon>
+        <draggable :options="{ group:{ name: ['subjects', 'teachers'] }}" class="delete-choose" drag="delete"
+                   v-if="isMoving">
+          <v-icon :class="!isDelete ? 'delete_forever' : 'delete'">
             {{ isDelete ? 'delete_forever' : 'delete' }}
           </v-icon>
         </draggable>
@@ -72,7 +73,7 @@
                     </div>
                   </template>
                   <template v-else-if="!loadingSchedule && !errorSchedule">
-                    <div class="bad-response loading-subjects">
+                    <div class="bad-response loading-teachers">
                       <v-progress-circular indeterminate :size="50" :width="3" color="primary" />
                     </div>
                   </template>
@@ -84,16 +85,23 @@
       </div>
       <div class="right-column">
         <template v-if="!loadingSchedule">
-          <table>
-            <thead>
-            <tr>
-              <draggable :list="filterSubjects" element="table"
-                         :options="{ group:{ name: 'subjects', pull: 'clone', put: false }, sort: false }">
+          <table> <!-- Main Left Column -->
+            <thead> <!-- Columns --> <!-- TODO: NOW -->
+            <draggable :list="schedule.columns" element="tr"
+                       :options="{ group:{ name: 'columns', pull: 'clone', put: false }, sort: true}">
+              <td class="column edit cursor-grab" v-for="(column, colIndex) in schedule.columns" :key="column.id"
+                  @click="columnIndex = colIndex">
+                {{ column.name }}
+              </td>
+              <td class="column add">
+                <v-icon @click="actColumnAdd()">add</v-icon>
+              </td>
+            </draggable>
+            </thead> <!-- EMD Columns -->
+            <tbody> <!-- Rows -->
 
-              </draggable>
-            </tr>
-            </thead>
-          </table>
+            </tbody> <!-- EMD Rows -->
+          </table> <!-- END Main Left Column -->
         </template>
         <template v-else> <!-- Schedule is loading or error -->
           <template v-if="errorSchedule">
@@ -110,6 +118,21 @@
         </template> <!-- End Schedule is loading or error  -->
       </div>
     </v-layout>
+
+    <!-- Dialogs -->
+    <v-dialog v-model="dialogColumnEdit" v-if="columnIndex > 0" max-width="290">
+      <v-card>
+        <v-card-title class="headline">{{ columnOpenObj.name }}</v-card-title>
+        <v-card-text>
+          <!-- TODO: Fields -->
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" flat @click.native="actColumnDialogClose()">Закрити</v-btn>
+          <v-btn color="primary" flat @click.native="actColumnDialogEditSave()">Зберегти</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -142,13 +165,19 @@
         searchSubject: '',
         searchTeacher: '',
 
+        // Column
+        dialogColumnEdit: false,
+        dialogColumnDelete: false,
+        columnOpenObj: {},
+        columnIndex: -1,
+
         // Draggable
         isMoving: false,
         isDelete: false
       }
     },
     activated () {
-      this.$store.dispatch('templateSetTitle', 'Редагування розкладу')
+      this.$store.dispatch('templateSetTitle', 'Редагування розкладу') // TODO: Name group (faculty)
       this.$store.dispatch('templateSetBodyClass', 'height100')
       this.schedule.id = parseInt(this.$route.params.id)
       this.getSchedule()
@@ -201,6 +230,7 @@
        */
       fullNameTeacher,
       shortNameTeacher,
+
       /* | ------------------------
        * | Fetch API
        * | ------------------------
@@ -251,6 +281,35 @@
       },
 
       /* | ------------------------
+       * | Action
+       * | ------------------------
+       */
+      // Column
+      actColumnAdd () {
+        console.log('Column add')
+        this.schedule.columns.push({ days: [], name: 'Назва', description: '' })
+        console.log(this.schedule)
+      },
+      actColumnDialogEditOpen (index) {
+        console.log('Column open')
+        this.columnOpenObj = Object.assign(this.schedule.columns[index])
+        this.dialogColumnEdit = true
+      },
+      actColumnDialogEditSave () {
+        console.log('Column save')
+        this.actColumnDialogClose()
+      },
+      actColumnDialogDeleteOpen () {
+        console.log('Column delete')
+        this.actColumnDialogClose()
+      },
+      actColumnDialogClose () {
+        console.log('Column close')
+        this.columnOpenObj = {}
+        this.columnIndex = -1
+      },
+
+      /* | ------------------------
        * | Draggable. Left Column
        * | ------------------------
        */
@@ -258,23 +317,12 @@
         this.isMoving = true
         this.isDelete = true
 
-        return {
-          schedule_id: this.schedule.id,
-          room: '',
-          type: 0,
-          is_empty: 0,
-          teachers: [],
-          subject: {
-            id: el.id,
-            title: el.title,
-            course: el.course,
-            faculty_id: el.faculty_id
-          }
-        }
+        return el
       },
       moveSubject (evt, originalEvent) {
         let drag = evt.to.attributes.drag
 
+        // TODO: *
         if (typeof drag !== 'undefined' && drag.value === 'delete') {
           this.isDelete = true
         }

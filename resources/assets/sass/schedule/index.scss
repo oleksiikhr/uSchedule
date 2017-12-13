@@ -1,3 +1,10 @@
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-color: #e0e0e0;
+}
+
+/* Schedule */
 .schedule {
   &.edit {
     position: relative;
@@ -12,6 +19,7 @@
 
 /* Left Column */
 .left-column {
+  position: relative;
   background: #fff;
   height: 100%;
   width: 300px;
@@ -46,10 +54,62 @@
   }
 }
 
+.delete-choose {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
+  z-index: 999;
+  * {
+    display: none;
+  }
+  .icon {
+    display: block;
+    font-size: 60px;
+    &.delete {
+      color: #b71c1c;
+    }
+    &.delete_forever {
+      color: #525252;
+    }
+  }
+}
+
 /* Right Column */
 .right-column {
   width: calc(100% - 300px);
   overflow: auto;
+  table {
+    width: 100%;
+    max-width: 1200px;
+  }
+}
+
+.column {
+  text-align: center;
+  height: 48px;
+  font-size: 18px;
+  border-top: 0;
+  border-left: 0;
+  color: #000;
+  background: #fff;
+  box-shadow: inset 0 -1px 0px 1px #0288d1;
+  &.add {
+    cursor: pointer;
+    width: 50px;
+    .icon {
+      color: #000;
+    }
+  }
+  &.edit {
+
+  }
 }
 
 /* Response error */

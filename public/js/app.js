@@ -62172,6 +62172,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -62201,13 +62224,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       searchSubject: '',
       searchTeacher: '',
 
+      // Column
+      dialogColumnEdit: false,
+      dialogColumnDelete: false,
+      columnOpenObj: {},
+      columnIndex: -1,
+
       // Draggable
       isMoving: false,
       isDelete: false
     };
   },
   activated: function activated() {
-    this.$store.dispatch('templateSetTitle', 'Редагування розкладу');
+    this.$store.dispatch('templateSetTitle', 'Редагування розкладу'); // TODO: Name group (faculty)
     this.$store.dispatch('templateSetBodyClass', 'height100');
     this.schedule.id = parseInt(this.$route.params.id);
     this.getSchedule();
@@ -62263,6 +62292,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
      */
     fullNameTeacher: __WEBPACK_IMPORTED_MODULE_2__helpers_teacher__["a" /* fullNameTeacher */],
     shortNameTeacher: __WEBPACK_IMPORTED_MODULE_2__helpers_teacher__["b" /* shortNameTeacher */],
+
     /* | ------------------------
      * | Fetch API
      * | ------------------------
@@ -62316,6 +62346,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     /* | ------------------------
+     * | Action
+     * | ------------------------
+     */
+    // Column
+    actColumnAdd: function actColumnAdd() {
+      console.log('Column add');
+      this.schedule.columns.push({ days: [], name: 'Назва', description: '' });
+      console.log(this.schedule);
+    },
+    actColumnDialogEditOpen: function actColumnDialogEditOpen(index) {
+      console.log('Column open');
+      this.columnOpenObj = Object.assign(this.schedule.columns[index]);
+      this.dialogColumnEdit = true;
+    },
+    actColumnDialogEditSave: function actColumnDialogEditSave() {
+      console.log('Column save');
+      this.actColumnDialogClose();
+    },
+    actColumnDialogDeleteOpen: function actColumnDialogDeleteOpen() {
+      console.log('Column delete');
+      this.actColumnDialogClose();
+    },
+    actColumnDialogClose: function actColumnDialogClose() {
+      console.log('Column close');
+      this.columnOpenObj = {};
+      this.columnIndex = -1;
+    },
+
+
+    /* | ------------------------
      * | Draggable. Left Column
      * | ------------------------
      */
@@ -62323,23 +62383,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.isMoving = true;
       this.isDelete = true;
 
-      return {
-        schedule_id: this.schedule.id,
-        room: '',
-        type: 0,
-        is_empty: 0,
-        teachers: [],
-        subject: {
-          id: el.id,
-          title: el.title,
-          course: el.course,
-          faculty_id: el.faculty_id
-        }
-      };
+      return el;
     },
     moveSubject: function moveSubject(evt, originalEvent) {
       var drag = evt.to.attributes.drag;
 
+      // TODO: *
       if (typeof drag !== 'undefined' && drag.value === 'delete') {
         this.isDelete = true;
       }
@@ -64323,13 +64372,17 @@ var render = function() {
                     }
                   },
                   [
-                    _c("v-icon", [
-                      _vm._v(
-                        "\n          " +
-                          _vm._s(_vm.isDelete ? "delete_forever" : "delete") +
-                          "\n        "
-                      )
-                    ])
+                    _c(
+                      "v-icon",
+                      { class: !_vm.isDelete ? "delete_forever" : "delete" },
+                      [
+                        _vm._v(
+                          "\n          " +
+                            _vm._s(_vm.isDelete ? "delete_forever" : "delete") +
+                            "\n        "
+                        )
+                      ]
+                    )
                   ],
                   1
                 )
@@ -64644,7 +64697,7 @@ var render = function() {
                                             "div",
                                             {
                                               staticClass:
-                                                "bad-response loading-subjects"
+                                                "bad-response loading-teachers"
                                             },
                                             [
                                               _c("v-progress-circular", {
@@ -64684,28 +64737,77 @@ var render = function() {
             !_vm.loadingSchedule
               ? [
                   _c("table", [
-                    _c("thead", [
-                      _c(
-                        "tr",
-                        [
-                          _c("draggable", {
+                    _c(
+                      "thead",
+                      [
+                        _c(
+                          "draggable",
+                          {
                             attrs: {
-                              list: _vm.filterSubjects,
-                              element: "table",
+                              list: _vm.schedule.columns,
+                              element: "tr",
                               options: {
                                 group: {
-                                  name: "subjects",
+                                  name: "columns",
                                   pull: "clone",
                                   put: false
                                 },
-                                sort: false
+                                sort: true
                               }
                             }
-                          })
-                        ],
-                        1
-                      )
-                    ])
+                          },
+                          [
+                            _vm._l(_vm.schedule.columns, function(
+                              column,
+                              colIndex
+                            ) {
+                              return _c(
+                                "td",
+                                {
+                                  key: column.id,
+                                  staticClass: "column edit cursor-grab",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.columnIndex = colIndex
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n              " +
+                                      _vm._s(column.name) +
+                                      "\n            "
+                                  )
+                                ]
+                              )
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              { staticClass: "column add" },
+                              [
+                                _c(
+                                  "v-icon",
+                                  {
+                                    on: {
+                                      click: function($event) {
+                                        _vm.actColumnAdd()
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("add")]
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          2
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("tbody")
                   ])
                 ]
               : [
@@ -64760,7 +64862,71 @@ var render = function() {
           ],
           2
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _vm.columnIndex > 0
+        ? _c(
+            "v-dialog",
+            {
+              attrs: { "max-width": "290" },
+              model: {
+                value: _vm.dialogColumnEdit,
+                callback: function($$v) {
+                  _vm.dialogColumnEdit = $$v
+                },
+                expression: "dialogColumnEdit"
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c("v-card-title", { staticClass: "headline" }, [
+                    _vm._v(_vm._s(_vm.columnOpenObj.name))
+                  ]),
+                  _vm._v(" "),
+                  _c("v-card-text"),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "red", flat: "" },
+                          nativeOn: {
+                            click: function($event) {
+                              _vm.actColumnDialogClose()
+                            }
+                          }
+                        },
+                        [_vm._v("Закрити")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "primary", flat: "" },
+                          nativeOn: {
+                            click: function($event) {
+                              _vm.actColumnDialogEditSave()
+                            }
+                          }
+                        },
+                        [_vm._v("Зберегти")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e()
     ],
     1
   )
