@@ -19,8 +19,8 @@ class SubjectController extends Controller
      */
     public function list(SubjectRequest $request)
     {
-        $subjects = Subject::whereHas('faculty', function ($q) {
-            $q->where('faculty_id', 1);
+        $subjects = Subject::whereHas('faculty', function ($q) use ($request) {
+            $q->where('faculty_id', $request->faculty_id);
         })
             ->get();
 

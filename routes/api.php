@@ -36,11 +36,11 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     });
 
     Route::group(['prefix' => 'subjects'], function () {
-        Route::get('list', 'SubjectController@list');
+        Route::get('/', 'SubjectController@list');
     });
 
     Route::group(['prefix' => 'teachers'], function () {
-        Route::get('list', 'TeacherController@list');
+        Route::get('/', 'TeacherController@list');
     });
 
 });
@@ -53,7 +53,5 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 Route::get('objects', 'ObjectController@list');
 Route::get('schedules', 'ScheduleController@list');
 Route::get('schedules/days', 'ScheduleController@days');
-Route::get('subjects', 'SubjectController@list');
-Route::get('teachers', 'TeacherController@list');
 
 Route::get('schedule', 'ScheduleController@one');

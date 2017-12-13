@@ -50,7 +50,33 @@
             </v-tabs-content>
             <v-tabs-content id="tab-teachers"> <!-- TODO: After complete subjects -->
               <v-card flat>
-                <v-card-text>Teachers..</v-card-text>
+                <template v-if="!loadingTeachers">
+                  <v-layout row wrap class="line-search-update">
+                    <v-text-field solo label="Викладач" clearable v-model="searchTeacher" single-line
+                                  prepend-icon="search" />
+                    <v-btn flat icon @click="fetchGetTeachers()">
+                      <v-icon>refresh</v-icon>
+                    </v-btn>
+                  </v-layout>
+                  <draggable :list="filterTeachers" element="v-list" :clone="cloneTeacher" :move="moveTeacher" @end="endMoveTeacher"
+                             :options="{ group:{ name: 'teachers', pull: 'clone', put: false }, sort: false }">
+                    <v-list-tile v-for="teacher in filterTeachers" :key="teacher.id">
+                      <v-list-tile-content class="cursor-grab">{{ fullNameTeacher(teacher) }}</v-list-tile-content>
+                    </v-list-tile>
+                  </draggable>
+                </template>
+                <template v-else> <!-- Teachers is loading or error -->
+                  <template v-if="errorTeachers">
+                    <div class="bad-response error-left-column">
+                      <v-btn outline block color="black" @click="fetchGetTeachers()">Оновити</v-btn>
+                    </div>
+                  </template>
+                  <template v-else-if="!loadingSchedule && !errorSchedule">
+                    <div class="bad-response loading-subjects">
+                      <v-progress-circular indeterminate :size="50" :width="3" color="primary" />
+                    </div>
+                  </template>
+                </template> <!-- END Teachers is loading or error -->
               </v-card>
             </v-tabs-content>
           </v-tabs-items>
@@ -90,6 +116,7 @@
 <script>
   import draggable from 'vuedraggable'
   import { get, post } from '../../helpers/api'
+  import { fullNameTeacher, shortNameTeacher } from "../../helpers/teacher";
 
   export default {
     components: {
@@ -168,10 +195,16 @@
       }
     },
     methods: {
-      /*
-       * Fetch API
+      /* | ------------------------
+       * | Import helpers
+       * | ------------------------
        */
-      // Global info about Schedule
+      fullNameTeacher,
+      shortNameTeacher,
+      /* | ------------------------
+       * | Fetch API
+       * | ------------------------
+       */
       getSchedule () {
         this.loadingSchedule = true
         this.errorSchedule = false
@@ -190,13 +223,11 @@
               this.errorSchedule = true
             })
       },
-      // For the list on the left
       fetchGetSubjects () {
         this.loadingSubjects = true
         this.subjects = []
 
         get('/api/subjects', {
-          object_id: 1,
           faculty_id: this.schedule.id
         })
             .then(res => {
@@ -205,13 +236,12 @@
               this.loadingSubjects = false
             })
       },
-      // For the list on the left
       fetchGetTeachers () {
         this.loadingTeachers = true
         this.teachers = []
 
         get('/api/teachers', {
-          schedule_id: this.schedule.id
+          faculty_id: this.schedule.id
         })
             .then(res => {
               console.log('Teachers', res.data)
@@ -220,8 +250,9 @@
             })
       },
 
-      /*
-       * Draggable Subject
+      /* | ------------------------
+       * | Draggable. Left Column
+       * | ------------------------
        */
       cloneSubject (el) {
         this.isMoving = true
@@ -254,7 +285,10 @@
         if (this.deleteSubject) {
           this.deleteSubject = null
         }
-      }
+      },
+      cloneTeacher (el) {},
+      moveTeacher (evt, originalEvent) {},
+      endMoveTeacher (el) {}
     }
   }
 </script>

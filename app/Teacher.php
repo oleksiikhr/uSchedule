@@ -9,6 +9,11 @@ class Teacher extends Model
 {
     protected $table = 'teachers';
 
+    public function faculty()
+    {
+        return $this->belongsToMany(Faculty::class);
+    }
+
     /**
      * Get all teachers by object
      *

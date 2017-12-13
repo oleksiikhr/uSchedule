@@ -40,6 +40,9 @@
   }
   .input-group {
     box-shadow: none;
+    .input-group__input {
+      padding-right: 0;
+    }
   }
 }
 
