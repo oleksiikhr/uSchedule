@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ScheduleRequest extends FormRequest
 {
@@ -23,9 +25,24 @@ class ScheduleRequest extends FormRequest
      */
     public function rules()
     {
-        // TODO: fillable
         return [
-
+            'schedule_id' => 'required|integer'
         ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'schedule_id.required' => 'A schedule id is required',
+        ];
+    }
+
+    protected function failedValidation(Validator $validator) {
+        throw new HttpResponseException(response()->json(['message' => $validator->errors()->first()], 422));
     }
 }

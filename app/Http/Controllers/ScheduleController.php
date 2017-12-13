@@ -33,11 +33,11 @@ class ScheduleController extends Controller
     public function one(ScheduleRequest $request)
     {
         // TODO: Temporary
-        $schedule = Schedule::with('columns.days')
+        $schedule = Schedule::with('columns.days.lessons')
             ->where('id', '=', $request->schedule_id)
             ->firstOrFail();
 
-        return response()->json($schedule);
+        return $schedule;
     }
 
     /**
@@ -69,25 +69,4 @@ class ScheduleController extends Controller
     {
         // TODO: Implement delete() method.
     }
-
-    /**
-     * Get days
-     *
-     * @param ScheduleRequest $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function days(ScheduleRequest $request) {
-        // TODO: check $request->id* in ScheduleRequest
-
-        $scheduleDays = ScheduleDay::with('schedule', 'subject', 'teachers.teacher')
-            ->where('schedule_id', $request->schedule_id)
-            ->orderBy('week')
-            ->orderBy('day')
-            ->orderBy('order')
-            ->get();
-
-        return response()->json($scheduleDays);
-    }
-
 }

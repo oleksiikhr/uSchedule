@@ -12,4 +12,9 @@ class Day extends Model
     {
         return $this->belongsTo(Column::class);
     }
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class)->with('subjectInfo');
+    }
 }
