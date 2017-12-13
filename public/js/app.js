@@ -12789,7 +12789,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(17);
-module.exports = __webpack_require__(74);
+module.exports = __webpack_require__(75);
 
 
 /***/ }),
@@ -62010,7 +62010,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(70)
 /* template */
-var __vue_template__ = __webpack_require__(73)
+var __vue_template__ = __webpack_require__(74)
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -62056,7 +62056,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuedraggable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_teacher__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_teacher__ = __webpack_require__(73);
+//
+//
 //
 //
 //
@@ -62231,6 +62233,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       dialogColumnEdit: false,
       dialogColumnDelete: false,
       columnOpenObj: {},
+      columnOpenIndex: -1,
 
       // Draggable
       isMoving: false,
@@ -62240,8 +62243,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   activated: function activated() {
     this.$store.dispatch('templateSetTitle', 'Редагування розкладу'); // TODO: Name group (faculty)
     this.$store.dispatch('templateSetBodyClass', 'height100');
-    this.schedule.id = parseInt(this.$route.params.id);
-    this.getSchedule();
+
+    if (typeof this.schedule.id === 'undefined') {
+      var id = parseInt(this.$route.params.id);
+      if (this.schedule.id !== id) {
+        this.schedule.id = parseInt(this.$route.params.id);
+        this.getSchedule();
+      }
+    }
   },
   deactivated: function deactivated() {
     this.$store.dispatch('templateSetBodyClass', '');
@@ -62354,16 +62363,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     // Column
     actColumnAdd: function actColumnAdd() {
       console.log('Column add');
-      this.schedule.columns.push({ days: [], name: 'Назва', description: '' });
+      this.schedule.columns.push({ days: [], name: '', description: '' });
       this.actColumnDialogEditOpen(this.schedule.columns.length - 1);
     },
     actColumnDialogEditOpen: function actColumnDialogEditOpen(index) {
+      var _this5 = this;
+
       console.log('Column open');
-      this.columnOpenObj = Object.assign(this.schedule.columns[index]);
+      this.columnOpenIndex = index;
+      this.columnOpenObj = JSON.parse(JSON.stringify(this.schedule.columns[index]));
+      this.$nextTick(function () {
+        return _this5.$refs.columnEdit.focus();
+      });
       this.dialogColumnEdit = true;
     },
     actColumnDialogEditSave: function actColumnDialogEditSave() {
       console.log('Column save');
+      this.schedule.columns[this.columnOpenIndex] = this.columnOpenObj;
       this.actColumnDialogClose();
     },
     actColumnDialogDeleteOpen: function actColumnDialogDeleteOpen() {
@@ -62375,6 +62391,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.dialogColumnEdit = false;
       this.dialogColumnDelete = false;
       this.columnOpenObj = {};
+      this.columnOpenIndex = -1;
     },
 
 
@@ -62406,6 +62423,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     cloneTeacher: function cloneTeacher(el) {},
     moveTeacher: function moveTeacher(evt, originalEvent) {},
     endMoveTeacher: function endMoveTeacher(el) {}
+  },
+  watch: {
+    dialogColumnEdit: function dialogColumnEdit(val) {
+      !val && this.actColumnDialogClose();
+    }
   }
 });
 
@@ -64349,6 +64371,23 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**!
 
 /***/ }),
 /* 73 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = fullNameTeacher;
+/* harmony export (immutable) */ __webpack_exports__["b"] = shortNameTeacher;
+/** @var Object teacher */
+function fullNameTeacher(teacher) {
+  return teacher.last_name + ' ' + teacher.first_name + ' ' + teacher.middle_name;
+}
+
+/** @var Object teacher */
+function shortNameTeacher(teacher) {
+  return teacher.last_name + ' ' + teacher.first_name.charAt(0) + '. ' + teacher.middle_name.charAt(0) + '.';
+}
+
+/***/ }),
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -64889,33 +64928,50 @@ var render = function() {
                 _vm._v("Редагування колонки")
               ]),
               _vm._v(" "),
-              _c(
-                "v-card-text",
-                [
-                  _c("v-text-field", {
-                    attrs: { label: "Назва колонки" },
-                    model: {
-                      value: _vm.columnOpenObj.name,
-                      callback: function($$v) {
-                        _vm.$set(_vm.columnOpenObj, "name", $$v)
-                      },
-                      expression: "columnOpenObj.name"
+              _c("v-card-text", [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      keydown: function($event) {
+                        if (
+                          !("button" in $event) &&
+                          _vm._k($event.keyCode, "enter", 13, $event.key)
+                        ) {
+                          return null
+                        }
+                        $event.preventDefault()
+                        _vm.actColumnDialogEditSave()
+                      }
                     }
-                  }),
-                  _vm._v(" "),
-                  _c("v-text-field", {
-                    attrs: { label: "Опис", "multi-line": "" },
-                    model: {
-                      value: _vm.columnOpenObj.description,
-                      callback: function($$v) {
-                        _vm.$set(_vm.columnOpenObj, "description", $$v)
-                      },
-                      expression: "columnOpenObj.description"
-                    }
-                  })
-                ],
-                1
-              ),
+                  },
+                  [
+                    _c("v-text-field", {
+                      ref: "columnEdit",
+                      attrs: { label: "Назва колонки" },
+                      model: {
+                        value: _vm.columnOpenObj.name,
+                        callback: function($$v) {
+                          _vm.$set(_vm.columnOpenObj, "name", $$v)
+                        },
+                        expression: "columnOpenObj.name"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("v-text-field", {
+                      attrs: { label: "Опис", "multi-line": "" },
+                      model: {
+                        value: _vm.columnOpenObj.description,
+                        callback: function($$v) {
+                          _vm.$set(_vm.columnOpenObj, "description", $$v)
+                        },
+                        expression: "columnOpenObj.description"
+                      }
+                    })
+                  ],
+                  1
+                )
+              ]),
               _vm._v(" "),
               _c(
                 "v-card-actions",
@@ -64928,7 +64984,7 @@ var render = function() {
                       attrs: { color: "red", flat: "" },
                       nativeOn: {
                         click: function($event) {
-                          _vm.actColumnDialogClose()
+                          _vm.dialogColumnEdit = false
                         }
                       }
                     },
@@ -64971,31 +65027,10 @@ if (false) {
 }
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = fullNameTeacher;
-/* harmony export (immutable) */ __webpack_exports__["b"] = shortNameTeacher;
-/** @var Object teacher */
-function fullNameTeacher(teacher) {
-  return teacher.last_name + ' ' + teacher.first_name + ' ' + teacher.middle_name;
-}
-
-/** @var Object teacher */
-function shortNameTeacher(teacher) {
-  return teacher.last_name + ' ' + teacher.first_name.charAt(0) + '. ' + teacher.middle_name.charAt(0) + '.';
-}
 
 /***/ })
 /******/ ]);

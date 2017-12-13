@@ -16202,6 +16202,15 @@ table {
 .column.add {
   cursor: pointer;
   width: 50px;
+  min-width: 50px;
+}
+
+.column.add .btn {
+  border: 0;
+  margin: 0;
+  width: 50px;
+  min-width: 50px;
+  height: 48px;
 }
 
 .column.add .icon {

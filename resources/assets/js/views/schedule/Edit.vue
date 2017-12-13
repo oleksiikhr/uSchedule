@@ -126,12 +126,14 @@
       <v-card>
         <v-card-title class="headline">Редагування колонки</v-card-title>
         <v-card-text> <!-- TODO: Size -->
-          <v-text-field label="Назва колонки" v-model="columnOpenObj.name" />
-          <v-text-field label="Опис" v-model="columnOpenObj.description" multi-line />
+          <form @keydown.enter.prevent="actColumnDialogEditSave()">
+            <v-text-field label="Назва колонки" v-model="columnOpenObj.name" ref="columnEdit" />
+            <v-text-field label="Опис" v-model="columnOpenObj.description" multi-line />
+          </form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red" flat @click.native="actColumnDialogClose()">Закрити</v-btn>
+          <v-btn color="red" flat @click.native="dialogColumnEdit = false">Закрити</v-btn>
           <v-btn color="primary" flat @click.native="actColumnDialogEditSave()">Зберегти</v-btn>
         </v-card-actions>
       </v-card>
@@ -172,6 +174,7 @@
         dialogColumnEdit: false,
         dialogColumnDelete: false,
         columnOpenObj: {},
+        columnOpenIndex: -1,
 
         // Draggable
         isMoving: false,
@@ -181,8 +184,14 @@
     activated () {
       this.$store.dispatch('templateSetTitle', 'Редагування розкладу') // TODO: Name group (faculty)
       this.$store.dispatch('templateSetBodyClass', 'height100')
-      this.schedule.id = parseInt(this.$route.params.id)
-      this.getSchedule()
+
+      if (typeof this.schedule.id === 'undefined') {
+        let id = parseInt(this.$route.params.id)
+        if (this.schedule.id !== id) {
+          this.schedule.id = parseInt(this.$route.params.id)
+          this.getSchedule()
+        }
+      }
     },
     deactivated () {
       this.$store.dispatch('templateSetBodyClass', '')
@@ -289,16 +298,19 @@
       // Column
       actColumnAdd () {
         console.log('Column add')
-        this.schedule.columns.push({ days: [], name: 'Назва', description: '' })
+        this.schedule.columns.push({ days: [], name: '', description: '' })
         this.actColumnDialogEditOpen(this.schedule.columns.length - 1)
       },
       actColumnDialogEditOpen (index) {
         console.log('Column open')
-        this.columnOpenObj = Object.assign(this.schedule.columns[index])
+        this.columnOpenIndex = index
+        this.columnOpenObj = JSON.parse(JSON.stringify(this.schedule.columns[index]))
+        this.$nextTick(() => this.$refs.columnEdit.focus())
         this.dialogColumnEdit = true
       },
       actColumnDialogEditSave () {
         console.log('Column save')
+        this.schedule.columns[this.columnOpenIndex] = this.columnOpenObj
         this.actColumnDialogClose()
       },
       actColumnDialogDeleteOpen () {
@@ -310,6 +322,7 @@
         this.dialogColumnEdit = false
         this.dialogColumnDelete = false
         this.columnOpenObj = {}
+        this.columnOpenIndex = -1
       },
 
       /* | ------------------------
@@ -340,6 +353,11 @@
       cloneTeacher (el) {},
       moveTeacher (evt, originalEvent) {},
       endMoveTeacher (el) {}
+    },
+    watch: {
+      dialogColumnEdit (val) {
+        !val && this.actColumnDialogClose()
+      }
     }
   }
 </script>
