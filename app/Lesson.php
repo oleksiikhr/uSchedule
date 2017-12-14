@@ -12,4 +12,9 @@ class Lesson extends Model
     {
         return $this->hasOne(Subject::class, 'id', 'subject_id');
     }
+
+    public function subs()
+    {
+        return $this->hasMany(LessonSub::class);
+    }
 }

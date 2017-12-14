@@ -62234,6 +62234,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -64856,9 +64862,14 @@ var render = function() {
                             }
                           },
                           [
-                            _c("td", { staticClass: "column small" }, [
-                              _vm._v("#")
-                            ]),
+                            _c(
+                              "td",
+                              {
+                                staticClass: "column small",
+                                attrs: { colspan: "3" }
+                              },
+                              [_vm._v("#")]
+                            ),
                             _vm._v(" "),
                             _vm._l(_vm.schedule.columns, function(
                               column,
@@ -64971,7 +64982,19 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
-                    _c("tbody")
+                    _c("tbody", [
+                      _c("tr", [
+                        _c("td"),
+                        _vm._v(" "),
+                        _c("td"),
+                        _vm._v(" "),
+                        _c("td"),
+                        _vm._v(" "),
+                        _c("td"),
+                        _vm._v(" "),
+                        _c("td")
+                      ])
+                    ])
                   ])
                 ]
               : [

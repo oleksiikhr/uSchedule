@@ -49,7 +49,7 @@
                 </template> <!-- END Subjects is loading or error -->
               </v-card>
             </v-tabs-content>
-            <v-tabs-content id="tab-teachers"> <!-- TODO: After complete subjects -->
+            <v-tabs-content id="tab-teachers">
               <v-card flat>
                 <template v-if="!loadingTeachers">
                   <v-layout row wrap class="line-search-update">
@@ -89,7 +89,7 @@
             <thead> <!-- Columns -->
             <draggable :options="{ group: { name: 'columns' }, sort: true, draggable: '.item' }" element="tr"
                        :v-model="schedule.columns">
-              <td class="column small">#</td>
+              <td colspan="3" class="column small">#</td>
               <td v-for="(column, columnIndex) in schedule.columns" class="column edit cursor-grab item"
                   :key="column.id">
                 <span>{{ column.name }}</span>
@@ -110,7 +110,7 @@
                 </div>
               </td>
               <td class="column small" slot="footer">
-                <v-btn outline @click="actColumnAdd()"> <!-- TODO: delete styles -->
+                <v-btn outline @click="actColumnAdd()">
                   <v-icon>add</v-icon>
                 </v-btn>
               </td>
@@ -118,7 +118,13 @@
             </thead> <!-- EMD Columns -->
             <!-- Rows -->
             <tbody>
-            
+            <tr> <!-- Repeat max count days -->
+              <td></td> <!-- Week name (+ actions - edit, delete) -->
+              <td></td> <!-- Custom date if exists (+ actions - notice*) -->
+              <td></td> <!-- Num pair, block (+ time on hover) -->
+              <td></td> <!-- v-for columns - MAIN -->
+              <td></td> <!-- Repeat first column* -->
+            </tr>
             </tbody>
             <!-- EMD Rows -->
           </table> <!-- END Main Left Column -->
