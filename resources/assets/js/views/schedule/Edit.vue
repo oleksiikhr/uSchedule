@@ -89,7 +89,7 @@
             <thead> <!-- Columns -->
             <draggable :options="{ group: { name: 'columns' }, sort: true, draggable: '.item' }" element="tr"
                        :v-model="schedule.columns">
-              <td class="column small fixed">#</td>
+              <td class="column small">#</td>
               <td v-for="(column, columnIndex) in schedule.columns" class="column edit cursor-grab item"
                   :key="column.id">
                 <span>{{ column.name }}</span>
@@ -116,20 +116,11 @@
               </td>
             </draggable>
             </thead> <!-- EMD Columns -->
-            <tbody> <!-- Rows -->
-            <!--<template v-for="(column, columnIndex) in schedule.columns">--> <!-- TODO: Rewrite* -->
-              <!--<template v-for="(day, dayIndex) in column.days">-->
-                <!--<draggable :options="{ group:{ name: 'days', pull: 'clone', put: false }, sort: true, draggable: '.item' }"-->
-                           <!--v-model="column.days" element="tr">-->
-                  <!--<td>{{ dayIndex }}</td>-->
-                  <!--<tr>-->
-                    <!--<td>123</td>-->
-                    <!--<td>2145</td>-->
-                  <!--</tr>-->
-                <!--</draggable>-->
-              <!--</template>-->
-            <!--</template>-->
-            </tbody> <!-- EMD Rows -->
+            <!-- Rows -->
+            <tbody>
+            
+            </tbody>
+            <!-- EMD Rows -->
           </table> <!-- END Main Left Column -->
         </template>
         <template v-else> <!-- Schedule is loading or error -->
@@ -149,6 +140,7 @@
     </v-layout>
 
     <!-- Dialogs -->
+
     <v-dialog v-model="dialogColumnEdit" max-width="400">
       <v-card>
         <v-card-title class="headline">Редагування колонки</v-card-title>
@@ -274,6 +266,19 @@
         })
 
         return teachers
+      },
+      maxDays () {
+        let max = 0;
+
+        for (let i = 0; i < this.schedule.columns.length; i++) {
+          let column = this.schedule.columns[i]
+
+          if (column.days.length > max) {
+            max = column.days.length
+          }
+        }
+
+        return max
       }
     },
     methods: {
@@ -314,7 +319,6 @@
           faculty_id: this.schedule.id
         })
             .then(res => {
-              console.log('Subjects', res.data)
               this.subjects = res.data
               this.loadingSubjects = false
             })
@@ -327,7 +331,6 @@
           faculty_id: this.schedule.id
         })
             .then(res => {
-              console.log('Teachers', res.data)
               this.teachers = res.data
               this.loadingTeachers = false
             })

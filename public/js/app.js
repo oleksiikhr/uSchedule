@@ -62234,14 +62234,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -62336,6 +62328,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
 
       return teachers;
+    },
+    maxDays: function maxDays() {
+      var max = 0;
+
+      for (var i = 0; i < this.schedule.columns.length; i++) {
+        var column = this.schedule.columns[i];
+
+        if (column.days.length > max) {
+          max = column.days.length;
+        }
+      }
+
+      return max;
     }
   },
   methods: {
@@ -62377,7 +62382,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/subjects', {
         faculty_id: this.schedule.id
       }).then(function (res) {
-        console.log('Subjects', res.data);
         _this3.subjects = res.data;
         _this3.loadingSubjects = false;
       });
@@ -62391,7 +62395,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/teachers', {
         faculty_id: this.schedule.id
       }).then(function (res) {
-        console.log('Teachers', res.data);
         _this4.teachers = res.data;
         _this4.loadingTeachers = false;
       });
@@ -64853,7 +64856,7 @@ var render = function() {
                             }
                           },
                           [
-                            _c("td", { staticClass: "column small fixed" }, [
+                            _c("td", { staticClass: "column small" }, [
                               _vm._v("#")
                             ]),
                             _vm._v(" "),

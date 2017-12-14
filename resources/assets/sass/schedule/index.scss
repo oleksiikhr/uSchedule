@@ -87,8 +87,8 @@ table {
   height: calc(100% - 65px);
   overflow: auto;
   table {
-    //min-width: 100%;
-    //max-width: 1200px;
+    min-width: 100%;
+    max-width: 1200px;
   }
   .column {
     text-align: center;
