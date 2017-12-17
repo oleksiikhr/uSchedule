@@ -14,6 +14,11 @@ class Teacher extends Model
         return $this->belongsToMany(Faculty::class);
     }
 
+    public function lesson()
+    {
+        return $this->hasMany(LessonSub::class);
+    }
+
     /**
      * Get all teachers by object
      *

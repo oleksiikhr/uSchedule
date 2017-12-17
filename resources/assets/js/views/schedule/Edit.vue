@@ -118,11 +118,18 @@
             </thead> <!-- EMD Columns -->
             <!-- Rows -->
             <tbody>
-            <tr> <!-- Repeat max count days -->
-              <td></td> <!-- Week name (+ actions - edit, delete) -->
+            <!-- TODO: v-for not include custom_date* -->
+            <tr v-for="i in maxDays"> <!-- Repeat max count days (with custom!) -->
+              <td>{{ i }}</td> <!-- Week name (+ actions - edit, delete) -->
               <td></td> <!-- Custom date if exists (+ actions - notice*) -->
               <td></td> <!-- Num pair, block (+ time on hover) -->
-              <td></td> <!-- v-for columns - MAIN -->
+              <td v-for="(column, columnIndex) in schedule.columns"> <!-- v-for columns - MAIN -->
+                <table v-if="schedule.columns[columnIndex].days[i]">
+                  <tr v-for="day in schedule.columns[columnIndex].days[i].lessons">
+                    {{ day.subject_info.title }}
+                  </tr>
+                </table>
+              </td>
               <td></td> <!-- Repeat first column* -->
             </tr>
             </tbody>

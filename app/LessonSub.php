@@ -12,4 +12,14 @@ class LessonSub extends Model
     {
         return $this->belongsTo(Lesson::class);
     }
+
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(LessonType::class);
+    }
 }

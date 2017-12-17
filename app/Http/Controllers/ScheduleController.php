@@ -33,7 +33,7 @@ class ScheduleController extends Controller
     public function one(ScheduleRequest $request)
     {
         // TODO: Temporary
-        $schedule = Schedule::with('columns.days.lessons.subs')
+        $schedule = Schedule::with(['columns.days.lessons.subs.teacher', 'columns.days.lessons.subs.type'])
             ->where('id', '=', $request->schedule_id)
             ->firstOrFail();
 
