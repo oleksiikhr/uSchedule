@@ -78250,6 +78250,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuedraggable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_teacher__ = __webpack_require__(193);
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+//
 //
 //
 //
@@ -78534,19 +78537,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
 
       return teachers;
-    },
-    maxDays: function maxDays() {
-      var max = 0;
-
-      for (var i = 0; i < this.schedule.columns.length; i++) {
-        var column = this.schedule.columns[i];
-
-        if (column.days.length > max) {
-          max = column.days.length;
-        }
-      }
-
-      return max;
     }
   },
   methods: {
@@ -78556,6 +78546,105 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
      */
     fullNameTeacher: __WEBPACK_IMPORTED_MODULE_2__helpers_teacher__["a" /* fullNameTeacher */],
     shortNameTeacher: __WEBPACK_IMPORTED_MODULE_2__helpers_teacher__["b" /* shortNameTeacher */],
+
+    /* | ------------------------------------------------------------------------
+     * | Main method
+     * | ------------------------------------------------------------------------
+     */
+    createScheduleArray: function createScheduleArray(date) {
+      /**
+      @see--Columns:
+      [{ // Колонки
+        id: 1,
+        name: '',
+        description: ''
+      }, ..]
+       @see--Types:
+      [{ // Все типы
+        id: 1,
+        short_name: '',
+        long_name: ''
+      }, ..]
+       @see--Rows:
+      [{ // Количество строк
+        custom_day: 2017.12.12, // Уникальный
+        data: [{ // Количество колонок
+          column_id: 1,
+          day_id: 1,
+          lessons: [{ // Пары
+            subject_id: 1,
+            subs: [{ // Подпары
+              cabinet: '',
+              teacher_id: 1,
+              type_id: 1
+            }, ..]
+          }, ..]
+        }, ..]
+      }, ..]
+      */
+
+      var schedule = [];
+
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = date.columns.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var _ref = _step.value;
+
+          var _ref2 = _slicedToArray(_ref, 2);
+
+          var columnIndex = _ref2[0];
+          var column = _ref2[1];
+          var _iteratorNormalCompletion2 = true;
+          var _didIteratorError2 = false;
+          var _iteratorError2 = undefined;
+
+          try {
+            for (var _iterator2 = column.days.entries()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+              // TODO: ..
+
+              var _ref3 = _step2.value;
+
+              var _ref4 = _slicedToArray(_ref3, 2);
+
+              var dayIndex = _ref4[0];
+              var day = _ref4[1];
+            }
+          } catch (err) {
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                _iterator2.return();
+              }
+            } finally {
+              if (_didIteratorError2) {
+                throw _iteratorError2;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      console.log('Result', result);
+    },
+
 
     /* | ------------------------------------------------------------------------
      * | Fetch API
@@ -78571,7 +78660,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         schedule_id: this.schedule.id
       }).then(function (res) {
         console.log('Schedule', res.data);
-        _this2.schedule = res.data;
+        _this2.createScheduleArray(res.data);
         _this2.loadingSchedule = false;
         _this2.fetchGetSubjects();
         _this2.fetchGetTeachers();
@@ -81184,41 +81273,25 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "tbody",
-                      _vm._l(_vm.maxDays, function(i) {
+                      _vm._l(_vm.schedule, function(row) {
                         return _c(
                           "tr",
                           [
-                            _c("td", [_vm._v(_vm._s(i))]),
+                            _c("td", [_vm._v(_vm._s(row.custom_day))]),
                             _vm._v(" "),
-                            _c("td"),
+                            _c("td", [_vm._v(_vm._s(row.custom_day))]),
                             _vm._v(" "),
-                            _c("td"),
-                            _vm._v(" "),
-                            _vm._l(_vm.schedule.columns, function(
-                              column,
-                              columnIndex
-                            ) {
-                              return _c("td", [
-                                _vm.schedule.columns[columnIndex].days[i]
-                                  ? _c(
-                                      "table",
-                                      _vm._l(
-                                        _vm.schedule.columns[columnIndex].days[
-                                          i
-                                        ].lessons,
-                                        function(day) {
-                                          return _c("tr", [
-                                            _vm._v(
-                                              "\n                  " +
-                                                _vm._s(day.subject_info.title) +
-                                                "\n                "
-                                            )
-                                          ])
-                                        }
-                                      )
-                                    )
-                                  : _vm._e()
-                              ])
+                            _vm._l(_vm.maxCountColumns, function(columnIndex) {
+                              return [
+                                _c("td"),
+                                _vm._v(" "),
+                                _vm._l(_vm.schedule.columns, function(
+                                  column,
+                                  columnIndex
+                                ) {
+                                  return _c("td", [_c("table", [_c("tr")])])
+                                })
+                              ]
                             }),
                             _vm._v(" "),
                             _c("td")

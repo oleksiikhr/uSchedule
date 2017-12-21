@@ -118,19 +118,20 @@
             </thead> <!-- EMD Columns -->
             <!-- Rows -->
             <tbody>
-            <!-- TODO: v-for not include custom_date* -->
-            <tr v-for="i in maxDays"> <!-- Repeat max count days (with custom!) -->
-              <td>{{ i }}</td> <!-- Week name (+ actions - edit, delete) -->
-              <td></td> <!-- Custom date if exists (+ actions - notice*) -->
-              <td></td> <!-- Num pair, block (+ time on hover) -->
-              <td v-for="(column, columnIndex) in schedule.columns"> <!-- v-for columns - MAIN -->
-                <table v-if="schedule.columns[columnIndex].days[i]">
-                  <tr v-for="day in schedule.columns[columnIndex].days[i].lessons">
-                    {{ day.subject_info.title }}
-                  </tr>
-                </table>
-              </td>
-              <td></td> <!-- Repeat first column* -->
+            <tr v-for="row in schedule"> <!-- Repeat max count days (with custom!) -->
+              <td>{{ row.custom_day }}</td> <!-- Week name (+ actions - edit, delete) -->
+              <td>{{ row.custom_day }}</td> <!-- Custom date if exists (+ actions - notice*) -->
+              <template v-for="columnIndex in maxCountColumns">
+                <td></td> <!-- Num pair, block (+ time on hover) -->
+                <td v-for="(column, columnIndex) in schedule.columns"> <!-- v-for columns - MAIN -->
+                  <table>
+                    <tr>
+                      <!-- TODO .. -->
+                    </tr>
+                  </table>
+                </td>
+              </template>
+              <td></td> <!-- Empty -->
             </tr>
             </tbody>
             <!-- EMD Rows -->
@@ -279,19 +280,6 @@
         })
 
         return teachers
-      },
-      maxDays () {
-        let max = 0;
-
-        for (let i = 0; i < this.schedule.columns.length; i++) {
-          let column = this.schedule.columns[i]
-
-          if (column.days.length > max) {
-            max = column.days.length
-          }
-        }
-
-        return max
       }
     },
     methods: {
@@ -301,6 +289,55 @@
        */
       fullNameTeacher,
       shortNameTeacher,
+
+      /* | ------------------------------------------------------------------------
+       * | Main method
+       * | ------------------------------------------------------------------------
+       */
+      createScheduleArray (date) {
+        /**
+        @see--Columns:
+        [{ // Колонки
+          id: 1,
+          name: '',
+          description: ''
+        }, ..]
+
+        @see--Types:
+        [{ // Все типы
+          id: 1,
+          short_name: '',
+          long_name: ''
+        }, ..]
+
+        @see--Rows:
+        [{ // Количество строк
+          custom_day: 2017.12.12, // Уникальный
+          data: [{ // Количество колонок
+            column_id: 1,
+            day_id: 1,
+            lessons: [{ // Пары
+              subject_id: 1,
+              subs: [{ // Подпары
+                cabinet: '',
+                teacher_id: 1,
+                type_id: 1
+              }, ..]
+            }, ..]
+          }, ..]
+        }, ..]
+        */
+
+        let schedule = []
+
+        for (let [columnIndex, column] of date.columns.entries()) {
+          for (let [dayIndex, day] of column.days.entries()) {
+            // TODO: ..
+          }
+        }
+
+        console.log('Result', result)
+      },
 
       /* | ------------------------------------------------------------------------
        * | Fetch API
@@ -315,7 +352,7 @@
         })
             .then(res => {
               console.log('Schedule', res.data)
-              this.schedule = res.data
+              this.createScheduleArray(res.data)
               this.loadingSchedule = false
               this.fetchGetSubjects()
               this.fetchGetTeachers()
