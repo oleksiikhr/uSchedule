@@ -20,7 +20,7 @@
           <v-tabs-items>
             <v-tabs-content id="tab-schedules">
               <v-card flat>
-                <template v-if="!loadingSubjects">
+                <template v-if="!loading.subjects.model">
                   <v-layout row wrap class="line-search-update">
                     <v-text-field solo label="Предмет" clearable v-model="searchSubject" single-line
                                   prepend-icon="search" />
@@ -41,7 +41,7 @@
                       <v-btn outline block color="black" @click="fetchGetSubjects()">Оновити</v-btn>
                     </div>
                   </template>
-                  <template v-else-if="!loadingSchedule && !errorSchedule">
+                  <template v-else-if="!loading.schedule.model && !errorSchedule">
                     <div class="bad-response loading-subjects">
                       <v-progress-circular indeterminate :size="50" :width="3" color="primary" />
                     </div>
@@ -51,7 +51,7 @@
             </v-tabs-content>
             <v-tabs-content id="tab-teachers">
               <v-card flat>
-                <template v-if="!loadingTeachers">
+                <template v-if="!loading.teachers.model">
                   <v-layout row wrap class="line-search-update">
                     <v-text-field solo label="Викладач" clearable v-model="searchTeacher" single-line
                                   prepend-icon="search" />
@@ -72,7 +72,7 @@
                       <v-btn outline block color="black" @click="fetchGetTeachers()">Оновити</v-btn>
                     </div>
                   </template>
-                  <template v-else-if="!loadingSchedule && !errorSchedule">
+                  <template v-else-if="!loading.schedule.model && !errorSchedule">
                     <div class="bad-response loading-teachers">
                       <v-progress-circular indeterminate :size="50" :width="3" color="primary" />
                     </div>
@@ -84,7 +84,7 @@
         </v-tabs>
       </div>
       <div class="right-column">
-        <template v-if="!loadingSchedule">
+        <template v-if="!loading.generateSchedule.model && !loading.generateSchedule.hasError">
           <table> <!-- Main Left Column -->
             <thead> <!-- Columns -->
             <draggable :options="{ group: { name: 'columns' }, sort: true, draggable: '.item' }" element="tr"
@@ -138,17 +138,20 @@
           </table> <!-- END Main Left Column -->
         </template>
         <template v-else> <!-- Schedule is loading or error -->
-          <template v-if="errorSchedule">
-            <div class="bad-response error-schedule">
+          <div class="bad-response">
+            <template v-if="loading.generateSchedule.hasError">
               <h2 class="light-blue darken-2 white--text">Помилка при отримані розкладу</h2>
               <v-btn outline color="black" @click="getGetSchedule()">Оновити</v-btn>
-            </div>
-          </template>
-          <template v-else>
-            <div class="bad-response loading-schedule">
-              <v-progress-circular indeterminate :size="80" :width="5" color="primary" />
-            </div>
-          </template>
+            </template>
+            <h6 v-else>Налаштування розкладу</h6>
+            <ul class="info-schedule-loading">
+              <li v-for="item in loading">
+                <!-- TODO: icons (x,..) v-if -->
+                <v-progress-circular :indeterminate="item.model" :size="16" :width="2" color="primary" />
+                {{ item.message }}
+              </li>
+            </ul>
+          </div>
         </template> <!-- End Schedule is loading or error  -->
       </div>
     </v-layout>
@@ -176,7 +179,7 @@
       <v-card>
         <v-card-title class="headline">Видалення колонки</v-card-title>
         <v-card-text>
-          Ви дійсно хочете видалити "{{ schedule.columns[columnOpenIndex].name}}" колонку?
+          Ви дійсно хочете видалити "{{ schedule.columns[columnOpenIndex].name }}" колонку?
           Всі дані, які прікріплені до цієї колонки <strong>видаляться</strong>.
         </v-card-text>
         <v-card-actions>
@@ -206,23 +209,13 @@
         types: [],
 
         // Loading
-        loadingSchedule: true,
-        loadingSubjects: true,
-        loadingTeachers: true,
-        loadingTypes: true,
-        loadingGenerateLessons: true,
-        loadingMessage: [
-          {'loading': this.loadingSchedule, 'message': 'Отримання інформація про навчальний заклад'},
-          {'loading': this.loadingSubjects, 'message': 'Отримання предметів'},
-          {'loading': this.loadingTeachers, 'message': 'Отримання викладачів'},
-          {'loading': this.loadingTypes,    'message': 'Отримання типів навчальних занять'},
-          {'loading': this.loadingSchedule, 'message': 'Генерація розкладу'}
-        ],
-
-        // Error
-        errorSchedule: false,
-        errorSubjects: false,
-        errorTeachers: false,
+        loading: {
+          schedule: { model: true, hasError: false, message: 'Отримання інформація про навчальний заклад.' },
+          subjects: { model: true, hasError: false, message: 'Отримання предметів.' },
+          teachers: { model: true, hasError: false, message: 'Отримання викладачів.' },
+          types: { model: true, hasError: false, message: 'Отримання типів навчальних занять.' },
+          generateSchedule: { model: true, message: 'Генерація розкладу.' },
+        },
 
         // Search
         searchSubject: '',
@@ -242,6 +235,13 @@
     activated () {
       this.$store.dispatch('templateSetTitle', 'Редагування розкладу') // TODO: Name group (faculty)
       this.$store.dispatch('templateSetBodyClass', 'height100')
+
+      // TODO: temporary
+      this.schedule.id = parseInt(this.$route.params.id)
+      this.getGetSchedule()
+      this.fetchGetTypes();
+      return;
+      // END Temporary
 
       if (typeof this.schedule.id === 'undefined') {
         let id = parseInt(this.$route.params.id)
@@ -315,13 +315,6 @@
           description: ''
         }, ..]
 
-        @see--Types:
-        [{ // Все типы
-          id: 1,
-          short_name: '',
-          long_name: ''
-        }, ..]
-
         @see--Rows:
         [{ // Количество строк
           custom_day: 2017.12.12, // Уникальный
@@ -350,7 +343,7 @@
 
         console.log(data)
         console.log('Result', schedule)
-        this.loadingSchedule = false
+        this.loading.schedule.model = false
       },
 
       /* | ------------------------------------------------------------------------
@@ -358,24 +351,24 @@
        * | ------------------------------------------------------------------------
        */
       getGetSchedule () {
-        this.loadingSchedule = true
-        this.errorSchedule = false
+        this.loading.schedule.model = true
+        this.loading.schedule.hasError = false
 
         get('/api/schedule', {
           schedule_id: this.schedule.id
         })
             .then(res => {
-              this.loadingSchedule = false
+              this.loading.schedule.model = false
               this.fetchGetSubjects()
               this.fetchGetTeachers()
               this.createScheduleArray(res.data)
             })
             .catch(err => {
-              this.errorSchedule = true
+              this.loading.schedule.hasError = true
             })
       },
       fetchGetTypes () {
-        this.loadingTypes = true
+        this.loading.types.model = true
         this.types = []
 
         get('/api/types', {
@@ -383,14 +376,14 @@
         })
             .then(res => {
               this.types = res.data
-              this.loadingTypes = false
+              this.loading.types.model = false
             })
             .catch(err => {
-              this.errorSchedule = true
+              this.loading.types.hasError = true
             })
       },
       fetchGetSubjects () {
-        this.loadingSubjects = true
+        this.loading.subjects.model = true
         this.subjects = []
 
         get('/api/subjects', {
@@ -398,14 +391,14 @@
         })
             .then(res => {
               this.subjects = res.data
-              this.loadingSubjects = false
+              this.loading.subjects.model = false
             })
             .catch(err => {
-              this.errorSchedule = true
+              this.loading.subjects.hasError = true
             })
       },
       fetchGetTeachers () {
-        this.loadingTeachers = true
+        this.loading.teachers.model = true
         this.teachers = []
 
         get('/api/teachers', {
@@ -413,10 +406,10 @@
         })
             .then(res => {
               this.teachers = res.data
-              this.loadingTeachers = false
+              this.loading.teachers.model = false
             })
             .catch(err => {
-              this.errorSchedule = true
+              this.loading.teachers.hasError = true
             })
       },
 

@@ -152,17 +152,20 @@ table {
 
 /* Response error */
 .bad-response {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: calc(100% - 65px); // 65px - header
-  align-items: center;
-  justify-content: center;
+  padding: 20px 10px;
+  text-align: center;
+  max-width: 450px;
+  margin: 0 auto;
 }
 
 /* Loading */
-.loading-schedule {}
-.loading-subjects {}
+.info-schedule-loading {
+  list-style-type: none;
+  text-align: left;
+  font-size: 16px;
+  padding: 0;
+  line-height: 2em;
+}
 
 /* Errors */
 .error-schedule {

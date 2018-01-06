@@ -78443,6 +78443,9 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 //
 //
 //
+//
+//
+//
 
 
 
@@ -78460,17 +78463,13 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       types: [],
 
       // Loading
-      loadingSchedule: true,
-      loadingSubjects: true,
-      loadingTeachers: true,
-      loadingTypes: true,
-      loadingGenerateLessons: true,
-      loadingMessage: [{ 'loading': this.loadingSchedule, 'message': 'Отримання інформація про навчальний заклад' }, { 'loading': this.loadingSubjects, 'message': 'Отримання предметів' }, { 'loading': this.loadingTeachers, 'message': 'Отримання викладачів' }, { 'loading': this.loadingTypes, 'message': 'Отримання типів навчальних занять' }, { 'loading': this.loadingSchedule, 'message': 'Генерація розкладу' }],
-
-      // Error
-      errorSchedule: false,
-      errorSubjects: false,
-      errorTeachers: false,
+      loading: {
+        schedule: { model: true, hasError: false, message: 'Отримання інформація про навчальний заклад.' },
+        subjects: { model: true, hasError: false, message: 'Отримання предметів.' },
+        teachers: { model: true, hasError: false, message: 'Отримання викладачів.' },
+        types: { model: true, hasError: false, message: 'Отримання типів навчальних занять.' },
+        generateSchedule: { model: true, message: 'Генерація розкладу.' }
+      },
 
       // Search
       searchSubject: '',
@@ -78490,6 +78489,13 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
   activated: function activated() {
     this.$store.dispatch('templateSetTitle', 'Редагування розкладу'); // TODO: Name group (faculty)
     this.$store.dispatch('templateSetBodyClass', 'height100');
+
+    // TODO: temporary
+    this.schedule.id = parseInt(this.$route.params.id);
+    this.getGetSchedule();
+    this.fetchGetTypes();
+    return;
+    // END Temporary
 
     if (typeof this.schedule.id === 'undefined') {
       var id = parseInt(this.$route.params.id);
@@ -78564,12 +78570,6 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
         id: 1,
         name: '',
         description: ''
-      }, ..]
-       @see--Types:
-      [{ // Все типы
-        id: 1,
-        short_name: '',
-        long_name: ''
       }, ..]
        @see--Rows:
       [{ // Количество строк
@@ -78650,7 +78650,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
       console.log(data);
       console.log('Result', schedule);
-      this.loadingSchedule = false;
+      this.loading.schedule.model = false;
     },
 
 
@@ -78661,63 +78661,63 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
     getGetSchedule: function getGetSchedule() {
       var _this2 = this;
 
-      this.loadingSchedule = true;
-      this.errorSchedule = false;
+      this.loading.schedule.model = true;
+      this.loading.schedule.hasError = false;
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/schedule', {
         schedule_id: this.schedule.id
       }).then(function (res) {
-        _this2.loadingSchedule = false;
+        _this2.loading.schedule.model = false;
         _this2.fetchGetSubjects();
         _this2.fetchGetTeachers();
         _this2.createScheduleArray(res.data);
       }).catch(function (err) {
-        _this2.errorSchedule = true;
+        _this2.loading.schedule.hasError = true;
       });
     },
     fetchGetTypes: function fetchGetTypes() {
       var _this3 = this;
 
-      this.loadingTypes = true;
+      this.loading.types.model = true;
       this.types = [];
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/types', {
         schedule_id: this.schedule.id
       }).then(function (res) {
         _this3.types = res.data;
-        _this3.loadingTypes = false;
+        _this3.loading.types.model = false;
       }).catch(function (err) {
-        _this3.errorSchedule = true;
+        _this3.loading.types.hasError = true;
       });
     },
     fetchGetSubjects: function fetchGetSubjects() {
       var _this4 = this;
 
-      this.loadingSubjects = true;
+      this.loading.subjects.model = true;
       this.subjects = [];
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/subjects', {
         faculty_id: this.schedule.id
       }).then(function (res) {
         _this4.subjects = res.data;
-        _this4.loadingSubjects = false;
+        _this4.loading.subjects.model = false;
       }).catch(function (err) {
-        _this4.errorSchedule = true;
+        _this4.loading.subjects.hasError = true;
       });
     },
     fetchGetTeachers: function fetchGetTeachers() {
       var _this5 = this;
 
-      this.loadingTeachers = true;
+      this.loading.teachers.model = true;
       this.teachers = [];
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/teachers', {
         faculty_id: this.schedule.id
       }).then(function (res) {
         _this5.teachers = res.data;
-        _this5.loadingTeachers = false;
+        _this5.loading.teachers.model = false;
       }).catch(function (err) {
-        _this5.errorSchedule = true;
+        _this5.loading.teachers.hasError = true;
       });
     },
 
@@ -80835,7 +80835,7 @@ var render = function() {
                           "v-card",
                           { attrs: { flat: "" } },
                           [
-                            !_vm.loadingSubjects
+                            !_vm.loading.subjects.model
                               ? [
                                   _c(
                                     "v-layout",
@@ -80954,7 +80954,8 @@ var render = function() {
                                           1
                                         )
                                       ]
-                                    : !_vm.loadingSchedule && !_vm.errorSchedule
+                                    : !_vm.loading.schedule.model &&
+                                      !_vm.errorSchedule
                                       ? [
                                           _c(
                                             "div",
@@ -80992,7 +80993,7 @@ var render = function() {
                           "v-card",
                           { attrs: { flat: "" } },
                           [
-                            !_vm.loadingTeachers
+                            !_vm.loading.teachers.model
                               ? [
                                   _c(
                                     "v-layout",
@@ -81114,7 +81115,8 @@ var render = function() {
                                           1
                                         )
                                       ]
-                                    : !_vm.loadingSchedule && !_vm.errorSchedule
+                                    : !_vm.loading.schedule.model &&
+                                      !_vm.errorSchedule
                                       ? [
                                           _c(
                                             "div",
@@ -81157,7 +81159,8 @@ var render = function() {
           "div",
           { staticClass: "right-column" },
           [
-            !_vm.loadingSchedule
+            !_vm.loading.generateSchedule.model &&
+            !_vm.loading.generateSchedule.hasError
               ? [
                   _c("table", [
                     _c(
@@ -81329,12 +81332,12 @@ var render = function() {
                   ])
                 ]
               : [
-                  _vm.errorSchedule
-                    ? [
-                        _c(
-                          "div",
-                          { staticClass: "bad-response error-schedule" },
-                          [
+                  _c(
+                    "div",
+                    { staticClass: "bad-response" },
+                    [
+                      _vm.loading.generateSchedule.hasError
+                        ? [
                             _c(
                               "h2",
                               {
@@ -81355,27 +81358,37 @@ var render = function() {
                               },
                               [_vm._v("Оновити")]
                             )
-                          ],
-                          1
-                        )
-                      ]
-                    : [
-                        _c(
-                          "div",
-                          { staticClass: "bad-response loading-schedule" },
-                          [
-                            _c("v-progress-circular", {
-                              attrs: {
-                                indeterminate: "",
-                                size: 80,
-                                width: 5,
-                                color: "primary"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ]
+                          ]
+                        : _c("h6", [_vm._v("Налаштування розкладу")]),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        { staticClass: "info-schedule-loading" },
+                        _vm._l(_vm.loading, function(item) {
+                          return _c(
+                            "li",
+                            [
+                              _c("v-progress-circular", {
+                                attrs: {
+                                  indeterminate: item.model,
+                                  size: 16,
+                                  width: 2,
+                                  color: "primary"
+                                }
+                              }),
+                              _vm._v(
+                                "\n              " +
+                                  _vm._s(item.message) +
+                                  "\n            "
+                              )
+                            ],
+                            1
+                          )
+                        })
+                      )
+                    ],
+                    2
+                  )
                 ]
           ],
           2
