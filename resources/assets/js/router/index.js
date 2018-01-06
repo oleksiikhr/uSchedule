@@ -27,7 +27,6 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   mode: 'history',
   routes: [
-    { path: '/', redirect: { name: 'home' } },
     { path: '/home', name: 'home', component: Home },
 
     { path: '/login', name: 'login', component: Login, meta: { isLogin: false } },

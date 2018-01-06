@@ -74340,7 +74340,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 // Vue router
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
   mode: 'history',
-  routes: [{ path: '/', redirect: { name: 'home' } }, { path: '/home', name: 'home', component: __WEBPACK_IMPORTED_MODULE_3__views_Home_vue___default.a }, { path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue___default.a, meta: { isLogin: false } }, { path: '/register', name: 'register', component: __WEBPACK_IMPORTED_MODULE_5__views_auth_Register_vue___default.a, meta: { isLogin: false } }, { path: '/email', name: 'email', component: __WEBPACK_IMPORTED_MODULE_6__views_auth_Email_vue___default.a, meta: { isLogin: false } }, { path: '/profile', name: 'profile', component: __WEBPACK_IMPORTED_MODULE_7__views_users_Profile_vue___default.a, meta: { isLogin: true } }, { path: '/schedule/:id/edit', name: 'schedule-edit', component: __WEBPACK_IMPORTED_MODULE_9__views_schedule_Edit_vue___default.a, meta: { isLogin: true } }, { path: '*', name: 'not-found', component: __WEBPACK_IMPORTED_MODULE_8__views_NotFound_vue___default.a }]
+  routes: [{ path: '/home', name: 'home', component: __WEBPACK_IMPORTED_MODULE_3__views_Home_vue___default.a }, { path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue___default.a, meta: { isLogin: false } }, { path: '/register', name: 'register', component: __WEBPACK_IMPORTED_MODULE_5__views_auth_Register_vue___default.a, meta: { isLogin: false } }, { path: '/email', name: 'email', component: __WEBPACK_IMPORTED_MODULE_6__views_auth_Email_vue___default.a, meta: { isLogin: false } }, { path: '/profile', name: 'profile', component: __WEBPACK_IMPORTED_MODULE_7__views_users_Profile_vue___default.a, meta: { isLogin: true } }, { path: '/schedule/:id/edit', name: 'schedule-edit', component: __WEBPACK_IMPORTED_MODULE_9__views_schedule_Edit_vue___default.a, meta: { isLogin: true } }, { path: '*', name: 'not-found', component: __WEBPACK_IMPORTED_MODULE_8__views_NotFound_vue___default.a }]
 });
 
 // Axios global interceptors
@@ -78457,11 +78457,15 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       schedule: {},
       subjects: [],
       teachers: [],
+      types: [],
 
       // Loading
       loadingSchedule: true,
       loadingSubjects: true,
       loadingTeachers: true,
+      loadingTypes: true,
+      loadingGenerateLessons: true,
+      loadingMessage: [{ 'loading': this.loadingSchedule, 'message': 'Отримання інформація про навчальний заклад' }, { 'loading': this.loadingSubjects, 'message': 'Отримання предметів' }, { 'loading': this.loadingTeachers, 'message': 'Отримання викладачів' }, { 'loading': this.loadingTypes, 'message': 'Отримання типів навчальних занять' }, { 'loading': this.loadingSchedule, 'message': 'Генерація розкладу' }],
 
       // Error
       errorSchedule: false,
@@ -78491,11 +78495,13 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       var id = parseInt(this.$route.params.id);
       if (this.schedule.id !== id) {
         this.schedule.id = parseInt(this.$route.params.id);
-        this.getSchedule();
+        this.getGetSchedule();
+        this.fetchGetTypes();
       }
     }
   },
   deactivated: function deactivated() {
+    // TODO: loading..*
     this.$store.dispatch('templateSetBodyClass', '');
   },
 
@@ -78551,7 +78557,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
      * | Main method
      * | ------------------------------------------------------------------------
      */
-    createScheduleArray: function createScheduleArray(date) {
+    createScheduleArray: function createScheduleArray(data) {
       /**
       @see--Columns:
       [{ // Колонки
@@ -78590,7 +78596,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       var _iteratorError = undefined;
 
       try {
-        for (var _iterator = date.columns.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (var _iterator = data.columns.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var _ref = _step.value;
 
           var _ref2 = _slicedToArray(_ref, 2);
@@ -78642,7 +78648,9 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
         }
       }
 
-      console.log('Result', result);
+      console.log(data);
+      console.log('Result', schedule);
+      this.loadingSchedule = false;
     },
 
 
@@ -78650,7 +78658,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
      * | Fetch API
      * | ------------------------------------------------------------------------
      */
-    getSchedule: function getSchedule() {
+    getGetSchedule: function getGetSchedule() {
       var _this2 = this;
 
       this.loadingSchedule = true;
@@ -78659,17 +78667,31 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/schedule', {
         schedule_id: this.schedule.id
       }).then(function (res) {
-        console.log('Schedule', res.data);
-        _this2.createScheduleArray(res.data);
         _this2.loadingSchedule = false;
         _this2.fetchGetSubjects();
         _this2.fetchGetTeachers();
+        _this2.createScheduleArray(res.data);
       }).catch(function (err) {
         _this2.errorSchedule = true;
       });
     },
-    fetchGetSubjects: function fetchGetSubjects() {
+    fetchGetTypes: function fetchGetTypes() {
       var _this3 = this;
+
+      this.loadingTypes = true;
+      this.types = [];
+
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/types', {
+        schedule_id: this.schedule.id
+      }).then(function (res) {
+        _this3.types = res.data;
+        _this3.loadingTypes = false;
+      }).catch(function (err) {
+        _this3.errorSchedule = true;
+      });
+    },
+    fetchGetSubjects: function fetchGetSubjects() {
+      var _this4 = this;
 
       this.loadingSubjects = true;
       this.subjects = [];
@@ -78677,12 +78699,14 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/subjects', {
         faculty_id: this.schedule.id
       }).then(function (res) {
-        _this3.subjects = res.data;
-        _this3.loadingSubjects = false;
+        _this4.subjects = res.data;
+        _this4.loadingSubjects = false;
+      }).catch(function (err) {
+        _this4.errorSchedule = true;
       });
     },
     fetchGetTeachers: function fetchGetTeachers() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.loadingTeachers = true;
       this.teachers = [];
@@ -78690,8 +78714,10 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/teachers', {
         faculty_id: this.schedule.id
       }).then(function (res) {
-        _this4.teachers = res.data;
-        _this4.loadingTeachers = false;
+        _this5.teachers = res.data;
+        _this5.loadingTeachers = false;
+      }).catch(function (err) {
+        _this5.errorSchedule = true;
       });
     },
 
@@ -78706,12 +78732,12 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       this.actColumnDialogEditOpen(this.schedule.columns.length - 1);
     },
     actColumnDialogEditOpen: function actColumnDialogEditOpen(index) {
-      var _this5 = this;
+      var _this6 = this;
 
       this.columnOpenIndex = index;
       this.columnOpenObj = JSON.parse(JSON.stringify(this.schedule.columns[index]));
       this.$nextTick(function () {
-        return _this5.$refs.columnEdit.focus();
+        return _this6.$refs.columnEdit.focus();
       });
       this.dialogColumnEdit = true;
     },
@@ -81323,7 +81349,7 @@ var render = function() {
                                 attrs: { outline: "", color: "black" },
                                 on: {
                                   click: function($event) {
-                                    _vm.getSchedule()
+                                    _vm.getGetSchedule()
                                   }
                                 }
                               },

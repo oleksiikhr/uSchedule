@@ -141,7 +141,7 @@
           <template v-if="errorSchedule">
             <div class="bad-response error-schedule">
               <h2 class="light-blue darken-2 white--text">Помилка при отримані розкладу</h2>
-              <v-btn outline color="black" @click="getSchedule()">Оновити</v-btn>
+              <v-btn outline color="black" @click="getGetSchedule()">Оновити</v-btn>
             </div>
           </template>
           <template v-else>
@@ -198,16 +198,26 @@
     components: {
       draggable
     },
-    data() {
+    data () {
       return {
         schedule: {},
         subjects: [],
         teachers: [],
+        types: [],
 
         // Loading
         loadingSchedule: true,
         loadingSubjects: true,
         loadingTeachers: true,
+        loadingTypes: true,
+        loadingGenerateLessons: true,
+        loadingMessage: [
+          {'loading': this.loadingSchedule, 'message': 'Отримання інформація про навчальний заклад'},
+          {'loading': this.loadingSubjects, 'message': 'Отримання предметів'},
+          {'loading': this.loadingTeachers, 'message': 'Отримання викладачів'},
+          {'loading': this.loadingTypes,    'message': 'Отримання типів навчальних занять'},
+          {'loading': this.loadingSchedule, 'message': 'Генерація розкладу'}
+        ],
 
         // Error
         errorSchedule: false,
@@ -237,11 +247,13 @@
         let id = parseInt(this.$route.params.id)
         if (this.schedule.id !== id) {
           this.schedule.id = parseInt(this.$route.params.id)
-          this.getSchedule()
+          this.getGetSchedule()
+          this.fetchGetTypes();
         }
       }
     },
     deactivated () {
+      // TODO: loading..*
       this.$store.dispatch('templateSetBodyClass', '')
     },
     computed: {
@@ -294,7 +306,7 @@
        * | Main method
        * | ------------------------------------------------------------------------
        */
-      createScheduleArray (date) {
+      createScheduleArray (data) {
         /**
         @see--Columns:
         [{ // Колонки
@@ -330,20 +342,22 @@
 
         let schedule = []
 
-        for (let [columnIndex, column] of date.columns.entries()) {
+        for (let [columnIndex, column] of data.columns.entries()) {
           for (let [dayIndex, day] of column.days.entries()) {
             // TODO: ..
           }
         }
 
-        console.log('Result', result)
+        console.log(data)
+        console.log('Result', schedule)
+        this.loadingSchedule = false
       },
 
       /* | ------------------------------------------------------------------------
        * | Fetch API
        * | ------------------------------------------------------------------------
        */
-      getSchedule () {
+      getGetSchedule () {
         this.loadingSchedule = true
         this.errorSchedule = false
 
@@ -351,11 +365,25 @@
           schedule_id: this.schedule.id
         })
             .then(res => {
-              console.log('Schedule', res.data)
-              this.createScheduleArray(res.data)
               this.loadingSchedule = false
               this.fetchGetSubjects()
               this.fetchGetTeachers()
+              this.createScheduleArray(res.data)
+            })
+            .catch(err => {
+              this.errorSchedule = true
+            })
+      },
+      fetchGetTypes () {
+        this.loadingTypes = true
+        this.types = []
+
+        get('/api/types', {
+          schedule_id: this.schedule.id
+        })
+            .then(res => {
+              this.types = res.data
+              this.loadingTypes = false
             })
             .catch(err => {
               this.errorSchedule = true
@@ -372,6 +400,9 @@
               this.subjects = res.data
               this.loadingSubjects = false
             })
+            .catch(err => {
+              this.errorSchedule = true
+            })
       },
       fetchGetTeachers () {
         this.loadingTeachers = true
@@ -383,6 +414,9 @@
             .then(res => {
               this.teachers = res.data
               this.loadingTeachers = false
+            })
+            .catch(err => {
+              this.errorSchedule = true
             })
       },
 

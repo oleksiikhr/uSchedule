@@ -35,6 +35,11 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::delete('/{id}', 'ObjectController@delete');
     });
 
+    /** @see \App\Http\Controllers\ObjectTypeController - Object Section */
+    Route::group(['prefix' => 'types'], function () {
+
+    });
+
     Route::group(['prefix' => 'subjects'], function () {
         Route::get('/', 'SubjectController@list');
     });
@@ -53,5 +58,5 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 Route::get('objects', 'ObjectController@list');
 Route::get('schedules', 'ScheduleController@list');
 Route::get('schedules/days', 'ScheduleController@days');
-
+Route::get('types', 'ObjectTypeController@list');
 Route::get('schedule', 'ScheduleController@one');

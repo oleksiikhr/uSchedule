@@ -15,6 +15,11 @@ class Day extends Model
 
     public function lessons()
     {
+        return $this->hasMany(Lesson::class);
+    }
+
+    public function lessonsWithSubjectInfo()
+    {
         return $this->hasMany(Lesson::class)->with('subjectInfo');
     }
 }
