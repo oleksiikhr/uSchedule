@@ -78430,22 +78430,6 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -78465,9 +78449,9 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       // Loading
       loading: {
         schedule: { model: true, hasError: false, message: 'Отримання інформація про навчальний заклад.' },
+        types: { model: true, hasError: false, message: 'Отримання типів навчальних занять.' },
         subjects: { model: true, hasError: false, message: 'Отримання предметів.' },
         teachers: { model: true, hasError: false, message: 'Отримання викладачів.' },
-        types: { model: true, hasError: false, message: 'Отримання типів навчальних занять.' },
         generateSchedule: { model: true, message: 'Генерація розкладу.' }
       },
 
@@ -78493,7 +78477,6 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
     // TODO: temporary
     this.schedule.id = parseInt(this.$route.params.id);
     this.getGetSchedule();
-    this.fetchGetTypes();
     return;
     // END Temporary
 
@@ -78502,12 +78485,16 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       if (this.schedule.id !== id) {
         this.schedule.id = parseInt(this.$route.params.id);
         this.getGetSchedule();
-        this.fetchGetTypes();
       }
     }
   },
   deactivated: function deactivated() {
-    // TODO: loading..*
+    // TODO: temporary
+    for (var item in this.loading) {
+      this.loading[item].model = true;
+      this.loading[item].hasError = false;
+    }
+    // END Temporary
     this.$store.dispatch('templateSetBodyClass', '');
   },
 
@@ -78668,17 +78655,20 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
         schedule_id: this.schedule.id
       }).then(function (res) {
         _this2.loading.schedule.model = false;
+        _this2.fetchGetTypes();
         _this2.fetchGetSubjects();
         _this2.fetchGetTeachers();
         _this2.createScheduleArray(res.data);
       }).catch(function (err) {
         _this2.loading.schedule.hasError = true;
+        _this2.loading.schedule.model = false;
       });
     },
     fetchGetTypes: function fetchGetTypes() {
       var _this3 = this;
 
       this.loading.types.model = true;
+      this.loading.types.hasError = false;
       this.types = [];
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/types', {
@@ -78688,12 +78678,14 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
         _this3.loading.types.model = false;
       }).catch(function (err) {
         _this3.loading.types.hasError = true;
+        _this3.loading.types.model = false;
       });
     },
     fetchGetSubjects: function fetchGetSubjects() {
       var _this4 = this;
 
       this.loading.subjects.model = true;
+      this.loading.subjects.hasError = false;
       this.subjects = [];
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/subjects', {
@@ -78703,12 +78695,14 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
         _this4.loading.subjects.model = false;
       }).catch(function (err) {
         _this4.loading.subjects.hasError = true;
+        _this4.loading.subjects.model = false;
       });
     },
     fetchGetTeachers: function fetchGetTeachers() {
       var _this5 = this;
 
       this.loading.teachers.model = true;
+      this.loading.teachers.hasError = false;
       this.teachers = [];
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/teachers', {
@@ -78718,6 +78712,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
         _this5.loading.teachers.model = false;
       }).catch(function (err) {
         _this5.loading.teachers.hasError = true;
+        _this5.loading.teachers.model = false;
       });
     },
 
@@ -80924,60 +80919,26 @@ var render = function() {
                                     })
                                   )
                                 ]
-                              : [
-                                  _vm.errorSubjects
-                                    ? [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass:
-                                              "bad-response error-left-column"
-                                          },
-                                          [
-                                            _c(
-                                              "v-btn",
-                                              {
-                                                attrs: {
-                                                  outline: "",
-                                                  block: "",
-                                                  color: "black"
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    _vm.fetchGetSubjects()
-                                                  }
-                                                }
-                                              },
-                                              [_vm._v("Оновити")]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ]
-                                    : !_vm.loading.schedule.model &&
-                                      !_vm.errorSchedule
-                                      ? [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "bad-response loading-subjects"
-                                            },
-                                            [
-                                              _c("v-progress-circular", {
-                                                attrs: {
-                                                  indeterminate: "",
-                                                  size: 50,
-                                                  width: 3,
-                                                  color: "primary"
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          )
-                                        ]
-                                      : _vm._e()
-                                ]
+                              : !_vm.loading.schedule.model &&
+                                !_vm.loading.schedule.hasError
+                                ? [
+                                    _c(
+                                      "div",
+                                      { staticClass: "error-left-column" },
+                                      [
+                                        _c("v-progress-circular", {
+                                          attrs: {
+                                            indeterminate: "",
+                                            size: 30,
+                                            width: 5,
+                                            color: "primary"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                : _vm._e()
                           ],
                           2
                         )
@@ -81085,60 +81046,26 @@ var render = function() {
                                     })
                                   )
                                 ]
-                              : [
-                                  _vm.errorTeachers
-                                    ? [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass:
-                                              "bad-response error-left-column"
-                                          },
-                                          [
-                                            _c(
-                                              "v-btn",
-                                              {
-                                                attrs: {
-                                                  outline: "",
-                                                  block: "",
-                                                  color: "black"
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    _vm.fetchGetTeachers()
-                                                  }
-                                                }
-                                              },
-                                              [_vm._v("Оновити")]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ]
-                                    : !_vm.loading.schedule.model &&
-                                      !_vm.errorSchedule
-                                      ? [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "bad-response loading-teachers"
-                                            },
-                                            [
-                                              _c("v-progress-circular", {
-                                                attrs: {
-                                                  indeterminate: "",
-                                                  size: 50,
-                                                  width: 3,
-                                                  color: "primary"
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          )
-                                        ]
-                                      : _vm._e()
-                                ]
+                              : !_vm.loading.schedule.model &&
+                                !_vm.loading.schedule.hasError
+                                ? [
+                                    _c(
+                                      "div",
+                                      { staticClass: "error-left-column" },
+                                      [
+                                        _c("v-progress-circular", {
+                                          attrs: {
+                                            indeterminate: "",
+                                            size: 30,
+                                            width: 5,
+                                            color: "primary"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                : _vm._e()
                           ],
                           2
                         )
@@ -81159,8 +81086,7 @@ var render = function() {
           "div",
           { staticClass: "right-column" },
           [
-            !_vm.loading.generateSchedule.model &&
-            !_vm.loading.generateSchedule.hasError
+            !_vm.loading.generateSchedule.model
               ? [
                   _c("table", [
                     _c(
@@ -81334,32 +81260,9 @@ var render = function() {
               : [
                   _c(
                     "div",
-                    { staticClass: "bad-response" },
+                    { staticClass: "schedule-loading" },
                     [
-                      _vm.loading.generateSchedule.hasError
-                        ? [
-                            _c(
-                              "h2",
-                              {
-                                staticClass: "light-blue darken-2 white--text"
-                              },
-                              [_vm._v("Помилка при отримані розкладу")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              {
-                                attrs: { outline: "", color: "black" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.getGetSchedule()
-                                  }
-                                }
-                              },
-                              [_vm._v("Оновити")]
-                            )
-                          ]
-                        : _c("h6", [_vm._v("Налаштування розкладу")]),
+                      _c("h6", [_vm._v("Налаштування розкладу")]),
                       _vm._v(" "),
                       _c(
                         "ul",
@@ -81368,26 +81271,46 @@ var render = function() {
                           return _c(
                             "li",
                             [
-                              _c("v-progress-circular", {
-                                attrs: {
-                                  indeterminate: item.model,
-                                  size: 16,
-                                  width: 2,
-                                  color: "primary"
-                                }
-                              }),
-                              _vm._v(
-                                "\n              " +
-                                  _vm._s(item.message) +
-                                  "\n            "
-                              )
+                              item.hasError
+                                ? _c("v-icon", { attrs: { color: "red" } }, [
+                                    _vm._v("clear")
+                                  ])
+                                : !item.model
+                                  ? _c(
+                                      "v-icon",
+                                      { attrs: { color: "green" } },
+                                      [_vm._v("done")]
+                                    )
+                                  : _c("v-progress-circular", {
+                                      attrs: {
+                                        indeterminate: item.model,
+                                        size: 22,
+                                        width: 5,
+                                        color: "primary"
+                                      }
+                                    }),
+                              _vm._v(" "),
+                              _c("span", [_vm._v(_vm._s(item.message))])
                             ],
                             1
                           )
                         })
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { outline: "", block: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.getGetSchedule()
+                            }
+                          }
+                        },
+                        [_vm._v("Оновити")]
                       )
                     ],
-                    2
+                    1
                   )
                 ]
           ],

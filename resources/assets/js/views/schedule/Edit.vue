@@ -35,17 +35,10 @@
                     </v-list-tile>
                   </draggable>
                 </template>
-                <template v-else> <!-- Subjects is loading or error -->
-                  <template v-if="errorSubjects">
-                    <div class="bad-response error-left-column">
-                      <v-btn outline block color="black" @click="fetchGetSubjects()">Оновити</v-btn>
-                    </div>
-                  </template>
-                  <template v-else-if="!loading.schedule.model && !errorSchedule">
-                    <div class="bad-response loading-subjects">
-                      <v-progress-circular indeterminate :size="50" :width="3" color="primary" />
-                    </div>
-                  </template>
+                <template v-else-if="!loading.schedule.model && !loading.schedule.hasError"> <!-- Subjects is loading -->
+                  <div class="error-left-column">
+                    <v-progress-circular indeterminate :size="30" :width="5" color="primary" />
+                  </div>
                 </template> <!-- END Subjects is loading or error -->
               </v-card>
             </v-tabs-content>
@@ -66,17 +59,10 @@
                     </v-list-tile>
                   </draggable>
                 </template>
-                <template v-else> <!-- Teachers is loading or error -->
-                  <template v-if="errorTeachers">
-                    <div class="bad-response error-left-column">
-                      <v-btn outline block color="black" @click="fetchGetTeachers()">Оновити</v-btn>
-                    </div>
-                  </template>
-                  <template v-else-if="!loading.schedule.model && !errorSchedule">
-                    <div class="bad-response loading-teachers">
-                      <v-progress-circular indeterminate :size="50" :width="3" color="primary" />
-                    </div>
-                  </template>
+                <template v-else-if="!loading.schedule.model && !loading.schedule.hasError"> <!-- Teachers is loading -->
+                  <div class="error-left-column">
+                    <v-progress-circular indeterminate :size="30" :width="5" color="primary" />
+                  </div>
                 </template> <!-- END Teachers is loading or error -->
               </v-card>
             </v-tabs-content>
@@ -84,14 +70,13 @@
         </v-tabs>
       </div>
       <div class="right-column">
-        <template v-if="!loading.generateSchedule.model && !loading.generateSchedule.hasError">
+        <template v-if="!loading.generateSchedule.model">
           <table> <!-- Main Left Column -->
             <thead> <!-- Columns -->
             <draggable :options="{ group: { name: 'columns' }, sort: true, draggable: '.item' }" element="tr"
                        :v-model="schedule.columns">
               <td colspan="3" class="column small">#</td>
-              <td v-for="(column, columnIndex) in schedule.columns" class="column edit cursor-grab item"
-                  :key="column.id">
+              <td v-for="(column, columnIndex) in schedule.columns" class="column edit cursor-grab item" :key="column.id">
                 <span>{{ column.name }}</span>
                 <div class="hover-visible">
                   <div class="edit">
@@ -138,19 +123,18 @@
           </table> <!-- END Main Left Column -->
         </template>
         <template v-else> <!-- Schedule is loading or error -->
-          <div class="bad-response">
-            <template v-if="loading.generateSchedule.hasError">
-              <h2 class="light-blue darken-2 white--text">Помилка при отримані розкладу</h2>
-              <v-btn outline color="black" @click="getGetSchedule()">Оновити</v-btn>
-            </template>
-            <h6 v-else>Налаштування розкладу</h6>
+          <div class="schedule-loading">
+            <h6>Налаштування розкладу</h6>
             <ul class="info-schedule-loading">
               <li v-for="item in loading">
-                <!-- TODO: icons (x,..) v-if -->
-                <v-progress-circular :indeterminate="item.model" :size="16" :width="2" color="primary" />
-                {{ item.message }}
+                <v-icon color="red" v-if="item.hasError">clear</v-icon>
+                <v-icon color="green" v-else-if="!item.model">done</v-icon>
+                <v-progress-circular :indeterminate="item.model" :size="22" :width="5" color="primary" v-else />
+                <span>{{ item.message }}</span>
               </li>
             </ul>
+            <!-- TODO: update only errors block. + Visible* -->
+            <v-btn outline block @click="getGetSchedule()">Оновити</v-btn>
           </div>
         </template> <!-- End Schedule is loading or error  -->
       </div>
@@ -211,9 +195,9 @@
         // Loading
         loading: {
           schedule: { model: true, hasError: false, message: 'Отримання інформація про навчальний заклад.' },
+          types: { model: true, hasError: false, message: 'Отримання типів навчальних занять.' },
           subjects: { model: true, hasError: false, message: 'Отримання предметів.' },
           teachers: { model: true, hasError: false, message: 'Отримання викладачів.' },
-          types: { model: true, hasError: false, message: 'Отримання типів навчальних занять.' },
           generateSchedule: { model: true, message: 'Генерація розкладу.' },
         },
 
@@ -239,7 +223,6 @@
       // TODO: temporary
       this.schedule.id = parseInt(this.$route.params.id)
       this.getGetSchedule()
-      this.fetchGetTypes();
       return;
       // END Temporary
 
@@ -248,12 +231,16 @@
         if (this.schedule.id !== id) {
           this.schedule.id = parseInt(this.$route.params.id)
           this.getGetSchedule()
-          this.fetchGetTypes();
         }
       }
     },
     deactivated () {
-      // TODO: loading..*
+      // TODO: temporary
+      for (let item in this.loading) {
+        this.loading[item].model = true
+        this.loading[item].hasError = false
+      }
+      // END Temporary
       this.$store.dispatch('templateSetBodyClass', '')
     },
     computed: {
@@ -359,16 +346,19 @@
         })
             .then(res => {
               this.loading.schedule.model = false
+              this.fetchGetTypes();
               this.fetchGetSubjects()
               this.fetchGetTeachers()
               this.createScheduleArray(res.data)
             })
             .catch(err => {
               this.loading.schedule.hasError = true
+              this.loading.schedule.model = false
             })
       },
       fetchGetTypes () {
         this.loading.types.model = true
+        this.loading.types.hasError = false
         this.types = []
 
         get('/api/types', {
@@ -380,10 +370,12 @@
             })
             .catch(err => {
               this.loading.types.hasError = true
+              this.loading.types.model = false
             })
       },
       fetchGetSubjects () {
         this.loading.subjects.model = true
+        this.loading.subjects.hasError = false
         this.subjects = []
 
         get('/api/subjects', {
@@ -395,10 +387,12 @@
             })
             .catch(err => {
               this.loading.subjects.hasError = true
+              this.loading.subjects.model = false
             })
       },
       fetchGetTeachers () {
         this.loading.teachers.model = true
+        this.loading.teachers.hasError = false
         this.teachers = []
 
         get('/api/teachers', {
@@ -410,6 +404,7 @@
             })
             .catch(err => {
               this.loading.teachers.hasError = true
+              this.loading.teachers.model = false
             })
       },
 

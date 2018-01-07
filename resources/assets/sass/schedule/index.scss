@@ -150,60 +150,40 @@ table {
   }
 }
 
-/* Response error */
-.bad-response {
-  padding: 20px 10px;
+/* Loading */
+.schedule-loading {
+  padding: 20px 20px 10px;
   text-align: center;
   max-width: 450px;
-  margin: 0 auto;
+  border: 1px solid #7b7b7b;
+  margin: 25px auto;
+  box-shadow: 0 0 9px 1px #ababab;
+  background: #fff;
 }
 
-/* Loading */
 .info-schedule-loading {
   list-style-type: none;
   text-align: left;
   font-size: 16px;
   padding: 0;
   line-height: 2em;
+  margin-bottom: 20px;
+  > h6 {
+    text-transform: uppercase;
+  }
+  > li {
+    display: flex;
+    align-items: center;
+    > span {
+      text-indent: 10px;
+    }
+    > .progress-circular {
+      margin-right: 2px;
+    }
+  }
 }
 
-/* Errors */
-.error-schedule {
-  max-width: 400px;
-  max-height: 400px;
-  min-height: 220px;
+.error-left-column {
   text-align: center;
-  margin: 0 auto;
-
-  h2 {
-    position: relative;
-    font-size: 30px;
-    font-weight: bold;
-    margin-bottom: 50px;
-    padding: 20px;
-    &:after {
-      content: "";
-      position: absolute;
-      bottom: -43px;
-      left: calc(50% - 10px);
-      border: 10px solid transparent;
-      border-top: 16px solid #424242;
-    }
-    &:before {
-      content: "";
-      position: absolute;
-      bottom: -25px;
-      left: 0;
-      right: 0;
-      max-width: 200px;
-      border-bottom: 1px solid;
-      margin: 0 auto;
-      color: #e0e0e0;
-    }
-  }
-
-  .btn {
-    width: 100%;
-    margin: 0;
-  }
+  padding: 20px;
 }
