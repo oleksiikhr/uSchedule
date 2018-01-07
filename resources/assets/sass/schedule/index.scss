@@ -159,6 +159,10 @@ table {
   margin: 25px auto;
   box-shadow: 0 0 9px 1px #ababab;
   background: #fff;
+  > h6 {
+    font-size: 18px;
+    text-transform: uppercase;
+  }
 }
 
 .info-schedule-loading {
@@ -168,9 +172,6 @@ table {
   padding: 0;
   line-height: 2em;
   margin-bottom: 20px;
-  > h6 {
-    text-transform: uppercase;
-  }
   > li {
     display: flex;
     align-items: center;

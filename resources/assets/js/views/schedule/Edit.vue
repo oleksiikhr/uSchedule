@@ -73,33 +73,33 @@
         <template v-if="!loading.generateSchedule.model">
           <table> <!-- Main Left Column -->
             <thead> <!-- Columns -->
-            <!--<draggable :options="{ group: { name: 'columns' }, sort: true, draggable: '.item' }" element="tr"-->
-                       <!--:v-model="schedule.columns">-->
-              <!--<td colspan="3" class="column small">#</td>-->
-              <!--<td v-for="(column, columnIndex) in schedule.columns" class="column edit cursor-grab item" :key="column.id">-->
-                <!--<span>{{ column.name }}</span>-->
-                <!--<div class="hover-visible">-->
-                  <!--<div class="edit">-->
-                    <!--<v-btn outline @click="actColumnDialogEditOpen(columnIndex)" color="primary">-->
-                      <!--<v-icon>edit</v-icon>-->
-                    <!--</v-btn>-->
-                  <!--</div>-->
-                  <!--<div class="move">-->
-                    <!--<v-icon>chevron_left</v-icon><v-icon>chevron_right</v-icon>-->
-                  <!--</div>-->
-                  <!--<div class="delete">-->
-                    <!--<v-btn outline @click="actColumnDialogDeleteOpen(columnIndex)" color="red">-->
-                      <!--<v-icon>delete</v-icon>-->
-                    <!--</v-btn>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</td>-->
-              <!--<td class="column small" slot="footer">-->
-                <!--<v-btn outline @click="actColumnAdd()">-->
-                  <!--<v-icon>add</v-icon>-->
-                <!--</v-btn>-->
-              <!--</td>-->
-            <!--</draggable>-->
+            <draggable :options="{ group: { name: 'columns' }, sort: true, draggable: '.item' }" element="tr"
+                       :v-model="columns">
+              <td colspan="3" class="column small">#</td>
+              <td v-for="(column, columnIndex) in columns" class="column edit cursor-grab item" :key="column.id">
+                <span>{{ column.name }}</span>
+                <div class="hover-visible">
+                  <div class="edit">
+                    <v-btn outline @click="actColumnDialogEditOpen(columnIndex)" color="primary">
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                  </div>
+                  <div class="move">
+                    <v-icon>chevron_left</v-icon><v-icon>chevron_right</v-icon>
+                  </div>
+                  <div class="delete">
+                    <v-btn outline @click="actColumnDialogDeleteOpen(columnIndex)" color="red">
+                      <v-icon>delete</v-icon>
+                    </v-btn>
+                  </div>
+                </div>
+              </td>
+              <td class="column small" slot="footer">
+                <v-btn outline @click="actColumnAdd()">
+                  <v-icon>add</v-icon>
+                </v-btn>
+              </td>
+            </draggable>
             </thead> <!-- EMD Columns -->
             <!-- Rows -->
             <tbody>
@@ -177,9 +177,9 @@
 </template>
 
 <script>
-  import draggable from 'vuedraggable'
+  import { fullNameTeacher, shortNameTeacher } from "../../helpers/teacher"
   import { get, post } from '../../helpers/api'
-  import { fullNameTeacher, shortNameTeacher } from "../../helpers/teacher";
+  import draggable from 'vuedraggable'
 
   export default {
     components: {
@@ -225,7 +225,7 @@
       // TODO: temporary
       this.schedule.id = parseInt(this.$route.params.id)
       this.getGetSchedule()
-      return;
+      return
 
       let id = parseInt(this.$route.params.id)
       if (typeof this.schedule === 'undefined' || this.schedule.id !== id) {
@@ -260,7 +260,7 @@
           }
         })
 
-        return subjects;
+        return subjects
       },
       filterTeachers () {
         let teachers = this.teachers,
@@ -376,7 +376,7 @@
             .then(res => {
               this.schedule = res.data
               this.loading.schedule.model = false
-              this.fetchGetTypes();
+              this.fetchGetTypes()
               this.fetchGetSubjects()
               this.fetchGetTeachers()
             })
@@ -408,7 +408,7 @@
         this.subjects = []
 
         get('/api/subjects', {
-          faculty_id: this.schedule.id
+          faculty_id: this.schedule.faculty_id
         })
             .then(res => {
               this.subjects = res.data
@@ -425,7 +425,7 @@
         this.teachers = []
 
         get('/api/teachers', {
-          faculty_id: this.schedule.id
+          faculty_id: this.schedule.faculty_id
         })
             .then(res => {
               this.teachers = res.data

@@ -78246,10 +78246,10 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable__ = __webpack_require__(191);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuedraggable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_teacher__ = __webpack_require__(193);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_teacher__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuedraggable__);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 //
@@ -78437,7 +78437,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    draggable: __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default.a
+    draggable: __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default.a
   },
   data: function data() {
     return {
@@ -78546,8 +78546,8 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
      * | Import helpers
      * | ------------------------------------------------------------------------
      */
-    fullNameTeacher: __WEBPACK_IMPORTED_MODULE_2__helpers_teacher__["a" /* fullNameTeacher */],
-    shortNameTeacher: __WEBPACK_IMPORTED_MODULE_2__helpers_teacher__["b" /* shortNameTeacher */],
+    fullNameTeacher: __WEBPACK_IMPORTED_MODULE_0__helpers_teacher__["a" /* fullNameTeacher */],
+    shortNameTeacher: __WEBPACK_IMPORTED_MODULE_0__helpers_teacher__["b" /* shortNameTeacher */],
 
     /* | ------------------------------------------------------------------------
      * | Main method
@@ -78767,7 +78767,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       this.subjects = [];
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/subjects', {
-        faculty_id: this.schedule.id
+        faculty_id: this.schedule.faculty_id
       }).then(function (res) {
         _this4.subjects = res.data;
         _this4.loading.subjects.model = false;
@@ -78784,7 +78784,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       this.teachers = [];
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/teachers', {
-        faculty_id: this.schedule.id
+        faculty_id: this.schedule.faculty_id
       }).then(function (res) {
         _this5.teachers = res.data;
         _this5.loading.teachers.model = false;
@@ -81164,7 +81164,145 @@ var render = function() {
           { staticClass: "right-column" },
           [
             !_vm.loading.generateSchedule.model
-              ? [_c("table", [_c("thead"), _vm._v(" "), _c("tbody")])]
+              ? [
+                  _c("table", [
+                    _c(
+                      "thead",
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            attrs: {
+                              options: {
+                                group: { name: "columns" },
+                                sort: true,
+                                draggable: ".item"
+                              },
+                              element: "tr",
+                              "v-model": _vm.columns
+                            }
+                          },
+                          [
+                            _c(
+                              "td",
+                              {
+                                staticClass: "column small",
+                                attrs: { colspan: "3" }
+                              },
+                              [_vm._v("#")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.columns, function(column, columnIndex) {
+                              return _c(
+                                "td",
+                                {
+                                  key: column.id,
+                                  staticClass: "column edit cursor-grab item"
+                                },
+                                [
+                                  _c("span", [_vm._v(_vm._s(column.name))]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "hover-visible" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "edit" },
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              outline: "",
+                                              color: "primary"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.actColumnDialogEditOpen(
+                                                  columnIndex
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [_c("v-icon", [_vm._v("edit")])],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "move" },
+                                      [
+                                        _c("v-icon", [_vm._v("chevron_left")]),
+                                        _c("v-icon", [_vm._v("chevron_right")])
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "delete" },
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              outline: "",
+                                              color: "red"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.actColumnDialogDeleteOpen(
+                                                  columnIndex
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [_c("v-icon", [_vm._v("delete")])],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ])
+                                ]
+                              )
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              {
+                                staticClass: "column small",
+                                attrs: { slot: "footer" },
+                                slot: "footer"
+                              },
+                              [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { outline: "" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.actColumnAdd()
+                                      }
+                                    }
+                                  },
+                                  [_c("v-icon", [_vm._v("add")])],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          2
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("tbody")
+                  ])
+                ]
               : [
                   _c(
                     "div",

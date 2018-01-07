@@ -37,7 +37,7 @@ class ScheduleController extends Controller
             ->where('id', '=', $request->schedule_id)
             ->firstOrFail();
 
-        return $schedule;
+        return response($schedule);
     }
 
     /**
