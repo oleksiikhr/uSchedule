@@ -73,51 +73,51 @@
         <template v-if="!loading.generateSchedule.model">
           <table> <!-- Main Left Column -->
             <thead> <!-- Columns -->
-            <draggable :options="{ group: { name: 'columns' }, sort: true, draggable: '.item' }" element="tr"
-                       :v-model="schedule.columns">
-              <td colspan="3" class="column small">#</td>
-              <td v-for="(column, columnIndex) in schedule.columns" class="column edit cursor-grab item" :key="column.id">
-                <span>{{ column.name }}</span>
-                <div class="hover-visible">
-                  <div class="edit">
-                    <v-btn outline @click="actColumnDialogEditOpen(columnIndex)" color="primary">
-                      <v-icon>edit</v-icon>
-                    </v-btn>
-                  </div>
-                  <div class="move">
-                    <v-icon>chevron_left</v-icon><v-icon>chevron_right</v-icon>
-                  </div>
-                  <div class="delete">
-                    <v-btn outline @click="actColumnDialogDeleteOpen(columnIndex)" color="red">
-                      <v-icon>delete</v-icon>
-                    </v-btn>
-                  </div>
-                </div>
-              </td>
-              <td class="column small" slot="footer">
-                <v-btn outline @click="actColumnAdd()">
-                  <v-icon>add</v-icon>
-                </v-btn>
-              </td>
-            </draggable>
+            <!--<draggable :options="{ group: { name: 'columns' }, sort: true, draggable: '.item' }" element="tr"-->
+                       <!--:v-model="schedule.columns">-->
+              <!--<td colspan="3" class="column small">#</td>-->
+              <!--<td v-for="(column, columnIndex) in schedule.columns" class="column edit cursor-grab item" :key="column.id">-->
+                <!--<span>{{ column.name }}</span>-->
+                <!--<div class="hover-visible">-->
+                  <!--<div class="edit">-->
+                    <!--<v-btn outline @click="actColumnDialogEditOpen(columnIndex)" color="primary">-->
+                      <!--<v-icon>edit</v-icon>-->
+                    <!--</v-btn>-->
+                  <!--</div>-->
+                  <!--<div class="move">-->
+                    <!--<v-icon>chevron_left</v-icon><v-icon>chevron_right</v-icon>-->
+                  <!--</div>-->
+                  <!--<div class="delete">-->
+                    <!--<v-btn outline @click="actColumnDialogDeleteOpen(columnIndex)" color="red">-->
+                      <!--<v-icon>delete</v-icon>-->
+                    <!--</v-btn>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</td>-->
+              <!--<td class="column small" slot="footer">-->
+                <!--<v-btn outline @click="actColumnAdd()">-->
+                  <!--<v-icon>add</v-icon>-->
+                <!--</v-btn>-->
+              <!--</td>-->
+            <!--</draggable>-->
             </thead> <!-- EMD Columns -->
             <!-- Rows -->
             <tbody>
-            <tr v-for="row in schedule"> <!-- Repeat max count days (with custom!) -->
-              <td>{{ row.custom_day }}</td> <!-- Week name (+ actions - edit, delete) -->
-              <td>{{ row.custom_day }}</td> <!-- Custom date if exists (+ actions - notice*) -->
-              <template v-for="columnIndex in maxCountColumns">
-                <td></td> <!-- Num pair, block (+ time on hover) -->
-                <td v-for="(column, columnIndex) in schedule.columns"> <!-- v-for columns - MAIN -->
-                  <table>
-                    <tr>
-                      <!-- TODO .. -->
-                    </tr>
-                  </table>
-                </td>
-              </template>
-              <td></td> <!-- Empty -->
-            </tr>
+            <!--<tr v-for="row in schedule"> &lt;!&ndash; Repeat max count days (with custom!) &ndash;&gt;-->
+              <!--<td>{{ row.custom_day }}</td> &lt;!&ndash; Week name (+ actions - edit, delete) &ndash;&gt;-->
+              <!--<td>{{ row.custom_day }}</td> &lt;!&ndash; Custom date if exists (+ actions - notice*) &ndash;&gt;-->
+              <!--<template v-for="columnIndex in maxCountColumns">-->
+                <!--<td></td> &lt;!&ndash; Num pair, block (+ time on hover) &ndash;&gt;-->
+                <!--<td v-for="(column, columnIndex) in schedule.columns"> &lt;!&ndash; v-for columns - MAIN &ndash;&gt;-->
+                  <!--<table>-->
+                    <!--<tr>-->
+                      <!--&lt;!&ndash; TODO .. &ndash;&gt;-->
+                    <!--</tr>-->
+                  <!--</table>-->
+                <!--</td>-->
+              <!--</template>-->
+              <!--<td></td> &lt;!&ndash; Empty &ndash;&gt;-->
+            <!--</tr>-->
             </tbody>
             <!-- EMD Rows -->
           </table> <!-- END Main Left Column -->
@@ -190,7 +190,9 @@
         schedule: {},
         subjects: [],
         teachers: [],
+        columns: [],
         types: [],
+        rows: [],
 
         // Loading
         loading: {
@@ -224,18 +226,16 @@
       this.schedule.id = parseInt(this.$route.params.id)
       this.getGetSchedule()
       return;
-      // END Temporary
 
-      if (typeof this.schedule.id === 'undefined') {
-        let id = parseInt(this.$route.params.id)
-        if (this.schedule.id !== id) {
-          this.schedule.id = parseInt(this.$route.params.id)
-          this.getGetSchedule()
-        }
+      let id = parseInt(this.$route.params.id)
+      if (typeof this.schedule === 'undefined' || this.schedule.id !== id) {
+        this.schedule.id = id
+        this.getGetSchedule()
       }
     },
     deactivated () {
       // TODO: temporary
+      this.schedule = {}
       for (let item in this.loading) {
         this.loading[item].model = true
         this.loading[item].hasError = false
@@ -279,6 +279,10 @@
         })
 
         return teachers
+      },
+      loadingModules () {
+        return this.loading.schedule.model && this.loading.subjects.model && this.loading.teachers.model
+            && this.loading.types.model
       }
     },
     methods: {
@@ -306,31 +310,54 @@
         [{ // Количество строк
           custom_day: 2017.12.12, // Уникальный
           data: [{ // Количество колонок
-            column_id: 1,
+            column_index: 1,
             day_id: 1,
             lessons: [{ // Пары
-              subject_id: 1,
+              subject_index: 1,
               subs: [{ // Подпары
                 cabinet: '',
-                teacher_id: 1,
-                type_id: 1
+                teacher_index: 1,
+                type_index: 1
               }, ..]
             }, ..]
           }, ..]
         }, ..]
         */
 
-        let schedule = []
+        return
 
         for (let [columnIndex, column] of data.columns.entries()) {
+          this.columns.push({ column_id: column.id, name: column.name, description: column.description, days: [] })
           for (let [dayIndex, day] of column.days.entries()) {
-            // TODO: ..
+            let rowIndex = this.pushCustomDateSortUnique(this.rows, day)
+            for (let [lessonIndex, lesson] of day.lessons.entries()) {
+              for (let [subIndex, sub] of lesson.subs.entries()) {
+
+              }
+            }
           }
         }
 
-        console.log(data)
-        console.log('Result', schedule)
-        this.loading.schedule.model = false
+        console.log('Input', data)
+        console.log('Rows', this.rows)
+        this.loading.generateSchedule.model = false
+      },
+      pushCustomDateSortUnique (arr, day) {
+        // TODO: find*
+
+        let test = _.sortedIndexOf(arr, day)
+
+        console.log(test)
+
+        let indexToInsert = _.sortedIndexBy(arr, day, (o) => {
+          return o.custom_date
+        })
+
+        arr.splice(indexToInsert, 0, { custom_date: day.custom_date, data: [] })
+
+        // console.log(indexToInsert)
+
+        // arr.push({ custom_date: day.custom_date, data: [] })
       },
 
       /* | ------------------------------------------------------------------------
@@ -340,16 +367,18 @@
       getGetSchedule () {
         this.loading.schedule.model = true
         this.loading.schedule.hasError = false
+        this.columns = []
+        this.rows = []
 
         get('/api/schedule', {
           schedule_id: this.schedule.id
         })
             .then(res => {
+              this.schedule = res.data
               this.loading.schedule.model = false
               this.fetchGetTypes();
               this.fetchGetSubjects()
               this.fetchGetTeachers()
-              this.createScheduleArray(res.data)
             })
             .catch(err => {
               this.loading.schedule.hasError = true
@@ -413,34 +442,35 @@
        * | ------------------------------------------------------------------------
        */
       // Column
-      actColumnAdd () {
-        this.schedule.columns.push({ days: [], name: '', description: '' })
-        this.actColumnDialogEditOpen(this.schedule.columns.length - 1)
-      },
-      actColumnDialogEditOpen (index) {
-        this.columnOpenIndex = index
-        this.columnOpenObj = JSON.parse(JSON.stringify(this.schedule.columns[index]))
-        this.$nextTick(() => this.$refs.columnEdit.focus())
-        this.dialogColumnEdit = true
-      },
-      actColumnDialogEditSave () {
-        this.schedule.columns[this.columnOpenIndex] = this.columnOpenObj
-        this.actColumnDialogClose()
-      },
-      actColumnDialogDeleteOpen (index) {
-        this.columnOpenIndex = index
-        this.dialogColumnDelete= true
-      },
-      actColumnDialogDeleteConfirm () {
-        this.schedule.columns.splice(this.columnOpenIndex, 1)
-        this.actColumnDialogClose()
-      },
-      actColumnDialogClose () {
-        this.dialogColumnEdit = false
-        this.dialogColumnDelete = false
-        this.columnOpenObj = {}
-        this.columnOpenIndex = -1
-      },
+      // TODO: this.schedule**
+      // actColumnAdd () {
+      //   this.schedule.columns.push({ days: [], name: '', description: '' })
+      //   this.actColumnDialogEditOpen(this.schedule.columns.length - 1)
+      // },
+      // actColumnDialogEditOpen (index) {
+      //   this.columnOpenIndex = index
+      //   this.columnOpenObj = JSON.parse(JSON.stringify(this.schedule.columns[index]))
+      //   this.$nextTick(() => this.$refs.columnEdit.focus())
+      //   this.dialogColumnEdit = true
+      // },
+      // actColumnDialogEditSave () {
+      //   this.schedule.columns[this.columnOpenIndex] = this.columnOpenObj
+      //   this.actColumnDialogClose()
+      // },
+      // actColumnDialogDeleteOpen (index) {
+      //   this.columnOpenIndex = index
+      //   this.dialogColumnDelete= true
+      // },
+      // actColumnDialogDeleteConfirm () {
+      //   this.schedule.columns.splice(this.columnOpenIndex, 1)
+      //   this.actColumnDialogClose()
+      // },
+      // actColumnDialogClose () {
+      //   this.dialogColumnEdit = false
+      //   this.dialogColumnDelete = false
+      //   this.columnOpenObj = {}
+      //   this.columnOpenIndex = -1
+      // },
 
       /* | ------------------------------------------------------------------------
        * | Draggable. Left Column
@@ -472,11 +502,14 @@
       endMoveTeacher (el) {}
     },
     watch: {
-      dialogColumnEdit (val) {
-        !val && this.actColumnDialogClose()
-      },
-      dialogColumnDelete (val) {
-        !val && this.actColumnDialogClose()
+      // dialogColumnEdit (val) {
+      //   !val && this.actColumnDialogClose()
+      // },
+      // dialogColumnDelete (val) {
+      //   !val && this.actColumnDialogClose()
+      // },
+      loadingModules (val) {
+        !val && this.createScheduleArray(this.schedule)
       }
     }
   }

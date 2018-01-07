@@ -78444,7 +78444,9 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       schedule: {},
       subjects: [],
       teachers: [],
+      columns: [],
       types: [],
+      rows: [],
 
       // Loading
       loading: {
@@ -78478,18 +78480,16 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
     this.schedule.id = parseInt(this.$route.params.id);
     this.getGetSchedule();
     return;
-    // END Temporary
 
-    if (typeof this.schedule.id === 'undefined') {
-      var id = parseInt(this.$route.params.id);
-      if (this.schedule.id !== id) {
-        this.schedule.id = parseInt(this.$route.params.id);
-        this.getGetSchedule();
-      }
+    var id = parseInt(this.$route.params.id);
+    if (typeof this.schedule === 'undefined' || this.schedule.id !== id) {
+      this.schedule.id = id;
+      this.getGetSchedule();
     }
   },
   deactivated: function deactivated() {
     // TODO: temporary
+    this.schedule = {};
     for (var item in this.loading) {
       this.loading[item].model = true;
       this.loading[item].hasError = false;
@@ -78536,6 +78536,9 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       });
 
       return teachers;
+    },
+    loadingModules: function loadingModules() {
+      return this.loading.schedule.model && this.loading.subjects.model && this.loading.teachers.model && this.loading.types.model;
     }
   },
   methods: {
@@ -78562,21 +78565,21 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       [{ // Количество строк
         custom_day: 2017.12.12, // Уникальный
         data: [{ // Количество колонок
-          column_id: 1,
+          column_index: 1,
           day_id: 1,
           lessons: [{ // Пары
-            subject_id: 1,
+            subject_index: 1,
             subs: [{ // Подпары
               cabinet: '',
-              teacher_id: 1,
-              type_id: 1
+              teacher_index: 1,
+              type_index: 1
             }, ..]
           }, ..]
         }, ..]
       }, ..]
       */
 
-      var schedule = [];
+      return;
 
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
@@ -78590,20 +78593,76 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
           var columnIndex = _ref2[0];
           var column = _ref2[1];
+
+          this.columns.push({ column_id: column.id, name: column.name, description: column.description, days: [] });
           var _iteratorNormalCompletion2 = true;
           var _didIteratorError2 = false;
           var _iteratorError2 = undefined;
 
           try {
             for (var _iterator2 = column.days.entries()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-              // TODO: ..
-
               var _ref3 = _step2.value;
 
               var _ref4 = _slicedToArray(_ref3, 2);
 
               var dayIndex = _ref4[0];
               var day = _ref4[1];
+
+              var rowIndex = this.pushCustomDateSortUnique(this.rows, day);
+              var _iteratorNormalCompletion3 = true;
+              var _didIteratorError3 = false;
+              var _iteratorError3 = undefined;
+
+              try {
+                for (var _iterator3 = day.lessons.entries()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                  var _ref5 = _step3.value;
+
+                  var _ref6 = _slicedToArray(_ref5, 2);
+
+                  var lessonIndex = _ref6[0];
+                  var lesson = _ref6[1];
+                  var _iteratorNormalCompletion4 = true;
+                  var _didIteratorError4 = false;
+                  var _iteratorError4 = undefined;
+
+                  try {
+                    for (var _iterator4 = lesson.subs.entries()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                      var _ref7 = _step4.value;
+
+                      var _ref8 = _slicedToArray(_ref7, 2);
+
+                      var subIndex = _ref8[0];
+                      var sub = _ref8[1];
+                    }
+                  } catch (err) {
+                    _didIteratorError4 = true;
+                    _iteratorError4 = err;
+                  } finally {
+                    try {
+                      if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                        _iterator4.return();
+                      }
+                    } finally {
+                      if (_didIteratorError4) {
+                        throw _iteratorError4;
+                      }
+                    }
+                  }
+                }
+              } catch (err) {
+                _didIteratorError3 = true;
+                _iteratorError3 = err;
+              } finally {
+                try {
+                  if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                    _iterator3.return();
+                  }
+                } finally {
+                  if (_didIteratorError3) {
+                    throw _iteratorError3;
+                  }
+                }
+              }
             }
           } catch (err) {
             _didIteratorError2 = true;
@@ -78635,9 +78694,26 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
         }
       }
 
-      console.log(data);
-      console.log('Result', schedule);
-      this.loading.schedule.model = false;
+      console.log('Input', data);
+      console.log('Rows', this.rows);
+      this.loading.generateSchedule.model = false;
+    },
+    pushCustomDateSortUnique: function pushCustomDateSortUnique(arr, day) {
+      // TODO: find*
+
+      var test = _.sortedIndexOf(arr, day);
+
+      console.log(test);
+
+      var indexToInsert = _.sortedIndexBy(arr, day, function (o) {
+        return o.custom_date;
+      });
+
+      arr.splice(indexToInsert, 0, { custom_date: day.custom_date, data: [] });
+
+      // console.log(indexToInsert)
+
+      // arr.push({ custom_date: day.custom_date, data: [] })
     },
 
 
@@ -78650,15 +78726,17 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
       this.loading.schedule.model = true;
       this.loading.schedule.hasError = false;
+      this.columns = [];
+      this.rows = [];
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/schedule', {
         schedule_id: this.schedule.id
       }).then(function (res) {
+        _this2.schedule = res.data;
         _this2.loading.schedule.model = false;
         _this2.fetchGetTypes();
         _this2.fetchGetSubjects();
         _this2.fetchGetTeachers();
-        _this2.createScheduleArray(res.data);
       }).catch(function (err) {
         _this2.loading.schedule.hasError = true;
         _this2.loading.schedule.model = false;
@@ -78722,39 +78800,35 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
      * | ------------------------------------------------------------------------
      */
     // Column
-    actColumnAdd: function actColumnAdd() {
-      this.schedule.columns.push({ days: [], name: '', description: '' });
-      this.actColumnDialogEditOpen(this.schedule.columns.length - 1);
-    },
-    actColumnDialogEditOpen: function actColumnDialogEditOpen(index) {
-      var _this6 = this;
-
-      this.columnOpenIndex = index;
-      this.columnOpenObj = JSON.parse(JSON.stringify(this.schedule.columns[index]));
-      this.$nextTick(function () {
-        return _this6.$refs.columnEdit.focus();
-      });
-      this.dialogColumnEdit = true;
-    },
-    actColumnDialogEditSave: function actColumnDialogEditSave() {
-      this.schedule.columns[this.columnOpenIndex] = this.columnOpenObj;
-      this.actColumnDialogClose();
-    },
-    actColumnDialogDeleteOpen: function actColumnDialogDeleteOpen(index) {
-      this.columnOpenIndex = index;
-      this.dialogColumnDelete = true;
-    },
-    actColumnDialogDeleteConfirm: function actColumnDialogDeleteConfirm() {
-      this.schedule.columns.splice(this.columnOpenIndex, 1);
-      this.actColumnDialogClose();
-    },
-    actColumnDialogClose: function actColumnDialogClose() {
-      this.dialogColumnEdit = false;
-      this.dialogColumnDelete = false;
-      this.columnOpenObj = {};
-      this.columnOpenIndex = -1;
-    },
-
+    // TODO: this.schedule**
+    // actColumnAdd () {
+    //   this.schedule.columns.push({ days: [], name: '', description: '' })
+    //   this.actColumnDialogEditOpen(this.schedule.columns.length - 1)
+    // },
+    // actColumnDialogEditOpen (index) {
+    //   this.columnOpenIndex = index
+    //   this.columnOpenObj = JSON.parse(JSON.stringify(this.schedule.columns[index]))
+    //   this.$nextTick(() => this.$refs.columnEdit.focus())
+    //   this.dialogColumnEdit = true
+    // },
+    // actColumnDialogEditSave () {
+    //   this.schedule.columns[this.columnOpenIndex] = this.columnOpenObj
+    //   this.actColumnDialogClose()
+    // },
+    // actColumnDialogDeleteOpen (index) {
+    //   this.columnOpenIndex = index
+    //   this.dialogColumnDelete= true
+    // },
+    // actColumnDialogDeleteConfirm () {
+    //   this.schedule.columns.splice(this.columnOpenIndex, 1)
+    //   this.actColumnDialogClose()
+    // },
+    // actColumnDialogClose () {
+    //   this.dialogColumnEdit = false
+    //   this.dialogColumnDelete = false
+    //   this.columnOpenObj = {}
+    //   this.columnOpenIndex = -1
+    // },
 
     /* | ------------------------------------------------------------------------
      * | Draggable. Left Column
@@ -78786,11 +78860,14 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
     endMoveTeacher: function endMoveTeacher(el) {}
   },
   watch: {
-    dialogColumnEdit: function dialogColumnEdit(val) {
-      !val && this.actColumnDialogClose();
-    },
-    dialogColumnDelete: function dialogColumnDelete(val) {
-      !val && this.actColumnDialogClose();
+    // dialogColumnEdit (val) {
+    //   !val && this.actColumnDialogClose()
+    // },
+    // dialogColumnDelete (val) {
+    //   !val && this.actColumnDialogClose()
+    // },
+    loadingModules: function loadingModules(val) {
+      !val && this.createScheduleArray(this.schedule);
     }
   }
 });
@@ -81087,176 +81164,7 @@ var render = function() {
           { staticClass: "right-column" },
           [
             !_vm.loading.generateSchedule.model
-              ? [
-                  _c("table", [
-                    _c(
-                      "thead",
-                      [
-                        _c(
-                          "draggable",
-                          {
-                            attrs: {
-                              options: {
-                                group: { name: "columns" },
-                                sort: true,
-                                draggable: ".item"
-                              },
-                              element: "tr",
-                              "v-model": _vm.schedule.columns
-                            }
-                          },
-                          [
-                            _c(
-                              "td",
-                              {
-                                staticClass: "column small",
-                                attrs: { colspan: "3" }
-                              },
-                              [_vm._v("#")]
-                            ),
-                            _vm._v(" "),
-                            _vm._l(_vm.schedule.columns, function(
-                              column,
-                              columnIndex
-                            ) {
-                              return _c(
-                                "td",
-                                {
-                                  key: column.id,
-                                  staticClass: "column edit cursor-grab item"
-                                },
-                                [
-                                  _c("span", [_vm._v(_vm._s(column.name))]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "hover-visible" }, [
-                                    _c(
-                                      "div",
-                                      { staticClass: "edit" },
-                                      [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            attrs: {
-                                              outline: "",
-                                              color: "primary"
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.actColumnDialogEditOpen(
-                                                  columnIndex
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [_c("v-icon", [_vm._v("edit")])],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      { staticClass: "move" },
-                                      [
-                                        _c("v-icon", [_vm._v("chevron_left")]),
-                                        _c("v-icon", [_vm._v("chevron_right")])
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      { staticClass: "delete" },
-                                      [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            attrs: {
-                                              outline: "",
-                                              color: "red"
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.actColumnDialogDeleteOpen(
-                                                  columnIndex
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [_c("v-icon", [_vm._v("delete")])],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ])
-                                ]
-                              )
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              {
-                                staticClass: "column small",
-                                attrs: { slot: "footer" },
-                                slot: "footer"
-                              },
-                              [
-                                _c(
-                                  "v-btn",
-                                  {
-                                    attrs: { outline: "" },
-                                    on: {
-                                      click: function($event) {
-                                        _vm.actColumnAdd()
-                                      }
-                                    }
-                                  },
-                                  [_c("v-icon", [_vm._v("add")])],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          2
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.schedule, function(row) {
-                        return _c(
-                          "tr",
-                          [
-                            _c("td", [_vm._v(_vm._s(row.custom_day))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(row.custom_day))]),
-                            _vm._v(" "),
-                            _vm._l(_vm.maxCountColumns, function(columnIndex) {
-                              return [
-                                _c("td"),
-                                _vm._v(" "),
-                                _vm._l(_vm.schedule.columns, function(
-                                  column,
-                                  columnIndex
-                                ) {
-                                  return _c("td", [_c("table", [_c("tr")])])
-                                })
-                              ]
-                            }),
-                            _vm._v(" "),
-                            _c("td")
-                          ],
-                          2
-                        )
-                      })
-                    )
-                  ])
-                ]
+              ? [_c("table", [_c("thead"), _vm._v(" "), _c("tbody")])]
               : [
                   _c(
                     "div",
