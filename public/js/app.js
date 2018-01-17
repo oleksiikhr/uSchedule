@@ -78246,9 +78246,9 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_teacher__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_teacher__ = __webpack_require__(191);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__(192);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuedraggable__);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -78536,9 +78536,6 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       });
 
       return teachers;
-    },
-    loadingModules: function loadingModules() {
-      return this.loading.schedule.model && this.loading.subjects.model && this.loading.teachers.model && this.loading.types.model;
     }
   },
   methods: {
@@ -78553,7 +78550,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
      * | Main method
      * | ------------------------------------------------------------------------
      */
-    createScheduleArray: function createScheduleArray(data) {
+    createScheduleArray: function createScheduleArray() {
       /**
       @see--Columns:
       [{ // Колонки
@@ -78579,6 +78576,23 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       }, ..]
       */
 
+      // Checking for an array already created
+      if (!this.loading.generateSchedule.model) {
+        return;
+      }
+
+      // Check to download all data
+      for (var item in this.loading) {
+        if (item === 'generateSchedule') {
+          continue;
+        }
+
+        if (this.loading[item].model && !this.loading[item].hasError) {
+          return;
+        }
+      }
+
+      console.log('Already!');
       return;
 
       var _iteratorNormalCompletion = true;
@@ -78594,7 +78608,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
           var columnIndex = _ref2[0];
           var column = _ref2[1];
 
-          this.columns.push({ column_id: column.id, name: column.name, description: column.description, days: [] });
+          this.columns.push({ id: column.id, name: column.name, description: column.description, days: [] });
           var _iteratorNormalCompletion2 = true;
           var _didIteratorError2 = false;
           var _iteratorError2 = undefined;
@@ -78696,6 +78710,9 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
       console.log('Input', data);
       console.log('Rows', this.rows);
+
+      return;
+
       this.loading.generateSchedule.model = false;
     },
     pushCustomDateSortUnique: function pushCustomDateSortUnique(arr, day) {
@@ -78754,6 +78771,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       }).then(function (res) {
         _this3.types = res.data;
         _this3.loading.types.model = false;
+        _this3.createScheduleArray();
       }).catch(function (err) {
         _this3.loading.types.hasError = true;
         _this3.loading.types.model = false;
@@ -78771,6 +78789,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       }).then(function (res) {
         _this4.subjects = res.data;
         _this4.loading.subjects.model = false;
+        _this4.createScheduleArray();
       }).catch(function (err) {
         _this4.loading.subjects.hasError = true;
         _this4.loading.subjects.model = false;
@@ -78788,6 +78807,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       }).then(function (res) {
         _this5.teachers = res.data;
         _this5.loading.teachers.model = false;
+        _this5.createScheduleArray();
       }).catch(function (err) {
         _this5.loading.teachers.hasError = true;
         _this5.loading.teachers.model = false;
@@ -78866,14 +78886,28 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
     // dialogColumnDelete (val) {
     //   !val && this.actColumnDialogClose()
     // },
-    loadingModules: function loadingModules(val) {
-      !val && this.createScheduleArray(this.schedule);
-    }
   }
 });
 
 /***/ }),
 /* 191 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = fullNameTeacher;
+/* harmony export (immutable) */ __webpack_exports__["b"] = shortNameTeacher;
+/** @var Object teacher */
+function fullNameTeacher(teacher) {
+  return teacher.last_name + ' ' + teacher.first_name + ' ' + teacher.middle_name;
+}
+
+/** @var Object teacher */
+function shortNameTeacher(teacher) {
+  return teacher.last_name + ' ' + teacher.first_name.charAt(0) + '. ' + teacher.middle_name.charAt(0) + '.';
+}
+
+/***/ }),
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79239,7 +79273,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   }
 
   if (true) {
-    var Sortable = __webpack_require__(192);
+    var Sortable = __webpack_require__(193);
     module.exports = buildDraggable(Sortable);
   } else if (typeof define == "function" && define.amd) {
     define(['sortablejs'], function (Sortable) {
@@ -79261,7 +79295,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 /***/ }),
-/* 192 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**!
@@ -80809,23 +80843,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**!
 	return Sortable;
 });
 
-
-/***/ }),
-/* 193 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = fullNameTeacher;
-/* harmony export (immutable) */ __webpack_exports__["b"] = shortNameTeacher;
-/** @var Object teacher */
-function fullNameTeacher(teacher) {
-  return teacher.last_name + ' ' + teacher.first_name + ' ' + teacher.middle_name;
-}
-
-/** @var Object teacher */
-function shortNameTeacher(teacher) {
-  return teacher.last_name + ' ' + teacher.first_name.charAt(0) + '. ' + teacher.middle_name.charAt(0) + '.';
-}
 
 /***/ }),
 /* 194 */

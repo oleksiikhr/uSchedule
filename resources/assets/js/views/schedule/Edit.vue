@@ -279,10 +279,6 @@
         })
 
         return teachers
-      },
-      loadingModules () {
-        return this.loading.schedule.model && this.loading.subjects.model && this.loading.teachers.model
-            && this.loading.types.model
       }
     },
     methods: {
@@ -297,7 +293,7 @@
        * | Main method
        * | ------------------------------------------------------------------------
        */
-      createScheduleArray (data) {
+      createScheduleArray () {
         /**
         @see--Columns:
         [{ // Колонки
@@ -324,10 +320,28 @@
         }, ..]
         */
 
+        // Checking for an array already created
+        if (!this.loading.generateSchedule.model) {
+          return
+        }
+
+        // Check to download all data
+        for (let item in this.loading) {
+          if (item === 'generateSchedule') {
+            continue
+          }
+
+          if (this.loading[item].model && !this.loading[item].hasError) {
+            return
+          }
+        }
+
+        console.log('Already!')
         return
 
+
         for (let [columnIndex, column] of data.columns.entries()) {
-          this.columns.push({ column_id: column.id, name: column.name, description: column.description, days: [] })
+          this.columns.push({ id: column.id, name: column.name, description: column.description, days: [] })
           for (let [dayIndex, day] of column.days.entries()) {
             let rowIndex = this.pushCustomDateSortUnique(this.rows, day)
             for (let [lessonIndex, lesson] of day.lessons.entries()) {
@@ -340,6 +354,9 @@
 
         console.log('Input', data)
         console.log('Rows', this.rows)
+
+        return
+
         this.loading.generateSchedule.model = false
       },
       pushCustomDateSortUnique (arr, day) {
@@ -396,6 +413,7 @@
             .then(res => {
               this.types = res.data
               this.loading.types.model = false
+              this.createScheduleArray()
             })
             .catch(err => {
               this.loading.types.hasError = true
@@ -413,6 +431,7 @@
             .then(res => {
               this.subjects = res.data
               this.loading.subjects.model = false
+              this.createScheduleArray()
             })
             .catch(err => {
               this.loading.subjects.hasError = true
@@ -430,6 +449,7 @@
             .then(res => {
               this.teachers = res.data
               this.loading.teachers.model = false
+              this.createScheduleArray()
             })
             .catch(err => {
               this.loading.teachers.hasError = true
@@ -508,9 +528,6 @@
       // dialogColumnDelete (val) {
       //   !val && this.actColumnDialogClose()
       // },
-      loadingModules (val) {
-        !val && this.createScheduleArray(this.schedule)
-      }
     }
   }
 </script>
