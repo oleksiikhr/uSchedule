@@ -103,6 +103,9 @@
             </thead> <!-- EMD Columns -->
             <!-- Rows -->
             <tbody>
+            <tr v-for="day in maxCountLessons" :key="day">
+              {{ day }}
+            </tr>
             <!--<tr v-for="row in schedule"> &lt;!&ndash; Repeat max count days (with custom!) &ndash;&gt;-->
               <!--<td>{{ row.custom_day }}</td> &lt;!&ndash; Week name (+ actions - edit, delete) &ndash;&gt;-->
               <!--<td>{{ row.custom_day }}</td> &lt;!&ndash; Custom date if exists (+ actions - notice*) &ndash;&gt;-->
@@ -192,6 +195,7 @@
         teachers: [],
         columns: [],
         types: [],
+        times: [],
 
         // Loading
         loading: {
@@ -199,6 +203,7 @@
           types: { model: true, hasError: false, message: 'Отримання типів навчальних занять.' },
           subjects: { model: true, hasError: false, message: 'Отримання предметів.' },
           teachers: { model: true, hasError: false, message: 'Отримання викладачів.' },
+          times: { model: true, hasError: false, message: 'Отримання розкладу дзвінків' }
         },
         isLoaded: false,
 
@@ -277,6 +282,9 @@
 
         this.isLoaded = true
         return true
+      },
+      maxCountLessons () {
+        return this.times.length
       }
     },
     methods: {
@@ -305,6 +313,7 @@
               this.fetchGetTypes()
               this.fetchGetSubjects()
               this.fetchGetTeachers()
+              this.fetchGetTimes()
             })
             .catch(err => {
               this.loading.schedule.hasError = true
@@ -360,6 +369,23 @@
             .catch(err => {
               this.loading.teachers.hasError = true
               this.loading.teachers.model = false
+            })
+      },
+      fetchGetTimes () {
+        this.loading.times.model = true
+        this.loading.times.hasError = false
+        this.times = []
+
+        get('/api/times', {
+          object_id: this.schedule.object_id
+        })
+            .then(res => {
+              this.times = res.data
+              this.loading.times.model = false
+            })
+            .catch(err => {
+              this.loading.times.hasError = true
+              this.loading.times.model = false
             })
       },
 

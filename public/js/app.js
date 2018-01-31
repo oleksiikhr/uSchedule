@@ -15672,6 +15672,8 @@ module.exports = Vue$3;
 
 
 function get(url, params) {
+  console.log(url, params);
+
   return __WEBPACK_IMPORTED_MODULE_0_axios___default()({
     method: 'GET',
     url: url,
@@ -16827,7 +16829,7 @@ function setAuth(data) {
   }
 
   if (goProfile) {
-    this.$router.push({ name: 'profile' });
+    __WEBPACK_IMPORTED_MODULE_1__router_index__["a" /* default */].push({ name: 'profile' });
   }
 }
 
@@ -73726,9 +73728,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   mounted: function mounted() {
     this.$store.dispatch('templateSetTitle', 'Головна сторінка');
-    if (localStorage.getItem('token')) {
-      this.fetchGetProfile();
-    }
+    localStorage.getItem('token') && this.fetchGetProfile();
   },
 
   computed: {
@@ -78396,6 +78396,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -78412,13 +78415,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       teachers: [],
       columns: [],
       types: [],
+      times: [],
 
       // Loading
       loading: {
         schedule: { model: true, hasError: false, message: 'Отримання інформація про навчальний заклад.' },
         types: { model: true, hasError: false, message: 'Отримання типів навчальних занять.' },
         subjects: { model: true, hasError: false, message: 'Отримання предметів.' },
-        teachers: { model: true, hasError: false, message: 'Отримання викладачів.' }
+        teachers: { model: true, hasError: false, message: 'Отримання викладачів.' },
+        times: { model: true, hasError: false, message: 'Отримання розкладу дзвінків' }
       },
       isLoaded: false,
 
@@ -78500,6 +78505,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.isLoaded = true;
       return true;
+    },
+    maxCountLessons: function maxCountLessons() {
+      return this.times.length;
     }
   },
   methods: {
@@ -78529,6 +78537,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this2.fetchGetTypes();
         _this2.fetchGetSubjects();
         _this2.fetchGetTeachers();
+        _this2.fetchGetTimes();
       }).catch(function (err) {
         _this2.loading.schedule.hasError = true;
         _this2.loading.schedule.model = false;
@@ -78583,6 +78592,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).catch(function (err) {
         _this5.loading.teachers.hasError = true;
         _this5.loading.teachers.model = false;
+      });
+    },
+    fetchGetTimes: function fetchGetTimes() {
+      var _this6 = this;
+
+      this.loading.times.model = true;
+      this.loading.times.hasError = false;
+      this.times = [];
+
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/times', {
+        object_id: this.schedule.object_id
+      }).then(function (res) {
+        _this6.times = res.data;
+        _this6.loading.times.model = false;
+      }).catch(function (err) {
+        _this6.loading.times.hasError = true;
+        _this6.loading.times.model = false;
       });
     },
 
@@ -81089,7 +81115,16 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
-                    _c("tbody")
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.maxCountLessons, function(day) {
+                        return _c("tr", { key: day }, [
+                          _vm._v(
+                            "\n            " + _vm._s(day) + "\n          "
+                          )
+                        ])
+                      })
+                    )
                   ])
                 ]
               : [

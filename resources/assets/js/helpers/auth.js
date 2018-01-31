@@ -22,7 +22,7 @@ export function setAuth(data, goProfile = false) {
   }
 
   if (goProfile) {
-    this.$router.push({ name: 'profile' })
+    router.push({ name: 'profile' })
   }
 }
 

@@ -60,3 +60,4 @@ Route::get('schedules', 'ScheduleController@list');
 Route::get('schedules/days', 'ScheduleController@days');
 Route::get('types', 'ObjectTypeController@list');
 Route::get('schedule', 'ScheduleController@one');
+Route::get('times', 'ObjectLessonTimesController@list');

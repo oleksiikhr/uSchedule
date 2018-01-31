@@ -117,9 +117,7 @@
     },
     mounted () {
       this.$store.dispatch('templateSetTitle', 'Головна сторінка')
-      if (localStorage.getItem('token')) {
-        this.fetchGetProfile()
-      }
+      localStorage.getItem('token') && this.fetchGetProfile()
     },
     computed: {
       guest () {
