@@ -1,8 +1,6 @@
 import axios from 'axios'
 
 export function get(url, params) {
-  console.log(url, params)
-
   return axios({
     method: 'GET',
     url: url,

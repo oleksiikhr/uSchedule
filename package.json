@@ -20,9 +20,7 @@
     "vuedraggable": "^2.15.0",
     "vue-template-compiler": "^2.5.4",
     "vuetify": "^0.16.4",
-    "vuex": "^3.0.0"
-  },
-  "dependencies": {
+    "vuex": "^3.0.0",
     "moment": "^2.19.4"
   }
 }

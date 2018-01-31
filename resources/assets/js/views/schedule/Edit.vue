@@ -74,9 +74,9 @@
           <table> <!-- Main Left Column -->
             <thead> <!-- Columns -->
             <draggable :options="{ group: { name: 'columns' }, sort: true, draggable: '.item' }" element="tr"
-                       :v-model="columns">
-              <td colspan="3" class="column small">#</td>
-              <td v-for="(column, columnIndex) in columns" class="column edit cursor-grab item" :key="column.id">
+                       :v-model="schedule.columns">
+              <td colspan="2" class="column small">#</td>
+              <td v-for="(column, columnIndex) in schedule.columns" class="column edit cursor-grab item" :key="column.id">
                 <span>{{ column.name }}</span>
                 <div class="hover-visible">
                   <div class="edit">
@@ -101,28 +101,21 @@
               </td>
             </draggable>
             </thead> <!-- EMD Columns -->
-            <!-- Rows -->
-            <tbody>
-            <tr v-for="day in maxCountLessons" :key="day">
-              {{ day }}
+            <tbody> <!-- Rows -->
+            <tr v-for="day in 7" :key="day">
+              <td></td> <!-- TODO: (sunday, monday) - from moments.js. Custom_date ? <table> : .. -->
+              <td>
+                <table>
+                  <tr v-for="order in getMaxLessonsOnDay(day - 1)">
+                    {{ order }}
+                  </tr>
+                </table>
+              </td>
+              <td colspan="2"> <!-- Lessons -->
+                {{ day }}
+              </td>
             </tr>
-            <!--<tr v-for="row in schedule"> &lt;!&ndash; Repeat max count days (with custom!) &ndash;&gt;-->
-              <!--<td>{{ row.custom_day }}</td> &lt;!&ndash; Week name (+ actions - edit, delete) &ndash;&gt;-->
-              <!--<td>{{ row.custom_day }}</td> &lt;!&ndash; Custom date if exists (+ actions - notice*) &ndash;&gt;-->
-              <!--<template v-for="columnIndex in maxCountColumns">-->
-                <!--<td></td> &lt;!&ndash; Num pair, block (+ time on hover) &ndash;&gt;-->
-                <!--<td v-for="(column, columnIndex) in schedule.columns"> &lt;!&ndash; v-for columns - MAIN &ndash;&gt;-->
-                  <!--<table>-->
-                    <!--<tr>-->
-                      <!--&lt;!&ndash; TODO .. &ndash;&gt;-->
-                    <!--</tr>-->
-                  <!--</table>-->
-                <!--</td>-->
-              <!--</template>-->
-              <!--<td></td> &lt;!&ndash; Empty &ndash;&gt;-->
-            <!--</tr>-->
-            </tbody>
-            <!-- EMD Rows -->
+            </tbody> <!-- EMD Rows -->
           </table> <!-- END Main Left Column -->
         </template>
         <template v-else> <!-- Schedule is loading or error -->
@@ -309,6 +302,7 @@
         })
             .then(res => {
               this.schedule = res.data
+              console.log(this.schedule)
               this.loading.schedule.model = false
               this.fetchGetTypes()
               this.fetchGetSubjects()
@@ -394,35 +388,34 @@
        * | ------------------------------------------------------------------------
        */
       // Column
-      // TODO: this.schedule**
-      // actColumnAdd () {
-      //   this.schedule.columns.push({ days: [], name: '', description: '' })
-      //   this.actColumnDialogEditOpen(this.schedule.columns.length - 1)
-      // },
-      // actColumnDialogEditOpen (index) {
-      //   this.columnOpenIndex = index
-      //   this.columnOpenObj = JSON.parse(JSON.stringify(this.schedule.columns[index]))
-      //   this.$nextTick(() => this.$refs.columnEdit.focus())
-      //   this.dialogColumnEdit = true
-      // },
-      // actColumnDialogEditSave () {
-      //   this.schedule.columns[this.columnOpenIndex] = this.columnOpenObj
-      //   this.actColumnDialogClose()
-      // },
-      // actColumnDialogDeleteOpen (index) {
-      //   this.columnOpenIndex = index
-      //   this.dialogColumnDelete= true
-      // },
-      // actColumnDialogDeleteConfirm () {
-      //   this.schedule.columns.splice(this.columnOpenIndex, 1)
-      //   this.actColumnDialogClose()
-      // },
-      // actColumnDialogClose () {
-      //   this.dialogColumnEdit = false
-      //   this.dialogColumnDelete = false
-      //   this.columnOpenObj = {}
-      //   this.columnOpenIndex = -1
-      // },
+      actColumnAdd () {
+        this.schedule.columns.push({ days: [], name: '', description: '' })
+        this.actColumnDialogEditOpen(this.schedule.columns.length - 1)
+      },
+      actColumnDialogEditOpen (index) {
+        this.columnOpenIndex = index
+        this.columnOpenObj = JSON.parse(JSON.stringify(this.schedule.columns[index]))
+        this.$nextTick(() => this.$refs.columnEdit.focus())
+        this.dialogColumnEdit = true
+      },
+      actColumnDialogEditSave () {
+        this.schedule.columns[this.columnOpenIndex] = this.columnOpenObj
+        this.actColumnDialogClose()
+      },
+      actColumnDialogDeleteOpen (index) {
+        this.columnOpenIndex = index
+        this.dialogColumnDelete= true
+      },
+      actColumnDialogDeleteConfirm () {
+        this.schedule.columns.splice(this.columnOpenIndex, 1)
+        this.actColumnDialogClose()
+      },
+      actColumnDialogClose () {
+        this.dialogColumnEdit = false
+        this.dialogColumnDelete = false
+        this.columnOpenObj = {}
+        this.columnOpenIndex = -1
+      },
 
       /* | ------------------------------------------------------------------------
        * | Draggable. Left Column
@@ -451,7 +444,31 @@
       },
       cloneTeacher (el) {},
       moveTeacher (evt, originalEvent) {},
-      endMoveTeacher (el) {}
+      endMoveTeacher (el) {},
+
+      /* | ------------------------------------------------------------------------
+       * | Other
+       * | ------------------------------------------------------------------------
+       */
+      getMaxLessonsOnDay (dayIndex) {
+        let max = 0
+
+        for (let column of this.schedule.columns) {
+          let days = column['days'][dayIndex]
+
+          if (days === undefined) {
+            continue
+          }
+
+          let len = days['lessons'].length
+
+          if (max < len) {
+            max = len
+          }
+        }
+
+        return max
+      }
     },
     watch: {
       // dialogColumnEdit (val) {
