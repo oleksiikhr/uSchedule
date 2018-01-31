@@ -2,7 +2,7 @@
   <v-container id="login" class="auth" fluid>
     <v-layout column justify-center align-center>
       <v-flex>
-        <v-text-field label="Email" v-model="form.email" ref="email" required />
+        <v-text-field label="Email" v-model="form.email" ref="email" required autofocus />
         <v-text-field label="Пароль" v-model="form.password" type="password" required />
         <v-btn outline block color="primary" :loading="loading" @click="fetchAuth()">
           Увійти
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import { init } from "../../helpers/auth";
+  import { setAuth } from '../../helpers/auth'
   import { post } from '../../helpers/api'
 
   export default {
@@ -36,9 +36,8 @@
         }
       }
     },
-    activated () {
+    mounted () {
       this.$store.dispatch('templateSetTitle', 'Авторизація')
-      this.$refs.email.focus()
     },
     methods: {
       fetchAuth () {
@@ -46,9 +45,7 @@
 
         post('/api/login', this.form)
             .then(res => {
-              init(res.data)
-              this.loading = false
-              this.$router.push({ name: 'profile' })
+              setAuth(res.data, true)
             })
             .catch(err => {
               this.loading = false

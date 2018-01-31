@@ -1,14 +1,21 @@
 /**
- * @param object
+ * | -----------------------------------------------------------------------
+ * | Object - universe, college, etc.
+ * | -----------------------------------------------------------------------
+ * |
+ */
+
+/**
+ * @param obj
  *
  * @return string|null link
  */
-export function objGetImage(object) {
-  if (!object) {
+export function objGetImage(obj) {
+  if (!obj) {
     return null
   }
 
-  return '//' + window.location.hostname + '/' + object.image || null
+  return '//' + window.location.hostname + '/' + obj.image || null
 }
 
 /**
@@ -16,10 +23,10 @@ export function objGetImage(object) {
  *
  * @return string|null link
  */
-export function objGetName(object) {
-  if (!object) {
+export function objGetName(obj) {
+  if (!obj) {
     return null
   }
 
-  return object.name
+  return obj.name
 }

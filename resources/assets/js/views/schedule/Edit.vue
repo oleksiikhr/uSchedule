@@ -70,7 +70,7 @@
         </v-tabs>
       </div>
       <div class="right-column">
-        <template v-if="!loading.generateSchedule.model">
+        <template v-if="scheduleIsLoaded">
           <table> <!-- Main Left Column -->
             <thead> <!-- Columns -->
             <draggable :options="{ group: { name: 'columns' }, sort: true, draggable: '.item' }" element="tr"
@@ -192,7 +192,6 @@
         teachers: [],
         columns: [],
         types: [],
-        rows: [],
 
         // Loading
         loading: {
@@ -200,8 +199,8 @@
           types: { model: true, hasError: false, message: 'Отримання типів навчальних занять.' },
           subjects: { model: true, hasError: false, message: 'Отримання предметів.' },
           teachers: { model: true, hasError: false, message: 'Отримання викладачів.' },
-          generateSchedule: { model: true, message: 'Генерація розкладу.' },
         },
+        isLoaded: false,
 
         // Search
         searchSubject: '',
@@ -218,29 +217,14 @@
         isDelete: false
       }
     },
-    activated () {
+    mounted () {
       this.$store.dispatch('templateSetTitle', 'Редагування розкладу') // TODO: Name group (faculty)
       this.$store.dispatch('templateSetBodyClass', 'height100')
 
-      // TODO: temporary
       this.schedule.id = parseInt(this.$route.params.id)
       this.getGetSchedule()
-      return
-
-      let id = parseInt(this.$route.params.id)
-      if (typeof this.schedule === 'undefined' || this.schedule.id !== id) {
-        this.schedule.id = id
-        this.getGetSchedule()
-      }
     },
-    deactivated () {
-      // TODO: temporary
-      this.schedule = {}
-      for (let item in this.loading) {
-        this.loading[item].model = true
-        this.loading[item].hasError = false
-      }
-      // END Temporary
+    destroyed () {
       this.$store.dispatch('templateSetBodyClass', '')
     },
     computed: {
@@ -279,6 +263,20 @@
         })
 
         return teachers
+      },
+      scheduleIsLoaded () {
+        if (this.isLoaded) {
+          return true
+        }
+
+        for (let item in this.loading) {
+          if (this.loading[item].model && !this.loading[item].hasError) {
+            return false
+          }
+        }
+
+        this.isLoaded = true
+        return true
       }
     },
     methods: {
@@ -290,94 +288,6 @@
       shortNameTeacher,
 
       /* | ------------------------------------------------------------------------
-       * | Main method
-       * | ------------------------------------------------------------------------
-       */
-      createScheduleArray () {
-        /**
-        @see--Columns:
-        [{ // Колонки
-          id: 1,
-          name: '',
-          description: ''
-        }, ..]
-
-        @see--Rows:
-        [{ // Количество строк
-          custom_day: 2017.12.12, // Уникальный
-          data: [{ // Количество колонок
-            column_index: 1,
-            day_id: 1,
-            lessons: [{ // Пары
-              subject_index: 1,
-              subs: [{ // Подпары
-                cabinet: '',
-                teacher_index: 1,
-                type_index: 1
-              }, ..]
-            }, ..]
-          }, ..]
-        }, ..]
-        */
-
-        // Checking for an array already created
-        if (!this.loading.generateSchedule.model) {
-          return
-        }
-
-        // Check to download all data
-        for (let item in this.loading) {
-          if (item === 'generateSchedule') {
-            continue
-          }
-
-          if (this.loading[item].model && !this.loading[item].hasError) {
-            return
-          }
-        }
-
-        console.log('Already!')
-        return
-
-
-        for (let [columnIndex, column] of data.columns.entries()) {
-          this.columns.push({ id: column.id, name: column.name, description: column.description, days: [] })
-          for (let [dayIndex, day] of column.days.entries()) {
-            let rowIndex = this.pushCustomDateSortUnique(this.rows, day)
-            for (let [lessonIndex, lesson] of day.lessons.entries()) {
-              for (let [subIndex, sub] of lesson.subs.entries()) {
-
-              }
-            }
-          }
-        }
-
-        console.log('Input', data)
-        console.log('Rows', this.rows)
-
-        return
-
-        this.loading.generateSchedule.model = false
-      },
-      pushCustomDateSortUnique (arr, day) {
-        // TODO: find*
-
-        let test = _.sortedIndexOf(arr, day)
-
-        console.log(test)
-
-        let indexToInsert = _.sortedIndexBy(arr, day, (o) => {
-          return o.custom_date
-        })
-
-        arr.splice(indexToInsert, 0, { custom_date: day.custom_date, data: [] })
-
-        // console.log(indexToInsert)
-
-        // arr.push({ custom_date: day.custom_date, data: [] })
-      },
-
-      /* | ------------------------------------------------------------------------
        * | Fetch API
        * | ------------------------------------------------------------------------
        */
@@ -385,7 +295,6 @@
         this.loading.schedule.model = true
         this.loading.schedule.hasError = false
         this.columns = []
-        this.rows = []
 
         get('/api/schedule', {
           schedule_id: this.schedule.id
@@ -413,7 +322,6 @@
             .then(res => {
               this.types = res.data
               this.loading.types.model = false
-              this.createScheduleArray()
             })
             .catch(err => {
               this.loading.types.hasError = true
@@ -431,7 +339,6 @@
             .then(res => {
               this.subjects = res.data
               this.loading.subjects.model = false
-              this.createScheduleArray()
             })
             .catch(err => {
               this.loading.subjects.hasError = true
@@ -449,7 +356,6 @@
             .then(res => {
               this.teachers = res.data
               this.loading.teachers.model = false
-              this.createScheduleArray()
             })
             .catch(err => {
               this.loading.teachers.hasError = true

@@ -1,13 +1,15 @@
 import store from '../store/store'
+import router from '../router/index'
 
 /**
  * Primary data acquisition.
  *
  * @param data - Response from api
+ * @param goProfile - Is go to Profile page
  *
  * @return void
  */
-export function init(data) {
+export function setAuth(data, goProfile = false) {
   if (data.token) {
     localStorage.setItem('token', data.token)
   }
@@ -18,4 +20,17 @@ export function init(data) {
       store.dispatch('authSetObject', data.user.object)
     }
   }
+
+  if (goProfile) {
+    this.$router.push({ name: 'profile' })
+  }
+}
+
+/**
+ * Logout from account and go to Login page.
+ */
+export function delAuth() {
+  localStorage.removeItem('token')
+  store.dispatch('authClearUser')
+  router.push({ name: 'login' })
 }

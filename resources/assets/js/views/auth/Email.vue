@@ -2,8 +2,8 @@
   <v-container id="email" class="auth" fluid>
     <v-layout column justify-center align-center>
       <v-flex>
-        <v-text-field label="Email" v-model="form.email" ref="email" required />
-        <v-btn outline block color="primary" :loading="loading" @click="fetchRestorePassword()">
+        <v-text-field label="Email" v-model="form.email" ref="email" required autofocus />
+        <v-btn outline block color="primary" :disabled="loading" :loading="loading" @click="fetchRestorePassword()">
           Відновити пароль
         </v-btn>
         <div class="act">
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+  import { setAuth } from '../../helpers/auth'
   import { post } from '../../helpers/api'
 
   export default {
@@ -33,9 +34,8 @@
         }
       }
     },
-    activated () {
+    mounted () {
       this.$store.dispatch('templateSetTitle', 'Відновлення пароля')
-      this.$refs.email.focus()
     },
     methods: {
       fetchRestorePassword () {
@@ -43,10 +43,7 @@
 
         post('/api/restore-password', this.form)
             .then(res => {
-              this.$store.dispatch('authSetUser', res.data.user)
-              localStorage.setItem('token', res.data.token)
-              this.loading = false
-              this.$router.push({ name: 'profile' })
+              setAuth(res.data, true)
             })
             .catch(err => {
               this.loading = false

@@ -1,10 +1,3 @@
-// Vue libs
-import Vue from 'vue'
-import Vuex from 'vuex'
-
-// Vue use
-Vue.use(Vuex)
-
 const state = {
   model: false,
   color: 'info',
@@ -12,7 +5,7 @@ const state = {
 }
 
 const mutations = {
-  SHOW (state, obj) {
+  SNACKBAR_SHOW (state, obj) {
     state.model = true
     state.color = obj.color
     state.text = obj.text
@@ -21,7 +14,7 @@ const mutations = {
 
 const actions = {
   snackbarShow: ({commit}, obj) => {
-    commit('SHOW', obj)
+    commit('SNACKBAR_SHOW', obj)
   }
 }
 

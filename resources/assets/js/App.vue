@@ -62,7 +62,7 @@
         <span>Розклад дзвінків</span>
       </v-btn>
       <v-tooltip v-if="!guest" bottom>
-        <v-btn icon @click="querySendLogout()" slot="activator">
+        <v-btn icon @click="fetchSendLogout()" slot="activator">
           <v-icon>exit_to_app</v-icon>
         </v-btn>
         <span>Вийти</span>
@@ -76,9 +76,7 @@
     </v-toolbar>
     <main>
       <v-content>
-        <keep-alive>
-          <router-view />
-        </keep-alive>
+        <router-view />
       </v-content>
     </main>
 
@@ -95,8 +93,8 @@
 </template>
 
 <script>
-  import { init } from "./helpers/auth";
-  import { objGetImage, objGetName } from "./helpers/object";
+  import { objGetImage, objGetName } from './helpers/object'
+  import { setAuth, delAuth } from './helpers/auth'
   import { get, post } from './helpers/api'
 
   export default {
@@ -117,10 +115,10 @@
         ]
       }
     },
-    created () {
+    mounted () {
       this.$store.dispatch('templateSetTitle', 'Головна сторінка')
       if (localStorage.getItem('token')) {
-        this.queryGetProfile()
+        this.fetchGetProfile()
       }
     },
     computed: {
@@ -135,18 +133,16 @@
       }
     },
     methods: {
-      queryGetProfile () {
+      fetchGetProfile () {
         get('/api/profile')
             .then(res => {
-              init(res.data)
+              setAuth(res.data)
             })
       },
-      querySendLogout () {
+      fetchSendLogout () {
         post('/api/logout')
             .then(res => {
-              localStorage.removeItem('token')
-              this.$store.dispatch('authClearUser')
-              this.$router.push({ name: 'login' }) // TODO: **
+              delAuth()
             })
       },
       goLogin () {

@@ -16797,18 +16797,24 @@ module.exports = defaults;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = init;
+/* harmony export (immutable) */ __webpack_exports__["b"] = setAuth;
+/* harmony export (immutable) */ __webpack_exports__["a"] = delAuth;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_store__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__router_index__ = __webpack_require__(169);
+
 
 
 /**
  * Primary data acquisition.
  *
  * @param data - Response from api
+ * @param goProfile - Is go to Profile page
  *
  * @return void
  */
-function init(data) {
+function setAuth(data) {
+  var goProfile = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
   if (data.token) {
     localStorage.setItem('token', data.token);
   }
@@ -16819,6 +16825,19 @@ function init(data) {
       __WEBPACK_IMPORTED_MODULE_0__store_store__["a" /* default */].dispatch('authSetObject', data.user.object);
     }
   }
+
+  if (goProfile) {
+    this.$router.push({ name: 'profile' });
+  }
+}
+
+/**
+ * Logout from account and go to Login page.
+ */
+function delAuth() {
+  localStorage.removeItem('token');
+  __WEBPACK_IMPORTED_MODULE_0__store_store__["a" /* default */].dispatch('authClearUser');
+  __WEBPACK_IMPORTED_MODULE_1__router_index__["a" /* default */].push({ name: 'login' });
 }
 
 /***/ }),
@@ -16841,7 +16860,6 @@ function init(data) {
 
 
 
-// Vue use
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
@@ -73588,11 +73606,9 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_auth__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_object__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_object__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_auth__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_api__ = __webpack_require__(4);
-//
-//
 //
 //
 //
@@ -73708,10 +73724,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }]
     };
   },
-  created: function created() {
+  mounted: function mounted() {
     this.$store.dispatch('templateSetTitle', 'Головна сторінка');
     if (localStorage.getItem('token')) {
-      this.queryGetProfile();
+      this.fetchGetProfile();
     }
   },
 
@@ -73720,25 +73736,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return this.$store.state.auth.user === null;
     },
     objectImage: function objectImage() {
-      return Object(__WEBPACK_IMPORTED_MODULE_1__helpers_object__["a" /* objGetImage */])(this.$store.state.auth.object);
+      return Object(__WEBPACK_IMPORTED_MODULE_0__helpers_object__["a" /* objGetImage */])(this.$store.state.auth.object);
     },
     objectName: function objectName() {
-      return Object(__WEBPACK_IMPORTED_MODULE_1__helpers_object__["b" /* objGetName */])(this.$store.state.auth.object);
+      return Object(__WEBPACK_IMPORTED_MODULE_0__helpers_object__["b" /* objGetName */])(this.$store.state.auth.object);
     }
   },
   methods: {
-    queryGetProfile: function queryGetProfile() {
+    fetchGetProfile: function fetchGetProfile() {
       Object(__WEBPACK_IMPORTED_MODULE_2__helpers_api__["a" /* get */])('/api/profile').then(function (res) {
-        Object(__WEBPACK_IMPORTED_MODULE_0__helpers_auth__["a" /* init */])(res.data);
+        Object(__WEBPACK_IMPORTED_MODULE_1__helpers_auth__["b" /* setAuth */])(res.data);
       });
     },
-    querySendLogout: function querySendLogout() {
-      var _this = this;
-
+    fetchSendLogout: function fetchSendLogout() {
       Object(__WEBPACK_IMPORTED_MODULE_2__helpers_api__["b" /* post */])('/api/logout').then(function (res) {
-        localStorage.removeItem('token');
-        _this.$store.dispatch('authClearUser');
-        _this.$router.push({ name: 'login' }); // TODO: **
+        Object(__WEBPACK_IMPORTED_MODULE_1__helpers_auth__["a" /* delAuth */])();
       });
     },
     goLogin: function goLogin() {
@@ -73752,19 +73764,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(5);
-// Vue libs
-
-
-
-// Vue use
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
-
 var state = {
   user: {},
-  object: {}
+  object: {} // TODO: transfer
 };
 
 var mutations = {
@@ -73810,16 +73812,6 @@ var actions = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(5);
-// Vue libs
-
-
-
-// Vue use
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
-
 var state = {
   model: false,
   color: 'info',
@@ -73827,7 +73819,7 @@ var state = {
 };
 
 var mutations = {
-  SHOW: function SHOW(state, obj) {
+  SNACKBAR_SHOW: function SNACKBAR_SHOW(state, obj) {
     state.model = true;
     state.color = obj.color;
     state.text = obj.text;
@@ -73838,7 +73830,7 @@ var actions = {
   snackbarShow: function snackbarShow(_ref, obj) {
     var commit = _ref.commit;
 
-    commit('SHOW', obj);
+    commit('SNACKBAR_SHOW', obj);
   }
 };
 
@@ -73851,16 +73843,6 @@ var actions = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(5);
-// Vue libs
-
-
-
-// Vue use
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
-
 var state = {
   title: '',
   bodyClass: ''
@@ -73900,16 +73882,23 @@ var actions = {
 /* harmony export (immutable) */ __webpack_exports__["a"] = objGetImage;
 /* harmony export (immutable) */ __webpack_exports__["b"] = objGetName;
 /**
- * @param object
+ * | -----------------------------------------------------------------------
+ * | Object - universe, college, etc.
+ * | -----------------------------------------------------------------------
+ * |
+ */
+
+/**
+ * @param obj
  *
  * @return string|null link
  */
-function objGetImage(object) {
-  if (!object) {
+function objGetImage(obj) {
+  if (!obj) {
     return null;
   }
 
-  return '//' + window.location.hostname + '/' + object.image || null;
+  return '//' + window.location.hostname + '/' + obj.image || null;
 }
 
 /**
@@ -73917,12 +73906,12 @@ function objGetImage(object) {
  *
  * @return string|null link
  */
-function objGetName(object) {
-  if (!object) {
+function objGetName(obj) {
+  if (!obj) {
     return null;
   }
 
-  return object.name;
+  return obj.name;
 }
 
 /***/ }),
@@ -74193,7 +74182,7 @@ var render = function() {
                       attrs: { slot: "activator", icon: "" },
                       on: {
                         click: function($event) {
-                          _vm.querySendLogout()
+                          _vm.fetchSendLogout()
                         }
                       },
                       slot: "activator"
@@ -74233,11 +74222,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "main",
-        [_c("v-content", [_c("keep-alive", [_c("router-view")], 1)], 1)],
-        1
-      ),
+      _c("main", [_c("v-content", [_c("router-view")], 1)], 1),
       _vm._v(" "),
       _c(
         "v-snackbar",
@@ -74346,30 +74331,30 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 // Axios global interceptors
 __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(null, function (err) {
   var token = window.localStorage.getItem('token');
-
   var originalRequest = err.config;
 
   if (err.response.status === 401 && !originalRequest._retry) {
     originalRequest._retry = true;
 
-    if (!token) {
-      router.push({ name: 'login' });
-    } else {
+    if (token) {
       return Object(__WEBPACK_IMPORTED_MODULE_11__helpers_api__["b" /* post */])('/api/refresh-token').then(function (res) {
         if (res.data.token) {
           window.localStorage.setItem('token', res.data.token);
           originalRequest.headers['Authorization'] = 'Bearer ' + res.data.token;
-          return __WEBPACK_IMPORTED_MODULE_2_axios___default()(originalRequest);
         }
+        return __WEBPACK_IMPORTED_MODULE_2_axios___default()(originalRequest);
       }).catch(function (error) {
-        if (error.response.status === 401 || error.response.status === 500) {
+        if (error.response.status === 401) {
           window.localStorage.removeItem('token');
           router.push({ name: 'login' });
         } else {
-          window.location.reload();
+          originalRequest.headers['Authorization'] = 'Bearer ' + window.localStorage.getItem('token');
+          return __WEBPACK_IMPORTED_MODULE_2_axios___default()(originalRequest);
         }
       });
     }
+
+    router.push({ name: 'login' });
   }
 
   if (err.response.status !== 404 && err.response.data.message) {
@@ -77131,7 +77116,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       faculty_data: ['ФОАІС', 'ФЕМП', 'ФТМ', 'ФРГТБ', 'ФФБС', 'ФМТП']
     };
   },
-  activated: function activated() {
+  mounted: function mounted() {
     this.$store.dispatch('templateSetTitle', 'Головна сторінка');
   },
 
@@ -77139,20 +77124,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     degree: function degree() {
       this.trainingForm = null;
       this.faculty = null;
-      this.course = null;
-      this.groups = null;
     },
     trainingForm: function trainingForm() {
       this.faculty = null;
-      this.course = null;
-      this.groups = null;
-    },
-    faculty: function faculty() {
-      this.course = null;
-      this.groups = null;
-    },
-    course: function course() {
-      this.groups = null;
     }
   }
 });
@@ -77175,7 +77149,7 @@ var render = function() {
         [
           _c(
             "v-flex",
-            { attrs: { md8: "", xs12: "", xs12: "" } },
+            { attrs: { md8: "", xs12: "" } },
             [
               _c(
                 "v-layout",
@@ -77383,9 +77357,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     };
   },
-  activated: function activated() {
+  mounted: function mounted() {
     this.$store.dispatch('templateSetTitle', 'Авторизація');
-    this.$refs.email.focus();
   },
 
   methods: {
@@ -77395,9 +77368,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.loading = true;
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["b" /* post */])('/api/login', this.form).then(function (res) {
-        Object(__WEBPACK_IMPORTED_MODULE_0__helpers_auth__["a" /* init */])(res.data);
-        _this.loading = false;
-        _this.$router.push({ name: 'profile' });
+        Object(__WEBPACK_IMPORTED_MODULE_0__helpers_auth__["b" /* setAuth */])(res.data, true);
       }).catch(function (err) {
         _this.loading = false;
       });
@@ -77432,7 +77403,7 @@ var render = function() {
             [
               _c("v-text-field", {
                 ref: "email",
-                attrs: { label: "Email", required: "" },
+                attrs: { label: "Email", required: "", autofocus: "" },
                 model: {
                   value: _vm.form.email,
                   callback: function($$v) {
@@ -77630,9 +77601,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     };
   },
-  activated: function activated() {
+  mounted: function mounted() {
     this.$store.dispatch('templateSetTitle', 'Реєстрація');
-    this.$refs.object.focus();
   },
 
   computed: {
@@ -77647,9 +77617,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.loading = true;
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["b" /* post */])('/api/register', this.form).then(function (res) {
-        Object(__WEBPACK_IMPORTED_MODULE_0__helpers_auth__["a" /* init */])(res.data);
-        _this.loading = false;
-        _this.$router.push({ name: 'profile' });
+        Object(__WEBPACK_IMPORTED_MODULE_0__helpers_auth__["b" /* setAuth */])(res.data, true);
       }).catch(function (err) {
         _this.loading = false;
       });
@@ -77701,7 +77669,7 @@ var render = function() {
               _c("v-select", {
                 ref: "object",
                 attrs: {
-                  label: "University / school",
+                  label: "Учбовий заклад",
                   autocomplete: "",
                   loading: _vm.select.loading,
                   "cache-items": "",
@@ -77709,7 +77677,8 @@ var render = function() {
                   items: _vm.select.items,
                   "item-value": "id",
                   "item-text": "name",
-                  "search-input": _vm.select.search
+                  "search-input": _vm.select.search,
+                  autofocus: ""
                 },
                 on: {
                   "update:searchInput": function($event) {
@@ -77869,7 +77838,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_auth__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(4);
 //
 //
 //
@@ -77893,6 +77863,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -77905,9 +77876,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     };
   },
-  activated: function activated() {
+  mounted: function mounted() {
     this.$store.dispatch('templateSetTitle', 'Відновлення пароля');
-    this.$refs.email.focus();
   },
 
   methods: {
@@ -77916,11 +77886,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.loading = true;
 
-      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["b" /* post */])('/api/restore-password', this.form).then(function (res) {
-        _this.$store.dispatch('authSetUser', res.data.user);
-        localStorage.setItem('token', res.data.token);
-        _this.loading = false;
-        _this.$router.push({ name: 'profile' });
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["b" /* post */])('/api/restore-password', this.form).then(function (res) {
+        Object(__WEBPACK_IMPORTED_MODULE_0__helpers_auth__["b" /* setAuth */])(res.data, true);
       }).catch(function (err) {
         _this.loading = false;
       });
@@ -77955,7 +77922,7 @@ var render = function() {
             [
               _c("v-text-field", {
                 ref: "email",
-                attrs: { label: "Email", required: "" },
+                attrs: { label: "Email", required: "", autofocus: "" },
                 model: {
                   value: _vm.form.email,
                   callback: function($$v) {
@@ -77972,6 +77939,7 @@ var render = function() {
                     outline: "",
                     block: "",
                     color: "primary",
+                    disabled: _vm.loading,
                     loading: _vm.loading
                   },
                   on: {
@@ -78250,8 +78218,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__(192);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuedraggable__);
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 //
 //
 //
@@ -78446,16 +78412,15 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       teachers: [],
       columns: [],
       types: [],
-      rows: [],
 
       // Loading
       loading: {
         schedule: { model: true, hasError: false, message: 'Отримання інформація про навчальний заклад.' },
         types: { model: true, hasError: false, message: 'Отримання типів навчальних занять.' },
         subjects: { model: true, hasError: false, message: 'Отримання предметів.' },
-        teachers: { model: true, hasError: false, message: 'Отримання викладачів.' },
-        generateSchedule: { model: true, message: 'Генерація розкладу.' }
+        teachers: { model: true, hasError: false, message: 'Отримання викладачів.' }
       },
+      isLoaded: false,
 
       // Search
       searchSubject: '',
@@ -78472,29 +78437,14 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       isDelete: false
     };
   },
-  activated: function activated() {
+  mounted: function mounted() {
     this.$store.dispatch('templateSetTitle', 'Редагування розкладу'); // TODO: Name group (faculty)
     this.$store.dispatch('templateSetBodyClass', 'height100');
 
-    // TODO: temporary
     this.schedule.id = parseInt(this.$route.params.id);
     this.getGetSchedule();
-    return;
-
-    var id = parseInt(this.$route.params.id);
-    if (typeof this.schedule === 'undefined' || this.schedule.id !== id) {
-      this.schedule.id = id;
-      this.getGetSchedule();
-    }
   },
-  deactivated: function deactivated() {
-    // TODO: temporary
-    this.schedule = {};
-    for (var item in this.loading) {
-      this.loading[item].model = true;
-      this.loading[item].hasError = false;
-    }
-    // END Temporary
+  destroyed: function destroyed() {
     this.$store.dispatch('templateSetBodyClass', '');
   },
 
@@ -78536,6 +78486,20 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       });
 
       return teachers;
+    },
+    scheduleIsLoaded: function scheduleIsLoaded() {
+      if (this.isLoaded) {
+        return true;
+      }
+
+      for (var item in this.loading) {
+        if (this.loading[item].model && !this.loading[item].hasError) {
+          return false;
+        }
+      }
+
+      this.isLoaded = true;
+      return true;
     }
   },
   methods: {
@@ -78547,194 +78511,6 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
     shortNameTeacher: __WEBPACK_IMPORTED_MODULE_0__helpers_teacher__["b" /* shortNameTeacher */],
 
     /* | ------------------------------------------------------------------------
-     * | Main method
-     * | ------------------------------------------------------------------------
-     */
-    createScheduleArray: function createScheduleArray() {
-      /**
-      @see--Columns:
-      [{ // Колонки
-        id: 1,
-        name: '',
-        description: ''
-      }, ..]
-       @see--Rows:
-      [{ // Количество строк
-        custom_day: 2017.12.12, // Уникальный
-        data: [{ // Количество колонок
-          column_index: 1,
-          day_id: 1,
-          lessons: [{ // Пары
-            subject_index: 1,
-            subs: [{ // Подпары
-              cabinet: '',
-              teacher_index: 1,
-              type_index: 1
-            }, ..]
-          }, ..]
-        }, ..]
-      }, ..]
-      */
-
-      // Checking for an array already created
-      if (!this.loading.generateSchedule.model) {
-        return;
-      }
-
-      // Check to download all data
-      for (var item in this.loading) {
-        if (item === 'generateSchedule') {
-          continue;
-        }
-
-        if (this.loading[item].model && !this.loading[item].hasError) {
-          return;
-        }
-      }
-
-      console.log('Already!');
-      return;
-
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = data.columns.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var _ref = _step.value;
-
-          var _ref2 = _slicedToArray(_ref, 2);
-
-          var columnIndex = _ref2[0];
-          var column = _ref2[1];
-
-          this.columns.push({ id: column.id, name: column.name, description: column.description, days: [] });
-          var _iteratorNormalCompletion2 = true;
-          var _didIteratorError2 = false;
-          var _iteratorError2 = undefined;
-
-          try {
-            for (var _iterator2 = column.days.entries()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-              var _ref3 = _step2.value;
-
-              var _ref4 = _slicedToArray(_ref3, 2);
-
-              var dayIndex = _ref4[0];
-              var day = _ref4[1];
-
-              var rowIndex = this.pushCustomDateSortUnique(this.rows, day);
-              var _iteratorNormalCompletion3 = true;
-              var _didIteratorError3 = false;
-              var _iteratorError3 = undefined;
-
-              try {
-                for (var _iterator3 = day.lessons.entries()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                  var _ref5 = _step3.value;
-
-                  var _ref6 = _slicedToArray(_ref5, 2);
-
-                  var lessonIndex = _ref6[0];
-                  var lesson = _ref6[1];
-                  var _iteratorNormalCompletion4 = true;
-                  var _didIteratorError4 = false;
-                  var _iteratorError4 = undefined;
-
-                  try {
-                    for (var _iterator4 = lesson.subs.entries()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                      var _ref7 = _step4.value;
-
-                      var _ref8 = _slicedToArray(_ref7, 2);
-
-                      var subIndex = _ref8[0];
-                      var sub = _ref8[1];
-                    }
-                  } catch (err) {
-                    _didIteratorError4 = true;
-                    _iteratorError4 = err;
-                  } finally {
-                    try {
-                      if (!_iteratorNormalCompletion4 && _iterator4.return) {
-                        _iterator4.return();
-                      }
-                    } finally {
-                      if (_didIteratorError4) {
-                        throw _iteratorError4;
-                      }
-                    }
-                  }
-                }
-              } catch (err) {
-                _didIteratorError3 = true;
-                _iteratorError3 = err;
-              } finally {
-                try {
-                  if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                    _iterator3.return();
-                  }
-                } finally {
-                  if (_didIteratorError3) {
-                    throw _iteratorError3;
-                  }
-                }
-              }
-            }
-          } catch (err) {
-            _didIteratorError2 = true;
-            _iteratorError2 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                _iterator2.return();
-              }
-            } finally {
-              if (_didIteratorError2) {
-                throw _iteratorError2;
-              }
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
-
-      console.log('Input', data);
-      console.log('Rows', this.rows);
-
-      return;
-
-      this.loading.generateSchedule.model = false;
-    },
-    pushCustomDateSortUnique: function pushCustomDateSortUnique(arr, day) {
-      // TODO: find*
-
-      var test = _.sortedIndexOf(arr, day);
-
-      console.log(test);
-
-      var indexToInsert = _.sortedIndexBy(arr, day, function (o) {
-        return o.custom_date;
-      });
-
-      arr.splice(indexToInsert, 0, { custom_date: day.custom_date, data: [] });
-
-      // console.log(indexToInsert)
-
-      // arr.push({ custom_date: day.custom_date, data: [] })
-    },
-
-
-    /* | ------------------------------------------------------------------------
      * | Fetch API
      * | ------------------------------------------------------------------------
      */
@@ -78744,7 +78520,6 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       this.loading.schedule.model = true;
       this.loading.schedule.hasError = false;
       this.columns = [];
-      this.rows = [];
 
       Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* get */])('/api/schedule', {
         schedule_id: this.schedule.id
@@ -78771,7 +78546,6 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       }).then(function (res) {
         _this3.types = res.data;
         _this3.loading.types.model = false;
-        _this3.createScheduleArray();
       }).catch(function (err) {
         _this3.loading.types.hasError = true;
         _this3.loading.types.model = false;
@@ -78789,7 +78563,6 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       }).then(function (res) {
         _this4.subjects = res.data;
         _this4.loading.subjects.model = false;
-        _this4.createScheduleArray();
       }).catch(function (err) {
         _this4.loading.subjects.hasError = true;
         _this4.loading.subjects.model = false;
@@ -78807,7 +78580,6 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       }).then(function (res) {
         _this5.teachers = res.data;
         _this5.loading.teachers.model = false;
-        _this5.createScheduleArray();
       }).catch(function (err) {
         _this5.loading.teachers.hasError = true;
         _this5.loading.teachers.model = false;
@@ -81180,7 +80952,7 @@ var render = function() {
           "div",
           { staticClass: "right-column" },
           [
-            !_vm.loading.generateSchedule.model
+            _vm.scheduleIsLoaded
               ? [
                   _c("table", [
                     _c(

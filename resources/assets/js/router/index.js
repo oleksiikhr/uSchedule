@@ -41,35 +41,34 @@ const router = new VueRouter({
 
 // Axios global interceptors
 axios.interceptors.response.use(null, err => {
-  let token = window.localStorage.getItem('token')
-
+  const token = window.localStorage.getItem('token')
   const originalRequest = err.config
 
   if (err.response.status === 401 && !originalRequest._retry) {
     originalRequest._retry = true
 
-    if (!token) {
-      router.push({ name: 'login' })
-    }
-    else {
+    if (token) {
       return post('/api/refresh-token')
           .then(res => {
             if (res.data.token) {
               window.localStorage.setItem('token', res.data.token)
               originalRequest.headers['Authorization'] = 'Bearer ' + res.data.token
-              return axios(originalRequest)
             }
+            return axios(originalRequest)
           })
           .catch(error => {
-            if (error.response.status === 401 || error.response.status === 500) {
+            if (error.response.status === 401) {
               window.localStorage.removeItem('token')
               router.push({ name: 'login' })
             }
             else {
-              window.location.reload()
+              originalRequest.headers['Authorization'] = 'Bearer ' + window.localStorage.getItem('token')
+              return axios(originalRequest)
             }
           })
     }
+
+    router.push({ name: 'login' })
   }
 
   if (err.response.status !== 404 && err.response.data.message) {

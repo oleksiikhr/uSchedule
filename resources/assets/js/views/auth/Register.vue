@@ -2,9 +2,8 @@
   <v-container id="register" class="auth" fluid>
     <v-layout column justify-center align-center>
       <v-flex>
-        <!-- TODO: translate label -->
         <v-select
-                label="University / school"
+                label="Учбовий заклад"
                 autocomplete
                 :loading="select.loading"
                 cache-items
@@ -14,6 +13,7 @@
                 item-text="name"
                 :search-input.sync="select.search"
                 v-model="form.object_id"
+                autofocus
                 ref="object"
         />
         <v-text-field label="Email" v-model="form.email" required />
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import { init } from "../../helpers/auth";
+  import { setAuth } from '../../helpers/auth'
   import { get, post } from '../../helpers/api'
 
   export default {
@@ -54,9 +54,8 @@
         }
       }
     },
-    activated () {
+    mounted () {
       this.$store.dispatch('templateSetTitle', 'Реєстрація')
-      this.$refs.object.focus()
     },
     computed: {
       selectSearch () {
@@ -69,9 +68,7 @@
 
         post('/api/register', this.form)
             .then(res => {
-              init(res.data)
-              this.loading = false
-              this.$router.push({ name: 'profile' })
+              setAuth(res.data, true)
             })
             .catch(err => {
               this.loading = false
