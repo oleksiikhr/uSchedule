@@ -95,25 +95,37 @@
                 </div>
               </td>
               <td class="column small" slot="footer">
-                <v-btn outline @click="actColumnAdd()">
+                <div v-if="schedule.is_custom" style="cursor: context-menu;">
+                  <v-icon>block</v-icon>
+                </div>
+                <v-btn v-else outline @click="actColumnAdd()">
                   <v-icon>add</v-icon>
                 </v-btn>
               </td>
             </draggable>
             </thead> <!-- EMD Columns -->
             <tbody> <!-- Rows -->
-            <tr v-for="day in 7" :key="day">
+            <tr v-for="i in 7" :key="i">
               <td></td> <!-- TODO: (sunday, monday) - from moments.js. Custom_date ? <table> : .. -->
               <td>
                 <table>
-                  <tr v-for="order in getMaxLessonsOnDay(day - 1)">
+                  <tr v-for="order in getMaxLessonsOnDay(i - 1)">
                     {{ order }}
                   </tr>
                 </table>
               </td>
-              <td colspan="2"> <!-- Lessons -->
-                {{ day }}
-              </td>
+              <template>
+                <td v-for="(column, columnIndex) in schedule.columns" :key="columnIndex"> <!-- Columns -->
+                  <table>
+                    <!--<tr v-if="column.days[i - 1]" v-for="(lesson, lessonIndex) in column.days[i - 1]" :key="lessonIndex">-->
+                      <div v-if="column.days[i - 1]">
+                        {{ column.days[i - 1].lessons }}
+                      </div>
+                    <br>
+                    <!--</tr>-->
+                  </table>
+                </td>
+              </template>
             </tr>
             </tbody> <!-- EMD Rows -->
           </table> <!-- END Main Left Column -->
@@ -480,3 +492,9 @@
     }
   }
 </script>
+
+<style scoped>
+  tbody td {
+    vertical-align: top;
+  }
+</style>
