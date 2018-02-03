@@ -105,24 +105,25 @@
             </draggable>
             </thead> <!-- EMD Columns -->
             <tbody> <!-- Rows -->
-            <tr v-for="i in 7" :key="i">
-              <td></td> <!-- TODO: (sunday, monday) - from moments.js. Custom_date ? <table> : .. -->
+            <tr v-for="rowIndex in 7" :key="rowIndex">
+              <td> <!-- TODO: (sunday, monday) - from moments.js. Custom_date ? <table> : .. -->
+                {{ getNameWeekday(rowIndex) }}
+              </td>
               <td>
                 <table>
-                  <tr v-for="order in getMaxLessonsOnDay(i - 1)">
+                  <tr v-for="order in getMaxLessonsOnDay(rowIndex - 1)">
                     {{ order }}
                   </tr>
                 </table>
               </td>
               <template>
-                <td v-for="(column, columnIndex) in schedule.columns" :key="columnIndex"> <!-- Columns -->
-                  <table>
-                    <!--<tr v-if="column.days[i - 1]" v-for="(lesson, lessonIndex) in column.days[i - 1]" :key="lessonIndex">-->
-                      <div v-if="column.days[i - 1]">
-                        {{ column.days[i - 1].lessons }}
-                      </div>
-                    <br>
-                    <!--</tr>-->
+                <td v-for="columnIndex in countColumns" :key="columnIndex">
+                  <table v-if="schedule.columns[columnIndex - 1].days[rowIndex - 1]">
+                    <tr v-for="(lesson, lessonIndex) in schedule.columns[columnIndex - 1].days[rowIndex - 1].lessons"
+                        :key="lessonIndex">
+                      {{ lesson }}
+                      <br><br>
+                    </tr>
                   </table>
                 </td>
               </template>
@@ -186,6 +187,7 @@
 
 <script>
   import { fullNameTeacher, shortNameTeacher } from "../../helpers/teacher"
+  import { getNameWeekday } from '../../helpers/date'
   import { get, post } from '../../helpers/api'
   import draggable from 'vuedraggable'
 
@@ -288,8 +290,11 @@
         this.isLoaded = true
         return true
       },
-      maxCountLessons () {
+      countLessons () {
         return this.times.length
+      },
+      countColumns () {
+        return this.schedule.columns.length
       }
     },
     methods: {
@@ -299,6 +304,7 @@
        */
       fullNameTeacher,
       shortNameTeacher,
+      getNameWeekday,
 
       /* | ------------------------------------------------------------------------
        * | Fetch API
