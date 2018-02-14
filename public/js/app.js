@@ -28265,20 +28265,22 @@ return zhTw;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_Home_vue__ = __webpack_require__(171);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_Home_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__views_Home_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue__ = __webpack_require__(174);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_auth_Register_vue__ = __webpack_require__(177);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_auth_Register_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__views_auth_Register_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_auth_Email_vue__ = __webpack_require__(180);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_auth_Email_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__views_auth_Email_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_users_Profile_vue__ = __webpack_require__(183);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_users_Profile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__views_users_Profile_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__views_NotFound_vue__ = __webpack_require__(186);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__views_NotFound_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__views_NotFound_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__views_schedule_Edit_vue__ = __webpack_require__(189);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__views_schedule_Edit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__views_schedule_Edit_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_store__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__helpers_api__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_TimeTable__ = __webpack_require__(206);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_TimeTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__views_TimeTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_auth_Login_vue__ = __webpack_require__(174);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_auth_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__views_auth_Login_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_auth_Register_vue__ = __webpack_require__(177);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_auth_Register_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__views_auth_Register_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_auth_Email_vue__ = __webpack_require__(180);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_auth_Email_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__views_auth_Email_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__views_users_Profile_vue__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__views_users_Profile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__views_users_Profile_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__views_NotFound_vue__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__views_NotFound_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__views_NotFound_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__views_schedule_Edit_vue__ = __webpack_require__(189);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__views_schedule_Edit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__views_schedule_Edit_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__store_store__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__helpers_api__ = __webpack_require__(3);
 // Vue libs
 
 
@@ -28287,6 +28289,7 @@ return zhTw;
 
 
 // Views, components
+
 
 
 
@@ -28307,7 +28310,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 // Vue router
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
   mode: 'history',
-  routes: [{ path: '/home', name: 'home', component: __WEBPACK_IMPORTED_MODULE_3__views_Home_vue___default.a }, { path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue___default.a, meta: { isLogin: false } }, { path: '/register', name: 'register', component: __WEBPACK_IMPORTED_MODULE_5__views_auth_Register_vue___default.a, meta: { isLogin: false } }, { path: '/email', name: 'email', component: __WEBPACK_IMPORTED_MODULE_6__views_auth_Email_vue___default.a, meta: { isLogin: false } }, { path: '/profile', name: 'profile', component: __WEBPACK_IMPORTED_MODULE_7__views_users_Profile_vue___default.a, meta: { isLogin: true } }, { path: '/schedule/:id/edit', name: 'schedule-edit', component: __WEBPACK_IMPORTED_MODULE_9__views_schedule_Edit_vue___default.a, meta: { isLogin: true } }, { path: '*', name: 'not-found', component: __WEBPACK_IMPORTED_MODULE_8__views_NotFound_vue___default.a }]
+  routes: [{ path: '/home', name: 'home', component: __WEBPACK_IMPORTED_MODULE_3__views_Home_vue___default.a }, { path: '/time', name: 'time', component: __WEBPACK_IMPORTED_MODULE_4__views_TimeTable___default.a }, { path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_5__views_auth_Login_vue___default.a, meta: { isLogin: false } }, { path: '/register', name: 'register', component: __WEBPACK_IMPORTED_MODULE_6__views_auth_Register_vue___default.a, meta: { isLogin: false } }, { path: '/email', name: 'email', component: __WEBPACK_IMPORTED_MODULE_7__views_auth_Email_vue___default.a, meta: { isLogin: false } }, { path: '/profile', name: 'profile', component: __WEBPACK_IMPORTED_MODULE_8__views_users_Profile_vue___default.a, meta: { isLogin: true } }, { path: '/schedule/:id/edit', name: 'schedule-edit', component: __WEBPACK_IMPORTED_MODULE_10__views_schedule_Edit_vue___default.a, meta: { isLogin: true } }, { path: '*', name: 'not-found', component: __WEBPACK_IMPORTED_MODULE_9__views_NotFound_vue___default.a }]
 });
 
 // Axios global interceptors
@@ -28319,7 +28322,7 @@ __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(null, fu
     originalRequest._retry = true;
 
     if (token) {
-      return Object(__WEBPACK_IMPORTED_MODULE_11__helpers_api__["b" /* post */])('/api/refresh-token').then(function (res) {
+      return Object(__WEBPACK_IMPORTED_MODULE_12__helpers_api__["b" /* post */])('/api/refresh-token').then(function (res) {
         if (res.data.token) {
           window.localStorage.setItem('token', res.data.token);
           originalRequest.headers['Authorization'] = 'Bearer ' + res.data.token;
@@ -28340,7 +28343,7 @@ __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(null, fu
   }
 
   if (err.response.status !== 404 && err.response.data.message) {
-    __WEBPACK_IMPORTED_MODULE_10__store_store__["a" /* default */].dispatch('snackbarShow', { color: 'error', text: err.response.data.message });
+    __WEBPACK_IMPORTED_MODULE_11__store_store__["a" /* default */].dispatch('snackbarShow', { color: 'error', text: err.response.data.message });
   }
 
   return Promise.reject(err);
@@ -73589,6 +73592,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     goLogin: function goLogin() {
       this.$router.push({ name: 'login' });
+    },
+    goTime: function goTime() {
+      this.$router.push({ name: 'time' });
     }
   }
 });
@@ -79245,7 +79251,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
      */
     fullNameTeacher: __WEBPACK_IMPORTED_MODULE_0__helpers_teacher__["a" /* fullNameTeacher */],
     shortNameTeacher: __WEBPACK_IMPORTED_MODULE_0__helpers_teacher__["b" /* shortNameTeacher */],
-    getNameWeekday: __WEBPACK_IMPORTED_MODULE_1__helpers_date__["a" /* getNameWeekday */],
+    getNameWeekday: __WEBPACK_IMPORTED_MODULE_1__helpers_date__["b" /* getNameWeekday */],
 
     /* | ------------------------------------------------------------------------
      * | Fetch API
@@ -79525,13 +79531,20 @@ function shortNameTeacher(teacher) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = getNameWeekday;
+/* harmony export (immutable) */ __webpack_exports__["b"] = getNameWeekday;
+/* harmony export (immutable) */ __webpack_exports__["a"] = getHoursMinutesfromTimeFormat;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 
 
 function getNameWeekday(index) {
   return __WEBPACK_IMPORTED_MODULE_0_moment___default.a.weekdays(index);
+}
+
+function getHoursMinutesfromTimeFormat(time) {
+  var parse = time.split(':');
+
+  return __WEBPACK_IMPORTED_MODULE_0_moment___default()().set({ hour: parse[0], minute: parse[1] }).format('HH[:]mm');
 }
 
 /***/ }),
@@ -82601,7 +82614,15 @@ var render = function() {
           !_vm.guest
             ? _c(
                 "v-btn",
-                { staticClass: "ml-5", attrs: { outline: "", color: "white" } },
+                {
+                  staticClass: "ml-5",
+                  attrs: { outline: "", color: "white" },
+                  on: {
+                    click: function($event) {
+                      _vm.goTime()
+                    }
+                  }
+                },
                 [
                   _c("v-icon", [_vm._v("notifications")]),
                   _vm._v(" "),
@@ -82716,6 +82737,147 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(207)
+/* template */
+var __vue_template__ = __webpack_require__(208)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\views\\TimeTable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-126d8178", Component.options)
+  } else {
+    hotAPI.reload("data-v-126d8178", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 207 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_date__ = __webpack_require__(197);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      times: []
+    };
+  },
+  mounted: function mounted() {
+    this.fetchGetObjectTime();
+  },
+
+  methods: {
+    getHoursMinutesfromTimeFormat: __WEBPACK_IMPORTED_MODULE_1__helpers_date__["a" /* getHoursMinutesfromTimeFormat */],
+    // TODO Save in Vuex
+    fetchGetObjectTime: function fetchGetObjectTime() {
+      var _this = this;
+
+      // TODO Object_id
+      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/times', {
+        object_id: 1
+      }).then(function (res) {
+        _this.times = res.data;
+      }).catch(function (err) {
+        // TODO Show error
+      });
+    }
+  }
+});
+
+/***/ }),
+/* 208 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "timetable" } }, [
+    _c("h2", [_vm._v("Розклад дзвінків")]),
+    _vm._v(" "),
+    _c(
+      "table",
+      _vm._l(_vm.times, function(time, timeIndex) {
+        return _c("tr", { key: timeIndex }, [
+          _c("td", [_vm._v(_vm._s(timeIndex))]),
+          _vm._v(" "),
+          _c("td", [
+            _vm._v(
+              _vm._s(_vm.getHoursMinutesfromTimeFormat(time.start_time)) +
+                " - " +
+                _vm._s(_vm.getHoursMinutesfromTimeFormat(time.end_time))
+            )
+          ])
+        ])
+      })
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-126d8178", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

@@ -7,6 +7,7 @@ import axios from 'axios'
 
 // Views, components
 import Home from '../views/Home.vue'
+import TimeTable from '../views/TimeTable'
 
 import Login from '../views/auth/Login.vue'
 import Register from '../views/auth/Register.vue'
@@ -28,6 +29,7 @@ const router = new VueRouter({
   mode: 'history',
   routes: [
     { path: '/home', name: 'home', component: Home },
+    { path: '/time', name: 'time', component: TimeTable },
 
     { path: '/login', name: 'login', component: Login, meta: { isLogin: false } },
     { path: '/register', name: 'register', component: Register, meta: { isLogin: false } },

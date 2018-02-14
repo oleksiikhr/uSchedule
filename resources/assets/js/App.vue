@@ -57,7 +57,7 @@
         <span>{{ $store.state.template.title }}</span>
       </v-toolbar-title>
       <v-text-field solo prepend-icon="search" placeholder="Пошук" />
-      <v-btn v-if="!guest" class="ml-5" outline color="white"> <!-- TODO: ..-->
+      <v-btn v-if="!guest" @click="goTime()" class="ml-5" outline color="white">
         <v-icon>notifications</v-icon>
         <span>Розклад дзвінків</span>
       </v-btn>
@@ -145,6 +145,9 @@
       },
       goLogin () {
         this.$router.push({ name: 'login' })
+      },
+      goTime () {
+        this.$router.push({ name: 'time' })
       }
     }
   }
