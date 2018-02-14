@@ -121,8 +121,20 @@
                   <table v-if="schedule.columns[columnIndex - 1].days[rowIndex - 1]">
                     <tr v-for="(lesson, lessonIndex) in schedule.columns[columnIndex - 1].days[rowIndex - 1].lessons"
                         :key="lessonIndex">
-                      {{ lesson }}
-                      <br><br>
+                      <template v-if="isLessonSubsHasOneType(lesson)">
+                        <div class="lesson-info">
+                          <small class="lesson-left" v-if="lesson.subs.length && lesson.subs[0].type">
+                            {{ lesson.subs[0].type.short_name }}
+                          </small>
+                          <small class="lesson-bottom">
+                            <!-- TODO Foreach teachers (name(short) + cabinet, onMouseHover - show detail about teacher) -->
+                          </small>
+                          {{ lesson.subject_info.title }}
+                        </div>
+                      </template>
+                      <template v-else>
+                        No one type
+                      </template>
                     </tr>
                   </table>
                 </td>
@@ -486,6 +498,21 @@
         }
 
         return max
+      },
+      isLessonSubsHasOneType (lesson) {
+        if (lesson.subs.length === 0) {
+          return true
+        }
+
+        let type_id = lesson.subs[0].type_id
+
+        for (let sub of lesson.subs) {
+          if (sub.type_id !== type_id) {
+            return false
+          }
+        }
+
+        return true
       }
     },
     watch: {
