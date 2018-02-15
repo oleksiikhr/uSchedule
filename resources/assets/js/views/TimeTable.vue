@@ -1,18 +1,23 @@
 <template>
   <div id="timetable">
     <h2>Розклад дзвінків</h2>
-    <table>
-      <tr v-for="(time, timeIndex) in times" :key="timeIndex">
-        <td>{{ timeIndex }}</td>
-        <td>{{ getHoursMinutesfromTimeFormat(time.start_time) }} - {{ getHoursMinutesfromTimeFormat(time.end_time) }}</td>
-      </tr>
-    </table>
+    <div class="inner">
+      <!-- TODO Показать в виде загрузки (заполнение цветом) текущую пару (либо перемену)** -->
+      <div class="block" v-for="(time, timeIndex) in times" :key="timeIndex">
+        <div class="block-left">{{ timeIndex + 1 }}</div>
+        <div class="block-center">{{ getHoursMinutesFromTimeFormat(time.start_time) }} - {{ getHoursMinutesFromTimeFormat(time.end_time) }}</div>
+        <div class="block-right">{{ differenceTimeLesson(timeIndex) }}</div>
+      </div>
+    </div>
+    <!-- TODO Has permission -->
+    <!-- TODO Pop-up to edit -->
+    <v-btn outline block color="black">Редагувати</v-btn>
   </div>
 </template>
 
 <script>
+  import { getHoursMinutesFromTimeFormat, differenceHoursMinutesFromTimeFormat } from '../helpers/date'
   import { get } from '../helpers/api'
-  import { getHoursMinutesfromTimeFormat } from '../helpers/date'
 
   export default {
     data () {
@@ -21,10 +26,13 @@
       }
     },
     mounted () {
+      this.$store.dispatch('templateSetTitle', 'Розклад дзвінків')
       this.fetchGetObjectTime()
     },
     methods: {
-      getHoursMinutesfromTimeFormat,
+      getHoursMinutesFromTimeFormat,
+      differenceHoursMinutesFromTimeFormat,
+
       // TODO Save in Vuex
       fetchGetObjectTime () {
         // TODO Object_id
@@ -34,9 +42,13 @@
             .then(res => {
               this.times = res.data
             })
-            .catch(err => {
-              // TODO Show error
-            })
+      },
+      differenceTimeLesson (index) {
+        if (typeof this.times[index + 1] === 'undefined') {
+          return null
+        }
+
+        return differenceHoursMinutesFromTimeFormat(this.times[index].end_time, this.times[index + 1].start_time)
       }
     }
   }

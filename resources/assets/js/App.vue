@@ -116,7 +116,6 @@
       }
     },
     mounted () {
-      this.$store.dispatch('templateSetTitle', 'Головна сторінка')
       localStorage.getItem('token') && this.fetchGetProfile()
     },
     computed: {

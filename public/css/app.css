@@ -16337,3 +16337,54 @@ table {
   padding: 20px;
 }
 
+#timetable {
+  margin: 20px auto;
+  max-width: 500px;
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  background: #fff;
+}
+
+#timetable > h2 {
+  font-size: 25px;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+#timetable > h2::after {
+  border: 1px solid #212121;
+  content: "";
+  display: block;
+}
+
+#timetable .block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 20px;
+  border: 1px solid #e0e0e0;
+  padding: 5px 0;
+  font-size: 16px;
+}
+
+#timetable .block-left {
+  width: 40px;
+  border-right: 1px solid #e0e0e0;
+  text-align: center;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+#timetable .block-right {
+  margin-left: auto;
+  width: 40px;
+  text-align: center;
+  border-left: 1px solid #e0e0e0;
+}
+
+#timetable .btn {
+  margin-top: 20px;
+}
+

@@ -59,7 +59,9 @@ axios.interceptors.response.use(null, err => {
             return axios(originalRequest)
           })
           .catch(error => {
-            if (error.response.status === 401) {
+            if (error.response.status === 401
+              || (error.response.data && error.response.data.message === 'Token has expired and can no longer be refreshed')
+            ) {
               window.localStorage.removeItem('token')
               router.push({ name: 'login' })
             }
