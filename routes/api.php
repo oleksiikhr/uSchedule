@@ -1,63 +1,18 @@
 <?php
 
-/* | -------------------------------------------------------------------
- * | User is not logged in.
- * | -------------------------------------------------------------------
- */
-Route::group(['middleware' => 'guest'], function () {
+use Illuminate\Http\Request;
 
-    /** @see \App\Http\Controllers\AuthController - Auth Section */
-    Route::post('register', 'AuthController@register'); // TODO: make (email, password, object_id)
-    Route::post('login', 'AuthController@login');
-    Route::post('restore-password', 'AuthController@restorePassword'); // TODO: write this method
-    Route::post('refresh-token', 'AuthController@refreshToken');
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
+|
+*/
 
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
 });
-
-/* | -------------------------------------------------------------------
- * | User authorized.
- * | -------------------------------------------------------------------
- */
-Route::group(['middleware' => 'jwt.auth'], function () {
-
-    Route::post('logout', 'AuthController@logout');
-
-    /** @see \App\Http\Controllers\ProfileController - Profile Section */
-    Route::group(['prefix' => 'profile'], function () {
-        Route::get('/', 'ProfileController@index');
-    });
-
-    /** @see \App\Http\Controllers\ObjectController - Object Section */
-    Route::group(['prefix' => 'objects'], function () {
-        Route::get('{id}', 'ObjectController@one');
-        Route::post('/create', 'ObjectController@create');
-        Route::put('/{id}', 'ObjectController@update');
-        Route::delete('/{id}', 'ObjectController@delete');
-    });
-
-    /** @see \App\Http\Controllers\ObjectTypeController - Object Section */
-    Route::group(['prefix' => 'types'], function () {
-
-    });
-
-    Route::group(['prefix' => 'subjects'], function () {
-        Route::get('/', 'SubjectController@list');
-    });
-
-    Route::group(['prefix' => 'teachers'], function () {
-        Route::get('/', 'TeacherController@list');
-    });
-
-});
-
-/* | -------------------------------------------------------------------
- * | Public methods.
- * | -------------------------------------------------------------------
- */
-// TODO: All temporary* Check..
-Route::get('objects', 'ObjectController@list');
-Route::get('schedules', 'ScheduleController@list');
-Route::get('schedules/days', 'ScheduleController@days');
-Route::get('types', 'ObjectTypeController@list');
-Route::get('schedule', 'ScheduleController@one');
-Route::get('times', 'ObjectLessonTimesController@list');

@@ -1,93 +1,23 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\{Teacher, Subject};
+use Faker\Generator as Faker;
 
-$factory->define(App\ObjectModel::class, function (Faker\Generator $faker) {
-    $type = \App\ObjectType::inRandomOrder()->first();
+/*
+|--------------------------------------------------------------------------
+| Model Factories
+|--------------------------------------------------------------------------
+|
+| This directory should contain each of the model factory definitions for
+| your application. Factories provide a convenient way to generate new
+| model instances for testing / seeding your application's database.
+|
+*/
 
+$factory->define(App\User::class, function (Faker $faker) {
     return [
-        'name' => mb_substr($faker->company, 0, 100),
-        'slug' => lcfirst($faker->unique()->firstName),
-        'type_id' => $type->id,
-        'image' => null,
-        'created_at' => $faker->date('Y-m-d H:i:s'),
-        'updated_at' => $faker->date('Y-m-d H:i:s')
+        'name' => $faker->name,
+        'email' => $faker->unique()->safeEmail,
+        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        'remember_token' => str_random(10),
     ];
-});
-
-$factory->define(App\Faculty::class, function (Faker\Generator $faker) {
-   $object = \App\ObjectModel::inRandomOrder()->first();
-
-   return [
-       'object_id' => $object->id,
-       'name' => mb_substr($faker->unique()->company, 0, 191),
-       'description' => $faker->realText(),
-       'created_at' => $faker->date('Y-m-d H:i:s'),
-       'updated_at' => $faker->date('Y-m-d H:i:s')
-   ];
-});
-
-$factory->define(App\Group::class, function (Faker\Generator $faker) {
-    $faculty = \App\Faculty::inRandomOrder()->first();
-
-    return [
-        'faculty_id' => $faculty->id,
-        'course' => mt_rand(1, 4),
-        'name' => mb_substr($faker->unique()->company, 0, 191),
-        'created_at' => $faker->date('Y-m-d H:i:s'),
-        'updated_at' => $faker->date('Y-m-d H:i:s')
-    ];
-});
-
-$factory->define(App\Teacher::class, function (Faker\Generator $faker) {
-    $object = \App\ObjectModel::inRandomOrder()->first();
-
-    return [
-        'object_id' => $object->id,
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
-        'middle_name' => $faker->lastName,
-        'academic_title' => $faker->title,
-        'image' => null,
-        'created_at' => $faker->date('Y-m-d H:i:s'),
-        'updated_at' => $faker->date('Y-m-d H:i:s')
-    ];
-});
-
-$factory->define(App\Subject::class, function (Faker\Generator $faker) {
-    $object = \App\ObjectModel::inRandomOrder()->first();
-
-    return [
-        'object_id' => $object->id,
-        'title' => $faker->jobTitle,
-        'created_at' => $faker->date('Y-m-d H:i:s'),
-        'updated_at' => $faker->date('Y-m-d H:i:s')
-    ];
-});
-
-$factory->define(App\FacultySubject::class, function (Faker\Generator $faker) {
-    $faculty = \App\Faculty::inRandomOrder()->first();
-
-    while (true) {
-        if ($subject = Subject::where('object_id', '=', $faculty->object_id)->inRandomOrder()->first()) {
-            return [
-                'faculty_id' => $faculty->id,
-                'subject_id' => $subject->id,
-            ];
-        }
-    }
-});
-
-$factory->define(App\FacultyTeacher::class, function(Faker\Generator $faker) {
-    $faculty = \App\Faculty::inRandomOrder()->first();
-
-    while (true) {
-        if ($teacher = Teacher::where('object_id', '=', $faculty->object_id)->inRandomOrder()->first()) {
-            return [
-                'faculty_id' => $faculty->id,
-                'teacher_id' => $teacher->id,
-            ];
-        }
-    }
 });
