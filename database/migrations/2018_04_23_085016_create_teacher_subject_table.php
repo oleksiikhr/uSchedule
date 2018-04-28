@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTeacherSubjectsTable extends Migration
+class CreateTeacherSubjectTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateTeacherSubjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('teacher_subjects', function (Blueprint $table) {
+        Schema::create('teacher_subject', function (Blueprint $table) {
             $table->unsignedInteger('teacher_id');
             $table->unsignedInteger('subject_id');
-
-            $table->index(['teacher_id', 'subject_id']);
 
             $table->primary(['teacher_id', 'subject_id']);
 
