@@ -30,3 +30,9 @@ $factory->define(App\Teacher::class, function (Faker $faker) {
         'academic_title' => $faker->title,
     ];
 });
+
+$factory->define(\App\Subject::class, function (Faker $faker) {
+    return [
+        'name' => $faker->unique()->streetName
+    ];
+});
