@@ -26,13 +26,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/teachers', 'TeacherController@index');
-Route::get('/{id}', 'TeacherController@show');
 
-Route::group(['middleware' => 'api', 'prefix' => 'teachers'], function ($router) {
-    Route::post('/', 'TeacherController@store');
-    Route::patch('/{id}', 'TeacherController@update');
-    Route::delete('/{id}', 'TeacherController@destroy');
+Route::group(['prefix' => 'teachers'], function ($router) {
+    Route::get('/', 'TeacherController@index');
+    Route::get('{id}', 'TeacherController@show');
+
+    // TODO middleware -> is_admin === 1
+    Route::group(['middleware' => 'api'], function ($router) {
+        Route::post('/', 'TeacherController@store');
+        Route::patch('{id}', 'TeacherController@update');
+        Route::delete('{id}', 'TeacherController@destroy');
+    });
 });
 
 Route::get('/subjects', 'SubjectController@index');
