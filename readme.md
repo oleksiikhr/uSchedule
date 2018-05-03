@@ -15,12 +15,12 @@ Installation:
 
 TODO:
 -----
-- [ ] Teachers
-  - [ ] api.index (params - search, orderBy, page)
-  - [ ] api.show
-  - [ ] api.store
-  - [ ] api.update
-  - [ ] api.destroy
+- [x] Teachers
+  - [x] api.index (params - search, orderBy, page)
+  - [x] api.show
+  - [x] api.store
+  - [x] api.update
+  - [x] api.destroy
 - [ ] Subjects
   - [ ] api.index (params - search, orderBy, page)
   - [ ] api.show

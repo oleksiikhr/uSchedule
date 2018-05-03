@@ -2,9 +2,7 @@
 
 namespace App;
 
-use http\Env\Request;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Teacher extends Model
 {
@@ -19,6 +17,11 @@ class Teacher extends Model
         return $this->hasMany('App\TeacherSubject', 'id', 'teacher_id');
     }
 
+    /**
+     * Get teacher image or default,
+     *
+     * @return string
+     */
     public function getImageAttribute () {
         if (! $this->attributes['image']) {
             return url('/') . '/images/avatar.png';
@@ -28,9 +31,10 @@ class Teacher extends Model
     }
 
     /**
-     * Get teacher by id
+     * Get teacher by id.
      *
      * @param $id
+     *
      * @return mixed
      */
     public static function getTeacherById($id)
@@ -39,27 +43,28 @@ class Teacher extends Model
     }
 
     /**
-     * Get all teachers(ordered, searchable)
+     * Get all teachers (ordered, searchable).
+     *
      * @param array $order
      * @param string $search
      * @param int $perPage
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getTeachers($order = [], $search = '', $perPage = 20)
+    public function getTeachers($order = [], $search = '', $perPage = self::PER_PAGE)
     {
-        $query = DB::table($this->getTable());
+        $query = self::query();
 
-        if (!empty($search)) {
+        if (! empty($search)) {
             $query->where('first_name', 'like', '%' . $search . '%')
                 ->orWhere('middle_name', 'like', '%' . $search . '%')
                 ->orWhere('last_name', 'like', '%' . $search . '%');
         }
 
-        if (!empty($order)) {
+        if (! empty($order)) {
             $query->orderBy($order['column'], $order['type']);
         }
 
-        return $query->paginate(!empty($perPage) ? (int)$perPage : 20);
+        return $query->paginate(!empty($perPage) ? (int)$perPage : self::PER_PAGE);
     }
 }
