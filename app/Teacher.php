@@ -45,13 +45,13 @@ class Teacher extends Model
     /**
      * Get all teachers (ordered, searchable).
      *
-     * @param array $order
+     * @param string|array $order
      * @param string $search
      * @param int $perPage
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getTeachers($order = [], $search = '', $perPage = self::PER_PAGE)
+    public function getTeachers($order = '', $search = '', $perPage = self::PER_PAGE)
     {
         $query = self::query();
 
@@ -67,7 +67,15 @@ class Teacher extends Model
         }
 
         if (! empty($order)) {
-            $query->orderBy($order['column'], $order['type']);
+            if (is_array($order)) {
+                foreach ($order as $json) {
+                    $item = json_decode($json);
+                    $query->orderBy($item->column, $item->type);
+                }
+            } else {
+                $item = json_decode($order);
+                $query->orderBy($item->column, $item->type);
+            }
         }
 
         return $query->paginate(!empty($perPage) ? (int)$perPage : self::PER_PAGE);

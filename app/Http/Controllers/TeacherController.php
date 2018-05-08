@@ -10,15 +10,10 @@ class TeacherController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->column) {
-            $order = [
-                'column' => $request->column,
-                'type' => $request->type
-            ];
-        }
+        // TODO Validate $request
 
         $teacher = new Teacher();
-        $teachers = $teacher->getTeachers($order ?? [], $request->search, $request->count);
+        $teachers = $teacher->getTeachers($request->order, $request->search, $request->count);
 
         return response()->json(['status' => 'ok', 'teachers' => $teachers]);
     }
