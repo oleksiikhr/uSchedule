@@ -56,9 +56,14 @@ class Teacher extends Model
         $query = self::query();
 
         if (! empty($search)) {
-            $query->where('first_name', 'like', '%' . $search . '%')
-                ->orWhere('middle_name', 'like', '%' . $search . '%')
-                ->orWhere('last_name', 'like', '%' . $search . '%');
+            $words = explode(' ', $search);
+            foreach ($words as $word) {
+                $query->where(function ($q) use ($word) {
+                    $q->where('first_name', 'like', '%' . $word . '%')
+                        ->orWhere('middle_name', 'like', '%' . $word . '%')
+                        ->orWhere('last_name', 'like', '%' . $word . '%');
+                });
+            }
         }
 
         if (! empty($order)) {
