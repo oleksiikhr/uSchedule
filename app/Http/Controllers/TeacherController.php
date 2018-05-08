@@ -32,14 +32,16 @@ class TeacherController extends Controller
             'academic_title' => $request->academic_title
         ]);
 
-        $path = $request->file('image')->store(
-            'teachers',  'public'
-        );
+        if ($request->hasFile('file')) {
+            $path = $request->file('image')->store(
+                'teachers',  'public'
+            );
 
-        $teacher->image = $path;
+            $teacher->image = $path;
+        }
 
         if ($teacher->save()) {
-            return response()->json(['status' => 'ok']);
+            return response()->json(['status' => 'ok', 'item' => $teacher]);
         }
 
         return response()->json(['status' => 'error']);
@@ -51,9 +53,11 @@ class TeacherController extends Controller
         $teacher->first_name = $request->first_name;
         $teacher->last_name = $request->last_name;
         $teacher->middle_name = $request->middle_name;
-        $teacher->academic_title = $request->academic_title;
+        $teacher->academic_title = $request->has('academic_title')
+            ? $request->academic_title
+            : $teacher->academic_title;
 
-        if($request->hasFile('file')) {
+        if ($request->hasFile('file')) {
             $path = $request->file('image')->store(
                 'teachers', 'public'
             );
@@ -62,7 +66,7 @@ class TeacherController extends Controller
         }
 
         if ($teacher->save()) {
-            return response()->json(['status' => 'ok']);
+            return response()->json(['status' => 'ok', 'item' => $teacher]);
         }
 
         return response()->json(['status' => 'error']);
