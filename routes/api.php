@@ -1,33 +1,18 @@
 <?php
 
-Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
-    Route::post('login', 'AuthController@login');
-    Route::post('register', 'AuthController@register');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
-});
+use Illuminate\Http\Request;
 
-Route::group(['prefix' => 'teachers'], function () {
-    Route::get('/', 'TeacherController@index');
-    Route::get('{id}', 'TeacherController@show');
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
+|
+*/
 
-    // TODO middleware -> is_admin === 1
-    Route::group(['middleware' => 'api'], function () {
-        Route::post('/', 'TeacherController@store');
-        Route::patch('{id}', 'TeacherController@update');
-        Route::delete('{id}', 'TeacherController@destroy');
-    });
-});
-
-Route::group(['prefix' => 'subjects'], function () {
-    Route::get('/', 'SubjectController@index');
-    Route::get('{id}', 'SubjectController@show');
-
-    // TODO middleware -> is_admin === 1
-    Route::group(['middleware' => 'api'], function () {
-        Route::post('/', 'SubjectController@store');
-        Route::patch('{id}', 'SubjectController@update');
-        Route::delete('{id}', 'SubjectController@destroy');
-    });
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
 });
