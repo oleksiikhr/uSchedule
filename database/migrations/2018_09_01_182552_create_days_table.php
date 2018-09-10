@@ -15,13 +15,13 @@ class CreateDaysTable extends Migration
     {
         Schema::create('days', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('column_id');
+            $table->unsignedInteger('schedule_id');
             $table->tinyInteger('order');
             $table->timestamps();
 
-            $table->foreign('column_id')->references('id')->on('columns')->onDelete('cascade');
+            $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade');
 
-            $table->index('column_id');
+            $table->index('schedule_id');
         });
     }
 
