@@ -19,7 +19,6 @@ class CreateTeachersTable extends Migration
             $table->string('middle_name');
             $table->string('last_name');
             $table->string('academic_title')->nullable();
-            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
